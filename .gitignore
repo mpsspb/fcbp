@@ -1,0 +1,7 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+
+# default output file
+secret.txt
+local_settings.py
