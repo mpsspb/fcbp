@@ -29,6 +29,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'fcbp',
     'users',
 )
 
@@ -57,6 +58,12 @@ DATABASES = {
     }
 }
 
+
+TEMPLATE_DIRS = (
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, "templates"),
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -76,6 +83,9 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
 
 try:
     from local_settings import *
