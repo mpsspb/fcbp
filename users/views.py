@@ -6,6 +6,7 @@ from rest_framework import status, views
 from rest_framework.response import Response
 
 from .models import User
+from .serializers import UserSerializer
 
 
 class LogoutView(views.APIView):
@@ -31,11 +32,11 @@ class LoginView(views.APIView):
         account = authenticate(username=username, password=password)
 
         if account is not None:
+
             if account.is_active:
                 login(request, account)
 
-                serialized = AccountSerializer(account)
-
+                serialized = UserSerializer(account)
                 return Response(serialized.data)
             else:
                 return Response({

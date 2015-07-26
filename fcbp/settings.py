@@ -31,6 +31,8 @@ INSTALLED_APPS = (
     'rest_framework',
     'fcbp',
     'users',
+    'products',
+    'clients',
 )
 
 MIDDLEWARE_CLASSES = (
