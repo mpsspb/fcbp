@@ -1,0 +1,43 @@
+/*
+* add more panel color
+*/
+.text-red {
+    color: #D9534F !important;
+}
+.panel-red {
+    background-color: #D9534F;
+}
+
+.panel-red .panel-heading {
+    border-color: #D9534F;
+    color: #FFF;
+    background-color: #D9534F;
+}
+
+.text-yellow {
+    color: #F0AD4E;
+}
+
+.panel-yellow {
+    background-color: #F0AD4E;
+}
+
+.panel-yellow .panel-heading {
+    border-color: #F0AD4E;
+    color: #FFF;
+    background-color: #F0AD4E;
+}
+
+.text-green {
+    color: #5CB85C;
+}
+
+.panel-green {
+    background-color: #5CB85C;
+}
+
+.panel-green .panel-heading {
+    border-color: #5CB85C;
+    color: #FFF;
+    background-color: #5CB85C;
+}
