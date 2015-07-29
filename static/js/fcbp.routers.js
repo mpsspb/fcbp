@@ -16,6 +16,14 @@
       controller: 'LoginController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/login.html'
+    }).when('/', {
+      controller: 'IndexController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/index.html'
+    }).when('/products', {
+      controller: 'ProductsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/products/index.html'
     }).otherwise('/');
   }
 })();

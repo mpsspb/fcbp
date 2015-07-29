@@ -137,7 +137,7 @@
      * @memberOf fcbp.authentication.services.Authentication
      */
     function unauthenticate() {
-      delete $cookies.authenticatedAccount;
+      $cookies.remove('authenticatedAccount');
     }
 
   }
