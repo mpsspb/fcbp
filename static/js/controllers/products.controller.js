@@ -9,14 +9,15 @@
     .module('fcbp.layout.controllers')
     .controller('ProductsController', ProductsController);
 
-  ProductsController.$inject = ['$cookies'];
+  ProductsController.$inject = ['$cookies', 'Periods'];
   /**
   * @namespace ProductsController
   */
-  function ProductsController($cookies) {
+  function ProductsController($cookies, Periods) {
     var vm = this;
 
     vm.isAdmin = isAdmin
+    vm.newPeriod = Periods.create
 
     /**
      * @name isAdmin
@@ -25,7 +26,6 @@
      * @memberOf fcbp.authentication.services.Authentication
      */
     function isAdmin() {
-
       var user = $cookies.getObject('authenticatedAccount');
       if ( user && user.username == 'admin' ) {
         return true;

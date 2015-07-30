@@ -5,7 +5,6 @@
     .module('fcbp.periods', [
       'fcbp.periods.controllers',
       'fcbp.periods.services',
-      'ngDialog',
     ]);
 
   angular

@@ -40,13 +40,16 @@
     /**
     * @name create
     * @desc Create a new Post
-    * @param {string} content The content of the new Post
+    * @param {number} value The value of the new Period
     * @returns {Promise}
     * @memberOf fcbp.periods.services.Periods
     */
-    function create(content) {
+    function create(value) {
+      console.log(value)
       return $http.post('/api/v1/products/periods/', {
-        content: content
+        value: value
+      }).error(function(data, status, headers, config) {
+        console.log(data)
       });
     }
 

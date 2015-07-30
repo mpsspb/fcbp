@@ -1,4 +1,4 @@
-<!-- Modal password -->
+<!-- Modal new period -->
 <div class="modal fade" id="newPeriod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 300px;">
     <div class="modal-content">
@@ -6,12 +6,13 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Новый период</h4>
       </div>
-      <form class="change-passwd">
+      <form role="form" ng-submit="vm.newPeriod(value)">
       <div class="modal-body">
         <div class="row">
           <div class="col-md-11">
             <label>Введите значение</label>
-            <input  type="number" required class="form-control" ng-model="vm.value">
+            <input  type="number" required class="form-control"
+            ng-model="value">
           </div>
         </div>
       </div>

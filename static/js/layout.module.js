@@ -3,7 +3,8 @@
 
   angular
     .module('fcbp.layout', [
-      'fcbp.layout.controllers'
+      'fcbp.layout.controllers',
+      'fcbp.periods',
     ]);
 
   angular

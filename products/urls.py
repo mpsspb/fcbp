@@ -6,6 +6,6 @@ from .views import PeriodViewSet
 
 
 router = routers.SimpleRouter()
-router.register(r'posts', PeriodViewSet)
+router.register(r'periods', PeriodViewSet)
 
 urlpatterns = router.urls
