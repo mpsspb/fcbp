@@ -2,9 +2,6 @@
   'use strict';
 
   angular
-    .module('fcbp.routes', ['ngRoute']);
-    
-  angular
     .module('fcbp.routes')
     .config(config);
 
@@ -19,14 +16,14 @@
       controller: 'LoginController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/login.html'
+    }).when('/', {
+      controller: 'IndexController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/index.html'
     }).when('/products', {
       controller: 'ProductsController',
       controllerAs: 'vm',
-      templateUrl: '/static/templates/products/products.html'
-    }).when('/', {
-      controller: 'StartController',
-      controllerAs: 'vm',
-      templateUrl: '/static/templates/index.html'
+      templateUrl: '/static/templates/products/index.html'
     }).otherwise('/');
   }
 })();

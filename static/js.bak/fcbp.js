@@ -2,12 +2,11 @@
   'use strict';
 
   angular
-    .module('fcbp',[
+    .module('fcbp', [
       'fcbp.routes',
-      'fcbp.navbar',
-      'fcbp.auth',
       'fcbp.layout',
-      ])
+      'fcbp.auth',
+    ])
     .run(run);
 
   run.$inject = ['$http'];
@@ -20,5 +19,8 @@
       $http.defaults.xsrfHeaderName = 'X-CSRFToken';
       $http.defaults.xsrfCookieName = 'csrftoken';
     };
+
+  angular
+    .module('fcbp.routes', ['ngRoute']);
  
 })();
