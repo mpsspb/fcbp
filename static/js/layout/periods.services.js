@@ -1,12 +1,12 @@
 /**
 * Periods
-* @namespace fcbp.periods.services
+* @namespace fcbp.layout.services
 */
 (function () {
   'use strict';
 
   angular
-    .module('fcbp.periods.services')
+    .module('fcbp.layout.services')
     .factory('Periods', Periods);
 
   Periods.$inject = ['$http'];
@@ -16,27 +16,18 @@
   * @returns {Factory}
   */
   function Periods($http) {
+    /**
+    * @name Periods
+    * @desc The Factory to be returned
+    */
     var Periods = {
-      list: list,
       create: create,
-      get: get
+      list: list,
     };
 
     return Periods;
 
     ////////////////////
-
-    /**
-    * @name list
-    * @desc Get list Periods
-    * @returns {Promise}
-    * @memberOf fcbp.periods.services.Periods
-    */
-    function list() {
-      return $http.get('/api/v1/products/periods/');
-    }
-
-
     /**
     * @name create
     * @desc Create a new Post
@@ -46,21 +37,16 @@
     */
     function create(value) {
       return $http.post('/api/v1/products/periods/', {
-        value: value, is_active: true
+        value: value
       }).error(function(data, status, headers, config) {
         console.log(data)
       });
     }
-
     /**
-     * @name get
-     * @desc Get the Period
-     * @param {string} pid The pid to get Periods for
-     * @returns {Promise}
-     * @memberOf fcbp.periods.services.Periods
-     */
-    function get(pid) {
-      return $http.get('/api/v1/products/periods/pid');
+    **/
+    function list() {
+      return $http.get('/api/v1/products/periods/')
     }
   }
+
 })();

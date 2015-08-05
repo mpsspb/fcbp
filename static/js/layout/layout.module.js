@@ -4,7 +4,8 @@
   angular
     .module('fcbp.layout', [
       'fcbp.layout.services',
-      'fcbp.layout.controllers'
+      'fcbp.layout.controllers',
+      'fcbp.periods.controllers',
     ]);
 
   angular
@@ -12,5 +13,8 @@
 
   angular
     .module('fcbp.layout.services', []);
+
+  angular
+    .module('fcbp.periods.controllers', [])
 
 })();
