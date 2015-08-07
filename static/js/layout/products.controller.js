@@ -9,16 +9,17 @@
     .module('fcbp.layout.controllers')
     .controller('ProductsController', ProductsController);
 
-  ProductsController.$inject = ['$scope', '$http', 'Authentication', 'Periods'];
+  ProductsController.$inject = ['$scope', '$http', 'Authentication', 'Periods', 'ClubCard'];
 
   /**
   * @namespace ProductsController
   */
-  function ProductsController($scope, $http, Authentication, Periods) {
+  function ProductsController($scope, $http, Authentication, Periods, ClubCard) {
     var vm = this;
 
     vm.isAuthenticated = isAuthenticated();
     vm.periods = [];
+    vm.club_cards = [];
 
     activate();
 
@@ -29,6 +30,7 @@
     */
     function activate() {
       Periods.list().then(periodsSuccessFn, periodsErrorFn);
+      ClubCard.list().then(club_cardsSuccessFn, club_cardsErrorFn);
 
       $scope.$on('period.created', function (event, period) {
         vm.periods.unshift(period);
@@ -38,11 +40,9 @@
         vm.periods.shift();
       });
 
-
-
       /**
-      * @name postsSuccessFn
-      * @desc Update Periods array on view
+      * @name periodsSuccessFn
+      * @desc Update ClubCard array on view
       */
       function periodsSuccessFn(data, status, headers, config) {
         vm.periods = data.data;
@@ -53,6 +53,22 @@
       * @desc console log error
       */
       function periodsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+      /**
+      * @name club_cardsSuccessFn
+      * @desc Update Periods array on view
+      */
+      function club_cardsSuccessFn(data, status, headers, config) {
+        vm.club_cards = data.data;
+      }
+
+      /**
+      * @name club_cardsErrorFn
+      * @desc console log error
+      */
+      function club_cardsErrorFn(data, status, headers, config) {
         console.log(data);
       }
 

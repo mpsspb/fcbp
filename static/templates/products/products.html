@@ -1,3 +1,113 @@
+<!-- Modal new ClubCard -->
+<div class="modal fade" id="newClubCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 800px;">
+    <div class="modal-content" ng-controller="NewClubCardController as vm">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Новый период</h4>
+      </div>
+      <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-md-5 control-label">Наименование:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.name" type="text" class="form-control"
+                placeholder="Наименование вида карты">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Кол-во визитов:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.max_visit" type="number" class="form-control">
+          </div>
+          <label class="col-md-offset-1 col-md-2">Безлимитное:</label>
+          <input type="checkbox" class="pull-left"
+          ng-model="vm.fdata.is_max_visit">
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Срок действия:</label>
+          <div class="col-md-7">
+            <select ng-model="vm.fdata.period" ng-options="period.id as period.value | monthes for period in vm.periods"></select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Время посещения:</label>
+          <label class="col-md-offset-1 col-md-1 control-label">Полное</label>
+          <div class="col-md-1">
+            <input ng-model="vm.fdata.is_full_time" type="radio"
+            name="is_full_time" value="true">
+          </div>
+          <label class="col-md-offset-1 col-md-1 control-label">Утро</label>
+          <div class="col-md-1">
+            <input ng-model="vm.fdata.is_full_time" type="radio"
+            name="is_full_time"value="false">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Цена:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.price" step="0.01" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Активация карты:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.period_activation" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Заморозка:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.period_freeze" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Кол-во заморозок:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.freeze_times" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Гостевые тренировки:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.guest_training" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Скидка на фитнесс тестирование:</label>
+          <div class="col-md-4">
+            <input ng-model="vm.fdata.fitness_testing_discount"
+            type="checkbox">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Персональная тренировка:</label>
+          <div class="col-md-4">
+            <input ng-model="vm.fdata.personal_training"
+            type="checkbox">
+          </div>
+        </div>
+
+      </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
+      </div>
+    </div>
+  </div>
+</div> <!-- end modal ClubCard -->
+
 <!-- Modal new period -->
 <div class="modal fade" id="newPeriod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 300px;">
@@ -25,6 +135,7 @@
   </div>
 </div> <!-- end modal period -->
 
+<!-- main menu -->
 <div class="row" ng-show="vm.isAuthenticated">
     <div class="col-lg-3 col-md-3">
         <a href="" ng-click="showPeriods=false; showCards=true">
@@ -62,6 +173,24 @@
         </a>
     </div>
 </div>
+<!-- end of the main menu -->
+
+<!-- lists -->
+<div ng-show="showCards">
+ <div class="col-md-12">
+  <button data-toggle="modal" data-target="#newClubCard" class="btn btn-info">
+    Новый вид клубной карты
+  </button>
+  <br/>
+  <br/>
+ </div>
+ <div class="col-md-4">
+  <div class="alert alert-info col-md-12" ng-repeat="club_card in vm.club_cards">
+  {{ club_card.value | monthes }}
+  </div>
+ </div>
+</div>
+
 <div ng-show="showPeriods">
  <div class="col-md-12">
   <button data-toggle="modal" data-target="#newPeriod" class="btn btn-info">
@@ -76,3 +205,4 @@
   </div>
  </div>
 </div>
+<!-- end of the lists -->

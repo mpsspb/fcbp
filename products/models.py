@@ -29,6 +29,7 @@ class ClubCard(models.Model):
     is_full_time = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     period_freeze = models.IntegerField(default=0)
+    freeze_times = models.IntegerField(default=0)
     period_activation = models.IntegerField(default=0)
     guest_training = models.SmallIntegerField(default=0)
     fitness_testing_discount = models.BooleanField(default=False)

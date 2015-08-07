@@ -30,7 +30,7 @@
     ////////////////////
     /**
     * @name create
-    * @desc Create a new Post
+    * @desc Create a new Period
     * @param {number} value The value of the new Period
     * @returns {Promise}
     * @memberOf fcbp.periods.services.Periods
