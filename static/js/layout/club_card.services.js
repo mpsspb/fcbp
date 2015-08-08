@@ -33,7 +33,7 @@
     * @desc Create a new ClubCard
     * @param {array} The form data of the new ClubCard
     * @returns {Promise}
-    * @memberOf fcbp.periods.services.ClubCard
+    * @memberOf fcbp.layout.services.ClubCard
     */
     function create(fdata) {
       return $http.post('/api/v1/products/club_cards/', fdata)

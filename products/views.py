@@ -16,7 +16,3 @@ class PeriodViewSet(viewsets.ModelViewSet):
 class ClubCardViewSet(viewsets.ModelViewSet):
     queryset = ClubCard.objects.order_by('name')
     serializer_class = ClubCardSerializer
-
-    @detail_route(methods=['post'])
-    def set_password(self, request, pk=None):
-        print (request.POST)

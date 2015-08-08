@@ -1,0 +1,48 @@
+<div>
+  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ clubcard.name }} </span>
+  <div ng-show="collapsed" class="alert alert-warning col-md-12">
+      <table class="table">
+          <tr>
+              <td width="400">Кол-во визитов</td>
+              <td>{{ clubcard.max_visit | visits }}</td>
+          </tr>
+          <tr>
+              <td>
+                  Срок
+              </td>
+              <td>
+              {{ clubcard.period_value | monthes }}    
+              </td>
+          </tr>
+          <tr>
+              <td>Время посещения</td>
+              <td>{{ clubcard.is_full_time | card_time }}</td>
+          </tr>
+          <tr>
+              <td>Цена</td>
+              <td>{{ clubcard.price }}</td>
+          </tr>
+          <tr>
+              <td>Активация карты</td>
+              <td>{{ clubcard.period_activation }} дней</td>
+          </tr>
+          <tr>
+              <td>Заморозка</td>
+              <td>{{ clubcard.period_freeze}} дней</td>
+          </tr>
+          <tr>
+              <td>Кол-во заморозок</td>
+              <td>{{ clubcard.freeze_times || 0 }}</td>
+          </tr>
+          <tr>
+              <td>Скидка на фитнесс тестирование</td>
+              <td>{{ clubcard.fitness_testing_discount | EN }}</td>
+          </tr>
+          <tr>
+              <td>Персональная тренировка</td>
+              <td>{{ clubcard.personal_training | EN }}</td>
+          </tr>
+      </table>
+      <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
+  </div>
+</div>

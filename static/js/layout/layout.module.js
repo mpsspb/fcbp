@@ -7,6 +7,7 @@
       'fcbp.layout.controllers',
       'fcbp.periods.controllers',
       'fcbp.clubcard.controllers',
+      'fcbp.clubcard.directives',
     ]);
 
   angular
@@ -20,5 +21,8 @@
 
   angular
     .module('fcbp.clubcard.controllers', [])
+
+  angular
+    .module('fcbp.clubcard.directives', [])
 
 })();

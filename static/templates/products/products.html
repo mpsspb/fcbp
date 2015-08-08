@@ -102,7 +102,7 @@
       </form>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
+        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
       </div>
     </div>
   </div>
@@ -184,10 +184,8 @@
   <br/>
   <br/>
  </div>
- <div class="col-md-4">
-  <div class="alert alert-info col-md-12" ng-repeat="club_card in vm.club_cards">
-  {{ club_card.value | monthes }}
-  </div>
+ <div class="col-md-8">
+ <clubcard clubcard="clubcard"  ng-repeat="clubcard in vm.clubcards"></clubcard>
  </div>
 </div>
 

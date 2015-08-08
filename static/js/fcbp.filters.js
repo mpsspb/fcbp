@@ -15,5 +15,44 @@
           
         }
     });
- 
+
+  angular
+    .module('fcbp')
+    .filter('visits', function() {
+        return function(input) {
+          if (input == 99999) {
+            return 'Безлитиное'
+          } else {
+            return input
+          }
+          
+        }
+    });
+
+  angular
+    .module('fcbp')
+    .filter('card_time', function() {
+        return function(input) {
+          if (input) {
+            return 'Полное'
+          } else {
+            return 'Утро'
+          }
+          
+        }
+    });
+
+  angular
+    .module('fcbp')
+    .filter('EN', function() {
+        return function(input) {
+          if (input) {
+            return 'Есть'
+          } else {
+            return 'Нет'
+          }
+          
+        }
+    });
+
 })();

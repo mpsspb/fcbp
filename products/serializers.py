@@ -14,12 +14,13 @@ class PeriodSerializer(serializers.ModelSerializer):
 
 class ClubCardSerializer(serializers.ModelSerializer):
 
+
     class Meta:
         model = ClubCard
 
-        fields = ('name', 'max_visit', 'period',
+        fields = ('name', 'max_visit', 'period', 'period_value',
                   'is_full_time', 'is_active',
                   'period_freeze', 'period_activation',
                   'guest_training', 'fitness_testing_discount',
                   'personal_training', 'price')
-        read_only_fields = ('id', )
+        read_only_fields = ('id', 'period_value')

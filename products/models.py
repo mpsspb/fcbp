@@ -35,3 +35,7 @@ class ClubCard(models.Model):
     fitness_testing_discount = models.BooleanField(default=False)
     personal_training = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=15, decimal_places=2,)
+
+    @property
+    def period_value(self,):
+        return self.period.value

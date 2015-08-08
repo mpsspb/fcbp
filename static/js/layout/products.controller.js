@@ -19,7 +19,7 @@
 
     vm.isAuthenticated = isAuthenticated();
     vm.periods = [];
-    vm.club_cards = [];
+    vm.clubcards = [];
 
     activate();
 
@@ -30,7 +30,7 @@
     */
     function activate() {
       Periods.list().then(periodsSuccessFn, periodsErrorFn);
-      ClubCard.list().then(club_cardsSuccessFn, club_cardsErrorFn);
+      ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
 
       $scope.$on('period.created', function (event, period) {
         vm.periods.unshift(period);
@@ -57,18 +57,18 @@
       }
 
       /**
-      * @name club_cardsSuccessFn
+      * @name clubcardsSuccessFn
       * @desc Update Periods array on view
       */
-      function club_cardsSuccessFn(data, status, headers, config) {
-        vm.club_cards = data.data;
+      function clubcardsSuccessFn(data, status, headers, config) {
+        vm.clubcards = data.data;
       }
 
       /**
-      * @name club_cardsErrorFn
+      * @name clubcardsErrorFn
       * @desc console log error
       */
-      function club_cardsErrorFn(data, status, headers, config) {
+      function clubcardsErrorFn(data, status, headers, config) {
         console.log(data);
       }
 
