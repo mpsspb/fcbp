@@ -7,6 +7,6 @@
     ]);
 
   angular
-    .module('fcbp.clients.controllers', []);
+    .module('fcbp.clients.controllers', ['webcam']);
 
 })();

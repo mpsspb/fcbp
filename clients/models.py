@@ -9,8 +9,8 @@ class Client(models.Model):
     patronymic = models.CharField(max_length=30)
     born = models.DateField()
 
-    gender = models.SmallIntegerField(default=0, blank=True)
     mobile = models.BigIntegerField(null=True, blank=True)
+    gender = models.SmallIntegerField(default=0, blank=True)
     address = models.CharField(max_length=100, null=True, blank=True)
     passport = models.TextField(null=True, blank=True)
     phone = models.IntegerField(null=True, blank=True)

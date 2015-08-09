@@ -41,3 +41,19 @@
     color: #FFF;
     background-color: #5CB85C;
 }
+
+.btn-photo {
+    margin-left: 350px;
+    display: block;
+}
+
+.photo {
+    margin-right: 20px;
+}
+
+.webcam {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 10px;
+    float: left;
+}

@@ -1,30 +1,102 @@
 <!-- Modal new period -->
 <div class="modal fade" id="newClients" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width: 600px;">
-    <div class="modal-content">
+  <div class="modal-dialog" style="width: 800px;">
+    <div class="modal-content" ng-controller="NewClientController as vm">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Новый клиент</h4>
       </div>
-      <form role="form" >
+      <form class="form-horizontal">
       <div class="modal-body">
-        <div class="row">
-          <div class="col-md-11">
-            <label>Введите значение</label>
-            <input  type="number" required class="form-control"
-            ng-model="vm.value">
+
+        <div class="form-group has-warning">
+          <label class="col-md-2 control-label">Фамилия:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.last_name" type="text"
+            class="form-control" placeholder="Фамилия">
+          </div>
+
+          <label class="col-md-2 control-label">Имя:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.first_name" type="text"
+            class="form-control" placeholder="Имя">
           </div>
         </div>
+
+        <div class="form-group has-warning">
+          <label class="col-md-2 control-label">Отчество:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.patronymic" type="text"
+            class="form-control" placeholder="Отчество">
+          </div>
+
+          <label class="col-md-2 control-label">Д. рождения:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.born" type="text" 
+            class="form-control date" placeholder="ДД.ММ.ГГГГ">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Мобильный:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.mobile" type="text"
+            class="form-control mobile" placeholder="Номер телефона">
+          </div>
+
+          <label class="col-md-2 control-label">Прямой</label>
+          <div class="col-md-1">
+            <input type="checkbox" class="mobile-toggle form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-2 control-label">Пол:</label>
+          <label class="col-md-1 control-label">М</label>
+          <div class="col-md-1">
+            <input ng-model="vm.fdata.gender" type="radio"
+            name="gender" value="true">
+          </div>
+          <label class="col-md-1 control-label">Ж</label>
+          <div class="col-md-1">
+            <input ng-model="vm.fdata.gender" type="radio"
+            name="gender"value="false">
+          </div>
+        </div>
+
+        <div class="form-group">
+            <button class="btn-photo btn btn-large btn-primary"
+            ng-click="vm.makeSnapshot()">Фото</button>
+            <webcam channel="vm.myChannel"
+            on-streaming="vm.onSuccess()"></webcam>
+            <canvas height="240" width="320" id="snapshot" 
+            class="well pull-right photo"></canvas>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
+        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
       </div>
       </form>
     </div>
   </div>
 </div> <!-- end modal period -->
+<script type="text/javascript">
+  jQuery(function($){
+   $(".date").mask("99/99/9999");
+   $(".mobile").mask("(999)-999-9999");
 
+   $('.mobile-toggle').on('click', function(){
+    if ($(this).is (':checked')) {
+        $(".mobile").mask("999-9999");
+    } else {
+        $(".mobile").mask("(999)-999-9999");
+    }
+   })
+});
+
+</script>
 <!-- main menu -->
 <div class="row" ng-show="vm.isAuthenticated">
     <div class="col-lg-3 col-md-3">
