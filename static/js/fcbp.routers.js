@@ -23,6 +23,10 @@
       controller: 'ProductsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/products.html'
+    }).when('/clients', {
+      controller: 'ProductsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/clients.html'
     }).when('/', {
       controller: 'StartController',
       controllerAs: 'vm',

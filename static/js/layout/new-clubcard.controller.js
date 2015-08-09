@@ -26,7 +26,7 @@
     /**
     * @name activate
     * @desc Actions to be performed when this controller is instantiated
-    * @memberOf fcbp.layout.controllers.ProductsController
+    * @memberOf fcbp.clubcard.controllers.NewClubCardController
     */
     function activate() {
       Periods.list().then(periodsSuccessFn, periodsErrorFn);
@@ -75,31 +75,38 @@
     */
     function submit() {
 
-      $rootScope.$broadcast('ClubCard.created', {
-        clubcard: vm.fdata,
-      });
-
       if (vm.fdata.is_max_visit){
         vm.fdata.max_visit = 99999
       }
 
-      ClubCard.create(vm.fdata).then(createPeriodSuccessFn, createPeriodErrorFn);
+      for (var key in vm.periods) {
+          if (vm.fdata.period == vm.periods[key].id){
+            vm.fdata.period_value = vm.periods[key].value;
+            break;
+          }
+      }
+
+      $rootScope.$broadcast('ClubCard.created',
+        vm.fdata
+      );
+
+      ClubCard.create(vm.fdata).then(createClubCardSuccessFn, createClubCardErrorFn);
 
 
       /**
-      * @name createPeriodSuccessFn
+      * @name createClubCardSuccessFn
       * @desc Show snackbar with success message
       */
-      function createPeriodSuccessFn(data, status, headers, config) {
+      function createClubCardSuccessFn(data, status, headers, config) {
         console.log('Success! ClubCard created.');
       }
 
 
       /**
-      * @name createPeriodErrorFn
+      * @name createClubCardErrorFn
       * @desc Propogate error event and show snackbar with error message
       */
-      function createPeriodErrorFn(data, status, headers, config) {
+      function createClubCardErrorFn(data, status, headers, config) {
         console.log(data)
         $rootScope.$broadcast('ClubCard.created.error');
       }

@@ -1,0 +1,61 @@
+<!-- Modal new period -->
+<div class="modal fade" id="newClients" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Новый клиент</h4>
+      </div>
+      <form role="form" >
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-11">
+            <label>Введите значение</label>
+            <input  type="number" required class="form-control"
+            ng-model="vm.value">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal period -->
+
+<!-- main menu -->
+<div class="row" ng-show="vm.isAuthenticated">
+    <div class="col-lg-3 col-md-3">
+        <a href="" ng-click="showClients=true">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-male fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">&nbsp;</div>
+                            <div>Клиенты</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+<!-- end of the main menu -->
+
+<!-- lists -->
+<div ng-show="showClients">
+ <div class="col-md-12">
+  <button data-toggle="modal" data-target="#newClients" class="btn btn-info">
+    Новый клиент
+  </button>
+  <br/>
+  <br/>
+ </div>
+ <div class="col-md-8">
+ </div>
+</div>
+<!-- end of the lists -->
