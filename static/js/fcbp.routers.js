@@ -24,9 +24,13 @@
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/products.html'
     }).when('/clients', {
-      controller: 'ProductsController',
+      controller: 'ClientsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/clients.html'
+    }).when('/new-clients', {
+      controller: 'NewClientController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/new-client.html'
     }).when('/', {
       controller: 'StartController',
       controllerAs: 'vm',

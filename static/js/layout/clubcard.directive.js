@@ -1,5 +1,5 @@
 /**
-* Posts
+* ClubCard
 * @namespace fcbp.clubcard.directives
 */
 (function () {

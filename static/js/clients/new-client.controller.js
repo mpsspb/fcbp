@@ -9,12 +9,12 @@
     .module('fcbp.clients.controllers')
     .controller('NewClientController', NewClientController);
 
-  NewClientController.$inject = ['$rootScope', '$scope', 'ClubCard'];
+  NewClientController.$inject = ['$rootScope', '$scope', 'ClubCard', 'Clients'];
 
   /**
   * @namespace NewClientController
   */
-  function NewClientController($rootScope, $scope, ClubCard) {
+  function NewClientController($rootScope, $scope, ClubCard, Clients) {
     var vm = this;
 
     vm.submit = submit;
@@ -59,32 +59,49 @@
 
     /**
     * @name submit
-    * @desc Create a new ClubCard
-    * @memberOf fcbp.clubcard.controllers.NewClientController
+    * @desc Create a new Client
+    * @memberOf fcbp.client.controllers.NewClientController
     */
     function submit() {
 
-      $rootScope.$broadcast('ClubCard.created', {
-        clubcard: vm.fdata,
+      var numberPattern = /\d+/g;
+
+      if (vm.fdata.mobile_form){
+        var mobile = vm.fdata.mobile_form.match( numberPattern );
+        vm.fdata.mobile = mobile.join("");
+      } else {
+        delete vm.fdata.mobile
+      }
+
+      if (vm.fdata.phone_str){
+        var phone = vm.fdata.phone_str.match( numberPattern );
+        vm.fdata.phone = phone.join("");
+      } else {
+        delete vm.fdata.phone
+      }
+
+      $rootScope.$broadcast('Client.created', {
+        client: vm.fdata,
       });
 
-      ClubCard.create(vm.fdata).then(createPeriodSuccessFn, createPeriodErrorFn);
+      Clients.create(vm.fdata).then(createClientSuccessFn, createClientErrorFn);
 
 
       /**
-      * @name createPeriodSuccessFn
+      * @name createClientSuccessFn
       * @desc Show snackbar with success message
       */
-      function createPeriodSuccessFn(data, status, headers, config) {
-        console.log('Success! ClubCard created.');
+      function createClientSuccessFn(data, status, headers, config) {
+        console.log('Success! Client created.');
+        window.location = '/#/clients';
       }
 
 
       /**
-      * @name createPeriodErrorFn
+      * @name createClientErrorFn
       * @desc Propogate error event and show snackbar with error message
       */
-      function createPeriodErrorFn(data, status, headers, config) {
+      function createClientErrorFn(data, status, headers, config) {
         console.log(data)
         $rootScope.$broadcast('ClubCard.created.error');
       }
@@ -94,6 +111,7 @@
         // The video element contains the captured camera data
         _video = vm.myChannel.video;
     };
+
     /**
      * Make a snapshot of the camera data and show it in another canvas.
      */
@@ -126,11 +144,9 @@
     /**
      * This function could be used to send the image data
      * to a backend server that expects base64 encoded images.
-     *
-     * In this example, we simply store it in the scope for display.
      */
     var sendSnapshotToServer = function sendSnapshotToServer(imgBase64) {
-        vm.snapshotData = imgBase64;
+        vm.fdata.avatar = imgBase64;
     };
 
   };

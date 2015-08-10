@@ -79,6 +79,25 @@ USE_L10N = False
 
 USE_TZ = False
 
+REST_FRAMEWORK = {
+    'DATE_INPUT_FORMATS': (
+         '%d.%m.%Y',    # '25.10.2006
+        ),
+
+    'DATETIME_INPUT_FORMATS': (
+         '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
+         '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
+        )
+}
+
+DATE_INPUT_FORMATS = (
+     '%d.%m.%Y',    # '25.10.2006
+    )
+
+DATETIME_INPUT_FORMATS = (
+     '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
+     '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
+    )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

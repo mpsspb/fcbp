@@ -4,4 +4,7 @@ __pycache__/
 
 # default output file
 secret.txt
+
+# local files
 local_settings.py
+avatar/

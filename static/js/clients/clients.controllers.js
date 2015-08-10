@@ -9,16 +9,18 @@
     .module('fcbp.clients.controllers')
     .controller('ClientsController', ClientsController);
 
-  ClientsController.$inject = ['$scope', '$http', 'Authentication', 'ClubCard'];
+  ClientsController.$inject = ['$scope', '$http',
+                               'Authentication', 'ClubCard', 'Clients'];
 
   /**
   * @namespace ClientsController
   */
-  function ClientsController($scope, $http, Authentication, ClubCard) {
+  function ClientsController($scope, $http, Authentication, ClubCard, Clients) {
     var vm = this;
 
     vm.isAuthenticated = isAuthenticated();
     vm.clubcards = [];
+    vm.clients = [];
 
     activate();
 
@@ -45,6 +47,25 @@
       function clubcardsErrorFn(data, status, headers, config) {
         console.log(data);
       }
+
+      Clients.list().then(clientsSuccessFn, clientsErrorFn);
+
+      /**
+      * @name clientsSuccessFn
+      * @desc Update Clients array on view
+      */
+      function clientsSuccessFn(data, status, headers, config) {
+        vm.clients = data.data;
+      }
+
+      /**
+      * @name clientsErrorFn
+      * @desc console log error
+      */
+      function clientsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
 
     };
 
