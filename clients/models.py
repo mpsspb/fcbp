@@ -18,7 +18,7 @@ class Client(models.Model):
     passport = models.TextField(null=True, blank=True)
     phone = models.IntegerField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
-    avatar = models.ImageField(upload_to="avatar/", blank=True)
+    avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
 
     @property
     def full_name(self,):

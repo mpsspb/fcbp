@@ -3,11 +3,70 @@
   <a href="#/new-clients" class="btn btn-info pull-left">
     Новый клиент
   </a>
-
-<ul class="pagination pull-right" style="margin: 0 0 10px 0">
+  <div class="btn-group btn-group-sm" style="margin: 2px 5px 10px 5px">
+      <a ng-click="vm.page=1;vm.letter='А';vm.ClientsPage();"
+       class="btn btn-default">А</a>
+      <a ng-click="vm.page=1;vm.letter='Б';vm.ClientsPage();"
+       class="btn btn-default">Б</a>
+      <a ng-click="vm.page=1;vm.letter='В';vm.ClientsPage();"
+       class="btn btn-default">В</a>
+      <a ng-click="vm.page=1;vm.letter='Г';vm.ClientsPage();"
+       class="btn btn-default">Г</a>
+      <a ng-click="vm.page=1;vm.letter='Д';vm.ClientsPage();"
+       class="btn btn-default">Д</a>
+      <a ng-click="vm.page=1;vm.letter='Е';vm.ClientsPage();"
+       class="btn btn-default">Е</a>
+      <a ng-click="vm.page=1;vm.letter='Ё';vm.ClientsPage();"
+       class="btn btn-default">Ё</a>
+      <a ng-click="vm.page=1;vm.letter='Ж';vm.ClientsPage();"
+       class="btn btn-default">Ж</a>
+      <a ng-click="vm.page=1;vm.letter='З';vm.ClientsPage();"
+       class="btn btn-default">З</a>
+      <a ng-click="vm.page=1;vm.letter='И';vm.ClientsPage();"
+       class="btn btn-default">И</a>
+      <a ng-click="vm.page=1;vm.letter='К';vm.ClientsPage();"
+       class="btn btn-default">К</a>
+      <a ng-click="vm.page=1;vm.letter='Л';vm.ClientsPage();"
+       class="btn btn-default">Л</a>
+      <a ng-click="vm.page=1;vm.letter='М';vm.ClientsPage();"
+       class="btn btn-default">М</a>
+      <a ng-click="vm.page=1;vm.letter='Н';vm.ClientsPage();"
+       class="btn btn-default">Н</a>
+      <a ng-click="vm.page=1;vm.letter='О';vm.ClientsPage();"
+       class="btn btn-default">О</a>
+      <a ng-click="vm.page=1;vm.letter='П';vm.ClientsPage();"
+       class="btn btn-default">П</a>
+      <a ng-click="vm.page=1;vm.letter='Р';vm.ClientsPage();"
+       class="btn btn-default">Р</a>
+      <a ng-click="vm.page=1;vm.letter='С';vm.ClientsPage();"
+       class="btn btn-default">С</a>
+      <a ng-click="vm.page=1;vm.letter='Т';vm.ClientsPage();"
+       class="btn btn-default">Т</a>
+      <a ng-click="vm.page=1;vm.letter='У';vm.ClientsPage();"
+       class="btn btn-default">У</a>
+      <a ng-click="vm.page=1;vm.letter='Ф';vm.ClientsPage();"
+       class="btn btn-default">Ф</a>
+      <a ng-click="vm.page=1;vm.letter='Х';vm.ClientsPage();"
+       class="btn btn-default">Х</a>
+      <a ng-click="vm.page=1;vm.letter='Ц';vm.ClientsPage();"
+       class="btn btn-default">Ц</a>
+      <a ng-click="vm.page=1;vm.letter='Ч';vm.ClientsPage();"
+       class="btn btn-default">Ч</a>
+      <a ng-click="vm.page=1;vm.letter='Ш';vm.ClientsPage();"
+       class="btn btn-default">Ш</a>
+      <a ng-click="vm.page=1;vm.letter='Щ';vm.ClientsPage();"
+       class="btn btn-default">Щ</a>
+      <a ng-click="vm.page=1;vm.letter='Э';vm.ClientsPage();"
+       class="btn btn-default">Э</a>
+      <a ng-click="vm.page=1;vm.letter='Ю';vm.ClientsPage();"
+       class="btn btn-default">Ю</a>
+      <a ng-click="vm.page=1;vm.letter='Я';vm.ClientsPage();"
+       class="btn btn-default">Я</a>
+  </div>
+<ul class="pagination pagination-sm pull-right" style="margin: 2px 0 10px 0">
     <li ng-show="vm.previous_url">
         <a ng-href=""
-           ng-click="vm.page=vm.page-1; vm.ClientsPage();"
+           ng-click="vm.page=vm.page-1;vm.ClientsPage();"
            aria-label="Previous">
         <span aria-hidden="true">&laquo;</span></a>
     </li>

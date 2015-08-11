@@ -16,8 +16,21 @@ class ClientResultsSetPagination(PageNumberPagination):
 
 
 class ClientViewSet(viewsets.ModelViewSet):
-    queryset = Client.objects\
-                     .order_by('last_name', 'first_name', 'patronymic')
+
     serializer_class = ClientSerializer
     pagination_class = ClientResultsSetPagination
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned clients,
+        by filtering against a `letter` query parameter in the URL.
+        """
+        queryset = Client.objects\
+                     .order_by('last_name', 'first_name', 'patronymic')
+
+        letter = self.request.query_params.get('letter', None)
+        if letter is not None:
+            queryset = queryset.filter(last_name__istartswith=letter)
+
+        return queryset
 

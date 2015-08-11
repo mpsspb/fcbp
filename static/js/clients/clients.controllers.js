@@ -23,6 +23,7 @@
     vm.clients = [];
     vm.previous_url = null;
     vm.next_url = null;
+    vm.letter = 'А';
     vm.page = 1;
     
     activate();
@@ -51,7 +52,7 @@
         console.log(data);
       }
 
-      Clients.list(vm.page).then(clientsSuccessFn, clientsErrorFn);
+      Clients.list(vm.page, vm.letter).then(clientsSuccessFn, clientsErrorFn);
 
       /**
       * @name clientsSuccessFn
@@ -79,7 +80,7 @@
     * @memberOf fcbp.clients.controllers.ClientsController
     */
     vm.ClientsPage = function ClientsPage() {
-      Clients.list(vm.page).then(clientsSuccessFn, clientsErrorFn);
+      Clients.list(vm.page, vm.letter).then(clientsSuccessFn, clientsErrorFn);
 
       /**
       * @name clientsSuccessFn

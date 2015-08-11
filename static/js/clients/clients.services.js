@@ -43,9 +43,10 @@
     }
     /**
     **/
-    function list(page) {
+    function list(page, letter) {
       return $http.get('/api/v1/clients/client/', 
-                        {params: {page: page} })
+                        {params: {page: page,
+                                  letter: letter} })
     }
   }
 
