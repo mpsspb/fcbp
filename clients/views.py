@@ -3,25 +3,21 @@ import json
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Client
 from .serializers import ClientSerializer
+
+
+class ClientResultsSetPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
 
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects\
                      .order_by('last_name', 'first_name', 'patronymic')
     serializer_class = ClientSerializer
+    pagination_class = ClientResultsSetPagination
 
-    @list_route(methods=['get'])
-    def letter(self, request):
-        pass
-        # print (request)
-        # letter = request.GET.get('letter', None)
-        # queryset = Client.objects\
-        #                  .filter(last_name__istartwith=letter)\
-        #                  .order_by('last_name', 'first_name', 'patronymic')
-
-        # serializer = ClientSerializer(queryset, many=True)
-
-        # return Response(serializer.data)

@@ -89,7 +89,7 @@ REST_FRAMEWORK = {
          '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
         ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2,
+    'PAGE_SIZE': 10,
 }
 
 DATE_INPUT_FORMATS = (

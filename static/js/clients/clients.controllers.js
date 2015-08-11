@@ -21,8 +21,10 @@
     vm.isAuthenticated = isAuthenticated();
     vm.clubcards = [];
     vm.clients = [];
+    vm.previous_url = null;
+    vm.next_url = null;
     vm.page = 1;
-
+    
     activate();
 
     /**
@@ -57,6 +59,8 @@
       */
       function clientsSuccessFn(data, status, headers, config) {
         vm.clients = data.data.results;
+        vm.previous_url = data.data.previous;
+        vm.next_url = data.data.next;
       }
 
       /**
@@ -67,7 +71,33 @@
         console.log(data);
       }
 
+    };
 
+    /**
+    * @name ClientsPage
+    * @desc update clients list for page
+    * @memberOf fcbp.clients.controllers.ClientsController
+    */
+    vm.ClientsPage = function ClientsPage() {
+      Clients.list(vm.page).then(clientsSuccessFn, clientsErrorFn);
+
+      /**
+      * @name clientsSuccessFn
+      * @desc Update Clients array on view
+      */
+      function clientsSuccessFn(data, status, headers, config) {
+        vm.clients = data.data.results;
+        vm.previous_url = data.data.previous;
+        vm.next_url = data.data.next;
+      }
+
+      /**
+      * @name clientsErrorFn
+      * @desc console log error
+      */
+      function clientsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
     };
 
     /**
