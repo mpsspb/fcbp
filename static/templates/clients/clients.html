@@ -1,25 +1,4 @@
-<div class="row" ng-show="vm.isAuthenticated">
-    <div class="col-lg-3 col-md-3">
-        <a href="" ng-click="showClients=true">
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-male fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">&nbsp;</div>
-                            <div>Клиенты</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-    </div>
-<!-- end of the main menu -->
-
 <!-- lists -->
-<div ng-show="showClients">
  <div class="col-md-12">
   <a href="#/new-clients" class="btn btn-info">
     Новый клиент
@@ -28,6 +7,4 @@
   <br/>
  </div>
   <client client="client"  ng-repeat="client in vm.clients"></client>
- </div>
-</div>
 <!-- end of the lists -->

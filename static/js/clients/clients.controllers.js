@@ -21,6 +21,7 @@
     vm.isAuthenticated = isAuthenticated();
     vm.clubcards = [];
     vm.clients = [];
+    vm.page = 1;
 
     activate();
 
@@ -48,14 +49,14 @@
         console.log(data);
       }
 
-      Clients.list().then(clientsSuccessFn, clientsErrorFn);
+      Clients.list(vm.page).then(clientsSuccessFn, clientsErrorFn);
 
       /**
       * @name clientsSuccessFn
       * @desc Update Clients array on view
       */
       function clientsSuccessFn(data, status, headers, config) {
-        vm.clients = data.data;
+        vm.clients = data.data.results;
       }
 
       /**

@@ -87,7 +87,9 @@ REST_FRAMEWORK = {
     'DATETIME_INPUT_FORMATS': (
          '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
          '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
-        )
+        ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
 }
 
 DATE_INPUT_FORMATS = (
@@ -107,6 +109,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+AVATAR_ROOT = os.path.join(BASE_DIR, "avatar")
+AVATAR_URL = 'api/v1/clients/client/avatar/'
 
 try:
     from local_settings import *

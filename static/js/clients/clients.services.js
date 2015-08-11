@@ -43,8 +43,9 @@
     }
     /**
     **/
-    function list() {
-      return $http.get('/api/v1/clients/client/')
+    function list(page) {
+      return $http.get('/api/v1/clients/client/', 
+                        {params: {page: page} })
     }
   }
 

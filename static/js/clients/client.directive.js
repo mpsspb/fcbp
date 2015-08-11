@@ -25,7 +25,7 @@
       scope: {
         client: '='
       },
-      templateUrl: '/static/templates/clients/client.html'
+      templateUrl: '/static/templates/clients/client.html?1'
     };
 
     return directive;
