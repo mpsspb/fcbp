@@ -1,6 +1,6 @@
 <!-- lists -->
  <div class="col-md-12">
-  <a href="#/new-clients" class="btn btn-info pull-left">
+  <a href="#/new-clients" class="btn btn-success pull-left">
     Новый клиент
   </a>
   <div class="btn-group btn-group-sm" style="margin: 2px 5px 10px 5px">
@@ -63,22 +63,34 @@
       <a ng-click="vm.page=1;vm.letter='Я';vm.ClientsPage();"
        class="btn btn-default">Я</a>
   </div>
-<ul class="pagination pagination-sm pull-right" style="margin: 2px 0 10px 0">
-    <li ng-show="vm.previous_url">
-        <a ng-href=""
-           ng-click="vm.page=vm.page-1;vm.ClientsPage();"
-           aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span></a>
-    </li>
-    <li><a href="">{{ vm.page }}</a></li>
-    <li ng-show="vm.next_url">
-        <a href="" ng-click="vm.page=vm.page+1; vm.ClientsPage();" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-        </a>
-    </li>
-</ul>
-  <br/>
-  <br/>
- </div>
-  <client client="client"  ng-repeat="client in vm.clients"></client>
+  <ul ng-show="1"
+  class="pagination pagination-sm pull-right" style="margin: 2px 0 10px 0">
+      <li ng-show="vm.previous_url">
+          <a ng-href=""
+             ng-click="vm.page=vm.page-1;vm.ClientsPage();"
+             aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li><a href="">{{ vm.page }}</a></li>
+      <li ng-show="vm.next_url">
+          <a href="" ng-click="vm.page=vm.page+1; vm.ClientsPage();" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+          </a>
+      </li>
+  </ul>
+</div>
+
+<form class="navbar-form navbar-left" role="search">
+  <div class="form-group">
+    <input ng-model="searchText" class="form-control" placeholder="Поиск по странице"> 
+  </div>
+  <a href="#/filter-clients" class="btn btn-primary" disabled>
+    Расширенный поиск
+  </a>
+</form>
+
+  <client client="client"  
+    ng-repeat="client in vm.clients | filter:searchText">
+  </client>
+
 <!-- end of the lists -->

@@ -15,7 +15,7 @@ class Period(models.Model):
     """
     Period for club card types, values in month.
     """
-    value = models.SmallIntegerField()
+    value = models.SmallIntegerField(unique=True)
     is_active = models.BooleanField(default=True)
 
 

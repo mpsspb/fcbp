@@ -24,11 +24,19 @@ class Client(models.Model):
     def full_name(self,):
         return "%s %s %s" % (self.last_name, self.first_name, self.patronymic)
 
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+        else:
+            return ""
+    
+
     def save(self, *args, **kwargs):
         if not self.uid:
             mon = date.today() + timedelta(days=-date.today().weekday())
             week_clients = Client.objects.filter(date__gte=mon).count()
-            year = date.today().year * 10000
+            year = (date.today().year - 2000) * 10000
             week = date.today().isocalendar()[1] * 100
             cnt = week_clients + 1
             self.uid = year + week + cnt

@@ -1,0 +1,15 @@
+<div>
+  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ client.full_name }}
+  </span>
+  <div ng-show="collapsed" class="alert alert-warning col-md-12">
+      <table class="table">
+          <tr>
+              <td width="400">
+                <img src="{{ client.avatar }}">
+              </td>
+              <td>{{ client.max_visit | visits }}</td>
+          </tr>
+      </table>
+      <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
+  </div>
+</div>

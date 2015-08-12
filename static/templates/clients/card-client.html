@@ -1,0 +1,47 @@
+<form class="form-horizontal col-md-6">
+  <div class="form-group">
+    <label class="control-label">
+      {{ vm.cardclient.full_name }}
+      {{ vm.cardclient.born | date:'dd.MM.yyyy' }}
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">ЧС:</label>
+    <label class="col-md-8 control-text"> {{ vm.cardclient.uid }}</label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">Дата ЧС:</label>
+    <label class="col-md-8 control-text"> {{ vm.cardclient.date | date:'dd.MM.yyyy' }}</label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">Мобильный:</label>
+    <label class="col-md-8 control-text"> {{ vm.cardclient.mobile | phone }}</label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">Прямой:</label>
+    <label class="col-md-8 control-text"> {{ vm.cardclient.phone | phone }}</label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">Адрес: </label>
+    <label class="col-md-8 control-text"> {{ vm.cardclient.address }}
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">Паспорт: </label>
+    <label class="col-md-8 control-text"> {{ vm.cardclient.passport }}</label>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">Эл. адрес:</label>
+    <label class="col-md-8 control-text"> {{ vm.cardclient.email }}</label>
+  </div>
+</form>
+<img class="col-md-4 col-md-offset-2" ng-src="{{ vm.cardclient.avatar_url }}">
+<hr/>
+<a href="#/clients" class="btn btn-default pull-left">К списку</a>

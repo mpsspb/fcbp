@@ -18,7 +18,6 @@
     var vm = this;
 
     vm.submit = submit;
-    vm.clubcards = [];
     vm.makeSnapshot = makeSnapshot;
     vm.onSuccess = onSuccess;
     vm.fdata = {gender: 1,
@@ -30,34 +29,6 @@
         video: null // Will reference the video element on success
       };
     var _video = vm.myChannel.video;
-
-    activate();
-
-    /**
-    * @name activate
-    * @desc Actions to be performed when this controller is instantiated
-    * @memberOf fcbp.clients.controllers.NewClientController
-    */
-    function activate() {
-      ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
-
-      /**
-      * @name clubcardsSuccessFn
-      * @desc Update ClubCard array on view
-      */
-      function clubcardsSuccessFn(data, status, headers, config) {
-        vm.clubcards = data.data;
-      }
-
-      /**
-      * @name clubcardsErrorFn
-      * @desc console log error
-      */
-      function clubcardsErrorFn(data, status, headers, config) {
-        console.log(data);
-      }
-
-    }
 
     /**
     * @name submit

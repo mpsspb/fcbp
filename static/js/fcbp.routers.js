@@ -31,6 +31,10 @@
       controller: 'NewClientController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/new-client.html'
+    }).when('/cardclient/:uid', {
+      controller: 'ClientCardController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/card-client.html'
     }).when('/', {
       controller: 'StartController',
       controllerAs: 'vm',

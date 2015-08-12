@@ -60,5 +60,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
         fields = ('id', 'first_name', 'last_name', 'patronymic',
                   'born',  'gender', 'mobile', 'address', 'passport',
-                  'phone', 'email', 'avatar', 'full_name', 'uid')
-        read_only_fields = ('id', 'full_name', 'uid')
+                  'phone', 'email', 'avatar', 'date',
+                  'avatar_url', 'full_name', 'uid')
+        read_only_fields = ('id', 'full_name', 'avatar_url', 'uid',
+                            'date')

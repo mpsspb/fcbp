@@ -23,6 +23,7 @@
     var Clients = {
       create: create,
       list: list,
+      get: get,
     };
 
     return Clients;
@@ -47,6 +48,10 @@
       return $http.get('/api/v1/clients/client/', 
                         {params: {page: page,
                                   letter: letter} })
+    }
+
+    function get(uid) {
+      return $http.get('/api/v1/clients/client/' + uid + '/')
     }
   }
 
