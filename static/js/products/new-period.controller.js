@@ -19,6 +19,8 @@
 
     vm.submit = submit;
 
+    vm.fdata = { is_month: true, }
+
     /**
     * @name submit
     * @desc Create a new Period
@@ -26,11 +28,9 @@
     */
     function submit() {
 
-      $rootScope.$broadcast('period.created', {
-        value: vm.value,
-      });
+      $rootScope.$broadcast('period.created', vm.fdata );
 
-      Periods.create(vm.value).then(createPeriodSuccessFn, createPeriodErrorFn);
+      Periods.create(vm.fdata).then(createPeriodSuccessFn, createPeriodErrorFn);
 
 
       /**

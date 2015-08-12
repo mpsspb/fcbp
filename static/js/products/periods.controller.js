@@ -1,5 +1,5 @@
 /**
-* ProductsController
+* PeriodsController
 * @namespace fcbp.layout.controllers
 */
 (function () {
@@ -7,28 +7,28 @@
 
   angular
     .module('fcbp.layout.controllers')
-    .controller('ProductsController', ProductsController);
+    .controller('PeriodsController', PeriodsController);
 
-  ProductsController.$inject = ['$scope', '$http', 'Authentication', 'Periods', 'ClubCard'];
+  PeriodsController.$inject = ['$scope', '$http', 'Authentication', 'Periods'];
 
   /**
-  * @namespace ProductsController
+  * @namespace PeriodsController
   */
-  function ProductsController($scope, $http, Authentication, Periods, ClubCard) {
+  function PeriodsController($scope, $http, Authentication, Periods) {
     var vm = this;
 
     vm.isAuthenticated = isAuthenticated();
     vm.periods = [];
-    vm.clubcards = [];
 
     activate();
 
     /**
     * @name activate
     * @desc Actions to be performed when this controller is instantiated
-    * @memberOf fcbp.layout.controllers.ProductsController
+    * @memberOf fcbp.layout.controllers.PeriodsController
     */
     function activate() {
+
       Periods.list().then(periodsSuccessFn, periodsErrorFn);
 
       $scope.$on('period.created', function (event, period) {
@@ -37,17 +37,6 @@
 
       $scope.$on('period.created.error', function () {
         vm.periods.shift();
-      });
-
-
-      ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
-
-      $scope.$on('ClubCard.created', function (event, clubcard) {
-        vm.clubcards.unshift(clubcard);
-      });
-
-      $scope.$on('ClubCard.created.error', function () {
-        vm.clubcards.shift();
       });
 
       /**
@@ -66,28 +55,12 @@
         console.log(data);
       }
 
-      /**
-      * @name clubcardsSuccessFn
-      * @desc Update ClubCard array on view
-      */
-      function clubcardsSuccessFn(data, status, headers, config) {
-        vm.clubcards = data.data;
-      }
-
-      /**
-      * @name clubcardsErrorFn
-      * @desc console log error
-      */
-      function clubcardsErrorFn(data, status, headers, config) {
-        console.log(data);
-      }
-
     };
 
     /**
     * @name isAuthenticated
     * @desc Log the user out
-    * @memberOf fcbp.layout.controllers.ProductsController
+    * @memberOf fcbp.layout.controllers.PeriodsController
     */
     function isAuthenticated() {
       return Authentication.isAuthenticated();

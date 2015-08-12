@@ -3,15 +3,26 @@
 
   angular
     .module('fcbp')
-    .filter('monthes', function() {
+    .filter('period_str', function() {
         return function(input) {
-          if (input < 2) {
-            return '1 месяц'
-          } else if ( input < 5) {
-            return input + ' месяца'
+          if (input.is_month){
+            if (input.value < 2) {
+              return '1 месяц'
+            } else if ( input.value < 5) {
+              return input.value + ' месяца'
+            } else {
+              return input.value + ' месяцев'
+            }
           } else {
-            return input + ' месяцев'
+            if (input.value < 2) {
+              return '1 день'
+            } else if ( input.value < 5) {
+              return input.value + ' дня'
+            } else {
+              return input.value + ' дней'
+            }            
           }
+
           
         }
     });

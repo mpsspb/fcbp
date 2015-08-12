@@ -23,6 +23,14 @@
       controller: 'ProductsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/products.html'
+    }).when('/periods', {
+      controller: 'PeriodsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/products/periods.html'
+    }).when('/clubcards', {
+      controller: 'ClubCardsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/products/clubcards.html'
     }).when('/clients', {
       controller: 'ClientsController',
       controllerAs: 'vm',

@@ -13,9 +13,11 @@ class Discount(models.Model):
 
 class Period(models.Model):
     """
-    Period for club card types, values in month.
+    Period for club card types.
+    Default values in month, other way in days.
     """
     value = models.SmallIntegerField(unique=True)
+    is_month = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
 
 

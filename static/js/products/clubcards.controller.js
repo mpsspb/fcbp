@@ -1,0 +1,116 @@
+/**
+* ClubCardsController
+* @namespace fcbp.clubcard.controllers
+*/
+(function () {
+  'use strict';
+
+  angular
+    .module('fcbp.clubcard.controllers')
+    .controller('ClubCardsController', ClubCardsController);
+
+  ClubCardsController.$inject = ['$rootScope', '$scope', 'Periods', 'ClubCard'];
+
+  /**
+  * @namespace ClubCardsController
+  */
+  function ClubCardsController($rootScope, $scope, Periods, ClubCard) {
+    var vm = this;
+
+    vm.submit = submit;
+    vm.periods = [];
+    vm.clubcards = [];
+
+    activate();
+
+    /**
+    * @name activate
+    * @desc Actions to be performed when this controller is instantiated
+    * @memberOf fcbp.clubcard.controllers.ClubCardsController
+    */
+    function activate() {
+      Periods.list().then(periodsSuccessFn, periodsErrorFn);
+
+      /**
+      * @name periodsSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function periodsSuccessFn(data, status, headers, config) {
+        vm.periods = data.data;
+      }
+
+      /**
+      * @name periodsErrorFn
+      * @desc console log error
+      */
+      function periodsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+      ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
+
+      /**
+      * @name clubcardsSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function clubcardsSuccessFn(data, status, headers, config) {
+        vm.clubcards = data.data;
+      }
+
+      /**
+      * @name clubcardsErrorFn
+      * @desc console log error
+      */
+      function clubcardsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    /**
+    * @name submit
+    * @desc Create a new ClubCard
+    * @memberOf fcbp.clubcard.controllers.ClubCardsController
+    */
+    function submit() {
+
+      if (vm.fdata.is_max_visit){
+        vm.fdata.max_visit = 99999
+      }
+
+      for (var key in vm.periods) {
+          if (vm.fdata.period == vm.periods[key].id){
+            vm.fdata.period_value = vm.periods[key].value;
+            break;
+          }
+      }
+
+      $rootScope.$broadcast('ClubCard.created',
+        vm.fdata
+      );
+
+      ClubCard.create(vm.fdata).then(createClubCardSuccessFn, createClubCardErrorFn);
+
+
+      /**
+      * @name createClubCardSuccessFn
+      * @desc Show snackbar with success message
+      */
+      function createClubCardSuccessFn(data, status, headers, config) {
+        console.log('Success! ClubCard created.');
+      }
+
+
+      /**
+      * @name createClubCardErrorFn
+      * @desc Propogate error event and show snackbar with error message
+      */
+      function createClubCardErrorFn(data, status, headers, config) {
+        console.log(data)
+        $rootScope.$broadcast('ClubCard.created.error');
+      }
+    }
+
+  }
+
+})();

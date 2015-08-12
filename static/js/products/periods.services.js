@@ -35,12 +35,11 @@
     * @returns {Promise}
     * @memberOf fcbp.periods.services.Periods
     */
-    function create(value) {
-      return $http.post('/api/v1/products/periods/', {
-        value: value
-      }).error(function(data, status, headers, config) {
-        console.log(data)
-      });
+    function create(fdata) {
+      return $http.post('/api/v1/products/periods/', fdata
+                        ).error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
     }
     /**
     **/
