@@ -19,8 +19,6 @@
     * @memberOf fcbp.clubcard.directives.ClubCard
     */
     var directive = {
-      controller: 'ProductsController',
-      controllerAs: 'vm',
       restrict: 'E',
       scope: {
         clubcard: '='

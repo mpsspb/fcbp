@@ -1,29 +1,26 @@
-<!-- Modal new ClubCard -->
-<div class="modal fade" id="newClubCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Modal new AquaAerobics -->
+<div class="modal fade" id="newAquaAerobics" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 800px;">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Новый вид клубной карты</h4>
+        <h4 class="modal-title" id="myModalLabel">Новый вид аквааэробики</h4>
       </div>
-      <form class="form-horizontal" ng-controller="NewClubCardController as vm">
+      <form class="form-horizontal" ng-controller="NewAquaAerobicsController as vm">
       <div class="modal-body">
         <div class="form-group">
           <label class="col-md-5 control-label">Наименование:</label>
           <div class="col-md-3">
             <input ng-model="vm.fdata.name" type="text" class="form-control"
-                placeholder="Наименование вида карты">
+                placeholder="Наименование">
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-md-5 control-label">Кол-во визитов:</label>
+          <label class="col-md-5 control-label">Кол-во занятий:</label>
           <div class="col-md-3">
             <input ng-model="vm.fdata.max_visit" type="number" class="form-control">
           </div>
-          <label class="col-md-offset-1 col-md-2">Безлимитное:</label>
-          <input type="checkbox" class="pull-left"
-          ng-model="vm.fdata.is_max_visit">
         </div>
 
         <div class="form-group">
@@ -57,27 +54,6 @@
         </div>
 
         <div class="form-group">
-          <label class="col-md-5 control-label">Активация карты:</label>
-          <div class="col-md-3">
-            <input ng-model="vm.fdata.period_activation" type="number" class="form-control">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-5 control-label">Заморозка:</label>
-          <div class="col-md-3">
-            <input ng-model="vm.fdata.period_freeze" type="number" class="form-control">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-5 control-label">Кол-во заморозок:</label>
-          <div class="col-md-3">
-            <input ng-model="vm.fdata.freeze_times" type="number" class="form-control">
-          </div>
-        </div>
-
-        <div class="form-group">
           <label class="col-md-5 control-label">Продление дней:</label>
           <div class="col-md-3">
             <input ng-model="vm.fdata.period_prolongation" type="number" class="form-control">
@@ -91,29 +67,6 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Гостевые тренировки:</label>
-          <div class="col-md-3">
-            <input ng-model="vm.fdata.guest_training" type="number" class="form-control">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-5 control-label">Скидка на фитнесс тестирование:</label>
-          <div class="col-md-4">
-            <input ng-model="vm.fdata.fitness_testing_discount"
-            type="checkbox">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-5 control-label">Персональная тренировка:</label>
-          <div class="col-md-4">
-            <input ng-model="vm.fdata.personal_training"
-            type="checkbox">
-          </div>
-        </div>
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
@@ -122,7 +75,7 @@
       </form>
     </div>
   </div>
-</div> <!-- end modal ClubCard -->
+</div> <!-- end modal AquaAerobics -->
 
 <!-- list -->
 <div>
@@ -133,13 +86,14 @@
   </div>
         
  <div class="col-md-3">
-  <button data-toggle="modal" data-target="#newClubCard"
+  <button data-toggle="modal" data-target="#newAquaAerobics"
   class="btn btn-info btn-block">
-    Новый вид клубной карты
+    Новый вид аквааэробики
   </button>
   <br/>
  </div>
  <div class="col-md-8">
- <clubcard clubcard="clubcard"  ng-repeat="clubcard in vm.clubcards"></clubcard>
+ <aquaaerobics aquaaerobics="aquaaerobics"  ng-repeat="aquaaerobics in vm.aquaaerobicses"></aquaaerobics>
  </div>
+
 </div>

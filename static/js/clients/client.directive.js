@@ -19,8 +19,6 @@
     * @memberOf fcbp.client.directives.Client
     */
     var directive = {
-      controller: 'ClientsController',
-      controllerAs: 'vm',
       restrict: 'E',
       scope: {
         client: '='

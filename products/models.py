@@ -43,4 +43,21 @@ class ClubCard(models.Model):
     @property
     def period_data(self):
         return self.period
-    
+
+
+class AquaAerobics(models.Model):
+    """
+    Aqua Aerobics types.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    max_visit = models.IntegerField()
+    period = models.ForeignKey(Period, )
+    is_full_time = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True, blank=True)
+    clients_count = models.IntegerField(default=1, blank=True)
+    period_prolongation = models.IntegerField(default=0, blank=True)
+    price = models.DecimalField(max_digits=15, decimal_places=2,)
+
+    @property
+    def period_data(self):
+        return self.period

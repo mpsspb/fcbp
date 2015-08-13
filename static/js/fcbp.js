@@ -7,6 +7,7 @@
       'fcbp.navbar',
       'fcbp.auth',
       'fcbp.layout',
+      'fcbp.products',
       'fcbp.clients',
       ])
     .run(run);
