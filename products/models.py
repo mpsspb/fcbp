@@ -82,3 +82,12 @@ class Ticket(models.Model):
     max_visit = models.IntegerField()
     period_prolongation = models.IntegerField(default=0, blank=True)
     is_active = models.BooleanField(default=True, blank=True)
+    price = models.DecimalField(max_digits=15, decimal_places=2,)
+
+    @property
+    def period_data(self):
+        return self.period
+
+    @property
+    def sport_data(self):
+        return self.sport
