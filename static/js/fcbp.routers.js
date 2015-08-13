@@ -35,6 +35,10 @@
       controller: 'AquaAerobicsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/aqua-aerobicses.html'
+    }).when('/sports', {
+      controller: 'SportsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/products/sports.html'
     }).when('/clients', {
       controller: 'ClientsController',
       controllerAs: 'vm',

@@ -61,3 +61,24 @@ class AquaAerobics(models.Model):
     @property
     def period_data(self):
         return self.period
+
+
+class Sport(models.Model):
+    """
+    Sports types.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    is_active = models.BooleanField(default=True, blank=True)
+
+
+class Ticket(models.Model):
+    """
+    Ticket types
+    """
+    name = models.CharField(max_length=255, unique=True)
+    period = models.ForeignKey(Period, )
+    sport = models.ForeignKey(Sport, )
+    is_full_time = models.BooleanField(default=True, blank=True)
+    max_visit = models.IntegerField()
+    period_prolongation = models.IntegerField(default=0, blank=True)
+    is_active = models.BooleanField(default=True, blank=True)

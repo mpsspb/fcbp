@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Period, ClubCard, AquaAerobics
+from .models import Period, ClubCard, AquaAerobics, Sport
 
 
 class PeriodSerializer(serializers.ModelSerializer):
@@ -38,3 +38,12 @@ class AquaAerobicsSerializer(serializers.ModelSerializer):
                   'period_prolongation', 'clients_count', 
                   'price')
         read_only_fields = ('id', 'period_data',)
+
+
+class SportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Sport
+
+        fields = ('id', 'name', 'is_active', )
+        read_only_fields = ('id', )

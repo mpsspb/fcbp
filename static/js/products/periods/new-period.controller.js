@@ -28,8 +28,6 @@
     */
     function submit() {
 
-      $rootScope.$broadcast('period.created', vm.fdata );
-
       Periods.create(vm.fdata).then(createPeriodSuccessFn, createPeriodErrorFn);
 
 
@@ -38,6 +36,7 @@
       * @desc Show snackbar with success message
       */
       function createPeriodSuccessFn(data, status, headers, config) {
+        $rootScope.$broadcast('period.created', vm.fdata );
         console.log('Success! Period created.');
       }
 

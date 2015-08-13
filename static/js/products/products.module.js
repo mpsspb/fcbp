@@ -8,6 +8,7 @@
       'fcbp.clubcard.directives',
       'fcbp.aquaaerobics.controllers',
       'fcbp.aquaaerobics.directives',
+      'fcbp.sports.controllers',
     ]);
 
   angular
@@ -24,5 +25,8 @@
 
   angular
     .module('fcbp.aquaaerobics.directives', [])
+
+  angular
+    .module('fcbp.sports.controllers', [])
 
 })();

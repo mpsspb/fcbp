@@ -32,11 +32,11 @@
       Periods.list().then(periodsSuccessFn, periodsErrorFn);
 
       $scope.$on('period.created', function (event, period) {
-        vm.periods.unshift(period);
+        Periods.list().then(periodsSuccessFn, periodsErrorFn);
       });
 
       $scope.$on('period.created.error', function () {
-        vm.periods.shift();
+        // vm.periods.shift();
       });
 
       /**
