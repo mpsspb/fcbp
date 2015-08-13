@@ -39,14 +39,19 @@
 
 <!-- lists -->
 <div>
- <div class="col-md-12">
-  <button data-toggle="modal" data-target="#newPeriod" class="btn btn-info">
+  <div class="col-md-3">
+    <a href="#/products" class="btn btn-primary btn-block">
+      Справочники
+    </a>
+  </div>
+ <div class="col-md-3">
+  <button data-toggle="modal" data-target="#newPeriod" class="btn btn-info btn-block">
     Новый период
   </button>
-  <br/>
-  <br/>
  </div>
+ <div class="col-md-6" style="height:34px">&nbsp;</div>
  <div class="col-md-4">
+     <br/>
   <div class="alert alert-info col-md-12" ng-repeat="period in vm.periods">
   {{ period | period_str }}
   </div>

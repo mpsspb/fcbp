@@ -40,12 +40,12 @@
           <label class="col-md-offset-1 col-md-1 control-label">Полное</label>
           <div class="col-md-1">
             <input ng-model="vm.fdata.is_full_time" type="radio"
-            name="is_full_time" value="true">
+            name="is_full_time" ng-value="true">
           </div>
           <label class="col-md-offset-1 col-md-1 control-label">Утро</label>
           <div class="col-md-1">
             <input ng-model="vm.fdata.is_full_time" type="radio"
-            name="is_full_time"value="false">
+            name="is_full_time" ng-value="false">
           </div>
         </div>
 
@@ -74,6 +74,20 @@
           <label class="col-md-5 control-label">Кол-во заморозок:</label>
           <div class="col-md-3">
             <input ng-model="vm.fdata.freeze_times" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Продление дней:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.period_prolongation" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Количество клиентов:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.clients_count" type="number" class="form-control">
           </div>
         </div>
 
@@ -123,7 +137,6 @@
   class="btn btn-info btn-block">
     Новый вид клубной карты
   </button>
-  <br/>
   <br/>
  </div>
  <div class="col-md-8">

@@ -25,7 +25,7 @@
       scope: {
         clubcard: '='
       },
-      templateUrl: '/static/templates/products/clubcard.html'
+      templateUrl: '/static/templates/products/clubcard.html?1'
     };
 
     return directive;
