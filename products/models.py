@@ -39,5 +39,6 @@ class ClubCard(models.Model):
     price = models.DecimalField(max_digits=15, decimal_places=2,)
 
     @property
-    def period_value(self,):
-        return self.period.value
+    def period_data(self):
+        return self.period
+    

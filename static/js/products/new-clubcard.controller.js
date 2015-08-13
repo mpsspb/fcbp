@@ -19,7 +19,6 @@
 
     vm.submit = submit;
     vm.periods = [];
-    vm.clubcards = [];
 
     activate();
 
@@ -47,25 +46,6 @@
         console.log(data);
       }
 
-
-      ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
-
-      /**
-      * @name clubcardsSuccessFn
-      * @desc Update ClubCard array on view
-      */
-      function clubcardsSuccessFn(data, status, headers, config) {
-        vm.clubcards = data.data;
-      }
-
-      /**
-      * @name clubcardsErrorFn
-      * @desc console log error
-      */
-      function clubcardsErrorFn(data, status, headers, config) {
-        console.log(data);
-      }
-
     }
 
     /**
@@ -81,7 +61,7 @@
 
       for (var key in vm.periods) {
           if (vm.fdata.period == vm.periods[key].id){
-            vm.fdata.period_value = vm.periods[key].value;
+            vm.fdata.period_data = vm.periods[key];
             break;
           }
       }

@@ -32,7 +32,7 @@
     .filter('visits', function() {
         return function(input) {
           if (input == 99999) {
-            return 'Безлитиное'
+            return 'Безлимитное'
           } else {
             return input
           }

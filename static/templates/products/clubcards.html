@@ -6,8 +6,8 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Новый период</h4>
       </div>
+      <form class="form-horizontal" ng-controller="NewClubCardController as vm">
       <div class="modal-body">
-      <form class="form-horizontal">
         <div class="form-group">
           <label class="col-md-5 control-label">Наименование:</label>
           <div class="col-md-3">
@@ -29,7 +29,9 @@
         <div class="form-group">
           <label class="col-md-5 control-label">Срок действия:</label>
           <div class="col-md-7">
-            <select ng-model="vm.fdata.period" ng-options="period.id as period.value | monthes for period in vm.periods"></select>
+            <select ng-model="vm.fdata.period"
+            ng-options="period.id as period | period_str 
+                        for period in vm.periods"></select>
           </div>
         </div>
 
@@ -99,11 +101,11 @@
         </div>
 
       </div>
-      </form>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
+        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>      
       </div>
+      </form>
     </div>
   </div>
 </div> <!-- end modal ClubCard -->
