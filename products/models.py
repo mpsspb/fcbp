@@ -1,6 +1,8 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+from employees.models import Position
+
 
 class Discount(models.Model):
     """
@@ -95,3 +97,36 @@ class Ticket(models.Model):
     @property
     def sport_name(self):
         return self.sport.name
+
+
+class Personal(models.Model):
+    """
+    Personal training.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    period = models.ForeignKey(Period, )
+    max_visit = models.IntegerField()
+    clients_count = models.IntegerField(default=1, blank=True)
+    is_full_time = models.BooleanField(default=True, blank=True)
+    is_active = models.BooleanField(default=True, blank=True)
+    price = models.DecimalField(max_digits=15, decimal_places=2,)
+    period_prolongation = models.IntegerField(default=0, blank=True)
+
+    @property
+    def period_data(self):
+        return self.period
+
+
+class PersonalPosition(models.Model):
+    """
+    Trainer position for personal.
+    """
+    personal = models.ForeignKey(Personal,)
+    position = models.ForeignKey(Position,)
+
+    @property
+    def position_name(self):
+        return self.position.name
+
+    class Meta:
+        unique_together = ('personal', 'position')
