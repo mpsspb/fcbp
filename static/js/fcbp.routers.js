@@ -55,6 +55,14 @@
       controller: 'ClientCardController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/card-client.html'
+    }).when('/employees', {
+      controller: 'EmployeesController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/employees/employees.html'
+    }).when('/positions', {
+      controller: 'PositionsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/employees/positions.html'
     }).when('/', {
       controller: 'StartController',
       controllerAs: 'vm',

@@ -41,7 +41,7 @@
 
       /**
       * @name periodsSuccessFn
-      * @desc Update ClubCard array on view
+      * @desc Update Periods array on view
       */
       function periodsSuccessFn(data, status, headers, config) {
         vm.periods = data.data;

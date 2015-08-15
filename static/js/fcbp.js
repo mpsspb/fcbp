@@ -9,6 +9,7 @@
       'fcbp.layout',
       'fcbp.products',
       'fcbp.clients',
+      'fcbp.employees',
       ])
     .run(run);
 
