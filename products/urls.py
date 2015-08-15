@@ -11,6 +11,6 @@ router.register(r'periods', PeriodViewSet)
 router.register(r'club_cards', ClubCardViewSet)
 router.register(r'aquaaerobics', AquaAerobicsViewSet)
 router.register(r'sports', SportViewSet)
-router.register(r'tikets', TicketViewSet)
+router.register(r'tickets', TicketViewSet)
 
 urlpatterns = router.urls

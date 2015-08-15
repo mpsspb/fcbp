@@ -91,3 +91,7 @@ class Ticket(models.Model):
     @property
     def sport_data(self):
         return self.sport
+
+    @property
+    def sport_name(self):
+        return self.sport.name

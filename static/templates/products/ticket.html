@@ -1,34 +1,38 @@
 <div>
-  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ aquaaerobics.name }} </span>
+  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ ticket.name }} </span>
   <div ng-show="collapsed" class="alert alert-warning col-md-12">
       <table class="table">
           <tr>
+              <td>
+                  Вид занятия 
+              </td>
+              <td>
+              {{ ticket.sport_name }}    
+              </td>
+          </tr>
+          <tr>
               <td width="400">Кол-во визитов</td>
-              <td>{{ aquaaerobics.max_visit | visits }}</td>
+              <td>{{ ticket.max_visit | visits }}</td>
           </tr>
           <tr>
               <td>
                   Срок
               </td>
               <td>
-              {{ aquaaerobics.period_data | period_str }}    
+              {{ ticket.period_data | period_str }}    
               </td>
           </tr>
           <tr>
               <td>Время посещения</td>
-              <td>{{ aquaaerobics.is_full_time | card_time }}</td>
+              <td>{{ ticket.is_full_time | card_time }}</td>
           </tr>
           <tr>
               <td>Цена</td>
-              <td>{{ aquaaerobics.price }}</td>
+              <td>{{ ticket.price }}</td>
           </tr>
           <tr>
               <td>Продление</td>
-              <td>{{ aquaaerobics.period_prolongation}} дней</td>
-          </tr>
-          <tr>
-              <td>Кол-во клиентов</td>
-              <td>{{ aquaaerobics.clients_count}}</td>
+              <td>{{ ticket.period_prolongation}} дней</td>
           </tr>
       </table>
       <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>

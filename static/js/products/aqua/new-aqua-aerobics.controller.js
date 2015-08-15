@@ -6,7 +6,7 @@
   'use strict';
 
   angular
-    .module('fcbp.clubcard.controllers')
+    .module('fcbp.aquaaerobics.controllers')
     .controller('NewAquaAerobicsController', NewAquaAerobicsController);
 
   NewAquaAerobicsController.$inject = ['$rootScope', '$scope', 'Periods', 'AquaAerobics'];
@@ -71,23 +71,23 @@
         vm.fdata
       );
 
-      AquaAerobics.create(vm.fdata).then(createClubCardSuccessFn, createClubCardErrorFn);
+      AquaAerobics.create(vm.fdata).then(createAquaAerobicsSuccessFn, createAquaAerobicsErrorFn);
 
 
       /**
-      * @name createClubCardSuccessFn
+      * @name createAquaAerobicsSuccessFn
       * @desc Show snackbar with success message
       */
-      function createClubCardSuccessFn(data, status, headers, config) {
+      function createAquaAerobicsSuccessFn(data, status, headers, config) {
         console.log('Success! AquaAerobics created.');
       }
 
 
       /**
-      * @name createClubCardErrorFn
+      * @name createAquaAerobicsErrorFn
       * @desc Propogate error event and show snackbar with error message
       */
-      function createClubCardErrorFn(data, status, headers, config) {
+      function createAquaAerobicsErrorFn(data, status, headers, config) {
         console.log(data)
         $rootScope.$broadcast('AquaAerobics.created.error');
       }

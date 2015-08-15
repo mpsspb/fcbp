@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^api/v1/users/', include('users.urls')),
     url(r'^api/v1/products/', include('products.urls')),
     url(r'^api/v1/clients/', include('clients.urls')),
+    url(r'^api/v1/employees/', include('employees.urls')),
     # url(r'^$', 'fcbp.views.home', name='home'),
 )
 

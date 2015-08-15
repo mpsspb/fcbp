@@ -57,7 +57,7 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
 
         fields = ('name', 'max_visit', 'period', 'period_data',
-                  'sport', 'sport_data',
+                  'sport', 'sport_data', 'sport_name',
                   'is_full_time', 'is_active',
                   'period_prolongation', 'price')
-        read_only_fields = ('id', 'period_data', 'sport_data')
+        read_only_fields = ('id', 'period_data', 'sport_data', 'sport_name')

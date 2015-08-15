@@ -9,6 +9,8 @@
       'fcbp.aquaaerobics.controllers',
       'fcbp.aquaaerobics.directives',
       'fcbp.sports.controllers',
+      'fcbp.tickets.controllers',
+      'fcbp.tickets.directives',
     ]);
 
   angular
@@ -28,5 +30,12 @@
 
   angular
     .module('fcbp.sports.controllers', [])
+
+
+  angular
+    .module('fcbp.tickets.controllers', [])
+
+  angular
+    .module('fcbp.tickets.directives', [])
 
 })();

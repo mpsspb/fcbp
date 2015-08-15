@@ -39,6 +39,10 @@
       controller: 'SportsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/sports.html'
+    }).when('/tickets', {
+      controller: 'TicketsController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/products/tickets.html'
     }).when('/clients', {
       controller: 'ClientsController',
       controllerAs: 'vm',
