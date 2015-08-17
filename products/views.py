@@ -3,10 +3,12 @@ import json
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
-from .models import Period, ClubCard, AquaAerobics, Sport, Ticket, Personal
+from .models import Period, ClubCard, AquaAerobics, Sport, Ticket
+from .models import Personal, PersonalPosition
 from .serializers import PeriodSerializer, ClubCardSerializer
 from .serializers import AquaAerobicsSerializer, SportSerializer
 from .serializers import TicketSerializer, PersonalSerializer
+from .serializers import PersonalPositionSerializer
 
 
 class PeriodViewSet(viewsets.ModelViewSet):
@@ -34,6 +36,12 @@ class TicketViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
 
 
-class PersonaViewSet(viewsets.ModelViewSet):
+class PersonalViewSet(viewsets.ModelViewSet):
     queryset = Personal.objects.order_by('name')
     serializer_class = PersonalSerializer
+
+
+class PersonalPositionViewSet(viewsets.ModelViewSet):
+    queryset = PersonalPosition.objects.all()
+    serializer_class = PersonalPositionSerializer
+

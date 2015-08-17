@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from employees.models import Position
 from .models import Period, ClubCard, AquaAerobics, Sport, Ticket
 from .models import Personal, PersonalPosition
 
@@ -64,28 +65,29 @@ class TicketSerializer(serializers.ModelSerializer):
 
 
 class PersonalPositionSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = PersonalPosition
-        fields = ('personal', 'position' , 'position_name')
-        read_only_fields = ('position_name')
 
 
 class PersonalSerializer(serializers.ModelSerializer):
-    positions = PersonalPositionSerializer(many=True)
+    # positions = PersonalPositionSerializer(many=True)
+    # positions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     period_data = PeriodSerializer(read_only=True)
 
     class Meta:
         model = Personal
-        fields = ('name', 'max_visit', 'period', 'period_data',
+        fields = ('id', 'name', 'max_visit', 'period', 'period_data',
                   'clients_count', 'is_full_time', 'is_active',
-                  'price', 'period_prolongation', 'positions')
-        read_only = ('id', 'period_data', )
+                  'price', 'period_prolongation', 'positions', )
+        read_only = ('id', 'period_data')
 
-    def create (self, validated_data):
-        positions_data = validated_data.pop('positions')
+    def create (self, validated_data, ):
+        positions = self.context['request'].data['positions']
+        positions = Position.objects.filter(pk__in=positions)
         personal = Personal.objects.create(**validated_data)
-        for position_data in positions_data:
+        for position in positions:
             PersonalPosition.objects.create(personal=personal,
-                                            **position_data)
+                                            position=position)
         return personal
 

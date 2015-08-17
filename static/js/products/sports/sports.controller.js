@@ -41,7 +41,7 @@
 
       /**
       * @name sportsSuccessFn
-      * @desc Update ClubCard array on view
+      * @desc Update Sports array on view
       */
       function sportsSuccessFn(data, status, headers, config) {
         vm.sports = data.data;

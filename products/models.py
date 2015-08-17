@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core import serializers
 
 from employees.models import Position
 
@@ -116,17 +117,20 @@ class Personal(models.Model):
     def period_data(self):
         return self.period
 
+    @property
+    def positions(self):
+        pp = PersonalPosition.objects.filter(personal=self)
+        pp = serializers.serialize("json", pp)
+        return pp
+    
+
 
 class PersonalPosition(models.Model):
     """
     Trainer position for personal.
     """
-    personal = models.ForeignKey(Personal,)
-    position = models.ForeignKey(Position,)
-
-    @property
-    def position_name(self):
-        return self.position.name
+    personal = models.ForeignKey(Personal, blank=True, null=True)
+    position = models.ForeignKey(Position, blank=True)
 
     class Meta:
         unique_together = ('personal', 'position')

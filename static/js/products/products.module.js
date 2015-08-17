@@ -11,6 +11,7 @@
       'fcbp.sports.controllers',
       'fcbp.tickets.controllers',
       'fcbp.tickets.directives',
+      'fcbp.personals.controllers',
     ]);
 
   angular
@@ -37,5 +38,8 @@
 
   angular
     .module('fcbp.tickets.directives', [])
+
+  angular
+    .module('fcbp.personals.controllers', [])
 
 })();
