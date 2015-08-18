@@ -12,6 +12,7 @@
       'fcbp.tickets.controllers',
       'fcbp.tickets.directives',
       'fcbp.personals.controllers',
+      'fcbp.personal.directives',
     ]);
 
   angular
@@ -41,5 +42,8 @@
 
   angular
     .module('fcbp.personals.controllers', [])
+
+  angular
+    .module('fcbp.personal.directives', [])
 
 })();

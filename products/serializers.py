@@ -64,23 +64,30 @@ class TicketSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', 'period_data', 'sport_data', 'sport_name')
 
 
+class PositionSerializer(serializers.ModelSerializer):
+    class Meta:
+      model = Position
+
+
 class PersonalPositionSerializer(serializers.ModelSerializer):
+    position = PositionSerializer()
 
     class Meta:
         model = PersonalPosition
+        fields = ('position', )
 
 
 class PersonalSerializer(serializers.ModelSerializer):
-    # positions = PersonalPositionSerializer(many=True)
-    # positions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     period_data = PeriodSerializer(read_only=True)
+    personalposition_set = PersonalPositionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Personal
         fields = ('id', 'name', 'max_visit', 'period', 'period_data',
-                  'clients_count', 'is_full_time', 'is_active',
-                  'price', 'period_prolongation', 'positions', )
-        read_only = ('id', 'period_data')
+                  'clients_count', 'is_full_time', 'is_active', 'price',
+                  'period_prolongation', 'personalposition_set'
+                   )
+        read_only = ('id', 'period_data', 'positions', )
 
     def create (self, validated_data, ):
         positions = self.context['request'].data['positions']

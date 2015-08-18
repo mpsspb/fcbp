@@ -44,4 +44,3 @@ class PersonalViewSet(viewsets.ModelViewSet):
 class PersonalPositionViewSet(viewsets.ModelViewSet):
     queryset = PersonalPosition.objects.all()
     serializer_class = PersonalPositionSerializer
-

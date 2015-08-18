@@ -61,6 +61,13 @@
         </div>
 
         <div class="form-group">
+          <label class="col-md-5 control-label">Количество клиентов:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.clients_count" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
         <label class="col-md-5 control-label">Для должностей
         </label>
         <hr/>
@@ -72,7 +79,6 @@
             > {{ position.name }}
           </label>
         </div>
-        {{ vm.fdata.positions }}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
@@ -99,6 +105,6 @@
   <br/>
  </div>
  <div class="col-md-8">
-{{ vm.personals }}
+ <personal personal="personal"  ng-repeat="personal in vm.personals"></personal>
  </div>
 </div>

@@ -1,0 +1,48 @@
+<div>
+  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ personal.name }} </span>
+  <div ng-show="collapsed" class="alert alert-warning col-md-12">
+      <table class="table">
+          <tr>
+              <td width="400">Кол-во занятий</td>
+              <td>{{ personal.max_visit | visits }}</td>
+          </tr>
+          <tr>
+              <td>
+                  Срок
+              </td>
+              <td>
+              {{ personal.period_data | period_str }}    
+              </td>
+          </tr>
+          <tr>
+              <td>Время посещения</td>
+              <td>{{ personal.is_full_time | card_time }}</td>
+          </tr>
+          <tr>
+              <td>Цена</td>
+              <td>{{ personal.price }}</td>
+          </tr>
+          <tr>
+              <td>Продление</td>
+              <td>{{ personal.period_prolongation}} дней</td>
+          </tr>
+          <tr>
+              <td>Кол-во клиентов</td>
+              <td>{{ personal.clients_count}}</td>
+          </tr>
+          <tr>
+            <td colspan="2">Должности:</td>
+          </tr>
+          <tr ng-repeat="position in personal.personalposition_set">
+            <td></td>
+            <td>
+              {{ position.position.name }}
+            </td>
+          </tr>
+      </table>
+      <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
+      <div ng-repeat="position in personal.positions">
+      {{ position }}
+      </div>
+  </div>
+</div>

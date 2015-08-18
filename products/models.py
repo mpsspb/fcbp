@@ -116,14 +116,7 @@ class Personal(models.Model):
     @property
     def period_data(self):
         return self.period
-
-    @property
-    def positions(self):
-        pp = PersonalPosition.objects.filter(personal=self)
-        pp = serializers.serialize("json", pp)
-        return pp
     
-
 
 class PersonalPosition(models.Model):
     """
