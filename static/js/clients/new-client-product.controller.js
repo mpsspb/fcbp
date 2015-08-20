@@ -25,6 +25,7 @@
 
     vm.submit = submit;
     vm.fdata = {};
+    vm.fdata.price = 0;
 
     activate();
     vm.clubcards = [];
@@ -133,6 +134,14 @@
       }
     }
 
+    $scope.$watch('vm.fdata.product', function(id){
+      // delete $scope.selected.value;
+      angular.forEach(vm.options, function(attr){
+        if(attr.id === id){
+          vm.fdata.price = attr.price;
+        }
+      });
+    });
     /**
     * @name submit
     * @desc Create a new Client
@@ -149,9 +158,7 @@
       }else if (vm.product == 'personal') {
         vm.fdata.personal = vm.fdata.product
       }
-
-
-      vm.fdata.amount = 100
+      vm.fdata.amount = vm.fdata.price * (100 - vm.fdata.discount) / 100
       ClientCredit.create(vm.fdata).then(createClientCreditSuccessFn, createClientCreditErrorFn);
       /**
       * @name createClientCreditSuccessFn

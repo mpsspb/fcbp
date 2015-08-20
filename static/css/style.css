@@ -68,3 +68,13 @@
   margin: 0 auto;
   width: 100%;
 }
+
+.sinput {
+   border: 1px solid;
+   border-radius: 5px;
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   -khtml-border-radius: 5px;
+   background: #ffffff !important;
+   outline: none;
+}

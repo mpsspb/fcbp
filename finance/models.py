@@ -18,3 +18,6 @@ class Credit(models.Model):
     aqua_aerobics = models.ForeignKey(AquaAerobics, blank=True, null=True)
     ticket = models.ForeignKey(Ticket, blank=True, null=True)
     personal = models.ForeignKey(Personal, blank=True, null=True)
+    discount = models.IntegerField(default=0,
+                                   validators=[MinValueValidator(0),
+                                               MaxValueValidator(100)])

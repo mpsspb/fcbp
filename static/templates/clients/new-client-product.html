@@ -1,39 +1,53 @@
 <form >
   <div class="col-md-3">
-    <button ng-click="vm.options=vm.clubcards; vm.product='card'"
+    <button ng-click="vm.fdata.price=0; vm.options=vm.clubcards; vm.product='card'"
     class="btn btn-block btn-warning">
       Клубная карта
     </button>
   </div>
 
   <div class="col-md-3">
-    <button ng-click="vm.options=vm.aquaaerobicses; vm.product='aqua'" class="btn btn-block btn-info">
+    <button ng-click="vm.fdata.price=0; vm.options=vm.aquaaerobicses; vm.product='aqua'" class="btn btn-block btn-info">
       Аква аэробика
     </button>
   </div>
 
   <div class="col-md-3">
-    <button ng-click="vm.options = vm.tickets; vm.product='ticket'" class="btn btn-block btn-success">
+    <button ng-click="vm.fdata.price=0; vm.options=vm.tickets; vm.product='ticket'" class="btn btn-block btn-success">
       Абонемент
     </button>
   </div>
 
   <div class="col-md-3">
-    <button ng-click="vm.options=vm.personals; vm.product='personal'" class="btn btn-block btn-danger">
+    <button ng-click="vm.fdata.price=0; vm.options=vm.personals; vm.product='personal'" class="btn btn-block btn-danger">
       Персональные тренировки
     </button>
   </div>
 
 <div class="col-md-12">
 <br/>
-  <div class="col-md-offset-4 col-md-4">
+  <div class="col-md-3">
     <select ng-model="vm.fdata.product"
     class="container-full" 
     ng-options="o.id as o.name for o in vm.options">
     </select>
   </div>
+  <div class="col-md-3">
+    <label>Стоимость: {{ vm.fdata.price }}</label>
+  </div>
+  <div class="col-md-3">
+    <label >Скидка: </label>
+    <input class="sinput" type="number" min="0" max="100" step="0.01"
+    ng-model="vm.fdata.discount"> %
+  </div>
+  <div class="col-md-3">
+
+    <label class="text-danger">Итого: 
+    {{ vm.fdata.price * (100 - vm.fdata.discount) / 100 }}</label>
+  </div>
 <br/>
 </div>
+<br/><br/>
   <div class="col-md-3">
     <a href="#/cardclient/{{ vm.client.id}}/" class="btn btn-default pull-left">отмена</a>
   </div>  
