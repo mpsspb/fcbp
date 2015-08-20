@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from .models import Credit
+from .serializers import CreditSerializer
+
+
+class CreditViewSet(viewsets.ModelViewSet):
+    queryset = Credit.objects.order_by('-date')
+    serializer_class = CreditSerializer
