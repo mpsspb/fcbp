@@ -51,10 +51,14 @@
       controller: 'ClientsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/clients.html'
-    }).when('/new-clients', {
+    }).when('/new-client', {
       controller: 'NewClientController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/new-client.html'
+    }).when('/new-client-product/:uid', {
+      controller: 'NewClientProductController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/new-client-product.html'
     }).when('/cardclient/:uid', {
       controller: 'ClientCardController',
       controllerAs: 'vm',

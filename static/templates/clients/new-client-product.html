@@ -1,0 +1,42 @@
+<form >
+  <div class="col-md-3">
+    <button ng-click="vm.ProductList('card')" class="btn btn-block btn-warning">
+      Клубная карта
+    </button>
+  </div>
+
+  <div class="col-md-3">
+    <button ng-click="vm.ProductList('aqua')" class="btn btn-block btn-info">
+      Аква аэробика
+    </button>
+  </div>
+
+  <div class="col-md-3">
+    <button ng-click="vm.ProductList('ticket')" class="btn btn-block btn-success">
+      Абонемент
+    </button>
+  </div>
+
+  <div class="col-md-3">
+    <button ng-click="vm.ProductList('personal')" class="btn btn-block btn-danger">
+      Персональные тренировки
+    </button>
+  </div>
+
+<div class="col-md-12">
+<br/>
+  <div class="col-md-offset-4 col-md-4">
+    <select ng-model="vm.fdata.product"
+    ng-options="o.name for o in vm.options"></select>
+  </div>
+<br/>
+</div>
+
+  <div class="col-md-3">
+    <a href="#/cardclient/{{ vm.client.id}}/" class="btn btn-default pull-left">отмена</a>
+  </div>  
+
+  <div class="col-md-offset-6 col-md-3">
+    <button type="submit" class="btn btn-primary pull-right" ng-click="vm.submit()">сохранить</button>
+  </div>        
+</form>

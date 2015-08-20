@@ -44,4 +44,11 @@
 </form>
 <img class="col-md-4 col-md-offset-2" ng-src="{{ vm.cardclient.avatar_url }}">
 <hr/>
-<a href="#/clients" class="btn btn-default pull-left">К списку</a>
+
+<div class="col-md-2">
+<a href="#/clients" class="btn btn-block btn-default">К списку</a>  
+</div>
+
+<div class="col-md-2">
+  <a href="#/new-client-product/{{ vm.cardclient.id }}/" class="btn btn-block btn-info">Оформить услугу</a>  
+</div>

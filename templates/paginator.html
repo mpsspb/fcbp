@@ -1,0 +1,15 @@
+  <ul ng-show="1"
+  class="pagination pagination-sm pull-right" style="margin: 2px 0 10px 0">
+      <li ng-show="vm.previous_url">
+          <a ng-href=""
+             ng-click="vm.page=vm.page-1;vm.ClientsPage();"
+             aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li><a href="">{{ vm.page }}</a></li>
+      <li ng-show="vm.next_url">
+          <a href="" ng-click="vm.page=vm.page+1; vm.ClientsPage();" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+          </a>
+      </li>
+  </ul>

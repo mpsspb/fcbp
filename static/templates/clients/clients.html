@@ -1,6 +1,6 @@
 <!-- lists -->
  <div class="col-md-12">
-  <a href="#/new-clients" class="btn btn-success pull-left">
+  <a href="#/new-client" class="btn btn-success pull-left">
     Новый клиент
   </a>
   <div class="btn-group btn-group-sm" style="margin: 2px 5px 10px 5px">
@@ -62,22 +62,9 @@
        class="btn btn-default">Ю</a>
       <a ng-click="vm.page=1;vm.letter='Я';vm.ClientsPage();"
        class="btn btn-default">Я</a>
+      <a ng-click="vm.page=1;vm.letter='';vm.ClientsPage();"
+       class="btn btn-primary">Все</a>       
   </div>
-  <ul ng-show="1"
-  class="pagination pagination-sm pull-right" style="margin: 2px 0 10px 0">
-      <li ng-show="vm.previous_url">
-          <a ng-href=""
-             ng-click="vm.page=vm.page-1;vm.ClientsPage();"
-             aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span></a>
-      </li>
-      <li><a href="">{{ vm.page }}</a></li>
-      <li ng-show="vm.next_url">
-          <a href="" ng-click="vm.page=vm.page+1; vm.ClientsPage();" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-          </a>
-      </li>
-  </ul>
 </div>
 
 <form class="navbar-form navbar-left" role="search">
