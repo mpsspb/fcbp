@@ -1,24 +1,25 @@
 <form >
   <div class="col-md-3">
-    <button ng-click="vm.ProductList('card')" class="btn btn-block btn-warning">
+    <button ng-click="vm.options=vm.clubcards; vm.product='card'"
+    class="btn btn-block btn-warning">
       Клубная карта
     </button>
   </div>
 
   <div class="col-md-3">
-    <button ng-click="vm.ProductList('aqua')" class="btn btn-block btn-info">
+    <button ng-click="vm.options=vm.aquaaerobicses; vm.product='aqua'" class="btn btn-block btn-info">
       Аква аэробика
     </button>
   </div>
 
   <div class="col-md-3">
-    <button ng-click="vm.ProductList('ticket')" class="btn btn-block btn-success">
+    <button ng-click="vm.options = vm.tickets; vm.product='ticket'" class="btn btn-block btn-success">
       Абонемент
     </button>
   </div>
 
   <div class="col-md-3">
-    <button ng-click="vm.ProductList('personal')" class="btn btn-block btn-danger">
+    <button ng-click="vm.options=vm.personals; vm.product='personal'" class="btn btn-block btn-danger">
       Персональные тренировки
     </button>
   </div>
@@ -26,12 +27,13 @@
 <div class="col-md-12">
 <br/>
   <div class="col-md-offset-4 col-md-4">
-    <select ng-model="vm.fdata.product" class="container-full" 
-    ng-options="o.name for o in vm.options"></select>
+    <select ng-model="vm.fdata.product"
+    class="container-full" 
+    ng-options="o.id as o.name for o in vm.options">
+    </select>
   </div>
 <br/>
 </div>
-
   <div class="col-md-3">
     <a href="#/cardclient/{{ vm.client.id}}/" class="btn btn-default pull-left">отмена</a>
   </div>  

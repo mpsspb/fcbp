@@ -11,20 +11,22 @@
 
   NewClientProductController.$inject = ['$rootScope', '$routeParams', '$scope',
                                         'Clients', 'ClubCard', 
-                                        'AquaAerobics', 'Tickets', 'Personals'];
+                                        'AquaAerobics', 'Tickets', 'Personals',
+                                        'ClientCredit'];
 
   /**
   * @namespace NewClientProductController
   */
   function NewClientProductController($rootScope, $routeParams, $scope,
                                        Clients, ClubCard,
-                                       AquaAerobics, Tickets, Personals) {
+                                       AquaAerobics, Tickets, Personals,
+                                       ClientCredit) {
     var vm = this;
 
-    vm.ProductList = ProductList;
+    vm.submit = submit;
+    vm.fdata = {};
 
     activate();
-    vm.client = {};
     vm.clubcards = [];
     vm.aquaaerobicses = [];
     vm.tickets = [];
@@ -43,10 +45,11 @@
 
       /**
       * @name cardclientSuccessFn
-      * @desc Update client data on view
+      * @desc Update credit data on view
       */
       function cardclientSuccessFn(data, status, headers, config) {
         vm.client = data.data;
+        vm.fdata.client = vm.client.id;
       }
 
       /**
@@ -131,19 +134,42 @@
     }
 
     /**
-    * @name ProductList
-    * @desc Actions to change options in select
-    * @memberOf fcbp.clients.controllers.NewClientProductController
+    * @name submit
+    * @desc Create a new Client
+    * @memberOf fcbp.client.controllers.NewClientController
     */
-    function ProductList(product){
-      if (product == 'card') {
-        vm.options = vm.clubcards
-      } else if (product == 'aqua') {
-        vm.options = vm.aquaaerobicses
-      } else if (product == 'ticket') {
-        vm.options = vm.tickets
-      }else if (product == 'personal') {
-        vm.options = vm.personals
+    function submit() {
+
+      if (vm.product == 'card') {
+        vm.fdata.club_card = vm.fdata.product
+      } else if (vm.product == 'aqua') {
+        vm.fdata.aqua_aerobics = vm.fdata.product
+      } else if (vm.product == 'ticket') {
+        vm.fdata.ticket = vm.fdata.product
+      }else if (vm.product == 'personal') {
+        vm.fdata.personal = vm.fdata.product
+      }
+
+
+      vm.fdata.amount = 100
+      ClientCredit.create(vm.fdata).then(createClientCreditSuccessFn, createClientCreditErrorFn);
+      /**
+      * @name createClientCreditSuccessFn
+      * @desc Show snackbar with success message
+      */
+      function createClientCreditSuccessFn(data, status, headers, config) {
+        console.log('Success! ClientCredit created.');
+        window.location = '/#/cardclient/' + vm.client.id + '/';
+      }
+
+
+      /**
+      * @name createClientCreditErrorFn
+      * @desc Propogate error event and show snackbar with error message
+      */
+      function createClientCreditErrorFn(data, status, headers, config) {
+        console.log(data)
+        $rootScope.$broadcast('ClientCredit.created.error');
       }
     };
 

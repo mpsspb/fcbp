@@ -16,6 +16,5 @@ class Credit(models.Model):
     client = models.ForeignKey(Client, blank=True, null=True)
     club_card = models.ForeignKey(ClubCard, blank=True, null=True)
     aqua_aerobics = models.ForeignKey(AquaAerobics, blank=True, null=True)
-    sport = models.ForeignKey(Sport, blank=True, null=True)
     ticket = models.ForeignKey(Ticket, blank=True, null=True)
     personal = models.ForeignKey(Personal, blank=True, null=True)

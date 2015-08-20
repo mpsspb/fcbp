@@ -76,7 +76,7 @@
       */
       function createClientErrorFn(data, status, headers, config) {
         console.log(data)
-        $rootScope.$broadcast('ClubCard.created.error');
+        $rootScope.$broadcast('Client.created.error');
       }
     }
 

@@ -19,7 +19,7 @@ class ClubCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubCard
 
-        fields = ('name', 'max_visit', 'period', 'period_data',
+        fields = ('id', 'name', 'max_visit', 'period', 'period_data',
                   'is_full_time', 'is_active',
                   'period_freeze', 'period_activation',
                   'period_prolongation', 'clients_count', 
@@ -34,7 +34,7 @@ class AquaAerobicsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AquaAerobics
 
-        fields = ('name', 'max_visit', 'period', 'period_data',
+        fields = ('id', 'name', 'max_visit', 'period', 'period_data',
                   'is_full_time', 'is_active',
                   'period_prolongation', 'clients_count', 
                   'price')
@@ -57,7 +57,7 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
 
-        fields = ('name', 'max_visit', 'period', 'period_data',
+        fields = ('id', 'name', 'max_visit', 'period', 'period_data',
                   'sport', 'sport_data', 'sport_name',
                   'is_full_time', 'is_active',
                   'period_prolongation', 'price')
