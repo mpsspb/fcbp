@@ -1,0 +1,36 @@
+<div>
+  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ timing.name }} </span>
+  <div ng-show="collapsed" class="alert alert-warning col-md-12">
+      <table class="table">
+          <tr>
+              <td width="400">Кол-во минут</td>
+              <td>{{ timing.minutes }}</td>
+          </tr>
+          <tr>
+              <td>
+                  Срок
+              </td>
+              <td>
+              {{ timing.period_data | period_str }}    
+              </td>
+          </tr>
+          <tr>
+              <td>Цена</td>
+              <td>{{ timing.price }}</td>
+          </tr>
+          <tr>
+              <td>Заморозка</td>
+              <td>{{ timing.period_freeze }} дней</td>
+          </tr>
+          <tr>
+              <td>Продление</td>
+              <td>{{ timing.period_prolongation }} дней</td>
+          </tr>
+          <tr>
+              <td>Кол-во клиентов</td>
+              <td>{{ timing.clients_count}}</td>
+          </tr>
+      </table>
+      <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
+  </div>
+</div>
