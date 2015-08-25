@@ -43,6 +43,10 @@
       controller: 'TicketsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/tickets.html'
+    }).when('/timing', {
+      controller: 'TimingController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/products/timings.html'
     }).when('/personals', {
       controller: 'PersonalsController',
       controllerAs: 'vm',

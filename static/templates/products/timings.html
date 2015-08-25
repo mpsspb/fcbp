@@ -1,0 +1,91 @@
+<!-- Modal new Timing -->
+<div class="modal fade" id="newTiming" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 800px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Новый вид абонемента</h4>
+      </div>
+      <form class="form-horizontal" ng-controller="NewTimingController as vm">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-5 control-label">Наименование:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.name" type="text" class="form-control"
+                placeholder="Наименование абонемента">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Срок действия:</label>
+          <div class="col-md-7">
+            <select ng-model="vm.fdata.period"
+            ng-options="period.id as period | period_str 
+                        for period in vm.periods"></select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Кол-во минут:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.minutes" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Цена:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.price" step="0.01" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Заморозка:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.period_freeze" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Продление дней:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.period_prolongation" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Количество клиентов:</label>
+          <div class="col-md-3">
+            <input ng-model="vm.fdata.clients_count" type="number" class="form-control">
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="submit" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>      
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal Timing -->
+
+<!-- list -->
+<div>
+  <div class="col-md-3">
+    <a href="#/products" class="btn btn-primary btn-block">
+      Справочники
+    </a>
+  </div>
+        
+ <div class="col-md-3">
+  <button data-toggle="modal" data-target="#newTiming"
+  class="btn btn-info btn-block">
+    Новый вид абонемента
+  </button>
+  <br/>
+ </div>
+ <div class="col-md-8">
+ <ticket ticket="ticket"  ng-repeat="ticket in vm.timings"></ticket>
+ </div>
+</div>
