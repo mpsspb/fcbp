@@ -127,3 +127,22 @@ class PersonalPosition(models.Model):
 
     class Meta:
         unique_together = ('personal', 'position')
+
+
+class Timing(models.Model):
+    """
+    Products with counting time.
+    The time in minutes.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    period = models.ForeignKey(Period, )
+    price = models.DecimalField(max_digits=15, decimal_places=2,)
+    period_prolongation = models.IntegerField(default=0, blank=True)
+    clients_count = models.IntegerField(default=1, blank=True)
+    minutes = models.IntegerField(default=1, blank=True)
+    period_freeze = models.IntegerField(default=0, blank=True)
+    is_active = models.BooleanField(default=True, blank=True)
+
+    @property
+    def period_data(self):
+        return self.period

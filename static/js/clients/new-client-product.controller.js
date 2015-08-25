@@ -24,7 +24,9 @@
     var vm = this;
 
     vm.submit = submit;
-    vm.fdata = {};
+    vm.fdata = {
+      discount: 0,
+    };
     vm.fdata.price = 0;
 
     activate();

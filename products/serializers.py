@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from employees.models import Position
 from .models import Period, ClubCard, AquaAerobics, Sport, Ticket
-from .models import Personal, PersonalPosition
+from .models import Personal, PersonalPosition, Timing
 
 class PeriodSerializer(serializers.ModelSerializer):
 
@@ -98,3 +98,15 @@ class PersonalSerializer(serializers.ModelSerializer):
                                             position=position)
         return personal
 
+
+class TimingSerializer(serializers.ModelSerializer):
+    period_data = PeriodSerializer(read_only=True)
+
+    class Meta:
+        model = Timing
+
+        fields = ('id', 'name', 'period', 'period_data',
+                  'is_active', 'minutes', 'period_freeze',
+                  'period_prolongation', 'clients_count', 
+                  'price')
+        read_only_fields = ('id', 'period_data',)

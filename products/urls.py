@@ -4,7 +4,7 @@ from rest_framework import routers
 
 from .views import PeriodViewSet, ClubCardViewSet, AquaAerobicsViewSet
 from .views import SportViewSet, TicketViewSet, PersonalViewSet
-from .views import PersonalPositionViewSet
+from .views import PersonalPositionViewSet, TimingViewSet
 
 
 router = routers.SimpleRouter()
@@ -15,5 +15,6 @@ router.register(r'sports', SportViewSet)
 router.register(r'tickets', TicketViewSet)
 router.register(r'personal', PersonalViewSet)
 router.register(r'personalpos', PersonalPositionViewSet)
+router.register(r'timing', TimingViewSet)
 
 urlpatterns = router.urls
