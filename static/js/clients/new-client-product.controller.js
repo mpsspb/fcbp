@@ -10,7 +10,7 @@
     .controller('NewClientProductController', NewClientProductController);
 
   NewClientProductController.$inject = ['$rootScope', '$routeParams', '$scope',
-                                        'Clients', 'ClubCard', 
+                                        'Clients', 'ClubCard', 'Timing',
                                         'AquaAerobics', 'Tickets', 'Personals',
                                         'ClientCredit'];
 
@@ -18,22 +18,29 @@
   * @namespace NewClientProductController
   */
   function NewClientProductController($rootScope, $routeParams, $scope,
-                                       Clients, ClubCard,
+                                       Clients, ClubCard, Timing,
                                        AquaAerobics, Tickets, Personals,
                                        ClientCredit) {
     var vm = this;
 
     vm.submit = submit;
+    vm.reset = reset;
+
     vm.fdata = {
       discount: 0,
+      price: 0,
     };
-    vm.fdata.price = 0;
 
-    activate();
     vm.clubcards = [];
     vm.aquaaerobicses = [];
     vm.tickets = [];
     vm.personals = [];
+    vm.timings = [];
+
+    vm.product_choose = product_choose;
+    vm.total = total;
+
+    activate();
 
 
     /**
@@ -134,20 +141,44 @@
       function personalsErrorFn(data, status, headers, config) {
         console.log(data);
       }
+
+      Timing.list().then(timingsSuccessFn, timingsErrorFn);
+
+      /**
+      * @name timingsSuccessFn
+      * @desc Update Timing array on view
+      */
+      function timingsSuccessFn(data, status, headers, config) {
+        vm.timings = data.data;
+      }
+
+      /**
+      * @name timingsErrorFn
+      * @desc console log error
+      */
+      function timingsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
     }
 
     $scope.$watch('vm.fdata.product', function(id){
-      // delete $scope.selected.value;
       angular.forEach(vm.options, function(attr){
         if(attr.id === id){
           vm.fdata.price = attr.price;
+          vm.fdata.pay_amount = vm.total();
         }
       });
     });
+
+    $scope.$watch('vm.fdata.discount', function(id){
+          vm.fdata.pay_amount = vm.total();
+    });
+
     /**
     * @name submit
-    * @desc Create a new Client
-    * @memberOf fcbp.client.controllers.NewClientController
+    * @desc Create a new Client Product
+    * @memberOf fcbp.client.controllers.NewClientProductController
     */
     function submit() {
 
@@ -157,10 +188,13 @@
         vm.fdata.aqua_aerobics = vm.fdata.product
       } else if (vm.product == 'ticket') {
         vm.fdata.ticket = vm.fdata.product
-      }else if (vm.product == 'personal') {
+      } else if (vm.product == 'personal') {
         vm.fdata.personal = vm.fdata.product
+      } else if (vm.product == 'timing') {
+        vm.fdata.timing = vm.fdata.product
       }
-      vm.fdata.amount = vm.fdata.price * (100 - vm.fdata.discount) / 100
+
+      vm.fdata.amount = vm.total()
       ClientCredit.create(vm.fdata).then(createClientCreditSuccessFn, createClientCreditErrorFn);
       /**
       * @name createClientCreditSuccessFn
@@ -181,6 +215,49 @@
         $rootScope.$broadcast('ClientCredit.created.error');
       }
     };
+
+    /**
+    * @name product_choose
+    * @desc Return current choose of the product type
+    * @memberOf fcbp.client.controllers.NewClientProductController
+    */
+    function product_choose(name){
+      if (vm.product == 'card') {
+        return 'Клубная карта'
+      } else if (vm.product == 'aqua') {
+        return 'Аква аэробика'
+      } else if (vm.product == 'ticket') {
+        return 'Абонемент'
+      } else if (vm.product == 'personal') {
+        return 'Персональные тренировки'
+      } else if (vm.product == 'timing') {
+        return 'С учетом времени'
+      } else {
+        return 'Ничего не выбрано'
+      }
+    }
+
+    /**
+    * @name total
+    * @desc Return current total sum for pay
+    * @memberOf fcbp.client.controllers.NewClientProductController
+    */
+    function total (){
+      return vm.fdata.price * (100 - vm.fdata.discount) / 100
+    }
+
+    /**
+    * @name reset
+    * @desc Reset pay
+    * @memberOf fcbp.client.controllers.NewClientProductController
+    */
+    function reset (){
+      vm.fdata.price = 0;
+      vm.fdata.product = '';
+      vm.fdata.pay_amount = 0;
+      vm.fdata.discount = 0;
+      vm.total();
+    }
 
   };
 

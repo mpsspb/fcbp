@@ -1,37 +1,52 @@
 <form >
-  <div class="col-md-3">
-    <button ng-click="vm.fdata.price=0; vm.options=vm.clubcards; vm.product='card'"
+<div class="row">
+  <div class="col-md-offset-1 col-md-2">
+    <button ng-click="vm.reset(); vm.options=vm.clubcards; vm.product='card'"
     class="btn btn-block btn-warning">
       Клубная карта
     </button>
   </div>
 
-  <div class="col-md-3">
-    <button ng-click="vm.fdata.price=0; vm.options=vm.aquaaerobicses; vm.product='aqua'" class="btn btn-block btn-info">
+  <div class="col-md-2">
+    <button ng-click="vm.reset(); vm.options=vm.aquaaerobicses; vm.product='aqua'" class="btn btn-block btn-info">
       Аква аэробика
     </button>
   </div>
 
-  <div class="col-md-3">
-    <button ng-click="vm.fdata.price=0; vm.options=vm.tickets; vm.product='ticket'" class="btn btn-block btn-success">
+  <div class="col-md-2">
+    <button ng-click="vm.reset(); vm.options=vm.tickets; vm.product='ticket'" class="btn btn-block btn-success">
       Абонемент
     </button>
   </div>
 
-  <div class="col-md-3">
-    <button ng-click="vm.fdata.price=0; vm.options=vm.personals; vm.product='personal'" class="btn btn-block btn-danger">
+  <div class="col-md-2">
+    <button ng-click="vm.reset(); vm.options=vm.personals; vm.product='personal'" class="btn btn-block btn-danger">
       Персональные тренировки
     </button>
   </div>
 
-<div class="col-md-12">
-<br/>
-  <div class="col-md-3">
-    <select ng-model="vm.fdata.product"
-    class="container-full" 
-    ng-options="o.id as o.name for o in vm.options">
-    </select>
+  <div class="col-md-2">
+    <button ng-click="vm.reset(); vm.options=vm.timings; vm.product='timing'" class="btn btn-block btn-default">
+      С учетом времени
+    </button>
   </div>
+</div>
+<br/>
+<div class="panel panel-default">
+  <div class="panel-body">
+      <center>
+        <strong class="col-md-3">{{ vm.product_choose(vm.product) }}</strong>
+        <div class="col-md-3">
+          <select ng-model="vm.fdata.product"
+           class="container-full" 
+           ng-options="o.id as o.name for o in vm.options">
+          </select>
+        </div>
+      </center>
+   </div>
+</div>
+
+<div class="col-md-12">
   <div class="col-md-3">
     <label>Стоимость: {{ vm.fdata.price }}</label>
   </div>
@@ -41,12 +56,41 @@
     ng-model="vm.fdata.discount"> %
   </div>
   <div class="col-md-3">
-
     <label class="text-danger">Итого: 
-    {{ vm.fdata.price * (100 - vm.fdata.discount) / 100 }}</label>
+    {{ vm.total() }}</label>
   </div>
-<br/>
+  <div class="col-md-3">
+    <label >Оплата: </label>
+    <input class="sinput" type="number" min="0" step="0.01"
+    ng-model="vm.fdata.pay_amount" value="vm.total">
+  </div>  
+<br/><br/>
 </div>
+
+<div class="col-md-12">
+  <label class="col-md-2 control-label">Вид оплаты:</label>
+    <div class="col-md-2">
+    <label class="control-label">Наличные</label>
+      <input ng-model="vm.fdata.payment_type" type="radio"
+      name="payment_type" value="1">
+    </div>
+    <div class="col-md-2">
+      <label class="control-label">Без наличные</label>
+      <input ng-model="vm.fdata.payment_type" type="radio"
+      name="payment_type" value="2">
+    </div>
+    <div class="col-md-2">
+      <label class="control-label">Банк</label>
+      <input ng-model="vm.fdata.payment_type" type="radio"
+      name="payment_type" value="3">
+    </div>
+    <div class="col-md-2">
+      <label class="control-label">Иное</label>
+      <input ng-model="vm.fdata.payment_type" type="radio"
+      name="payment_type" value="0">
+    </div>
+</div>
+
 <br/><br/>
   <div class="col-md-3">
     <a href="#/cardclient/{{ vm.client.id}}/" class="btn btn-default pull-left">отмена</a>
