@@ -12,7 +12,7 @@
   NewClientProductController.$inject = ['$rootScope', '$routeParams', '$scope',
                                         'Clients', 'ClubCard', 'Timing',
                                         'AquaAerobics', 'Tickets', 'Personals',
-                                        'ClientCredit'];
+                                        'ClientPayment'];
 
   /**
   * @namespace NewClientProductController
@@ -20,16 +20,20 @@
   function NewClientProductController($rootScope, $routeParams, $scope,
                                        Clients, ClubCard, Timing,
                                        AquaAerobics, Tickets, Personals,
-                                       ClientCredit) {
+                                       ClientPayment) {
     var vm = this;
 
     vm.submit = submit;
     vm.reset = reset;
+    vm.add_credit = add_credit;
+    vm.remove_credit = remove_credit;
 
     vm.fdata = {
       discount: 0,
       price: 0,
     };
+
+    vm.credits = [];
 
     vm.clubcards = [];
     vm.aquaaerobicses = [];
@@ -166,13 +170,13 @@
       angular.forEach(vm.options, function(attr){
         if(attr.id === id){
           vm.fdata.price = attr.price;
-          vm.fdata.pay_amount = vm.total();
+          vm.fdata.amount = vm.total();
         }
       });
     });
 
     $scope.$watch('vm.fdata.discount', function(id){
-          vm.fdata.pay_amount = vm.total();
+          vm.fdata.amount = vm.total();
     });
 
     /**
@@ -194,25 +198,25 @@
         vm.fdata.timing = vm.fdata.product
       }
 
-      vm.fdata.amount = vm.total()
-      ClientCredit.create(vm.fdata).then(createClientCreditSuccessFn, createClientCreditErrorFn);
+      // vm.fdata.amount = vm.total()
+      ClientPayment.create(vm.fdata).then(createClientPayment, createClientPayment);
       /**
-      * @name createClientCreditSuccessFn
+      * @name createClientPayment
       * @desc Show snackbar with success message
       */
-      function createClientCreditSuccessFn(data, status, headers, config) {
-        console.log('Success! ClientCredit created.');
+      function createClientPayment(data, status, headers, config) {
+        console.log('Success! ClientPayment created.');
         window.location = '/#/cardclient/' + vm.client.id + '/';
       }
 
 
       /**
-      * @name createClientCreditErrorFn
+      * @name createClientPayment
       * @desc Propogate error event and show snackbar with error message
       */
-      function createClientCreditErrorFn(data, status, headers, config) {
+      function createClientPayment(data, status, headers, config) {
         console.log(data)
-        $rootScope.$broadcast('ClientCredit.created.error');
+        $rootScope.$broadcast('ClientPayment.created.error');
       }
     };
 
@@ -254,11 +258,69 @@
     function reset (){
       vm.fdata.price = 0;
       vm.fdata.product = '';
-      vm.fdata.pay_amount = 0;
+      vm.fdata.amount = 0;
       vm.fdata.discount = 0;
       vm.total();
     }
 
+    /**
+    * @name add_credit
+    * @desc add_credit pay
+    * @memberOf fcbp.client.controllers.NewClientProductController
+    */
+    function add_credit () {
+      var msg = "";
+
+      var day = vm.credit_date.split('.')[0]
+
+      if (day < 1 || day > 31) {
+        msg = "Day must be between 1 and 31.";
+        console.log(msg);
+        return 101;
+      }
+
+      var month = vm.credit_date.split('.')[1]
+      var year = '20' + vm.credit_date.split('.')[2]
+
+      if (month < 1 || month > 12) { // check month range
+        msg = "Month must be between 1 and 12.";
+        console.log(msg);
+        return 101;
+      }
+
+      if (month == 2) { // check for february 29th
+        var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
+        if (day>29 || (day==29 && !isleap)) {
+            msg = "February " + year + " doesn't have " + day + " days!";
+            console.log(msg);
+            return 102;
+        }
+      }
+
+      
+      console.log(year, month, day)
+
+      month = month - 1
+
+      var credit_date = new Date(year, month, day);
+
+      vm.credits.push({'amount': vm.credit_amount,
+                       'date': credit_date});
+      vm.credit_amount = '';
+      vm.credit_date = '';
+    }
+
+    /**
+    * @name remove_credit
+    * @desc remove_credit pay
+    * @memberOf fcbp.client.controllers.NewClientProductController
+    */
+    function remove_credit (key){
+          vm.credits.splice(key, 1);
+    }
+
   };
+
+  
 
 })();
