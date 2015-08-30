@@ -12,8 +12,9 @@ class Credit(models.Model):
 
     """
     date = models.DateTimeField(auto_now_add=True)
+    schedule = models.DateField(blank=True, null=True)
     amount = models.FloatField(validators=[MinValueValidator(0),])
-    count = models.IntegerField(default=1, validators=[MinValueValidator(0),])
+    count = models.IntegerField(default=1, blank=True, validators=[MinValueValidator(1),])
     client = models.ForeignKey(Client, blank=True, null=True)
     club_card = models.ForeignKey(ClubCard, blank=True, null=True)
     aqua_aerobics = models.ForeignKey(AquaAerobics, blank=True, null=True)

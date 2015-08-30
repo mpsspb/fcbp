@@ -4,6 +4,7 @@ from employees.models import Position
 from .models import Period, ClubCard, AquaAerobics, Sport, Ticket
 from .models import Personal, PersonalPosition, Timing
 
+
 class PeriodSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -89,7 +90,7 @@ class PersonalSerializer(serializers.ModelSerializer):
                    )
         read_only = ('id', 'period_data', 'positions', )
 
-    def create (self, validated_data, ):
+    def create(self, validated_data, ):
         positions = self.context['request'].data['positions']
         positions = Position.objects.filter(pk__in=positions)
         personal = Personal.objects.create(**validated_data)

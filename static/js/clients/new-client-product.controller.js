@@ -25,12 +25,14 @@
 
     vm.submit = submit;
     vm.reset = reset;
+    vm.chk_amount = chk_amount;
     vm.add_credit = add_credit;
     vm.remove_credit = remove_credit;
 
     vm.fdata = {
       discount: 0,
       price: 0,
+      payment_type: 1,
     };
 
     vm.credits = [];
@@ -186,6 +188,11 @@
     */
     function submit() {
 
+      if (vm.chk_amount() != 0){
+        console.log('error amount')
+        return 0;
+      }
+
       if (vm.product == 'card') {
         vm.fdata.club_card = vm.fdata.product
       } else if (vm.product == 'aqua') {
@@ -196,9 +203,18 @@
         vm.fdata.personal = vm.fdata.product
       } else if (vm.product == 'timing') {
         vm.fdata.timing = vm.fdata.product
+      } else {
+        console.log('error product');
+        return 0;
       }
 
-      // vm.fdata.amount = vm.total()
+      if (!vm.fdata.product) {
+        console.log('error choose product');
+        return 0;
+      }
+
+      vm.fdata.credits = vm.credits;
+
       ClientPayment.create(vm.fdata).then(createClientPayment, createClientPayment);
       /**
       * @name createClientPayment
@@ -246,8 +262,23 @@
     * @desc Return current total sum for pay
     * @memberOf fcbp.client.controllers.NewClientProductController
     */
-    function total (){
-      return vm.fdata.price * (100 - vm.fdata.discount) / 100
+    function total() {
+      var total = vm.fdata.price * (100 - vm.fdata.discount) / 100;
+      return total;
+    }
+
+    /**
+    * @name chk_amount
+    * @desc Return is correct the sum of all payments
+    * @memberOf fcbp.client.controllers.NewClientProductController
+    */
+    function chk_amount() {
+      var total = vm.total();
+      var payments = vm.fdata.amount;
+      vm.credits.forEach(function(credit) {
+          payments += credit.amount;
+      });
+      return (total - payments);
     }
 
     /**
@@ -261,6 +292,7 @@
       vm.fdata.amount = 0;
       vm.fdata.discount = 0;
       vm.total();
+      vm.credits = [];
     }
 
     /**
@@ -274,7 +306,7 @@
       var day = vm.credit_date.split('.')[0]
 
       if (day < 1 || day > 31) {
-        msg = "Day must be between 1 and 31.";
+        msg = "День должен быть в диапазоне от 1 до 31.";
         console.log(msg);
         return 101;
       }
@@ -283,7 +315,7 @@
       var year = '20' + vm.credit_date.split('.')[2]
 
       if (month < 1 || month > 12) { // check month range
-        msg = "Month must be between 1 and 12.";
+        msg = "Месяц должен быть в диапазоне от 1 до 12.";
         console.log(msg);
         return 101;
       }
@@ -291,18 +323,13 @@
       if (month == 2) { // check for february 29th
         var isleap = (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0));
         if (day>29 || (day==29 && !isleap)) {
-            msg = "February " + year + " doesn't have " + day + " days!";
+            msg = "В феврале " + year + " не " + day + " дней!";
             console.log(msg);
             return 102;
         }
       }
 
-      
-      console.log(year, month, day)
-
-      month = month - 1
-
-      var credit_date = new Date(year, month, day);
+      var credit_date = day + '.' + month + '.' + year; //25.10.2006
 
       vm.credits.push({'amount': vm.credit_amount,
                        'date': credit_date});
