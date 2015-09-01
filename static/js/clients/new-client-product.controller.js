@@ -231,8 +231,13 @@
       * @desc Propogate error event and show snackbar with error message
       */
       function createClientPayment(data, status, headers, config) {
-        console.log(data)
-        $rootScope.$broadcast('ClientPayment.created.error');
+        if ( data['status'] == 201 ){
+          console.log('Success! ClientPayment created.');
+          window.location = '/#/cardclient/' + vm.client.id + '/';
+        } else {
+          console.log(data)
+          $rootScope.$broadcast('ClientPayment.created.error');
+        }
       }
     };
 

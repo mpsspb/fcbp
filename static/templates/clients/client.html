@@ -5,5 +5,16 @@
 <span class="col-md-2">{{ client.uid }}</span>
 <span class="col-md-2">{{ client.born | date:'dd.MM.yyyy' }}</span>
 <span class="col-md-2">{{ client.mobile | phone }}</span>
-<span class="col-md-3">...</span>
+<span class="col-md-3">
+    <i class="fa fa-credit-card fa-2x bg-warning"
+    ng-show="client.clientclubcard_set.length"></i>
+    <i class="fa fa-life-ring fa-2x bg-warning"
+    ng-show="client.clientaquaaerobics_set.length"></i>
+    <i class="fa fa-ticket fa-2x bg-warning"
+    ng-show="client.clientticket_set.length"></i>
+    <i class="fa fa-graduation-cap fa-2x bg-warning"
+    ng-show="client.clientpersonal_set.length"></i>
+    <i class="fa fa-clock-o fa-2x bg-warning"
+    ng-show="client.clienttiming_set.length"></i>
+</span>
 </div>

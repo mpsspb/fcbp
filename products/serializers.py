@@ -80,7 +80,8 @@ class PersonalPositionSerializer(serializers.ModelSerializer):
 
 class PersonalSerializer(serializers.ModelSerializer):
     period_data = PeriodSerializer(read_only=True)
-    personalposition_set = PersonalPositionSerializer(many=True, read_only=True)
+    personalposition_set = PersonalPositionSerializer(many=True,
+                                                      read_only=True)
 
     class Meta:
         model = Personal

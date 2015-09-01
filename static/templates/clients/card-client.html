@@ -1,3 +1,113 @@
+<!-- Block modals -->
+
+<!-- Modal use ClubCard -->
+<div class="modal fade" id="UseClubCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 300px;">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+        <i class="fa fa-credit-card"></i> Клубная Карта </h4>
+      </div>
+      <form role="form" ng-controller="NewPeriodController as vm">
+       <div class="modal-footer bg-warning">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal ClubCard -->
+
+<!-- Modal use Aqua -->
+<div class="modal fade" id="UseAqua" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 300px;">
+    <div class="modal-content">
+      <div class="modal-header bg-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+        <i class="fa fa-life-ring"></i> Аква аэробика </h4>
+      </div>
+      <form role="form" ng-controller="NewPeriodController as vm">
+       <div class="modal-footer bg-info">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal Aqua -->
+
+<!-- Modal use Ticket -->
+<div class="modal fade" id="UseTicket" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 300px;">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+        <i class="fa fa-ticket"></i> Абонемент </h4>
+      </div>
+      <form role="form" ng-controller="NewPeriodController as vm">
+       <div class="modal-footer bg-success">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal Ticket -->
+
+<!-- Modal use Personal -->
+<div class="modal fade" id="UsePersonal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 300px;">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+        <i class="fa fa-graduation-cap"></i> Персональная тренировка </h4>
+      </div>
+      <form role="form" ng-controller="NewPeriodController as vm">
+       <div class="modal-footer bg-danger">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal Personal -->
+
+
+<!-- Modal use Timing -->
+<div class="modal fade" id="UseTiming" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 300px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+        <i class="fa fa-clock-o"></i> С учетом времени </h4>
+      </div>
+      <form role="form" ng-controller="NewPeriodController as vm">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-11">
+            <label>Введите количество минут</label>
+            <input  type="number" required class="form-control"
+            ng-model="vm.fdata.value">
+          </div>
+        </div>
+      </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal Timing -->
+
+<!-- End Block modal -->
+
+
 <form class="form-horizontal col-md-6">
   <div class="form-group">
     <label class="control-label">
@@ -41,14 +151,47 @@
     <label class="col-md-3 control-label">Эл. адрес:</label>
     <label class="col-md-8 control-text"> {{ vm.cardclient.email }}</label>
   </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label">Доступно :</label>
+    <div class="col-md-9 btn-toolbar">
+        <button class="btn btn-warnning col-md-2"
+         data-toggle="modal" data-target="#UseClubCard"
+         ng-show="vm.cardclient.clientclubcard_set.length">
+          <i class="fa fa-credit-card"></i>
+        </button>
+        <button class="btn btn-info col-md-2"
+         data-toggle="modal" data-target="#UseAqua"
+         ng-show="vm.cardclient.clientaquaaerobics_set.length">
+          <i class="fa fa-life-ring"></i>
+        </button>
+        <button class="btn btn-success col-md-2"
+         data-toggle="modal" data-target="#UseTicket"
+         ng-show="vm.cardclient.clientticket_set.length">
+          <i class="fa fa-ticket"></i>
+        </button>
+        <button class="btn btn-danger col-md-2"
+         data-toggle="modal" data-target="#UsePersonal"
+         ng-show="vm.cardclient.clientpersonal_set.length">
+          <i class="fa fa-graduation-cap"></i>
+        </button>
+        <button class="btn btn-default col-md-2"
+         data-toggle="modal" data-target="#UseTiming"
+         ng-show="vm.cardclient.clienttiming_set.length">
+          <i class="fa fa-clock-o"></i>
+        </button>
+    </div>
+  </div>
+
+<div class="col-md-4">
+<a href="#/clients" class="btn btn-block btn-default">К списку</a>  
+</div>
+
+<div class="col-md-4">
+  <a href="#/new-client-product/{{ vm.cardclient.id }}/" class="btn btn-block btn-info">Оформить услугу</a>  
+</div>
+
 </form>
 <img class="col-md-4 col-md-offset-2" ng-src="{{ vm.cardclient.avatar_url }}">
 <hr/>
 
-<div class="col-md-2">
-<a href="#/clients" class="btn btn-block btn-default">К списку</a>  
-</div>
-
-<div class="col-md-2">
-  <a href="#/new-client-product/{{ vm.cardclient.id }}/" class="btn btn-block btn-info">Оформить услугу</a>  
-</div>

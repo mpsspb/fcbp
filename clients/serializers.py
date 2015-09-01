@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from .models import Client
+from .models import Client, ClientClubCard, ClientAquaAerobics, ClientTicket
+from .models import ClientPersonal, ClientTiming
 
 
 class Base64ImageField(serializers.ImageField):
@@ -50,17 +51,70 @@ class Base64ImageField(serializers.ImageField):
         return extension
 
 
+class ClientClubCardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClientClubCard
+
+        fields = ('club_card', 'status', 'date', 'date_start',
+                  'date_begin', 'date_end')
+
+
+class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClientAquaAerobics
+
+        fields = ('aqua_aerobics', 'status', 'date', 'date_start',
+                  'date_begin', 'date_end')
+
+
+class ClientTicketSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClientTicket
+
+        fields = ('ticket', 'status', 'date', 'date_start',
+                  'date_begin', 'date_end')
+
+
+class ClientPersonalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClientPersonal
+
+        fields = ('personal', 'status', 'date', 'date_start',
+                  'date_begin', 'date_end')
+
+
+class ClientTimingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClientTiming
+
+        fields = ('timing', 'status', 'date', 'date_start',
+                  'date_begin', 'date_end')
+
+
 class ClientSerializer(serializers.ModelSerializer):
     avatar = Base64ImageField(
         max_length=None, use_url=True,
     )
+    clientclubcard_set = ClientClubCardSerializer(many=True, read_only=True)
+    clientaquaaerobics_set = ClientAquaAerobicsSerializer(many=True,
+                                                          read_only=True)
+    clientticket_set = ClientTicketSerializer(many=True, read_only=True)
+    clientpersonal_set = ClientPersonalSerializer(many=True, read_only=True)
+    clienttiming_set = ClientTimingSerializer(many=True, read_only=True)
 
     class Meta:
         model = Client
 
         fields = ('id', 'first_name', 'last_name', 'patronymic',
                   'born',  'gender', 'mobile', 'address', 'passport',
-                  'phone', 'email', 'avatar', 'date',
-                  'avatar_url', 'full_name', 'uid')
+                  'phone', 'email', 'avatar', 'date', 'clientclubcard_set',
+                  'avatar_url', 'full_name', 'uid', 'clientaquaaerobics_set',
+                  'clientticket_set', 'clientpersonal_set', 'clienttiming_set'
+                  )
         read_only_fields = ('id', 'full_name', 'avatar_url', 'uid',
                             'date')
