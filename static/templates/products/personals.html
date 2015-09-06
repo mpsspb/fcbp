@@ -76,6 +76,7 @@
               type="checkbox"
               value="{{ position.id }}"
               ng-click="vm.toggleSelection(position.id)"
+              ng-model="position.selected"
             > {{ position.name }}
           </label>
         </div>

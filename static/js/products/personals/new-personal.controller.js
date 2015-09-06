@@ -24,6 +24,8 @@
     vm.toggleSelection = toggleSelection;
 
     vm.fdata = {
+      clients_count: 1,
+      is_full_time: true,
       positions: [],
     };
 
@@ -79,9 +81,7 @@
     * @memberOf fcbp.personals.controllers.NewPersonalController
     */
     function submit() {
-      console.log(vm.fdata)
       Personals.create(vm.fdata).then(createPersonalSuccessFn, createPersonalErrorFn);
-
 
       /**
       * @name createPersonalSuccessFn
@@ -90,6 +90,14 @@
       function createPersonalSuccessFn(data, status, headers, config) {
         $rootScope.$broadcast('personal.created', vm.fdata );
         console.log('Success! Personal created.');
+        vm.fdata = {
+          clients_count: 1,
+          is_full_time: true,
+          positions: [],
+        };
+        angular.forEach(vm.positions, function (position) {
+            position.selected = false;
+        });
       }
 
 

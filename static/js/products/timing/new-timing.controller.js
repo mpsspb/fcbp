@@ -25,7 +25,7 @@
       clients_count: 1,
       minutes: 1,
     }
-
+    
     activate();
 
     /**
@@ -80,6 +80,13 @@
         $rootScope.$broadcast('Timing.created',
           vm.fdata
         );
+        // reset fdata
+        vm.fdata = {
+          period_prolongation: 0,
+          period_freeze: 0,
+          clients_count: 1,
+          minutes: 1,
+        }
       }
 
 

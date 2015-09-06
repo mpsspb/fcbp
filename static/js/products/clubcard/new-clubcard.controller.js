@@ -72,10 +72,6 @@
           }
       }
 
-      $rootScope.$broadcast('ClubCard.created',
-        vm.fdata
-      );
-
       ClubCard.create(vm.fdata).then(createClubCardSuccessFn, createClubCardErrorFn);
 
 
@@ -85,6 +81,15 @@
       */
       function createClubCardSuccessFn(data, status, headers, config) {
         console.log('Success! ClubCard created.');
+        $rootScope.$broadcast('ClubCard.created',
+          vm.fdata
+        );
+        vm.fdata = {
+          clients_count: 1,
+          guest_training: 0,
+          period_prolongation: 0,
+          is_full_time: true,
+        }
       }
 
 

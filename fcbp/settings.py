@@ -16,7 +16,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-# change default auth.user model on iqupi project
+# change default auth.user model on fcbp project
 AUTH_USER_MODEL = 'users.User'
 
 # Application definition

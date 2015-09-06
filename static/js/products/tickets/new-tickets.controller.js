@@ -104,6 +104,10 @@
         $rootScope.$broadcast('Tickets.created',
           vm.fdata
         );
+        vm.fdata = {
+          period_prolongation: 0,
+          is_full_time: true,
+        }
       }
 
 

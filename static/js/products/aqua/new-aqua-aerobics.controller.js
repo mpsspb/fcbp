@@ -67,10 +67,6 @@
           }
       }
 
-      $rootScope.$broadcast('AquaAerobics.created',
-        vm.fdata
-      );
-
       AquaAerobics.create(vm.fdata).then(createAquaAerobicsSuccessFn, createAquaAerobicsErrorFn);
 
 
@@ -80,6 +76,14 @@
       */
       function createAquaAerobicsSuccessFn(data, status, headers, config) {
         console.log('Success! AquaAerobics created.');
+        $rootScope.$broadcast('AquaAerobics.created',
+          vm.fdata
+        );
+        vm.fdata = {
+          clients_count: 1,
+          period_prolongation: 0,
+          is_full_time: true,
+        }
       }
 
 

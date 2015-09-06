@@ -250,7 +250,7 @@
       if (vm.product == 'card') {
         return 'Клубная карта'
       } else if (vm.product == 'aqua') {
-        return 'Аква аэробика'
+        return 'Аквааэробика'
       } else if (vm.product == 'ticket') {
         return 'Абонемент'
       } else if (vm.product == 'personal') {

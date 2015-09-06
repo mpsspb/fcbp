@@ -30,11 +30,11 @@
       AquaAerobics.list().then(aquaaerobicsesSuccessFn, aquaaerobicsesErrorFn);
 
       $scope.$on('AquaAerobics.created', function (event, aquaaerobics) {
-        vm.aquaaerobicses.unshift(aquaaerobics);
+        AquaAerobics.list().then(aquaaerobicsesSuccessFn, aquaaerobicsesErrorFn);
       });
 
       $scope.$on('AquaAerobics.created.error', function () {
-        vm.aquaaerobicses.shift();
+        // vm.aquaaerobicses.shift();
       });
 
       /**

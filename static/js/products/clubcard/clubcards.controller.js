@@ -30,11 +30,11 @@
       ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
 
       $scope.$on('ClubCard.created', function (event, clubcard) {
-        vm.clubcards.unshift(clubcard);
+        ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
       });
 
       $scope.$on('ClubCard.created.error', function () {
-        vm.clubcards.shift();
+        // vm.clubcards.shift();
       });
 
       /**
