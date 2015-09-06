@@ -90,12 +90,15 @@
       <input ng-model="vm.fdata.payment_type" type="radio"
       name="payment_type" value="0">
     </div>
+    <div ng-show="vm.total() > vm.fdata.amount" class="col-md-2">
+        <label class="control-label text-primary">Долг</label>
+        <input ng-model="vm.fdata.is_credit" type="checkbox" value="1">
+    </div>
 </div>
 
 <br/><br/>
-
 <br/><br/>
-<div ng-show="vm.total() > vm.fdata.amount">
+<div ng-show="vm.total() > vm.fdata.amount && !vm.fdata.is_credit">
   <label class="col-md-2 control-label">
   График доплаты
   </label>

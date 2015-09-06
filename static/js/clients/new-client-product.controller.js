@@ -33,6 +33,7 @@
       discount: 0,
       price: 0,
       payment_type: 1,
+      is_credit: 0,
     };
 
     vm.credits = [];
@@ -188,9 +189,19 @@
     */
     function submit() {
 
-      if (vm.chk_amount() != 0){
+      if (vm.chk_amount() != 0 && !vm.fdata.is_credit){
         console.log('error amount')
         return 0;
+      }
+
+      if ( vm.fdata.is_credit ) {
+        var d = new Date();
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        var credit_date = day + '.' + month + '.' + year
+        vm.credits.push({'amount': vm.chk_amount(),
+                       'date': credit_date});
       }
 
       if (vm.product == 'card') {

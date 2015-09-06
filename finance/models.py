@@ -24,6 +24,7 @@ class Credit(models.Model):
     discount = models.IntegerField(default=0,
                                    validators=[MinValueValidator(0),
                                                MaxValueValidator(100)])
+    is_credit = models.BooleanField(default=False)
 
 
 
