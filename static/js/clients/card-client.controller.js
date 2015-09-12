@@ -19,6 +19,9 @@
 
     activate();
     vm.cardclient = {};
+    vm.go = function(name){
+      alert(name)
+    }
 
     /**
     * @name activate

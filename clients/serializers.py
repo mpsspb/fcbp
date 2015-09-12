@@ -57,7 +57,8 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         model = ClientClubCard
 
         fields = ('club_card', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end')
+                  'date_begin', 'date_end', 'name',
+                  'rest_days', 'rest_visits')
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
@@ -66,7 +67,8 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
         model = ClientAquaAerobics
 
         fields = ('aqua_aerobics', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end')
+                  'date_begin', 'date_end', 'name',
+                  'rest_days', 'rest_visits')
 
 
 class ClientTicketSerializer(serializers.ModelSerializer):
@@ -75,7 +77,8 @@ class ClientTicketSerializer(serializers.ModelSerializer):
         model = ClientTicket
 
         fields = ('ticket', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end')
+                  'date_begin', 'date_end', 'name',
+                  'rest_days', 'rest_visits')
 
 
 class ClientPersonalSerializer(serializers.ModelSerializer):
@@ -84,7 +87,8 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
         model = ClientPersonal
 
         fields = ('personal', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end')
+                  'date_begin', 'date_end', 'name',
+                  'rest_days', 'rest_visits')
 
 
 class ClientTimingSerializer(serializers.ModelSerializer):
@@ -93,7 +97,8 @@ class ClientTimingSerializer(serializers.ModelSerializer):
         model = ClientTiming
 
         fields = ('timing', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end')
+                  'date_begin', 'date_end', 'name',
+                  'rest_days', 'rest_minutes')
 
 
 class ClientSerializer(serializers.ModelSerializer):

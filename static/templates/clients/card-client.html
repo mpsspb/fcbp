@@ -2,7 +2,7 @@
 
 <!-- Modal use ClubCard -->
 <div class="modal fade" id="UseClubCard" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width: 300px;">
+  <div class="modal-dialog" style="width: 600px;">
     <div class="modal-content">
       <div class="modal-header bg-warning">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -11,14 +11,21 @@
       </div>
       <div class="modal-body">
         <table class="table">
-          <tr ng-repeat="card in vm.cardclient.clientclubcard_set">
-            <td> {{ card.date }} </td>
+          <tr>
+            <td>дата</td><td>наименование</td>
+            <td>остаток дней</td><td>визитов</td>
+          </tr>
+          <tr ng-repeat="card in vm.cardclient.clientclubcard_set"
+             ng-click="vm.go('card')">
+            <td> {{ card.date | date:'dd.MM.yyyy' }} </td>
+            <td> {{ card.name }} </td>
+            <td> {{ card.rest_days }} </td>
+            <td> {{ card.rest_visits }} </td>
           </tr>
         </table>
       </div>
        <div class="modal-footer bg-warning">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>          
       </div>
     </div>
   </div>
@@ -26,57 +33,93 @@
 
 <!-- Modal use Aqua -->
 <div class="modal fade" id="UseAqua" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width: 300px;">
+  <div class="modal-dialog" style="width: 600px;">
     <div class="modal-content">
       <div class="modal-header bg-info">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">
         <i class="fa fa-life-ring"></i> Аквааэробика </h4>
-      </div>
-      <form role="form" ng-controller="NewPeriodController as vm">
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tr>
+              <td>дата</td><td>наименование</td>
+              <td>остаток дней</td><td>визитов</td>
+            </tr>
+            <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobics_set"
+               ng-click="vm.go('aqua')">
+              <td> {{ aqua.date | date:'dd.MM.yyyy' }} </td>
+              <td> {{ aqua.name }} </td>
+              <td> {{ aqua.rest_days }} </td>
+              <td> {{ aqua.rest_visits }} </td>
+            </tr>
+          </table>
+        </div>
        <div class="modal-footer bg-info">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>          
       </div>
-      </form>
     </div>
   </div>
 </div> <!-- end modal Aqua -->
 
 <!-- Modal use Ticket -->
 <div class="modal fade" id="UseTicket" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width: 300px;">
+  <div class="modal-dialog" style="width: 600px;">
     <div class="modal-content">
       <div class="modal-header bg-success">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">
         <i class="fa fa-ticket"></i> Абонемент </h4>
       </div>
-      <form role="form" ng-controller="NewPeriodController as vm">
-       <div class="modal-footer bg-success">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>дата</td><td>наименование</td>
+            <td>остаток дней</td><td>визитов</td>
+          </tr>
+          <tr ng-repeat="ticket in vm.cardclient.clientticket_set"
+             ng-click="vm.go('ticket')">
+            <td> {{ ticket.date | date:'dd.MM.yyyy' }} </td>
+            <td> {{ ticket.name }} </td>
+            <td> {{ ticket.rest_days }} </td>
+            <td> {{ ticket.rest_visits }} </td>
+          </tr>
+        </table>
       </div>
-      </form>
+      <div class="modal-footer bg-success">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+      </div>
     </div>
   </div>
 </div> <!-- end modal Ticket -->
 
 <!-- Modal use Personal -->
 <div class="modal fade" id="UsePersonal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width: 300px;">
+  <div class="modal-dialog" style="width: 600px;">
     <div class="modal-content">
       <div class="modal-header bg-danger">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">
         <i class="fa fa-graduation-cap"></i> Персональная тренировка </h4>
       </div>
-      <form role="form" ng-controller="NewPeriodController as vm">
+      <div class="modal-body">
+        <table class="table">
+          <tr>
+            <td>дата</td><td>наименование</td>
+            <td>остаток дней</td><td>визитов</td>
+          </tr>
+          <tr ng-repeat="personal in vm.cardclient.clientpersonal_set"
+             ng-click="vm.go('personal')">
+            <td> {{ personal.date | date:'dd.MM.yyyy' }} </td>
+            <td> {{ personal.name }} </td>
+            <td> {{ personal.rest_days }} </td>
+            <td> {{ personal.rest_visits }} </td>
+          </tr>
+        </table>
+      </div>
        <div class="modal-footer bg-danger">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
       </div>
-      </form>
     </div>
   </div>
 </div> <!-- end modal Personal -->
@@ -84,28 +127,31 @@
 
 <!-- Modal use Timing -->
 <div class="modal fade" id="UseTiming" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width: 300px;">
+  <div class="modal-dialog" style="width: 600px;">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">
         <i class="fa fa-clock-o"></i> С учетом времени </h4>
       </div>
-      <form role="form" ng-controller="NewPeriodController as vm">
       <div class="modal-body">
-        <div class="row">
-          <div class="col-md-11">
-            <label>Введите количество минут</label>
-            <input  type="number" required class="form-control"
-            ng-model="vm.fdata.value">
-          </div>
-        </div>
+        <table class="table">
+          <tr>
+            <td>дата</td><td>наименование</td>
+            <td>остаток дней</td><td>минут</td>
+          </tr>
+          <tr ng-repeat="timing in vm.cardclient.clienttiming_set"
+             ng-click="vm.go('timing')">
+            <td> {{ timing.date | date:'dd.MM.yyyy' }} </td>
+            <td> {{ timing.name }} </td>
+            <td> {{ timing.rest_days }} </td>
+            <td> {{ timing.rest_minutes }} </td>
+          </tr>
+        </table>
       </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
-        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">Использовать</button>          
       </div>
-      </form>
     </div>
   </div>
 </div> <!-- end modal Timing -->

@@ -68,6 +68,24 @@ class ClientClubCard(models.Model):
     2 - prospect
     """
 
+    @property
+    def name(self):
+        return self.club_card.name
+
+    @property
+    def rest_days(self):
+        rest_days = (self.date_end - date.today()).days
+        if rest_days < 1:
+            return 0
+        return rest_days
+
+    @property
+    def rest_visits(self):
+        if self.club_card.max_visit == 99999:
+            return '-'
+        return self.club_card.max_visit
+        
+
 
 class ClientAquaAerobics(models.Model):
     """
@@ -91,6 +109,23 @@ class ClientAquaAerobics(models.Model):
     1 - active
     2 - prospect
     """
+
+    @property
+    def name(self):
+        return self.aqua_aerobics.name
+
+    @property
+    def rest_days(self):
+        rest_days = (self.date_end - date.today()).days
+        if rest_days < 1:
+            return 0
+        return rest_days
+
+    @property
+    def rest_visits(self):
+        if self.aqua_aerobics.max_visit == 99999:
+            return '-'
+        return self.aqua_aerobics.max_visit
 
 
 class ClientTicket(models.Model):
@@ -116,6 +151,23 @@ class ClientTicket(models.Model):
     2 - prospect
     """
 
+    @property
+    def name(self):
+        return self.ticket.name
+
+    @property
+    def rest_days(self):
+        rest_days = (self.date_end - date.today()).days
+        if rest_days < 1:
+            return 0
+        return rest_days
+
+    @property
+    def rest_visits(self):
+        if self.ticket.max_visit == 99999:
+            return '-'
+        return self.ticket.max_visit
+
 
 class ClientPersonal(models.Model):
     """
@@ -140,6 +192,23 @@ class ClientPersonal(models.Model):
     2 - prospect
     """
 
+    @property
+    def name(self):
+        return self.personal.name
+
+    @property
+    def rest_days(self):
+        rest_days = (self.date_end - date.today()).days
+        if rest_days < 1:
+            return 0
+        return rest_days
+
+    @property
+    def rest_visits(self):
+        if self.personal.max_visit == 99999:
+            return '-'
+        return self.personal.max_visit
+
 
 class ClientTiming(models.Model):
     """
@@ -163,3 +232,18 @@ class ClientTiming(models.Model):
     1 - active
     2 - prospect
     """
+
+    @property
+    def name(self):
+        return self.timing.name
+
+    @property
+    def rest_days(self):
+        rest_days = (self.date_end - date.today()).days
+        if rest_days < 1:
+            return 0
+        return rest_days
+
+    @property
+    def rest_minutes(self):
+        return self.timing.minutes
