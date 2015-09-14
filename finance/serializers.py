@@ -84,7 +84,7 @@ class PaymentSerializer(serializers.ModelSerializer):
 
 def date_end(date_begin, obj):
     """
-    Return date_end for the obj
+    Return date end for the obj
     """
     if obj.period.is_month:
         months = obj.period.value
