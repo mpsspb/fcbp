@@ -75,14 +75,18 @@
       controller: 'PositionsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/employees/positions.html'
-    }).when('/', {
-      controller: 'StartController',
-      controllerAs: 'vm',
-      templateUrl: '/static/templates/index.html'
     }).when('/usecardclient/:uid', {
       controller: 'UseClientCardController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/use/clubcard.html'
+    }).when('/usetiming/:uid', {
+      controller: 'UseTimingController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/use/timing.html'
+    }).when('/', {
+      controller: 'StartController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/index.html'
     })
     .otherwise('/');
   }

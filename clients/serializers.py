@@ -53,7 +53,8 @@ class Base64ImageField(serializers.ImageField):
 
 
 class ClientClubCardSerializer(serializers.ModelSerializer):
-    useclientclubcard_set = UseClientClubCardSerializer(many=True, read_only=True)
+    useclientclubcard_set = UseClientClubCardSerializer(many=True,
+                                                        read_only=True)
 
     class Meta:
         model = ClientClubCard
@@ -94,12 +95,13 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
 
 
 class ClientTimingSerializer(serializers.ModelSerializer):
+    useclienttiming_set = UseClientTimingSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientTiming
 
-        fields = ('id', 'timing', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'name',
+        fields = ('id', 'timing', 'status', 'date', 'date_start', 'client',
+                  'date_begin', 'date_end', 'name', 'useclienttiming_set',
                   'rest_days', 'rest_minutes')
 
 

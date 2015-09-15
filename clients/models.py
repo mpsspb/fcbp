@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 from django.db import models
+from django.db.models import Sum
 
 from products.models import ClubCard, AquaAerobics, Ticket, Personal, Timing
 
@@ -250,8 +251,11 @@ class ClientTiming(models.Model):
 
     @property
     def rest_minutes(self):
-        used = UseClientTiming.objects.filter(client_timing=self).count()
-        return self.timing.minutes - used
+        used = UseClientTiming.objects.filter(client_timing=self)\
+                                      .aggregate(sum=Sum('minutes'))
+        if used['sum']:
+            return self.timing.minutes - used['sum']
+        return self.timing.minutes
 
 
 class UseClientClubCard(models.Model):
