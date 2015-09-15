@@ -79,6 +79,11 @@
       controller: 'StartController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/index.html'
-    }).otherwise('/');
+    }).when('/usecardclient/:uid', {
+      controller: 'UseClientCardController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/use/clubcard.html'
+    })
+    .otherwise('/');
   }
 })();

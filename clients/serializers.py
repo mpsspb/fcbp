@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import Client, ClientClubCard, ClientAquaAerobics, ClientTicket
 from .models import ClientPersonal, ClientTiming
+from .use_serializers import *
 
 
 class Base64ImageField(serializers.ImageField):
@@ -52,13 +53,14 @@ class Base64ImageField(serializers.ImageField):
 
 
 class ClientClubCardSerializer(serializers.ModelSerializer):
+    useclientclubcard_set = UseClientClubCardSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientClubCard
 
-        fields = ('club_card', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'name',
-                  'rest_days', 'rest_visits')
+        fields = ('id', 'club_card', 'status', 'date', 'date_start',
+                  'date_begin', 'date_end', 'name', 'client',
+                  'rest_days', 'rest_visits', 'useclientclubcard_set')
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
@@ -66,7 +68,7 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientAquaAerobics
 
-        fields = ('aqua_aerobics', 'status', 'date', 'date_start',
+        fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name',
                   'rest_days', 'rest_visits')
 
@@ -76,7 +78,7 @@ class ClientTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientTicket
 
-        fields = ('ticket', 'status', 'date', 'date_start',
+        fields = ('id', 'ticket', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name',
                   'rest_days', 'rest_visits')
 
@@ -86,7 +88,7 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientPersonal
 
-        fields = ('personal', 'status', 'date', 'date_start',
+        fields = ('id', 'personal', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name',
                   'rest_days', 'rest_visits')
 
@@ -96,7 +98,7 @@ class ClientTimingSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientTiming
 
-        fields = ('timing', 'status', 'date', 'date_start',
+        fields = ('id', 'timing', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name',
                   'rest_days', 'rest_minutes')
 

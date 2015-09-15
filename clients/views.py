@@ -5,9 +5,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import list_route
 from rest_framework.pagination import PageNumberPagination
 
-from .models import Client, UseClientClubCard, UseClientAquaAerobics
-from .models import UseClientTicket, UseClientPersonal, UseClientTiming
-from .serializers import ClientSerializer
+from .models import *
+from .serializers import *
 from .use_serializers import *
 
 
@@ -35,6 +34,31 @@ class ClientViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(last_name__istartswith=letter)
 
         return queryset
+
+
+class ClientClubCardViewSet(viewsets.ModelViewSet):
+    queryset = ClientClubCard.objects.order_by('-date')
+    serializer_class = ClientClubCardSerializer
+
+
+class ClientAquaAerobicsViewSet(viewsets.ModelViewSet):
+    queryset = ClientAquaAerobics.objects.order_by('-date')
+    serializer_class = ClientAquaAerobicsSerializer
+
+
+class ClientTicketViewSet(viewsets.ModelViewSet):
+    queryset = ClientTicket.objects.order_by('-date')
+    serializer_class = ClientTicketSerializer
+
+
+class ClientPersonalViewSet(viewsets.ModelViewSet):
+    queryset = ClientPersonal.objects.order_by('-date')
+    serializer_class = ClientPersonalSerializer
+
+
+class ClientTimingViewSet(viewsets.ModelViewSet):
+    queryset = ClientTiming.objects.order_by('-date')
+    serializer_class = ClientTimingSerializer
 
 
 class UseClientClubCardViewSet(viewsets.ModelViewSet):

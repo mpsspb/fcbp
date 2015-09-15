@@ -2,12 +2,17 @@ from django.conf.urls import patterns, include, url
 
 from rest_framework import routers
 
-from .views import ClientViewSet, UseClientClubCardViewSet
-from .views import UseClientAquaAerobicsViewSet, UseClientTicketViewSet
-from .views import UseClientPersonalViewSet, UseClientTimingViewSet
+from .views import *
 
 router = routers.SimpleRouter()
 router.register(r'client', ClientViewSet, 'Client')
+
+router.register(r'clubcard', ClientClubCardViewSet, 'ClubCard')
+router.register(r'aquaaerobics', ClientAquaAerobicsViewSet,
+                'AquaAerobics')
+router.register(r'ticket', ClientTicketViewSet, 'Ticket')
+router.register(r'personal', ClientPersonalViewSet, 'ClientPersonal')
+router.register(r'timing', ClientTimingViewSet, 'ClientTiming')
 
 router.register(r'useclubcard', UseClientClubCardViewSet, 'UseClubCard')
 router.register(r'useaquaaerobics', UseClientAquaAerobicsViewSet,

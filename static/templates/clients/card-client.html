@@ -16,8 +16,10 @@
             <td>остаток дней</td><td>визитов</td>
           </tr>
           <tr ng-repeat="card in vm.cardclient.clientclubcard_set"
-             ng-click="vm.go('card')">
-            <td> {{ card.date | date:'dd.MM.yyyy' }} </td>
+          data-href="/usecardclient/{{ card.id }}"
+          class="close-UseClubCard" 
+             >
+            <td > {{ card.date | date:'dd.MM.yyyy' }} </td>
             <td> {{ card.name }} </td>
             <td> {{ card.rest_days }} </td>
             <td> {{ card.rest_visits }} </td>
@@ -47,7 +49,7 @@
               <td>остаток дней</td><td>визитов</td>
             </tr>
             <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobics_set"
-               ng-click="vm.go('aqua')">
+               data-href="/useaquaaerobics/{{ aqua.id }}">
               <td> {{ aqua.date | date:'dd.MM.yyyy' }} </td>
               <td> {{ aqua.name }} </td>
               <td> {{ aqua.rest_days }} </td>
@@ -78,7 +80,7 @@
             <td>остаток дней</td><td>визитов</td>
           </tr>
           <tr ng-repeat="ticket in vm.cardclient.clientticket_set"
-             ng-click="vm.go('ticket')">
+            data-href="/useticket/{{ ticket.id }}">
             <td> {{ ticket.date | date:'dd.MM.yyyy' }} </td>
             <td> {{ ticket.name }} </td>
             <td> {{ ticket.rest_days }} </td>
@@ -109,7 +111,7 @@
             <td>остаток дней</td><td>визитов</td>
           </tr>
           <tr ng-repeat="personal in vm.cardclient.clientpersonal_set"
-             ng-click="vm.go('personal')">
+           data-href="/usepersonal/{{ personal.id }}">
             <td> {{ personal.date | date:'dd.MM.yyyy' }} </td>
             <td> {{ personal.name }} </td>
             <td> {{ personal.rest_days }} </td>
@@ -141,7 +143,7 @@
             <td>остаток дней</td><td>минут</td>
           </tr>
           <tr ng-repeat="timing in vm.cardclient.clienttiming_set"
-             ng-click="vm.go('timing')">
+            data-href="/usetiming/{{ timing.id }}">
             <td> {{ timing.date | date:'dd.MM.yyyy' }} </td>
             <td> {{ timing.name }} </td>
             <td> {{ timing.rest_days }} </td>
@@ -246,3 +248,14 @@
 <img class="col-md-4 col-md-offset-2" ng-src="{{ vm.cardclient.avatar_url }}">
 <hr/>
 
+<script  type="text/javascript">
+$(document).ready(function() {
+  $(document).on('click','tr', function() {
+    var url = $(this).attr('data-href')
+    $(this).closest('.modal').modal('hide'); // hide modal dialog
+    setTimeout(function(){
+      window.location.href = '/#' + url
+    }, 500);
+  });
+});
+</script>

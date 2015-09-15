@@ -9,19 +9,16 @@
     .module('fcbp.clients.controllers')
     .controller('ClientCardController', ClientCardController);
 
-  ClientCardController.$inject = ['$rootScope', '$routeParams', '$scope', 'Clients'];
+  ClientCardController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', 'Clients'];
 
   /**
   * @namespace ClientCardController
   */
-  function ClientCardController($rootScope, $routeParams, $scope, Clients) {
+  function ClientCardController($location, $rootScope, $routeParams, $scope, Clients) {
     var vm = this;
 
     activate();
     vm.cardclient = {};
-    vm.go = function(name){
-      alert(name)
-    }
 
     /**
     * @name activate

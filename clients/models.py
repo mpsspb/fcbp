@@ -83,7 +83,8 @@ class ClientClubCard(models.Model):
     def rest_visits(self):
         if self.club_card.max_visit == 99999:
             return '-'
-        return self.club_card.max_visit
+        used = UseClientClubCard.objects.filter(client_club_card=self).count()
+        return self.club_card.max_visit - used
         
 
 class ClientAquaAerobics(models.Model):
@@ -124,7 +125,9 @@ class ClientAquaAerobics(models.Model):
     def rest_visits(self):
         if self.aqua_aerobics.max_visit == 99999:
             return '-'
-        return self.aqua_aerobics.max_visit
+        used = UseClientAquaAerobics.objects.filter(client_aqua_aerobics=self)\
+                                            .count()
+        return self.aqua_aerobics.max_visit - used
 
 
 class ClientTicket(models.Model):
@@ -165,7 +168,8 @@ class ClientTicket(models.Model):
     def rest_visits(self):
         if self.ticket.max_visit == 99999:
             return '-'
-        return self.ticket.max_visit
+        used = UseClientTicket.objects.filter(client_ticket=self).count()
+        return self.ticket.max_visit - used
 
 
 class ClientPersonal(models.Model):
@@ -206,7 +210,8 @@ class ClientPersonal(models.Model):
     def rest_visits(self):
         if self.personal.max_visit == 99999:
             return '-'
-        return self.personal.max_visit
+        used = UseClientPersonal.objects.filter(client_personal=self).count()
+        return self.personal.max_visit - used
 
 
 class ClientTiming(models.Model):
@@ -245,7 +250,8 @@ class ClientTiming(models.Model):
 
     @property
     def rest_minutes(self):
-        return self.timing.minutes
+        used = UseClientTiming.objects.filter(client_timing=self).count()
+        return self.timing.minutes - used
 
 
 class UseClientClubCard(models.Model):
