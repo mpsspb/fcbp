@@ -23,6 +23,8 @@
     var Personals = {
       create: create,
       list: list,
+      get: get,
+      use: use,
     };
 
     return Personals;
@@ -46,6 +48,18 @@
     function list() {
       return $http.get('/api/v1/products/personal/')
     }
+
+    function get(uid) {
+      return $http.get('/api/v1/clients/personal/' + uid + '/')
+    }
+
+    function use(fdata) {
+      return $http.post('/api/v1/clients/usepersonal/', fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+    
   }
 
 })();

@@ -10,18 +10,21 @@
     .controller('ClientCardController', ClientCardController);
 
   ClientCardController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', 'Clients',
-                                  'ClubCard', 'Timing'];
+                                  'ClubCard', 'AquaAerobics', 'Tickets', 'Personals', 'Timing'];
 
   /**
   * @namespace ClientCardController
   */
   function ClientCardController($location, $rootScope, $routeParams, $scope, Clients,
-                                ClubCard, Timing) {
+                                ClubCard, AquaAerobics, Tickets, Personals, Timing) {
     var vm = this;
 
     vm.cardclient = {};
     vm.ccuse = ccuse;
     vm.timinguse = timinguse;
+    vm.aquause = aquause;
+    vm.ticketuse = ticketuse;
+    vm.personaluse = personaluse;
     vm.fdata = {minutes: 1,}
     activate();
 
@@ -63,6 +66,7 @@
       */
       function cardclientSuccessFn(data, status, headers, config) {
         console.log('success')
+        activate()
       }
 
       /**
@@ -75,25 +79,98 @@
 
     }
 
-    function timinguse(uid) {
-      
-      var fdata = {client_timing: uid, minutes: vm.fdata.minutes}
-      console.log(fdata)
-      Timing.use(fdata).then(cardclientSuccessFn, cardclientErrorFn);
+    // Use AquaAerobics
+    function aquause(uid) {
+      var fdata = {client_aqua_aerobics: uid}
+      AquaAerobics.use(fdata).then(aquaSuccessFn, aquaErrorFn);
 
       /**
-      * @name cardclientSuccessFn
+      * @name aquaSuccessFn
       * @desc Update ClubCard array on view
       */
-      function cardclientSuccessFn(data, status, headers, config) {
+      function aquaSuccessFn(data, status, headers, config) {
         console.log('success')
+        activate()
       }
 
       /**
-      * @name cardclientErrorFn
+      * @name aquaErrorFn
       * @desc console log error
       */
-      function cardclientErrorFn(data, status, headers, config) {
+      function aquaErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    // Use Tickets
+    function ticketuse(uid) {
+      var fdata = {client_ticket: uid}
+      Tickets.use(fdata).then(ticketSuccessFn, ticketErrorFn);
+
+      /**
+      * @name ticketSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function ticketSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name ticketErrorFn
+      * @desc console log error
+      */
+      function ticketErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    // Use Personals
+    function personaluse(uid) {
+      var fdata = {client_personal: uid}
+      Personals.use(fdata).then(personalSuccessFn, personalErrorFn);
+
+      /**
+      * @name personalSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function personalSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name personalErrorFn
+      * @desc console log error
+      */
+      function personalErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    // Use timing
+    function timinguse(uid) {
+      
+      var fdata = {client_timing: uid, minutes: vm.fdata.minutes}
+      Timing.use(fdata).then(timinSuccessFn, timinErrorFn);
+
+      /**
+      * @name timinSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function timinSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name timinErrorFn
+      * @desc console log error
+      */
+      function timinErrorFn(data, status, headers, config) {
         console.log(data);
       }
 

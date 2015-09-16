@@ -23,6 +23,8 @@
     var Tickets = {
       create: create,
       list: list,
+      get: get,
+      use: use,
     };
 
     return Tickets;
@@ -46,6 +48,18 @@
     function list() {
       return $http.get('/api/v1/products/tickets/')
     }
+
+    function get(uid) {
+      return $http.get('/api/v1/clients/ticket/' + uid + '/')
+    }
+
+    function use(fdata) {
+      return $http.post('/api/v1/clients/useticket/', fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
   }
 
 })();
