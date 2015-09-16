@@ -13,16 +13,25 @@
         <table class="table">
           <tr>
             <td>дата</td><td>наименование</td>
-            <td>остаток дней</td><td>визитов</td>
+            <td>срок действия</td><td>визитов</td>
+            <td>вход</td>
           </tr>
-          <tr ng-repeat="card in vm.cardclient.clientclubcard_set"
-          data-href="/usecardclient/{{ card.id }}"
-          class="close-UseClubCard" 
-             >
-            <td > {{ card.date | date:'dd.MM.yyyy' }} </td>
-            <td> {{ card.name }} </td>
-            <td> {{ card.rest_days }} </td>
+          <tr ng-repeat="card in vm.cardclient.clientclubcard_set">
+            <td >
+              {{ card.date | date:'dd.MM.yyyy' }}</td>
+            <td>
+              <span data-href="#/usecardclient/{{ card.id }}">
+                {{ card.name }}
+              </span>
+            </td>
+            <td> {{ card.date_end | date:'dd.MM.yyyy' }}</td>
             <td> {{ card.rest_visits }} </td>
+            <td>
+              <button class="btn btn-block btn-success"
+              ng-click="vm.ccuse(card.id)">
+                Вход
+              </button>
+            </td>
           </tr>
         </table>
       </div>
@@ -48,10 +57,13 @@
               <td>дата</td><td>наименование</td>
               <td>остаток дней</td><td>визитов</td>
             </tr>
-            <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobics_set"
-               data-href="/useaquaaerobics/{{ aqua.id }}">
+            <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobics_set">
               <td> {{ aqua.date | date:'dd.MM.yyyy' }} </td>
-              <td> {{ aqua.name }} </td>
+              <td> 
+                <span data-href="#/useaquaaerobics/{{ aqua.id }}">
+                  {{ aqua.name }}
+                </span>
+              </td>
               <td> {{ aqua.rest_days }} </td>
               <td> {{ aqua.rest_visits }} </td>
             </tr>
@@ -129,7 +141,7 @@
 
 <!-- Modal use Timing -->
 <div class="modal fade" id="UseTiming" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" style="width: 600px;">
+  <div class="modal-dialog" style="width: 800px;">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -140,14 +152,23 @@
         <table class="table">
           <tr>
             <td>дата</td><td>наименование</td>
-            <td>остаток дней</td><td>минут</td>
+            <td>Срок действия</td><td>минут</td>
+            <td colspan="2">вход</td>
           </tr>
           <tr ng-repeat="timing in vm.cardclient.clienttiming_set"
-            data-href="/usetiming/{{ timing.id }}">
+            data-href="#/usetiming/{{ timing.id }}">
             <td> {{ timing.date | date:'dd.MM.yyyy' }} </td>
             <td> {{ timing.name }} </td>
-            <td> {{ timing.rest_days }} </td>
+            <td> {{ timing.date_end | date:'dd.MM.yyyy' }}</td>
             <td> {{ timing.rest_minutes }} </td>
+            <td style="width: 100px;">
+              <input ng-model="vm.fdata.minutes" type="number" class="form-control col-sm-6">
+            </td>
+            <td>
+              <button class="btn btn-success" ng-click="vm.timinguse(timing.id)">
+                Вход
+              </button>
+            </td>
           </tr>
         </table>
       </div>
@@ -250,12 +271,15 @@
 
 <script  type="text/javascript">
 $(document).ready(function() {
-  $(document).on('click','tr', function() {
+  $(document).on('click','td span', function() {
     var url = $(this).attr('data-href')
     $(this).closest('.modal').modal('hide'); // hide modal dialog
     setTimeout(function(){
-      window.location.href = '/#' + url
+      window.location.href = url
     }, 500);
+  });
+  $(document).on('click','td button', function() {
+    $(this).closest('.modal').modal('hide'); // hide modal dialog
   });
 });
 </script>

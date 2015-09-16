@@ -49,11 +49,6 @@
 
     }
 
-    /**
-    * @name activate
-    * @desc Actions to be performed when this controller is instantiated
-    * @memberOf fcbp.clubcard.controllers.NewClubCardController
-    */
     function use() {
 
       var uid = $routeParams.uid
