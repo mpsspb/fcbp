@@ -79,6 +79,10 @@
       controller: 'UseClientCardController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/use/clubcard.html'
+    }).when('/useaquaaerobics/:uid', {
+      controller: 'UseClientAquaController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/use/aquaaerobics.html'
     }).when('/usetiming/:uid', {
       controller: 'UseTimingController',
       controllerAs: 'vm',

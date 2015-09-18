@@ -65,13 +65,15 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
+    useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
+                                                                read_only=True)
 
     class Meta:
         model = ClientAquaAerobics
 
         fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'name',
-                  'rest_days', 'rest_visits')
+                  'date_begin', 'date_end', 'useclientaquaaerobics_set',
+                  'rest_days', 'name', 'client', 'rest_visits')
 
 
 class ClientTicketSerializer(serializers.ModelSerializer):

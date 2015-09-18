@@ -1,0 +1,35 @@
+<i class="fa fa-credit-aqua"></i> Клубная Карта </h4>
+<table class="table">
+  <tr>
+    <td>дата</td><td>наименование</td>
+    <td>остаток дней</td><td>визитов</td>
+  </tr>
+  <tr>
+    <td> {{ vm.aqua.date | date:'dd.MM.yyyy' }} </td>
+    <td> {{ vm.aqua.name }} </td>
+    <td> {{ vm.aqua.rest_days }} </td>
+    <td> {{ vm.aqua.rest_visits }} </td>
+  </tr>
+</table>
+<div class="col-md-3">
+  <a href="#/cardclient/{{ vm.aqua.client }}/" class="btn btn-default pull-left">отмена</a>
+</div> 
+
+<div class="col-md-3">
+  <button ng-click="vm.use()" class="btn btn-block btn-danger">Использовать</button>
+</div>
+
+<div class="col-md-3">
+  <button  ng-click="showHistory=!showHistory" class="btn btn-block btn-info">История</button>
+</div>
+
+<table class="table" ng-show="showHistory">
+  <tr>
+    <td>дата</td><td>время</td><td>окончание</td>
+  </tr>
+  <tr ng-repeat="use in vm.aqua.useclientaquaaerobics_set">
+    <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
+    <td> {{ use.date | date:'HH:mm' }} </td>
+    <td> {{ use.end }} </td>
+  </tr>
+</table>
