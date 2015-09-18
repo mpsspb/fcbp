@@ -78,7 +78,7 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
 
 class ClientTicketSerializer(serializers.ModelSerializer):
     useclientticket_set = UseClientTicketSerializer(many=True,
-                                                          read_only=True)
+                                                    read_only=True)
     class Meta:
         model = ClientTicket
 
@@ -88,13 +88,15 @@ class ClientTicketSerializer(serializers.ModelSerializer):
 
 
 class ClientPersonalSerializer(serializers.ModelSerializer):
+    useclientpersonal_set = UseClientPersonalSerializer(many=True,
+                                                        read_only=True)
 
     class Meta:
         model = ClientPersonal
 
         fields = ('id', 'personal', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'name',
-                  'rest_days', 'rest_visits')
+                  'date_begin', 'date_end', 'name', 'client',
+                  'rest_days', 'rest_visits', 'useclientpersonal_set')
 
 
 class ClientTimingSerializer(serializers.ModelSerializer):

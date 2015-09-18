@@ -140,10 +140,9 @@
               <td>срок действия</td><td>визитов</td>
               <td>вход</td>
           </tr>
-          <tr ng-repeat="personal in vm.cardclient.clientpersonal_set"
-           data-href="/usepersonal/{{ personal.id }}">
+          <tr ng-repeat="personal in vm.cardclient.clientpersonal_set">
             <td> {{ personal.date | date:'dd.MM.yyyy' }} </td>
-            <td> {{ personal.name }} </td>
+            <td> <span data-href="#/usepersonal/{{ personal.id }}">{{ personal.name }} </span></td>
             <td> {{ personal.date_end | date:'dd.MM.yyyy' }} </td>
             <td> {{ personal.rest_visits }} </td>
             <td>

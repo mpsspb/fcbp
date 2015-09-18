@@ -29,21 +29,21 @@
     function activate() {
 
       var uid = $routeParams.uid
-      Tickets.get(uid).then(aquaclientSuccessFn, aquaclientErrorFn);
+      Tickets.get(uid).then(ticketclientSuccessFn, ticketclientErrorFn);
 
       /**
-      * @name aquaclientSuccessFn
+      * @name ticketclientSuccessFn
       * @desc Update Tickets array on view
       */
-      function aquaclientSuccessFn(data, status, headers, config) {
+      function ticketclientSuccessFn(data, status, headers, config) {
         vm.ticket = data.data;
       }
 
       /**
-      * @name aquaclientErrorFn
+      * @name ticketclientErrorFn
       * @desc console log error
       */
-      function aquaclientErrorFn(data, status, headers, config) {
+      function ticketclientErrorFn(data, status, headers, config) {
         console.log(data);
       }
 
@@ -53,22 +53,22 @@
 
       var uid = $routeParams.uid
       var fdata = {client_ticket: uid}
-      Tickets.use(fdata).then(aquaclientSuccessFn, aquaclientErrorFn);
+      Tickets.use(fdata).then(ticketclientSuccessFn, ticketclientErrorFn);
 
       /**
-      * @name aquaclientSuccessFn
+      * @name ticketclientSuccessFn
       * @desc Update Tickets array on view
       */
-      function aquaclientSuccessFn(data, status, headers, config) {
+      function ticketclientSuccessFn(data, status, headers, config) {
         activate();
         console.log('success')
       }
 
       /**
-      * @name aquaclientErrorFn
+      * @name ticketclientErrorFn
       * @desc console log error
       */
-      function aquaclientErrorFn(data, status, headers, config) {
+      function ticketclientErrorFn(data, status, headers, config) {
         console.log(data);
       }
 

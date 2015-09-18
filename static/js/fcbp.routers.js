@@ -87,6 +87,10 @@
       controller: 'UseClientTicketController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/use/ticket.html'
+    }).when('/usepersonal/:uid', {
+      controller: 'UseClientPersonalController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/use/personal.html'
     }).when('/usetiming/:uid', {
       controller: 'UseTimingController',
       controllerAs: 'vm',
