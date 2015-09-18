@@ -83,6 +83,10 @@
       controller: 'UseClientAquaController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/use/aquaaerobics.html'
+    }).when('/useticket/:uid', {
+      controller: 'UseClientTicketController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/use/ticket.html'
     }).when('/usetiming/:uid', {
       controller: 'UseTimingController',
       controllerAs: 'vm',

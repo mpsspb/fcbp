@@ -99,10 +99,13 @@
               <td>срок действия</td><td>визитов</td>
               <td>вход</td>
           </tr>
-          <tr ng-repeat="ticket in vm.cardclient.clientticket_set"
-            data-href="/useticket/{{ ticket.id }}">
+          <tr ng-repeat="ticket in vm.cardclient.clientticket_set">
             <td> {{ ticket.date | date:'dd.MM.yyyy' }} </td>
-            <td> {{ ticket.name }} </td>
+            <td> 
+              <span data-href="#/useticket/{{ ticket.id }}">
+                {{ ticket.name }}
+              </span>
+            </td>
             <td> {{ ticket.date_end | date:'dd.MM.yyyy' }} </td>
             <td> {{ ticket.rest_visits }} </td>
             <td>

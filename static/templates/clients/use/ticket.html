@@ -1,18 +1,18 @@
-<i class="fa fa-life-ring"></i> Аквааэробика </h4>
+<i class="fa fa-ticket"></i> Абонемент </h4>
 <table class="table">
   <tr>
     <td>дата</td><td>наименование</td>
     <td>остаток дней</td><td>визитов</td>
   </tr>
   <tr>
-    <td> {{ vm.aqua.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ vm.aqua.name }} </td>
-    <td> {{ vm.aqua.rest_days }} </td>
-    <td> {{ vm.aqua.rest_visits }} </td>
+    <td> {{ vm.ticket.date | date:'dd.MM.yyyy' }} </td>
+    <td> {{ vm.ticket.name }} </td>
+    <td> {{ vm.ticket.rest_days }} </td>
+    <td> {{ vm.ticket.rest_visits }} </td>
   </tr>
 </table>
 <div class="col-md-3">
-  <a href="#/cardclient/{{ vm.aqua.client }}/" class="btn btn-default pull-left">отмена</a>
+  <a href="#/cardclient/{{ vm.ticket.client }}/" class="btn btn-default pull-left">отмена</a>
 </div> 
 
 <div class="col-md-3">
@@ -27,7 +27,7 @@
   <tr>
     <td>дата</td><td>время</td><td>окончание</td>
   </tr>
-  <tr ng-repeat="use in vm.aqua.useclientaquaaerobics_set">
+  <tr ng-repeat="use in vm.ticket.useclientticket_set">
     <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
     <td> {{ use.date | date:'HH:mm' }} </td>
     <td> {{ use.end }} </td>
