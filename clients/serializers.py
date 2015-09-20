@@ -3,11 +3,13 @@ from rest_framework import serializers
 from .models import Client, ClientClubCard, ClientAquaAerobics, ClientTicket
 from .models import ClientPersonal, ClientTiming
 from .use_serializers import *
+from finance.serializers import *
 
 
 class Base64ImageField(serializers.ImageField):
     """
-    A Django REST framework field for handling image-uploads through raw post data.
+    A Django REST framework field for handling image-uploads through
+    raw post data.
     It uses base64 for encoding and decoding the contents of the file.
 
     Heavily based on
@@ -33,7 +35,8 @@ class Base64ImageField(serializers.ImageField):
                 self.fail('invalid_image')
 
             # Generate file name:
-            file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+            # 12 characters are more than enough.
+            file_name = str(uuid.uuid4())[:12]
             # Get the file name extension:
             file_extension = self.get_file_extension(file_name, decoded_file)
 
@@ -58,7 +61,6 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientClubCard
-
         fields = ('id', 'club_card', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client',
                   'rest_days', 'rest_visits', 'useclientclubcard_set')
@@ -70,7 +72,6 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientAquaAerobics
-
         fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'useclientaquaaerobics_set',
                   'rest_days', 'name', 'client', 'rest_visits')
@@ -79,9 +80,9 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
 class ClientTicketSerializer(serializers.ModelSerializer):
     useclientticket_set = UseClientTicketSerializer(many=True,
                                                     read_only=True)
+
     class Meta:
         model = ClientTicket
-
         fields = ('id', 'ticket', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'useclientticket_set',
                   'rest_days', 'rest_visits', 'client')
@@ -93,7 +94,6 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientPersonal
-
         fields = ('id', 'personal', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client',
                   'rest_days', 'rest_visits', 'useclientpersonal_set')
@@ -104,7 +104,6 @@ class ClientTimingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientTiming
-
         fields = ('id', 'timing', 'status', 'date', 'date_start', 'client',
                   'date_begin', 'date_end', 'name', 'useclienttiming_set',
                   'rest_days', 'rest_minutes')
@@ -121,14 +120,18 @@ class ClientSerializer(serializers.ModelSerializer):
     clientpersonal_set = ClientPersonalSerializer(many=True, read_only=True)
     clienttiming_set = ClientTimingSerializer(many=True, read_only=True)
 
+    credit_set = CreditSerializer(many=True, read_only=True)
+    debt_set = DebtSerializer(many=True, read_only=True)
+    debtupcoming_set = DebtUpcomingSerializer(many=True, read_only=True)
+
     class Meta:
         model = Client
-
         fields = ('id', 'first_name', 'last_name', 'patronymic',
                   'born',  'gender', 'mobile', 'address', 'passport',
                   'phone', 'email', 'avatar', 'date', 'clientclubcard_set',
                   'avatar_url', 'full_name', 'uid', 'clientaquaaerobics_set',
-                  'clientticket_set', 'clientpersonal_set', 'clienttiming_set'
+                  'clientticket_set', 'clientpersonal_set', 'clienttiming_set',
+                  'credit_set', 'debt_set', 'debtupcoming_set',
                   )
         read_only_fields = ('id', 'full_name', 'avatar_url', 'uid',
                             'date')
