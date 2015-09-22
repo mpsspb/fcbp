@@ -178,10 +178,9 @@
             <td>Срок действия</td><td>минут</td>
             <td colspan="2">вход</td>
           </tr>
-          <tr ng-repeat="timing in vm.cardclient.clienttiming_set"
-            data-href="#/usetiming/{{ timing.id }}">
+          <tr ng-repeat="timing in vm.cardclient.clienttiming_set">
             <td> {{ timing.date | date:'dd.MM.yyyy' }} </td>
-            <td> {{ timing.name }} </td>
+            <td> <span  data-href="#/usetiming/{{ timing.id }}">{{ timing.name }} </span></td>
             <td> {{ timing.date_end | date:'dd.MM.yyyy' }}</td>
             <td> {{ timing.rest_minutes }} </td>
             <td style="width: 100px;">

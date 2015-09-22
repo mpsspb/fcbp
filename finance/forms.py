@@ -2,42 +2,16 @@
 from django.forms import ModelForm
 from django import forms
 
-from .models import Credit
-from clients.models import ClientClubCard, ClientAquaAerobics
-from clients.models import ClientTicket, ClientPersonal, ClientTiming
+from .models import Credit, Payment
 
 
 class FormCredit(ModelForm):
-	class Meta:
-		model = Credit
-		exclude = ['date', ]
-
-
-class FormClientClubCard(ModelForm):
     class Meta:
-        model = ClientClubCard
+        model = Credit
         exclude = ['date', ]
 
 
-class FormClientAquaAerobics(ModelForm):
+class FormPayment(ModelForm):
     class Meta:
-        model = ClientAquaAerobics
-        exclude = ['date', ]
-
-
-class FormClientTicket(ModelForm):
-    class Meta:
-        model = ClientTicket
-        exclude = ['date', ]
-
-
-class FormClientPersonal(ModelForm):
-    class Meta:
-        model = ClientPersonal
-        exclude = ['date', ]
-
-
-class FormClientTiming(ModelForm):
-    class Meta:
-        model = ClientTiming
+        model = Payment
         exclude = ['date', ]

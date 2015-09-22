@@ -1,9 +1,14 @@
+from datetime import date, timedelta
+from dateutil.relativedelta import relativedelta
+
 from rest_framework import serializers
 
-from .models import Client, ClientClubCard, ClientAquaAerobics, ClientTicket
-from .models import ClientPersonal, ClientTiming
+from .models import *
+from .forms import *
 from .use_serializers import *
+from products.models import *
 from finance.serializers import *
+from finance.forms import *
 
 
 class Base64ImageField(serializers.ImageField):
@@ -64,6 +69,24 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         fields = ('id', 'club_card', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client',
                   'rest_days', 'rest_visits', 'useclientclubcard_set')
+        read_only_fields = ('id', )
+
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        data['count'] = 1
+        data['status'] = 2
+        data['date_start'] = date.today()
+        data['date_begin'] = date.today()
+        obj = ClubCard.objects.get(pk=data['club_card'])
+        data['date_end'] = date_end(data['date_begin'], obj)
+        fclub_card = FormClientClubCard(data)
+        if fclub_card.is_valid():
+            club_card = fclub_card.save()
+            data['club_card'] = club_card.pk
+            finance(data)
+        else:
+            print fclub_card.errors
+        return club_card
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
@@ -76,6 +99,23 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
                   'date_begin', 'date_end', 'useclientaquaaerobics_set',
                   'rest_days', 'name', 'client', 'rest_visits')
 
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        data['count'] = 1
+        data['status'] = 2
+        data['date_start'] = date.today()
+        data['date_begin'] = date.today()
+        obj = AquaAerobics.objects.get(pk=data['aqua_aerobics'])
+        data['date_end'] = date_end(data['date_begin'], obj)
+        faqua_aerobics = FormClientAquaAerobics(data)
+        if faqua_aerobics.is_valid():
+            aqua_aerobics = faqua_aerobics.save()
+            data['aqua_aerobics'] = aqua_aerobics.pk
+            finance(data)
+        else:
+            print faqua_aerobics.errors
+        return aqua_aerobics
+
 
 class ClientTicketSerializer(serializers.ModelSerializer):
     useclientticket_set = UseClientTicketSerializer(many=True,
@@ -86,6 +126,23 @@ class ClientTicketSerializer(serializers.ModelSerializer):
         fields = ('id', 'ticket', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'useclientticket_set',
                   'rest_days', 'rest_visits', 'client')
+
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        data['count'] = 1
+        data['status'] = 2
+        data['date_start'] = date.today()
+        data['date_begin'] = date.today()
+        obj = Ticket.objects.get(pk=data['ticket'])
+        data['date_end'] = date_end(data['date_begin'], obj)
+        fticket = FormClientTicket(data)
+        if fticket.is_valid():
+            ticket = fticket.save()
+            data['ticket'] = ticket.pk
+            finance(data)
+        else:
+            print fticket.errors
+        return ticket
 
 
 class ClientPersonalSerializer(serializers.ModelSerializer):
@@ -98,6 +155,23 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
                   'date_begin', 'date_end', 'name', 'client',
                   'rest_days', 'rest_visits', 'useclientpersonal_set')
 
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        data['count'] = 1
+        data['status'] = 2
+        data['date_start'] = date.today()
+        data['date_begin'] = date.today()
+        obj = Personal.objects.get(pk=data['personal'])
+        data['date_end'] = date_end(data['date_begin'], obj)
+        fpersonal = FormClientPersonal(data)
+        if fpersonal.is_valid():
+            personal = fpersonal.save()
+            data['personal'] = personal.pk
+            finance(data)
+        else:
+            print fpersonal.errors
+        return personal
+
 
 class ClientTimingSerializer(serializers.ModelSerializer):
     useclienttiming_set = UseClientTimingSerializer(many=True, read_only=True)
@@ -107,6 +181,23 @@ class ClientTimingSerializer(serializers.ModelSerializer):
         fields = ('id', 'timing', 'status', 'date', 'date_start', 'client',
                   'date_begin', 'date_end', 'name', 'useclienttiming_set',
                   'rest_days', 'rest_minutes')
+
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        data['count'] = 1
+        data['status'] = 2
+        data['date_start'] = date.today()
+        data['date_begin'] = date.today()
+        obj = Timing.objects.get(pk=data['timing'])
+        data['date_end'] = date_end(data['date_begin'], obj)
+        ftiming = FormClientTiming(data)
+        if ftiming.is_valid():
+            timing = ftiming.save()
+            data['timing'] = timing.pk
+            finance(data)
+        else:
+            print ftiming.errors
+        return timing
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -135,3 +226,36 @@ class ClientSerializer(serializers.ModelSerializer):
                   )
         read_only_fields = ('id', 'full_name', 'avatar_url', 'uid',
                             'date')
+
+
+def finance(data):
+    """
+    Finance records for the service of the client.
+    """
+    # Add Payment
+    fpayment = FormPayment(data)
+    if fpayment.is_valid():
+        fpayment.save()
+    else:
+        print fpayment.errors
+    # Create credit schedule
+    for credit in data['credits']:
+        data['amount'] = credit['amount']
+        data['schedule'] = credit['date']
+        form = FormCredit(data)
+        if form.is_valid():
+            form.save()
+        else:
+            print form.errors
+
+
+def date_end(date_begin, obj):
+    """
+    Return date end for the obj
+    """
+    if obj.period.is_month:
+        months = obj.period.value
+        return date_begin + relativedelta(months=months)
+    else:
+        days = obj.period.value
+        return date_begin + timedelta(days=days)

@@ -11,16 +11,26 @@ SELECT cr.id, cr.date, cr.amount
 FROM clients_client c
  LEFT JOIN finance_credit cr
     ON c.id = cr.client_id
+ LEFT JOIN clients_clientclubcard ccc
+    ON cr.club_card_id = ccc.id 
 LEFT JOIN products_clubcard cc
-    ON cr.club_card_id = cc.id
+    ON ccc.club_card_id = cc.id
+LEFT JOIN clients_clientaquaaerobics ca
+    ON cr.aqua_aerobics_id = ca.id
 LEFT JOIN products_aquaaerobics a
-    ON cr.aqua_aerobics_id = a.id
+    ON ca.aqua_aerobics_id = a.id
+LEFT JOIN clients_clientpersonal cp
+    ON cr.personal_id = cp.id
 LEFT JOIN products_personal p
-    ON cr.personal_id = p.id
+    ON cp.personal_id = p.id
+LEFT JOIN clients_clientticket ct
+    ON cr.ticket_id = ct.id
 LEFT JOIN products_ticket t
-    ON cr.ticket_id = t.id
+    ON ct.ticket_id = t.id
+LEFT JOIN clients_clienttiming ctm
+    ON cr.timing_id = ctm.id
 LEFT JOIN products_timing tm
-    ON cr.timing_id = tm.id
+    ON ctm.timing_id = tm.id
 WHERE cr.schedule < current_date + 7 
     AND cr.schedule > current_date
 );

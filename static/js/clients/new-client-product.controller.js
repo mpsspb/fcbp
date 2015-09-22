@@ -10,6 +10,7 @@
     .controller('NewClientProductController', NewClientProductController);
 
   NewClientProductController.$inject = ['$rootScope', '$routeParams', '$scope',
+                                        '$http',
                                         'Clients', 'ClubCard', 'Timing',
                                         'AquaAerobics', 'Tickets', 'Personals',
                                         'ClientPayment'];
@@ -17,7 +18,7 @@
   /**
   * @namespace NewClientProductController
   */
-  function NewClientProductController($rootScope, $routeParams, $scope,
+  function NewClientProductController($rootScope, $routeParams, $scope, $http,
                                        Clients, ClubCard, Timing,
                                        AquaAerobics, Tickets, Personals,
                                        ClientPayment) {
@@ -204,16 +205,28 @@
                        'date': credit_date});
       }
 
+      vm.fdata.credits = vm.credits;
+
       if (vm.product == 'card') {
         vm.fdata.club_card = vm.fdata.product
+        $http.post('/api/v1/clients/clubcard/', vm.fdata)
+             .then(SuccessFn, ErrorFn);
       } else if (vm.product == 'aqua') {
         vm.fdata.aqua_aerobics = vm.fdata.product
+        $http.post('/api/v1/clients/aquaaerobics/', vm.fdata)
+             .then(SuccessFn, ErrorFn);
       } else if (vm.product == 'ticket') {
         vm.fdata.ticket = vm.fdata.product
+        $http.post('/api/v1/clients/ticket/', vm.fdata)
+             .then(SuccessFn, ErrorFn);
       } else if (vm.product == 'personal') {
         vm.fdata.personal = vm.fdata.product
+        $http.post('/api/v1/clients/personal/', vm.fdata)
+             .then(SuccessFn, ErrorFn);
       } else if (vm.product == 'timing') {
         vm.fdata.timing = vm.fdata.product
+        $http.post('/api/v1/clients/timing/', vm.fdata)
+             .then(SuccessFn, ErrorFn);
       } else {
         console.log('error product');
         return 0;
@@ -224,24 +237,11 @@
         return 0;
       }
 
-      vm.fdata.credits = vm.credits;
-
-      ClientPayment.create(vm.fdata).then(createClientPayment, createClientPayment);
-      /**
-      * @name createClientPayment
-      * @desc Show snackbar with success message
-      */
-      function createClientPayment(data, status, headers, config) {
-        console.log('Success! ClientPayment created.');
-        window.location = '/#/cardclient/' + vm.client.id + '/';
-      }
-
-
       /**
       * @name createClientPayment
       * @desc Propogate error event and show snackbar with error message
       */
-      function createClientPayment(data, status, headers, config) {
+      function SuccessFn(data, status, headers, config) {
         if ( data['status'] == 201 ){
           console.log('Success! ClientPayment created.');
           window.location = '/#/cardclient/' + vm.client.id + '/';
@@ -250,6 +250,12 @@
           $rootScope.$broadcast('ClientPayment.created.error');
         }
       }
+
+      function ErrorFn(data, status, headers, config) {
+          console.log(data)
+          $rootScope.$broadcast('ClientPayment.created.error');
+      }
+
     };
 
     /**
