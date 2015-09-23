@@ -23,6 +23,7 @@
     var ClientPayment = {
       create: create,
       list: list,
+      close_credit: close_credit,
     };
 
     return ClientPayment;
@@ -47,6 +48,11 @@
       return $http.get('/api/v1/finance/payments/', 
                         {params: {page: page,
                                   letter: letter} })
+    }
+
+    function close_credit(payment_type, uid) {
+      return $http.post('/api/v1/finance/credits/' + uid + '/close/', 
+                        {'payment_type': payment_type})
     }
 
   }

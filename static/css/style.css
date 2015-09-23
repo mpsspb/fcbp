@@ -1,3 +1,8 @@
+.table > tbody > tr > td > span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
 /*
 * add more panel color
 */

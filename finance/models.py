@@ -27,6 +27,9 @@ class Credit(models.Model):
                                                MaxValueValidator(100)])
     is_credit = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ('schedule',)
+
 
 class Payment(models.Model):
     """

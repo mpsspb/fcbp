@@ -202,6 +202,7 @@
 </div> <!-- end modal Timing -->
 
 <!-- End Block modal -->
+
 <div class="alert alert-danger alert-dismissible" role="alert" ng-repeat="debt in vm.cardclient.debt_set">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   <strong> Долг: </strong> 
@@ -299,12 +300,55 @@
   <a href="#/new-client-product/{{ vm.cardclient.id }}/" class="btn btn-block btn-info">Оформить услугу</a>  
 </div>
 
+<button class="btn btn-primary col-md-4" ng-click="show_credits=!show_credits">
+  Долги
+</button>
+
+<div class="row" ng-show="show_credits">
+  <table class="table">
+    <thead>
+      <th>#</th>
+      <th>Дата</th>
+      <th>Сумма</th>
+      <th style="width: 80px;"></th>
+      <th style="width: 220px;"></th>
+    </thead>
+    <tbody>
+      <tr ng-repeat="c in vm.cardclient.credit_set">
+        <td>{{ $index }}</td>
+        <td>{{ c.schedule | date:'dd.MM.yyyy' }}</td>
+        <td>{{ c.amount }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm"
+          ng-click="show_pay_type=!show_pay_type">
+            Оплатить
+          </button>
+        </td>
+        <td>
+          <div ng-show="show_pay_type">
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(1, c.id)">
+            нал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(2, c.id)">
+             безнал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(3, c.id)">
+             банк
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(0, c.id)">
+             иное
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </form>
 <img class="col-md-4 col-md-offset-2" ng-src="{{ vm.cardclient.avatar_url }}">
 <hr/>
-
 <script  type="text/javascript">
-$(document).ready(function() {
   $(document).on('click','td span', function() {
     var url = $(this).attr('data-href')
     $(this).closest('.modal').modal('hide'); // hide modal dialog
@@ -312,8 +356,8 @@ $(document).ready(function() {
       window.location.href = url
     }, 500);
   });
-  $(document).on('click','td button', function() {
+
+  $(document).on('click', 'td button', function() {
     $(this).closest('.modal').modal('hide'); // hide modal dialog
   });
-});
 </script>
