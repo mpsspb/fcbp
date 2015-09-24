@@ -1,0 +1,27 @@
+<form>
+  <div class="form-group has-warning">
+    <label class="col-md-2 control-label">Дата:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.introductory_date" type="text" 
+      class="form-control date" placeholder="ДД.ММ.ГГГГ HH:mm">
+    </div>
+    <label class="col-md-2 control-label">Сотрудник:</label>
+    <div class="col-md-3">
+        <select ng-model="vm.fdata.introductory_employee"
+         ng-options="employee.id as employee.initials for employee in vm.employees"></select>
+    </div>
+  </div>
+<br/><br/>
+  <div class="col-md-3">
+    <a href="#/cardclient/{{ vm.uid}}/" class="btn btn-default pull-left">отмена</a>
+  </div>  
+
+  <div class="col-md-offset-6 col-md-3">
+    <button type="submit" class="btn btn-primary pull-right" ng-click="vm.submit()">Отправить</button>
+  </div>
+</form>
+<script type="text/javascript">
+  jQuery(function($){
+   $(".date").mask("99.99.9999 99:99");
+});
+</script>

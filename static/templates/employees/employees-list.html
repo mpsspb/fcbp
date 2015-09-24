@@ -1,0 +1,19 @@
+<!-- main menu -->
+<div class="row" ng-show="vm.isAuthenticated">
+  <div class="col-md-3">
+  <a href="#/new-employee" class="btn btn-success pull-left">
+    Новый сотрудник
+  </a>
+  </div>
+</div>
+<!-- end of the main menu -->
+
+<form class="navbar-form navbar-left" role="search">
+  <div class="form-group">
+    <input ng-model="searchText" class="form-control" placeholder="Поиск по странице"> 
+  </div>
+</form>
+
+  <employee employee="employee"  
+    ng-repeat="employee in vm.employess | filter:searchText">
+  </employee>

@@ -1,0 +1,43 @@
+<form class="form-horizontal">
+<div class="modal-body">
+
+  <div class="form-group has-warning">
+    <label class="col-md-2 control-label">Фамилия:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.last_name" type="text"
+      class="form-control" placeholder="Фамилия">
+    </div>
+
+    <label class="col-md-2 control-label">Имя:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.first_name" type="text"
+      class="form-control" placeholder="Имя">
+    </div>
+  </div>
+
+  <div class="form-group has-warning">
+    <label class="col-md-2 control-label">Отчество:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.patronymic" type="text"
+      class="form-control" placeholder="Отчество">
+    </div>
+
+    <label class="col-md-2 control-label">Д. рождения:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.born" type="text" 
+      class="form-control date" placeholder="ДД.ММ.ГГГГ">
+    </div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <a href="#/employees-list" class="btn btn-default pull-left">отмена</a>
+
+  <button type="submit" class="btn btn-primary pull-right" ng-click="vm.submit()">сохранить</button>          
+</div>
+</form>
+<script type="text/javascript">
+  jQuery(function($){
+   $(".date").mask("99.99.9999");
+});
+</script>
