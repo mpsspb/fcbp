@@ -218,6 +218,14 @@
 </div>
 
 <form class="form-horizontal col-md-6">
+<div class="form-group">
+  <div class="col-md-4" ng-show="!vm.cardclient.introductory_date">
+    <a ng-href="#/client-introductory/{{ vm.cardclient.id }}/" 
+    class="btn btn-block btn-info"
+    >Вводный инструктаж</a>
+  </div>
+</div>
+
   <div class="form-group">
     <label class="control-label">
       {{ vm.cardclient.full_name }}

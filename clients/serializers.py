@@ -223,6 +223,7 @@ class ClientSerializer(serializers.ModelSerializer):
                   'avatar_url', 'full_name', 'uid', 'clientaquaaerobics_set',
                   'clientticket_set', 'clientpersonal_set', 'clienttiming_set',
                   'credit_set', 'debt_set', 'debtupcoming_set',
+                  'introductory_date', 'introductory_employee',
                   )
         read_only_fields = ('id', 'full_name', 'avatar_url', 'uid',
                             'date')

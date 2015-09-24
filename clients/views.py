@@ -2,10 +2,11 @@ import json
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.decorators import list_route
+from rest_framework.decorators import list_route, detail_route
 from rest_framework.pagination import PageNumberPagination
 
 from .models import *
+from .forms import *
 from .serializers import *
 from .use_serializers import *
 
@@ -27,13 +28,26 @@ class ClientViewSet(viewsets.ModelViewSet):
         by filtering against a `letter` query parameter in the URL.
         """
         queryset = Client.objects\
-                     .order_by('last_name', 'first_name', 'patronymic')
+                         .order_by('last_name', 'first_name', 'patronymic')
 
         letter = self.request.query_params.get('letter', None)
         if letter is not None:
             queryset = queryset.filter(last_name__istartswith=letter)
 
         return queryset
+
+    @detail_route(methods=['post'], )
+    def introductory(self, request, pk):
+        """
+        Set introductory for the user.
+        """
+        client = self.get_object()
+        form = FormClientIntro(request.data, instance=client)
+        if form.is_valid():
+            form.save()
+        else:
+            print form.errors
+        return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
 
 class ClientClubCardViewSet(viewsets.ModelViewSet):

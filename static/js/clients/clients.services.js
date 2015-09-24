@@ -24,6 +24,7 @@
       create: create,
       list: list,
       get: get,
+      introductory: introductory,
     };
 
     return Clients;
@@ -52,6 +53,11 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/client/' + uid + '/')
+    }
+
+    function introductory(uid, fdata) {
+      return $http.post('/api/v1/clients/client/' + uid + '/introductory/',
+        fdata)
     }
   }
 

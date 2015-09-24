@@ -2,8 +2,13 @@
 from django.forms import ModelForm
 from django import forms
 
-from .models import ClientClubCard, ClientAquaAerobics
-from .models import ClientTicket, ClientPersonal, ClientTiming
+from .models import *
+
+
+class FormClientIntro(ModelForm):
+    class Meta:
+        model = Client
+        fields = ['introductory_date', 'introductory_employee']
 
 
 class FormClientClubCard(ModelForm):

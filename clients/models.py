@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Sum
 
 from products.models import ClubCard, AquaAerobics, Ticket, Personal, Timing
+from employees.models import Employee
 
 
 class Client(models.Model):
@@ -23,6 +24,9 @@ class Client(models.Model):
     phone = models.IntegerField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
+
+    introductory_date = models.DateTimeField(blank=True, null=True)
+    introductory_employee = models.ForeignKey(Employee, blank=True, null=True)
 
     @property
     def full_name(self,):

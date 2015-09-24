@@ -63,6 +63,10 @@
       controller: 'NewClientProductController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/new-client-product.html'
+    }).when('/client-introductory/:uid', {
+      controller: 'ClientIntroductoryController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/introductory.html'
     }).when('/cardclient/:uid', {
       controller: 'ClientCardController',
       controllerAs: 'vm',
@@ -75,6 +79,14 @@
       controller: 'PositionsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/employees/positions.html'
+    }).when('/new-employee', {
+      controller: 'NewEmployeeController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/employees/new-employee.html'
+    }).when('/employees-list', {
+      controller: 'EmployeesListController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/employees/employees-list.html'
     }).when('/usecardclient/:uid', {
       controller: 'UseClientCardController',
       controllerAs: 'vm',
