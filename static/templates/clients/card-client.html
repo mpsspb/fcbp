@@ -26,10 +26,14 @@
             </td>
             <td> {{ card.date_end | date:'dd.MM.yyyy' }}</td>
             <td> {{ card.rest_visits }} </td>
-            <td>
+            <td ng-switch on="card.is_online">
               <button class="btn btn-block btn-success"
-              ng-click="vm.ccuse(card.id)">
+              ng-click="vm.ccuse(card.id, 0)" ng-switch-when="0">
                 Вход
+              </button>
+              <button class="btn btn-block btn-danger"
+              ng-click="vm.ccuse(card.id, 1)" ng-switch-default>
+                Выход
               </button>
             </td>
           </tr>
@@ -67,10 +71,14 @@
               </td>
               <td> {{ aqua.date_end | date:'dd.MM.yyyy' }} </td>
               <td> {{ aqua.rest_visits }} </td>
-            <td>
+            <td ng-switch on="aqua.is_online">
               <button class="btn btn-block btn-success"
-              ng-click="vm.aquause(aqua.id)">
+              ng-click="vm.aquause(aqua.id, 0)" ng-switch-when="0">
                 Вход
+              </button>
+              <button class="btn btn-block btn-danger"
+              ng-click="vm.aquause(aqua.id, 1)" ng-switch-default>
+                Выход
               </button>
             </td>
             </tr>
@@ -108,10 +116,14 @@
             </td>
             <td> {{ ticket.date_end | date:'dd.MM.yyyy' }} </td>
             <td> {{ ticket.rest_visits }} </td>
-            <td>
+            <td ng-switch on="ticket.is_online">
               <button class="btn btn-block btn-success"
-              ng-click="vm.ticketuse(ticket.id)">
+              ng-click="vm.ticketuse(ticket.id, 0)" ng-switch-when="0">
                 Вход
+              </button>
+              <button class="btn btn-block btn-danger"
+              ng-click="vm.ticketuse(ticket.id, 1)" ng-switch-default>
+                Выход
               </button>
             </td>
           </tr>
@@ -145,10 +157,14 @@
             <td> <span data-href="#/usepersonal/{{ personal.id }}">{{ personal.name }} </span></td>
             <td> {{ personal.date_end | date:'dd.MM.yyyy' }} </td>
             <td> {{ personal.rest_visits }} </td>
-            <td>
+            <td ng-switch on="personal.is_online">
               <button class="btn btn-block btn-success"
-              ng-click="vm.personaluse(personal.id)">
+              ng-click="vm.personaluse(personal.id, 0)" ng-switch-when="0">
                 Вход
+              </button>
+              <button class="btn btn-block btn-danger"
+              ng-click="vm.personaluse(personal.id, 1)" ng-switch-default>
+                Выход
               </button>
             </td>
           </tr>

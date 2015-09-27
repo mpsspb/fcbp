@@ -25,6 +25,7 @@
       list: list,
       get: get,
       use:use,
+      use_exit: use_exit,
     };
 
     return AquaAerobics;
@@ -60,6 +61,12 @@
                         });
     }
 
+    function use_exit(fdata) {
+      return $http.post('/api/v1/clients/useaquaaerobics/exit/', fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
 
   }
 

@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -79,20 +80,52 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
     queryset = UseClientClubCard.objects.order_by('-date')
     serializer_class = UseClientClubCardSerializer
 
+    @list_route(methods=['post'], )
+    def exit(self, request):
+        card_id = request.data['client_club_card']
+        exit = UseClientClubCard.objects\
+                                .filter(client_club_card=card_id)\
+                                .update(end=datetime.now())
+        return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
+
 
 class UseClientAquaAerobicsViewSet(viewsets.ModelViewSet):
     queryset = UseClientAquaAerobics.objects.order_by('-date')
     serializer_class = UseClientAquaAerobicsSerializer
+
+    @list_route(methods=['post'], )
+    def exit(self, request):
+        aqua_id = request.data['client_aqua_aerobics']
+        exit = UseClientAquaAerobics.objects\
+                                    .filter(client_aqua_aerobics=aqua_id)\
+                                    .update(end=datetime.now())
+        return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
 
 class UseClientTicketViewSet(viewsets.ModelViewSet):
     queryset = UseClientTicket.objects.order_by('-date')
     serializer_class = UseClientTicketSerializer
 
+    @list_route(methods=['post'], )
+    def exit(self, request):
+        ticket_id = request.data['client_ticket']
+        exit = UseClientTicket.objects\
+                              .filter(client_ticket=ticket_id)\
+                              .update(end=datetime.now())
+        return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
+
 
 class UseClientPersonalViewSet(viewsets.ModelViewSet):
     queryset = UseClientPersonal.objects.order_by('-date')
     serializer_class = UseClientPersonalSerializer
+
+    @list_route(methods=['post'], )
+    def exit(self, request):
+        personal_id = request.data['client_personal']
+        exit = UseClientPersonal.objects\
+                                .filter(client_personal=personal_id)\
+                                .update(end=datetime.now())
+        return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
 
 class UseClientTimingViewSet(viewsets.ModelViewSet):

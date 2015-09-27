@@ -59,8 +59,13 @@
     }
 
     // Use client card
-    function ccuse(uid) {
+    function ccuse(uid, out) {
       var fdata = {client_club_card: uid}
+      if (out) {
+        ClubCard.use_exit(fdata).then(cardclientSuccessFn, cardclientErrorFn);
+        return 1
+      }
+
       ClubCard.use(fdata).then(cardclientSuccessFn, cardclientErrorFn);
 
       /**
@@ -83,8 +88,13 @@
     }
 
     // Use AquaAerobics
-    function aquause(uid) {
+    function aquause(uid, out) {
       var fdata = {client_aqua_aerobics: uid}
+      if (out) {
+        AquaAerobics.use_exit(fdata).then(aquaSuccessFn, aquaErrorFn);
+        return 1
+      }
+
       AquaAerobics.use(fdata).then(aquaSuccessFn, aquaErrorFn);
 
       /**
@@ -107,8 +117,13 @@
     }
 
     // Use Tickets
-    function ticketuse(uid) {
+    function ticketuse(uid, out) {
       var fdata = {client_ticket: uid}
+      if (out) {
+        Tickets.use_exit(fdata).then(ticketSuccessFn, ticketErrorFn);
+        return 1
+      }
+
       Tickets.use(fdata).then(ticketSuccessFn, ticketErrorFn);
 
       /**
@@ -131,8 +146,13 @@
     }
 
     // Use Personals
-    function personaluse(uid) {
+    function personaluse(uid, out) {
       var fdata = {client_personal: uid}
+      if (out) {
+        Personals.use_exit(fdata).then(personalSuccessFn, personalErrorFn);
+        return 1
+      }
+
       Personals.use(fdata).then(personalSuccessFn, personalErrorFn);
 
       /**

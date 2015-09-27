@@ -25,6 +25,7 @@
       list: list,
       get: get,
       use: use,
+      use_exit: use_exit,
     };
 
     return ClubCard;
@@ -55,6 +56,13 @@
 
     function use(fdata) {
       return $http.post('/api/v1/clients/useclubcard/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function use_exit(fdata) {
+      return $http.post('/api/v1/clients/useclubcard/exit/',  fdata)
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });

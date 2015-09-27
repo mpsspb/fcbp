@@ -67,7 +67,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientClubCard
         fields = ('id', 'club_card', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'name', 'client',
+                  'date_begin', 'date_end', 'name', 'client', 'is_online',
                   'rest_days', 'rest_visits', 'useclientclubcard_set')
         read_only_fields = ('id', )
 
@@ -97,7 +97,7 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
         model = ClientAquaAerobics
         fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'useclientaquaaerobics_set',
-                  'rest_days', 'name', 'client', 'rest_visits')
+                  'rest_days', 'name', 'client', 'rest_visits', 'is_online')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
@@ -123,7 +123,7 @@ class ClientTicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientTicket
-        fields = ('id', 'ticket', 'status', 'date', 'date_start',
+        fields = ('id', 'ticket', 'status', 'date', 'date_start', 'is_online',
                   'date_begin', 'date_end', 'name', 'useclientticket_set',
                   'rest_days', 'rest_visits', 'client')
 
@@ -152,7 +152,7 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientPersonal
         fields = ('id', 'personal', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'name', 'client',
+                  'date_begin', 'date_end', 'name', 'client', 'is_online',
                   'rest_days', 'rest_visits', 'useclientpersonal_set')
 
     def create(self, validated_data,):

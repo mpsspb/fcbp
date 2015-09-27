@@ -25,6 +25,7 @@
       list: list,
       get: get,
       use: use,
+      use_exit: use_exit,
     };
 
     return Personals;
@@ -59,7 +60,14 @@
                           console.log(data)
                         });
     }
-    
+
+    function use_exit(fdata) {
+      return $http.post('/api/v1/clients/usepersonal/exit/', fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
   }
 
 })();

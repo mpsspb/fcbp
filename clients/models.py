@@ -91,6 +91,11 @@ class ClientClubCard(models.Model):
         used = UseClientClubCard.objects.filter(client_club_card=self).count()
         return self.club_card.max_visit - used
 
+    @property
+    def is_online(self):
+        return UseClientClubCard.objects.filter(client_club_card=self,
+                                                end__isnull=True).count()
+
 
 class ClientAquaAerobics(models.Model):
     """
@@ -134,6 +139,11 @@ class ClientAquaAerobics(models.Model):
                                             .count()
         return self.aqua_aerobics.max_visit - used
 
+    @property
+    def is_online(self):
+        return UseClientAquaAerobics.objects.filter(client_aqua_aerobics=self,
+                                                    end__isnull=True).count()
+
 
 class ClientTicket(models.Model):
     """
@@ -176,6 +186,11 @@ class ClientTicket(models.Model):
         used = UseClientTicket.objects.filter(client_ticket=self).count()
         return self.ticket.max_visit - used
 
+    @property
+    def is_online(self):
+        return UseClientTicket.objects.filter(client_ticket=self,
+                                              end__isnull=True).count()
+
 
 class ClientPersonal(models.Model):
     """
@@ -217,6 +232,11 @@ class ClientPersonal(models.Model):
             return '-'
         used = UseClientPersonal.objects.filter(client_personal=self).count()
         return self.personal.max_visit - used
+
+    @property
+    def is_online(self):
+        return UseClientPersonal.objects.filter(client_personal=self,
+                                                end__isnull=True).count()
 
 
 class ClientTiming(models.Model):
