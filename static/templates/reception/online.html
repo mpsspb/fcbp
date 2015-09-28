@@ -1,0 +1,10 @@
+<!-- online lists -->
+  <div class="form-group">
+    <input ng-model="searchText" class="form-control" placeholder="Поиск по странице"> 
+  </div>
+
+  <client client="client"  
+    ng-repeat="client in vm.clients | filter:searchText">
+  </client>
+
+<!-- end of the lists -->

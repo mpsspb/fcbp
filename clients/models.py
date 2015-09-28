@@ -326,3 +326,15 @@ class UseClientTiming(models.Model):
     end = models.DateField(blank=True, null=True)
     client_timing = models.ForeignKey(ClientTiming)
     minutes = models.IntegerField(default=1, blank=True)
+
+
+class ClientOnline(models.Model):
+    """
+    Clients who has not end date in the use tables.
+    """
+    client = models.ForeignKey(Client, )
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'v_client_online'
+        managed = False

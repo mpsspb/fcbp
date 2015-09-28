@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('fcbp',[
+    .module('fcbp', [
       'fcbp.routes',
       'fcbp.navbar',
       'fcbp.auth',

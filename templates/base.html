@@ -30,7 +30,12 @@
 
   <!-- javascripts for the application -->
     <script src="{% static_version "js/fcbp.js" %}"></script>
+
+    <script src="{% static_version "js/routers/fcbp.common.routers.js" %}"></script>
+    <script src="{% static_version "js/routers/fcbp.product.routers.js" %}"></script>
+    <script src="{% static_version "js/routers/fcbp.reception.routers.js" %}"></script>
     <script src="{% static_version "js/fcbp.routers.js" %}"></script>
+
     <script src="{% static_version "js/fcbp.filters.js" %}"></script>
 
     <script src="{% static_version "js/auth/auth.module.js" %}"></script>
@@ -100,6 +105,10 @@
 
     <script src="{% static_version "js/navbar/navbar.module.js" %}"></script>
     <script src="{% static_version "js/navbar/navbar.controller.js" %}"></script>
+
+<!-- reception -->
+    <script src="{% static_version "js/reception/reception.controller.js" %}"></script>
+    <script src="{% static_version "js/reception/online.controller.js" %}"></script>
   <!-- end app scripts -->
   {% block extra_js %}
   {% endblock %}    

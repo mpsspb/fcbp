@@ -37,6 +37,16 @@ class ClientViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+    @list_route(methods=['get'], )
+    def online(self, request):
+        """
+        List clients inside the club.
+        """
+        clients = ClientOnline.objects.all()
+        queryset = Client.objects.filter(pk__in=clients)
+        serializer = ClientSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     @detail_route(methods=['post'], )
     def introductory(self, request, pk):
         """

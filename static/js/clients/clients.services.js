@@ -25,6 +25,7 @@
       list: list,
       get: get,
       introductory: introductory,
+      online: online,
     };
 
     return Clients;
@@ -59,6 +60,11 @@
       return $http.post('/api/v1/clients/client/' + uid + '/introductory/',
         fdata)
     }
+
+    function online() {
+      return $http.get('/api/v1/clients/client/online/');
+    }
+
   }
 
 })();
