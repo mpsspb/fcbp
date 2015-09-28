@@ -16,6 +16,7 @@ class Client(models.Model):
     patronymic = models.CharField(max_length=30)
     born = models.DateField()
     uid = models.IntegerField(default=0)
+    card = models.BigIntegerField(blank=True, null=True)
 
     mobile = models.BigIntegerField(null=True, blank=True)
     gender = models.SmallIntegerField(default=0, blank=True)
