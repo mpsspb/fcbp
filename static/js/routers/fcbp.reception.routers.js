@@ -23,6 +23,10 @@
       controller: 'OnlineController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/reception/online.html'
+    }).when('/enter', {
+      controller: 'EnterController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/reception/enter.html'
     })
   }
 })();

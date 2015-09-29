@@ -109,10 +109,22 @@
 <!-- reception -->
     <script src="{% static_version "js/reception/reception.controller.js" %}"></script>
     <script src="{% static_version "js/reception/online.controller.js" %}"></script>
+    <script src="{% static_version "js/reception/enter.controller.js" %}"></script>
     <script src="{% static_version "js/reception/client-online.directive.js" %}"></script>
 
   <!-- end app scripts -->
   {% block extra_js %}
-  {% endblock %}    
+  {% endblock %}
+<script type="text/javascript">
+$(document).ready(function () {
+    $(document).keydown(function (e) { 
+        // alert(e.keyCode)
+        if ((e.which == 120) || (e.keyCode == 120)) {
+                // alert("F9");
+                document.location.href = "/#/enter"
+        }
+    });
+});
+</script>
   </body>
 </html>

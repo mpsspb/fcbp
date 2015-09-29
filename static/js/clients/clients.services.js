@@ -26,6 +26,7 @@
       get: get,
       introductory: introductory,
       online: online,
+      search: search,
     };
 
     return Clients;
@@ -63,6 +64,10 @@
 
     function online() {
       return $http.get('/api/v1/clients/client/online/');
+    }
+
+    function search(fdata) {
+      return $http.post('/api/v1/clients/client/search/', fdata);
     }
 
   }

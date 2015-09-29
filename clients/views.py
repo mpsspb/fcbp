@@ -47,6 +47,21 @@ class ClientViewSet(viewsets.ModelViewSet):
         serializer = ClientSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @list_route(methods=['post'], )
+    def search(self, request):
+        """
+        Search clients by carb or uid or istartswith last_name.
+        """
+        search = request.data['search']
+        try:
+            search = int(search)
+            queryset = Client.objects.filter(card=search)
+            queryset = queryset | Client.objects.filter(uid=search)
+        except:
+            queryset = Client.objects.filter(last_name__istartswith=search)
+        serializer = ClientSerializer(queryset, many=True)
+        return Response(serializer.data)
+
     @detail_route(methods=['post'], )
     def introductory(self, request, pk):
         """
