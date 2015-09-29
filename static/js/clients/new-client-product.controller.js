@@ -29,6 +29,7 @@
     vm.chk_amount = chk_amount;
     vm.add_credit = add_credit;
     vm.remove_credit = remove_credit;
+    vm.search_client = search_client;
 
     vm.fdata = {
       discount: 0,
@@ -175,6 +176,7 @@
         if(attr.id === id){
           vm.fdata.price = attr.price;
           vm.fdata.amount = vm.total();
+          vm.fdata.clients_count = attr.clients_count;
         }
       });
     });
@@ -308,11 +310,12 @@
     * @desc Reset pay
     * @memberOf fcbp.client.controllers.NewClientProductController
     */
-    function reset (){
+    function reset () {
       vm.fdata.price = 0;
       vm.fdata.product = '';
       vm.fdata.amount = 0;
       vm.fdata.discount = 0;
+      vm.fdata.clients_count = 0;
       vm.total();
       vm.credits = [];
     }
@@ -357,6 +360,28 @@
                        'date': credit_date});
       vm.credit_amount = '';
       vm.credit_date = '';
+    }
+
+    function search_client() {
+      Clients.full_search(vm.ext).then(clntSearchSuccessFn, clntSearchErrorFn);
+
+      function clntSearchSuccessFn(data, status, headers, config) {
+        if (data.data.length == 1) {
+          var clnt = data.data[0]
+          var born = clnt.born.split('-')
+          born = born[2] + '.' + born[1] + '.' + born[0].substring(2,4)
+          vm.ext = {
+            last_name: clnt.last_name,
+            first_name: clnt.first_name,
+            patronymic: clnt.patronymic,
+            born: born
+          }
+        }
+      }
+
+      function clntSearchErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
     }
 
     /**

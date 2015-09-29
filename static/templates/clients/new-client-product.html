@@ -137,6 +137,45 @@
   </div>
 </div>
 <br/><br/>
+
+<div ng-show="vm.fdata.clients_count > 1">
+  <label class="col-md-3 control-label">
+  Дополнительные клиенты
+  </label>
+  <label class="col-md-2 control-label">
+  Фамилия
+  </label>
+  <label class="col-md-1 control-label">
+  Имя
+  </label>
+  <label class="col-md-2 control-label">
+  Отчество
+  </label>
+  <label class="col-md-3 control-label">
+  Дата рождения
+  </label>
+  <div class="col-md-2"> 
+    <button type="button" class="btn-add-credit btn btn-xs btn-info btn-block" 
+    ng-click="vm.search_client()">Поиск</button>
+  </div>
+  <div class="col-md-2">
+    <input class="sinput" type="text" ng-model="vm.ext.last_name">
+  </div>
+  <div class="col-md-2">
+    <input class="sinput" type="text" ng-model="vm.ext.first_name">
+  </div>
+  <div class="col-md-2">
+    <input class="sinput" type="text" ng-model="vm.ext.patronymic">
+  </div>
+  <div class="col-md-2">
+    <input class="date sinput" type="text" ng-model="vm.ext.born">
+  </div>
+  <div class="col-md-2"> 
+    <button type="button" class="btn-add-credit btn btn-xs btn-primary btn-block" 
+    ng-click="vm.add_client()">Добавить</button>
+  </div>
+</div>
+<br/><br/>
   <div class="col-md-3">
     <a href="#/cardclient/{{ vm.client.id}}/" class="btn btn-default pull-left">отмена</a>
   </div>  

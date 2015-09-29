@@ -329,6 +329,15 @@ class UseClientTiming(models.Model):
     minutes = models.IntegerField(default=1, blank=True)
 
 
+class ExtClientClubCard(models.Model):
+    """
+    Extended clients for the Client Club Card
+    where clients_count > 1.
+    """
+    client_club_card = models.ForeignKey(ClientClubCard)
+    client = models.ForeignKey(Client, )
+
+
 class ClientOnline(models.Model):
     """
     Clients who has not end date in the use tables.
