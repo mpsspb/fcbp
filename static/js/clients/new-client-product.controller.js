@@ -30,6 +30,8 @@
     vm.add_credit = add_credit;
     vm.remove_credit = remove_credit;
     vm.search_client = search_client;
+    vm.add_client = add_client;
+    vm.rm_client = rm_client;
 
     vm.fdata = {
       discount: 0,
@@ -37,6 +39,8 @@
       payment_type: 1,
       is_credit: 0,
     };
+
+    vm.extraclients = [];
 
     vm.credits = [];
 
@@ -318,6 +322,7 @@
       vm.fdata.clients_count = 0;
       vm.total();
       vm.credits = [];
+      vm.extraclients = [];
     }
 
     /**
@@ -362,6 +367,17 @@
       vm.credit_date = '';
     }
 
+    /**
+    * @name remove_credit
+    * @desc remove_credit pay
+    * @memberOf fcbp.client.controllers.NewClientProductController
+    */
+    function remove_credit (key){
+          vm.credits.splice(key, 1);
+    }
+
+    /* Search external clients if vm.clients_count > 1
+    */
     function search_client() {
       Clients.full_search(vm.ext).then(clntSearchSuccessFn, clntSearchErrorFn);
 
@@ -374,8 +390,11 @@
             last_name: clnt.last_name,
             first_name: clnt.first_name,
             patronymic: clnt.patronymic,
-            born: born
+            born: born,
+            id: -1
           }
+        } else {
+          vm.findClients = data.data;
         }
       }
 
@@ -384,13 +403,27 @@
       }
     }
 
-    /**
-    * @name remove_credit
-    * @desc remove_credit pay
-    * @memberOf fcbp.client.controllers.NewClientProductController
+    /*
+    * Create or add clients to the external array.
     */
-    function remove_credit (key){
-          vm.credits.splice(key, 1);
+    function add_client(key) {
+      if ( key < 0) {
+        vm.ext.full_name = vm.ext.last_name + ' ' + vm.ext.first_name + ' ' + vm.ext.patronymic
+        vm.extraclients.push(vm.ext)
+      } else {
+        vm.extraclients.push(vm.findClients[key]);        
+      }
+      vm.findClients = [];
+      vm.ext = {};
+    }
+
+    /*
+    * Create or add clients to the external array.
+    */
+    function rm_client(key) {
+      vm.extraclients.splice(key, 1);
+      vm.findClients = [];
+      vm.ext = {};
     }
 
   };

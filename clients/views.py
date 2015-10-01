@@ -78,6 +78,11 @@ class ClientViewSet(viewsets.ModelViewSet):
             queryset = queryset |\
                        Client.objects\
                              .filter(first_name__istartswith=first_name)
+        patronymic = request.data.get('patronymic', None)
+        if patronymic:
+            queryset = queryset |\
+                       Client.objects\
+                             .filter(patronymic__istartswith=patronymic)
 
         serializer = ClientSerializer(queryset, many=True)
         return Response(serializer.data)
