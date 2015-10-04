@@ -97,6 +97,16 @@ class ClientClubCard(models.Model):
         return UseClientClubCard.objects.filter(client_club_card=self,
                                                 end__isnull=True).count()
 
+    @property
+    def rest_guest(self):
+        guests = GuestClubCard.objects\
+                              .filter(client_club_card=self).count()
+        return self.club_card.guest_training - guests
+
+    @property
+    def guest_training(self):
+        return self.club_card.guest_training
+
 
 class ClientAquaAerobics(models.Model):
     """
@@ -348,3 +358,14 @@ class ClientOnline(models.Model):
     class Meta:
         db_table = 'v_client_online'
         managed = False
+
+
+class GuestClubCard(models.Model):
+    """
+    Guest training for the Client Club Card.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client_club_card = models.ForeignKey(ClientClubCard)
+    guest = models.CharField(max_length=60)
+    born = models.DateField()
+    phone = models.IntegerField(null=True, blank=True)

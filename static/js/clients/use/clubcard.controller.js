@@ -19,6 +19,10 @@
 
     vm.use = use;
 
+    vm.uid = $routeParams.uid
+
+    vm.guest = guest;
+
     activate();
 
     /**
@@ -49,10 +53,16 @@
 
     }
 
-    function use() {
+    function use(out) {
 
       var uid = $routeParams.uid
       var fdata = {client_club_card: uid}
+
+      if (out) {
+        ClubCard.use_exit(fdata).then(cardclientSuccessFn, cardclientErrorFn);
+        return 1
+      }
+
       ClubCard.use(fdata).then(cardclientSuccessFn, cardclientErrorFn);
 
       /**
@@ -62,6 +72,38 @@
       function cardclientSuccessFn(data, status, headers, config) {
         activate();
         console.log('success')
+      }
+
+      /**
+      * @name cardclientErrorFn
+      * @desc console log error
+      */
+      function cardclientErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    function guest() {
+      var numberPattern = /\d+/g;
+
+      if (vm.fguest.mobile_form){
+        var phone = vm.fguest.mobile_form.match( numberPattern );
+        vm.fguest.phone = phone.join("");
+      } else {
+        delete vm.fguest.phone
+      }
+      
+      ClubCard.guest(vm.uid, vm.fguest).then(cardclientSuccessFn, cardclientErrorFn);
+
+      /**
+      * @name cardclientSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function cardclientSuccessFn(data, status, headers, config) {
+        console.log(data);
+        vm.fguest = {};
+        activate();
       }
 
       /**

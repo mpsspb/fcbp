@@ -105,6 +105,18 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
     queryset = ClientClubCard.objects.order_by('-date')
     serializer_class = ClientClubCardSerializer
 
+    @detail_route(methods=['post'], )
+    def guest(self, request, pk):
+        data = request.data.copy()
+        data['client_club_card'] = self.get_object().pk
+        serializer = GuestClubCardSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 class ClientAquaAerobicsViewSet(viewsets.ModelViewSet):
     queryset = ClientAquaAerobics.objects.order_by('-date')

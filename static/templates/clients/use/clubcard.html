@@ -1,3 +1,55 @@
+<!-- Modal Guest Training -->
+<div class="modal fade" id="GuestPersonal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Гостевая тренировка </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group has-warning">
+          <label class="col-md-3 control-label">ФИО:</label>
+          <div class="col-md-6">
+            <input ng-model="vm.fguest.guest" type="text"
+            class="form-control" placeholder="ФИО">
+          </div>
+        </div>
+        <div class="form-group has-warning">
+            <label class="col-md-3 control-label">Д. рождения:</label>
+            <div class="col-md-6">
+              <input ng-model="vm.fguest.born" type="text" 
+              class="form-control date" placeholder="ДД.ММ.ГГГГ">
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-3 control-label">Мобильный:</label>
+          <div class="col-md-6">
+            <input ng-model="vm.fguest.mobile_form" type="text"
+            class="form-control mobile" placeholder="Номер телефона">
+          </div>
+
+          <label class="col-md-2 control-label">Прямой</label>
+          <div class="col-md-1">
+            <input type="checkbox" class="mobile-toggle form-control">
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.guest()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal Guest Training -->
+
+
 <i class="fa fa-credit-card"></i> Клубная Карта </h4>
 <table class="table">
   <tr>
@@ -11,18 +63,29 @@
     <td> {{ vm.card.rest_visits }} </td>
   </tr>
 </table>
-<div class="col-md-3">
-  <a href="#/cardclient/{{ vm.card.client}}/" class="btn btn-default pull-left">отмена</a>
+<div class="col-md-2">
+  <a href="#/cardclient/{{ vm.card.client}}/" class="btn btn-default btn-block"> Отмена </a>
 </div> 
 
-<div class="col-md-3">
-  <button ng-click="vm.use()" class="btn btn-block btn-danger">Использовать</button>
+<div class="col-md-2" ng-switch on="vm.card.is_online">
+  <button class="btn btn-block btn-success" ng-click="vm.use(0)" ng-switch-when="0" >Вход</button>
+  <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
 </div>
 
-<div class="col-md-3">
+<div class="col-md-2">
   <button  ng-click="showHistory=!showHistory" class="btn btn-block btn-info">История</button>
 </div>
+<div class="col-md-2">
+  <button class="btn btn-warnning btn-block"
+   data-toggle="modal" data-target="#GuestPersonal"
+   ng-show="vm.card.rest_guest"> Гость
+  </button>
+</div>
+<div class="col-md-2" ng-show="vm.card.guest_training">
+  <button  ng-click="showGuests=!showGuests" class="btn btn-block btn-warnning">Гостевые визиты</button>
+</div>
 
+<!-- Details tables -->
 <table class="table" ng-show="showHistory">
   <tr>
     <td>дата</td><td>время</td><td>окончание</td>
@@ -33,3 +96,30 @@
     <td> {{ use.end }} </td>
   </tr>
 </table>
+
+<table class="table" ng-show="showGuests">
+  <tr>
+    <td>дата</td><td>Гость</td><td>Дата Рожденя</td><td>Телефон</td>
+  </tr>
+  <tr ng-repeat="use in vm.card.guestclubcard_set">
+    <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
+    <td> {{ use.guest }} </td>
+    <td> {{ use.born | date:'dd.MM.yyyy' }} </td>
+    <td> {{ use.phone | phone }} </td>
+  </tr>
+</table>
+<script type="text/javascript">
+  jQuery(function($){
+   $(".date").mask("99.99.9999");
+   $(".mobile").mask("(999)-999-9999");
+   $(".phone").mask("999-9999");
+
+   $('.mobile-toggle').on('click', function(){
+    if ($(this).is (':checked')) {
+        $(".mobile").mask("999-9999");
+    } else {
+        $(".mobile").mask("(999)-999-9999");
+    }
+   })
+});
+</script>

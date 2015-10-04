@@ -26,6 +26,7 @@
       get: get,
       use: use,
       use_exit: use_exit,
+      guest: guest,
     };
 
     return ClubCard;
@@ -52,6 +53,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/clubcard/' + uid + '/')
+    }
+
+    function guest(uid, fdata) {
+      return $http.post('/api/v1/clients/clubcard/' + uid + '/guest/', fdata)
     }
 
     function use(fdata) {

@@ -60,15 +60,22 @@ class Base64ImageField(serializers.ImageField):
         return extension
 
 
+class GuestClubCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GuestClubCard
+
+
 class ClientClubCardSerializer(serializers.ModelSerializer):
     useclientclubcard_set = UseClientClubCardSerializer(many=True,
                                                         read_only=True)
+    guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientClubCard
         fields = ('id', 'club_card', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client', 'is_online',
-                  'rest_days', 'rest_visits', 'useclientclubcard_set')
+                  'rest_days', 'rest_visits', 'useclientclubcard_set',
+                  'rest_guest', 'guest_training', 'guestclubcard_set')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):
