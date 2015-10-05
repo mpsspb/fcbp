@@ -56,6 +56,7 @@
       function cardclientErrorFn(data, status, headers, config) {
         console.log(data);
       }
+
     }
 
     // Use client card

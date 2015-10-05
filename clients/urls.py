@@ -20,5 +20,7 @@ router.register(r'useaquaaerobics', UseClientAquaAerobicsViewSet,
 router.register(r'useticket', UseClientTicketViewSet, 'UseTicket')
 router.register(r'usepersonal', UseClientPersonalViewSet, 'UseClientPersonal')
 router.register(r'usetiming', UseClientTimingViewSet, 'UseClientTiming')
+router.register(r'personalclubcard', PersonalClubCardViewSet, 'PClubCard')
+router.register(r'fitness', FitnessClubCardViewSet, 'FitnessClubCard')
 
 urlpatterns = router.urls

@@ -118,6 +118,16 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
+class FitnessClubCardViewSet(viewsets.ModelViewSet):
+    queryset = FitnessClubCard.objects.order_by('-date')
+    serializer_class = FitnessClubCardSerializer
+
+
+class PersonalClubCardViewSet(viewsets.ModelViewSet):
+    queryset = PersonalClubCard.objects.order_by('-date')
+    serializer_class = PersonalClubCardSerializer
+
+
 class ClientAquaAerobicsViewSet(viewsets.ModelViewSet):
     queryset = ClientAquaAerobics.objects.order_by('-date')
     serializer_class = ClientAquaAerobicsSerializer

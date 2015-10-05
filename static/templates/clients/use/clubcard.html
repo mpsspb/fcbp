@@ -47,10 +47,90 @@
       </form>
     </div>
   </div>
-</div> <!-- end modal Guest Training -->
+</div>
+<!-- end modal Guest Training -->
 
+<!-- Modal Card Personal -->
+<div class="modal fade" id="CardPersonal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Персоналка бонусная</h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-3 control-label">Сотрудник:</label>
+          <div class="col-md-7">
+            <select ng-model="vm.pdata.personal"
+            ng-options="employee.id as employee.initials
+                        for employee in vm.employees"></select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.personal()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal Card Personal -->
 
-<i class="fa fa-credit-card"></i> Клубная Карта </h4>
+<!-- Modal Fitness -->
+<div class="modal fade" id="Fitness" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Фитнес тестирование</h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-3 control-label">Сотрудник:</label>
+          <div class="col-md-7">
+            <select ng-model="vm.fitdata.personal"
+            ng-options="employee.id as employee.initials
+                        for employee in vm.employees"></select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.fitness()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal Fitness -->
+
+<i class="col-md-12 fa fa-credit-card">Клубная Карта</i>
+<br/>
+<div class="col-md-3">
+  <button class="btn btn-info btn-block"
+   data-toggle="modal" data-target="#CardPersonal"
+   ng-show="vm.card.personal_training"> Персоналка бонусная
+  </button>
+</div>
+<div class="col-md-3">
+  <button class="btn btn-info btn-block"
+   data-toggle="modal" data-target="#Fitness"
+   ng-show="vm.card.fitness_testing_discount"> Фитнес тестирование
+  </button>
+</div>
+<div class="col-md-6">&nbsp;</div>
+<br/>
+<br/>
 <table class="table">
   <tr>
     <td>дата</td><td>наименование</td>

@@ -107,6 +107,47 @@ class ClientClubCard(models.Model):
     def guest_training(self):
         return self.club_card.guest_training
 
+    @property
+    def fitness_testing_discount(self):
+        if FitnessClubCard.objects.filter(client_club_card=self).exists():
+            return False
+        return self.club_card.fitness_testing_discount
+
+    @property
+    def personal_training(self):
+        if PersonalClubCard.objects.filter(client_club_card=self).exists():
+            return False
+        return self.club_card.personal_training
+
+
+class GuestClubCard(models.Model):
+    """
+    Guest training for the Client Club Card.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client_club_card = models.ForeignKey(ClientClubCard)
+    guest = models.CharField(max_length=60)
+    born = models.DateField()
+    phone = models.IntegerField(null=True, blank=True)
+
+
+class FitnessClubCard(models.Model):
+    """
+    Fitness  testing discount for the Client Club Card.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client_club_card = models.ForeignKey(ClientClubCard)
+    personal = models.ForeignKey(Personal, )
+
+
+class PersonalClubCard(models.Model):
+    """
+    Personal training discount for the Client Club Card.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client_club_card = models.ForeignKey(ClientClubCard)
+    personal = models.ForeignKey(Personal, )
+
 
 class ClientAquaAerobics(models.Model):
     """
@@ -358,14 +399,3 @@ class ClientOnline(models.Model):
     class Meta:
         db_table = 'v_client_online'
         managed = False
-
-
-class GuestClubCard(models.Model):
-    """
-    Guest training for the Client Club Card.
-    """
-    date = models.DateTimeField(auto_now_add=True)
-    client_club_card = models.ForeignKey(ClientClubCard)
-    guest = models.CharField(max_length=60)
-    born = models.DateField()
-    phone = models.IntegerField(null=True, blank=True)

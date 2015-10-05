@@ -27,6 +27,8 @@
       use: use,
       use_exit: use_exit,
       guest: guest,
+      personal: personal,
+      fitness: fitness,
     };
 
     return ClubCard;
@@ -68,6 +70,20 @@
 
     function use_exit(fdata) {
       return $http.post('/api/v1/clients/useclubcard/exit/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function personal(fdata) {
+      return $http.post('/api/v1/clients/personalclubcard/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function fitness(fdata) {
+      return $http.post('/api/v1/clients/fitness/',  fdata)
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });
