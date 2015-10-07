@@ -114,6 +114,54 @@
 </div>
 <!-- end modal Fitness -->
 
+<!-- Modal Prolongation -->
+<div class="modal fade" id="Prolongation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Продление</h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="alert alert-info" role="alert"
+        ng-show="!vm.paid">
+          <strong>Бесплатное</strong>
+        </div>
+        <div class="alert alert-warning" role="alert"
+        ng-show="vm.paid">
+          <strong>Платное</strong>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Дней: </label>
+          <input class="col-md-4 sinput" type="number" min="1"
+          ng-model="vm.prdata.days">
+          <label class="col-md-2 control-label">Платное</label>
+          <input type="checkbox" class="col-md-1" ng-click="vm.paid=!vm.paid">
+        </div>
+        <div class="form-group" ng-show="vm.paid">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.prdata.amount">
+        </div>
+
+        <div class="form-group">
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.prolongation()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal Prolongation -->
+
 <i class="col-md-12 fa fa-credit-card">Клубная Карта</i>
 <br/>
 <div class="col-md-3">
@@ -128,7 +176,12 @@
    ng-show="vm.card.fitness_testing_discount"> Фитнес тестирование
   </button>
 </div>
-<div class="col-md-6">&nbsp;</div>
+<div class="col-md-3">
+  <button class="btn btn-primary btn-block"
+   data-toggle="modal" data-target="#Prolongation"> Продление
+  </button>
+</div>
+<div class="col-md-3">&nbsp;</div>
 <br/>
 <br/>
 <table class="table">

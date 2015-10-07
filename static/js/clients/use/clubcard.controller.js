@@ -27,6 +27,12 @@
     vm.personal = personal;
     vm.fitness = fitness;
 
+    vm.paid = false;
+    vm.prdata = {
+      days: 1,
+      amount: 0.0
+    }
+
     activate();
 
     vm.pdata = {
