@@ -27,10 +27,13 @@
     vm.personal = personal;
     vm.fitness = fitness;
 
-    vm.paid = false;
+    vm.prolongation = prolongation;
+    vm.is_paid = is_paid;
     vm.prdata = {
       days: 1,
-      amount: 0.0
+      amount: 0.0,
+      is_paid: false,
+      client_club_card: vm.uid
     }
 
     activate();
@@ -198,6 +201,40 @@
         console.log(data);
       }
 
+    }
+
+    function prolongation() {
+      ClubCard.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
+
+      /**
+      * @name prolongationSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function prolongationSuccessFn(data, status, headers, config) {
+        console.log(data);
+        vm.prdata = {
+          days: 1,
+          amount: 0.0,
+          is_paid: false,
+          client_club_card: vm.uid
+        }
+        activate();
+      }
+
+      /**
+      * @name prolongationErrorFn
+      * @desc console log error
+      */
+      function prolongationErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    function is_paid(){
+      if (!vm.prdata.is_paid) {
+        vm.prdata.amount = 0;
+      }
     }
 
 

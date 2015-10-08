@@ -120,6 +120,17 @@ class ClientClubCard(models.Model):
         return self.club_card.personal_training
 
 
+class ProlongationClubCard(models.Model):
+    """
+    Guest training for the Client Club Card.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client_club_card = models.ForeignKey(ClientClubCard)
+    days = models.SmallIntegerField()
+    amount = models.DecimalField(max_digits=15, decimal_places=2,)
+    is_paid = models.BooleanField(default=False)
+
+
 class GuestClubCard(models.Model):
     """
     Guest training for the Client Club Card.

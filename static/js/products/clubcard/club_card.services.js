@@ -29,6 +29,7 @@
       guest: guest,
       personal: personal,
       fitness: fitness,
+      prolongation: prolongation,
     };
 
     return ClubCard;
@@ -84,6 +85,13 @@
 
     function fitness(fdata) {
       return $http.post('/api/v1/clients/fitness/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function prolongation(fdata) {
+      return $http.post('/api/v1/clients/prolongation/',  fdata)
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });

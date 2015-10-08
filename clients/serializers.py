@@ -107,6 +107,18 @@ class PersonalClubCardSerializer(serializers.ModelSerializer):
         model = PersonalClubCard
 
 
+class ProlongationClubCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProlongationClubCard
+
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        cc = ClientClubCard.objects.get(pk=data['client_club_card'])
+        cc.date_end = cc.date_end + timedelta(data['days'])
+        cc.save()
+        return ProlongationClubCard.objects.create(**validated_data)
+
+
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
                                                                 read_only=True)
