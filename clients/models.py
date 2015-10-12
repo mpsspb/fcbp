@@ -104,6 +104,21 @@ class ClientClubCard(models.Model):
         return self.club_card.guest_training - guests
 
     @property
+    def rest_freeze(self):
+        freeze = FreezeClubCard.objects\
+                               .filter(client_club_card=self)\
+                               .aggregate(sum=Sum('days'))
+        if freeze['sum']:
+            return self.club_card.period_freeze - freeze['sum']
+        return self.club_card.period_freeze
+
+    @property
+    def rest_freeze_times(self):
+        times = FreezeClubCard.objects\
+                              .filter(client_club_card=self).count()
+        return self.club_card.freeze_times - times
+
+    @property
     def guest_training(self):
         return self.club_card.guest_training
 
@@ -158,6 +173,20 @@ class PersonalClubCard(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     client_club_card = models.ForeignKey(ClientClubCard)
     personal = models.ForeignKey(Personal, )
+
+
+class FreezeClubCard(models.Model):
+    """
+    Freeze club card.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client_club_card = models.ForeignKey(ClientClubCard)
+    fdate = models.DateField()
+    days = models.SmallIntegerField()
+
+    @property
+    def tdate(self):
+        return self.fdate + timedelta(days=self.days)
 
 
 class ClientAquaAerobics(models.Model):

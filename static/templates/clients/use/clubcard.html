@@ -160,6 +160,62 @@
 </div>
 <!-- end modal Prolongation -->
 
+<!-- Modal Frost -->
+<div class="modal fade" id="Frost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Заморозка </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="alert alert-info" role="alert"
+          ng-show="!vm.frdata.is_paid && vm.free_freeze">
+          <strong>Бесплатная</strong>
+        </div>
+        <div class="alert alert-danger" role="alert"
+          ng-show="!vm.frdata.is_paid && !vm.free_freeze">
+          <strong>Бесплатная заморозка не доступна</strong>
+        </div>
+        <div class="alert alert-warning" role="alert" ng-show="vm.frdata.is_paid">
+          <strong>Платная</strong>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Дней: </label>
+          <input class="col-md-4 sinput" type="number" min="1"
+          ng-model="vm.frdata.days">
+          <label class="col-md-2 control-label">Платная</label>
+          <input type="checkbox" class="col-md-1" 
+          ng-click="vm.is_paid()"
+          ng-model="vm.frdata.is_paid">
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Начало: </label>
+          <input class="col-md-4 sinput date" ng-model="vm.frdata.fdate"
+           ng-change="vm.freeze_date()">
+        </div>
+        <div class="form-group" ng-show="vm.frdata.is_paid">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.frdata.amount">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right"
+        data-dismiss="modal" ng-click="vm.freeze()"
+        ng-disabled="!vm.valid_freeze_date || (vm.frdata.is_paid && !vm.free_freeze)">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal Frost -->
+
 <i class="col-md-12 fa fa-credit-card">Клубная Карта</i>
 <br/>
 <div class="col-md-3">
@@ -179,7 +235,12 @@
    data-toggle="modal" data-target="#Prolongation"> Продление
   </button>
 </div>
-<div class="col-md-3">&nbsp;</div>
+<!-- 26346 Frost -->
+<div class="col-md-3">
+  <button class="btn btn-success btn-block"
+   data-toggle="modal" data-target="#Frost"> Заморозка
+  </button>
+</div>
 <br/>
 <br/>
 <table class="table">
@@ -241,6 +302,7 @@
 </table>
 <script type="text/javascript">
   jQuery(function($){
+
    $(".date").mask("99.99.9999");
    $(".mobile").mask("(999)-999-9999");
    $(".phone").mask("999-9999");
@@ -251,6 +313,8 @@
     } else {
         $(".mobile").mask("(999)-999-9999");
     }
-   })
+
+   });
+
 });
 </script>

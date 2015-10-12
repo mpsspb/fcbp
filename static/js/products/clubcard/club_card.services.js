@@ -30,6 +30,7 @@
       personal: personal,
       fitness: fitness,
       prolongation: prolongation,
+      freeze: freeze,
     };
 
     return ClubCard;
@@ -95,6 +96,10 @@
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });
+    }
+
+    function freeze(uid, fdata) {
+      return $http.post('/api/v1/clients/clubcard/' + uid + '/freeze/', fdata)
     }
 
   }

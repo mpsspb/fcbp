@@ -117,6 +117,18 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    @detail_route(methods=['post'], )
+    def freeze(self, request, pk):
+        data = request.data.copy()
+        data['client_club_card'] = self.get_object().pk
+        serializer = FreezeClubCardSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 class FitnessClubCardViewSet(viewsets.ModelViewSet):
     queryset = FitnessClubCard.objects.order_by('-date')
