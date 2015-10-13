@@ -82,7 +82,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'rest_days', 'rest_visits', 'useclientclubcard_set',
                   'rest_guest', 'guest_training', 'guestclubcard_set',
                   'fitness_testing_discount', 'personal_training',
-                  'rest_freeze', 'rest_freeze_times')
+                  'rest_freeze', 'rest_freeze_times', 'is_frozen')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):

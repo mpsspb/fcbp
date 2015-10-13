@@ -200,13 +200,16 @@
           <label class="col-md-2"> Оплата: </label>
           <input class="col-md-4 sinput" type="number" min="0" step="0.01"
           ng-model="vm.frdata.amount">
+          <label class="col-md-2 control-label">Долг</label>
+          <input type="checkbox" class="col-md-1" 
+          ng-model="vm.frdata.is_credit">
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
         <button type="button" class="btn btn-success pull-right"
         data-dismiss="modal" ng-click="vm.freeze()"
-        ng-disabled="!vm.valid_freeze_date || (vm.frdata.is_paid && !vm.free_freeze)">
+        ng-disabled="!vm.valid_freeze_date || (!vm.frdata.is_paid && !vm.free_freeze)">
           Сохранить
         </button>
       </div>
@@ -216,7 +219,11 @@
 </div>
 <!-- end modal Frost -->
 
-<i class="col-md-12 fa fa-credit-card">Клубная Карта</i>
+<div class="alert alert-info" role="alert" ng-show="vm.card.is_frozen">
+  <strong> Заморожена</strong>
+</div>
+
+<i class="col-md-12 fa fa-credit-card">Клубная Карта </i>
 <br/>
 <div class="col-md-3">
   <button class="btn btn-info btn-block"
@@ -235,7 +242,7 @@
    data-toggle="modal" data-target="#Prolongation"> Продление
   </button>
 </div>
-<!-- 26346 Frost -->
+<!-- Frost -->
 <div class="col-md-3">
   <button class="btn btn-success btn-block"
    data-toggle="modal" data-target="#Frost"> Заморозка

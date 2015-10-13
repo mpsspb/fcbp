@@ -134,6 +134,17 @@ class ClientClubCard(models.Model):
             return False
         return self.club_card.personal_training
 
+    @property
+    def is_frozen(self):
+        freezes = FreezeClubCard.objects\
+                                .filter(client_club_card=self,
+                                        fdate__lte=date.today())
+        for f in freezes:
+            if f.tdate >= date.today():
+                return True
+
+        return False
+
 
 class ProlongationClubCard(models.Model):
     """
@@ -186,7 +197,7 @@ class FreezeClubCard(models.Model):
 
     @property
     def tdate(self):
-        return self.fdate + timedelta(days=self.days)
+        return self.fdate + timedelta(days=(self.days-1))
 
 
 class ClientAquaAerobics(models.Model):

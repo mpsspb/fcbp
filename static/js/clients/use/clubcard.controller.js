@@ -52,9 +52,11 @@
 
       vm.frdata = {
         days: 1,
+        amount: 0.0,
         is_paid: false,
         client_club_card: vm.uid,
-        fdate: moment().format('DD.MM.YYYY')
+        fdate: moment().format('DD.MM.YYYY'),
+        is_credit: false
       }
       vm.pdata = {
         client_club_card: vm.uid,
@@ -64,6 +66,7 @@
         client_club_card: vm.uid,
       }
       // end forms
+
 
       ClubCard.get(vm.uid).then(cardclientSuccessFn, cardclientErrorFn);
 
@@ -252,6 +255,9 @@
       if (!vm.prdata.is_paid) {
         vm.prdata.amount = 0;
       }
+      if (!vm.frdata.is_paid) {
+        vm.frdata.amount = 0;
+      }
 
     }
 
@@ -265,7 +271,12 @@
         return 0
       }
 
-      console.log(vm.frdata)
+      if ( vm.frdata.is_credit ) {
+        var credit_date = moment().add(1, 'days').startOf('day').format('DD.MM.YYYY');
+        vm.frdata.schedule = credit_date;
+        vm.frdata.discount = 0;
+        vm.frdata.count = 1;
+      }
 
       ClubCard.freeze(vm.uid, vm.frdata).then(freezeSuccessFn, freezeErrorFn);
 
