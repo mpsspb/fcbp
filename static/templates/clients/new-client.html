@@ -93,12 +93,26 @@
   </div>
 
   <div class="form-group">
-      <button class="btn-photo btn btn-large btn-primary"
+    <div class="col-md-2">
+      <button class="btn btn-large btn-warning" ng-show="!hide_photo"
+      ng-click="hide_photo=!hide_photo">Скрыть фото</button>      
+    </div>
+    <div class="col-md-offset-2 col-md-2">
+      <button class="btn btn-large btn-primary"
       ng-click="vm.makeSnapshot()">Фото</button>
+    </div>
+    <div class="col-md-offset-2 col-md-2">
+      <button class="btn btn-large btn-warning" ng-show="hide_photo"
+      ng-click="hide_photo=!hide_photo">Показать фото</button>
+    </div>
+  </div>
+  <div class="form-group">
+    <span ng-show="!hide_photo">
       <webcam channel="vm.myChannel"
       on-streaming="vm.onSuccess()"></webcam>
       <canvas height="240" width="320" id="snapshot" 
       class="well pull-right photo"></canvas>
+    </span>
   </div>
 
 </div>
