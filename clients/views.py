@@ -125,13 +125,6 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
         serializer = FreezeClubCardSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            if data['is_credit']:
-                data['club_card'] = data['client_club_card']
-                form = FormCredit(data)
-                if form.is_valid():
-                    form.save()
-                else:
-                    print form.errors
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,

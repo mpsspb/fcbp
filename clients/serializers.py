@@ -251,6 +251,11 @@ class ClientSerializer(serializers.ModelSerializer):
     debt_set = DebtSerializer(many=True, read_only=True)
     debtupcoming_set = DebtUpcomingSerializer(many=True, read_only=True)
 
+    online_clubcard = serializers.BooleanField()
+    online_aqua = serializers.BooleanField()
+    online_ticket = serializers.BooleanField()
+    online_personal = serializers.BooleanField()
+
     class Meta:
         model = Client
         fields = ('id', 'first_name', 'last_name', 'patronymic',
@@ -260,9 +265,10 @@ class ClientSerializer(serializers.ModelSerializer):
                   'clientticket_set', 'clientpersonal_set', 'clienttiming_set',
                   'credit_set', 'debt_set', 'debtupcoming_set', 'card',
                   'introductory_date', 'introductory_employee',
+                  'clientonline_set', 'online_clubcard', 'online_aqua',
+                  'online_ticket', 'online_personal'
                   )
-        read_only_fields = ('id', 'full_name', 'avatar_url', 'uid',
-                            'date')
+        read_only_fields = ('id', 'full_name', 'avatar_url', 'uid', 'date')
 
 
 def finance(data):

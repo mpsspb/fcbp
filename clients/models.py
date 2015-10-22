@@ -34,6 +34,26 @@ class Client(models.Model):
         return "%s %s %s" % (self.last_name, self.first_name, self.patronymic)
 
     @property
+    def online_clubcard(self,):
+        return ClientOnline.objects.filter(client=self, product='clubcard')\
+                           .exists()
+
+    @property
+    def online_aqua(self,):
+        return ClientOnline.objects.filter(client=self, product='aqua')\
+                           .exists()
+
+    @property
+    def online_ticket(self,):
+        return ClientOnline.objects.filter(client=self, product='ticket')\
+                           .exists()
+
+    @property
+    def online_personal(self,):
+        return ClientOnline.objects.filter(client=self, product='personal')\
+                           .exists()
+
+    @property
     def avatar_url(self):
         if self.avatar:
             return self.avatar.url
@@ -446,6 +466,7 @@ class ClientOnline(models.Model):
     """
     client = models.ForeignKey(Client, )
     date = models.DateTimeField(auto_now_add=True)
+    product = models.CharField(max_length=50)
 
     class Meta:
         db_table = 'v_client_online'

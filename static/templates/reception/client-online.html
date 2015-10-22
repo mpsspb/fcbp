@@ -6,4 +6,14 @@ ng-class="client.debt_set.length ? 'alert-danger' : 'alert-success'">
 <span class="col-md-2">{{ client.uid }}</span>
 <span class="col-md-2">{{ client.born | date:'dd.MM.yyyy' }}</span>
 <span class="col-md-2">{{ client.mobile | phone }}</span>
+<span class="col-md-3">
+    <i class="fa fa-credit-card fa-2x bg-warning"
+    ng-show="client.online_clubcard"></i>
+    <i class="fa fa-life-ring fa-2x bg-warning"
+    ng-show="client.online_aqua"></i>
+    <i class="fa fa-ticket fa-2x bg-warning"
+    ng-show="client.online_ticket"></i>
+    <i class="fa fa-graduation-cap fa-2x bg-warning"
+    ng-show="client.online_personal"></i>
+</span>
 </div>
