@@ -23,6 +23,11 @@ class FormClientAquaAerobics(ModelForm):
         exclude = ['date', ]
 
 
+class FormAquaAerobicsClients(ModelForm):
+    class Meta:
+        model = AquaAerobicsClients
+        exclude = ['date', ]
+
 class FormClientTicket(ModelForm):
     class Meta:
         model = ClientTicket

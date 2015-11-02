@@ -212,6 +212,7 @@
       }
 
       vm.fdata.credits = vm.credits;
+      vm.fdata.extraclients = vm.extraclients;
 
       if (vm.product == 'card') {
         vm.fdata.club_card = vm.fdata.product
@@ -385,16 +386,18 @@
         if (data.data.length == 1) {
           var clnt = data.data[0]
           var born = clnt.born.split('-')
-          born = born[2] + '.' + born[1] + '.' + born[0].substring(2,4)
+          born = born[2] + '.' + born[1] + '.' + born[0]
           vm.ext = {
             last_name: clnt.last_name,
             first_name: clnt.first_name,
             patronymic: clnt.patronymic,
-            born: born,
+            exborn: born,
+            born: clnt.born,
             id: -1
           }
         } else {
           vm.findClients = data.data;
+          console.log(data)
         }
       }
 

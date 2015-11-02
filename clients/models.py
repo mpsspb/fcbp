@@ -68,6 +68,9 @@ class Client(models.Model):
             week = date.today().isocalendar()[1] * 100
             cnt = week_clients + 1
             self.uid = year + week + cnt
+            self.first_name = self.first_name.strip()
+            self.last_name = self.last_name.strip()
+            self.patronymic = self.patronymic.strip()
         super(Client, self).save(*args, **kwargs)
 
 
@@ -242,6 +245,72 @@ class ClientAquaAerobics(models.Model):
     1 - active
     2 - prospect
     """
+
+    @property
+    def name(self):
+        return self.aqua_aerobics.name
+
+    @property
+    def rest_days(self):
+        rest_days = (self.date_end - date.today()).days
+        if rest_days < 1:
+            return 0
+        return rest_days
+
+    @property
+    def rest_visits(self):
+        if self.aqua_aerobics.max_visit == 99999:
+            return '-'
+        used = UseClientAquaAerobics.objects.filter(client_aqua_aerobics=self)\
+                                            .count()
+        return self.aqua_aerobics.max_visit - used
+
+    @property
+    def is_online(self):
+        return UseClientAquaAerobics.objects.filter(client_aqua_aerobics=self,
+                                                    end__isnull=True).count()
+
+
+
+class AquaAerobicsClients(models.Model):
+    """
+    External clients for the ClientAquaAerobics.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client = models.ForeignKey(Client, )
+    client_aqua = models.ForeignKey(ClientAquaAerobics,)
+
+    class Meta:
+        unique_together = ('client', 'client_aqua')
+
+
+class ClientAquaAerobicsFull(models.Model):
+    """
+    The clients Aqua Aerobics card FULL JOIN 
+    with Aqua Aerobics Clients (External clients for the ClientAquaAerobics),
+    history and status.
+
+    Date start - the date for the start period of activation.
+    Date begin - is start of using the card.
+
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    date_start = models.DateField()
+    date_begin = models.DateField()
+    date_end = models.DateField()
+    client = models.ForeignKey(Client, )
+    aqua_aerobics = models.ForeignKey(AquaAerobics, )
+    status = models.SmallIntegerField(default=2, blank=True, )
+    """
+    status valid data:
+    0 - disabled
+    1 - active
+    2 - prospect
+    """
+
+    class Meta:
+        db_table = 'v_external_aqua'
+        managed = False
 
     @property
     def name(self):

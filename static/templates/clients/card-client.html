@@ -62,7 +62,7 @@
               <td>срок действия</td><td>визитов</td>
               <td>вход</td>
             </tr>
-            <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobics_set">
+            <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobicsfull_set">
               <td> {{ aqua.date | date:'dd.MM.yyyy' }} </td>
               <td> 
                 <span data-href="#/useaquaaerobics/{{ aqua.id }}">
@@ -296,7 +296,7 @@
         </button>
         <button class="btn btn-info col-md-2"
          data-toggle="modal" data-target="#UseAqua"
-         ng-show="vm.cardclient.clientaquaaerobics_set.length">
+         ng-show="vm.cardclient.clientaquaaerobicsfull_set.length">
           <i class="fa fa-life-ring"></i>
         </button>
         <button class="btn btn-success col-md-2"

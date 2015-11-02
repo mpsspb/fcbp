@@ -1,9 +1,10 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from dateutil.relativedelta import relativedelta
 
 from rest_framework import serializers
 
 from .models import *
+# from .models_external import ClientAquaAerobicsFull
 from .forms import *
 from .use_serializers import *
 from products.models import *
@@ -137,6 +138,7 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
+        # print data
         data['count'] = 1
         data['status'] = 2
         data['date_start'] = date.today()
@@ -146,11 +148,43 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
         faqua_aerobics = FormClientAquaAerobics(data)
         if faqua_aerobics.is_valid():
             aqua_aerobics = faqua_aerobics.save()
+            for ex in data['extraclients']:
+                born=ex['born']
+                born = datetime.strptime(ex['born'], '%Y-%m-%d').date()
+                ex['born'] = born
+                cl = ClientExtraSerializer(data=ex)
+                if cl.is_valid():
+                    cl = Client.objects\
+                               .get_or_create(first_name=ex['first_name'],
+                                              last_name=ex['last_name'],
+                                              patronymic=ex['patronymic'],
+                                              born=born)[0]
+                    ex_aqua = {}
+                    ex_aqua['client'] = cl.pk
+                    ex_aqua['client_aqua'] = aqua_aerobics.pk
+                    faqua_aerobics = FormAquaAerobicsClients(ex_aqua)
+                    if faqua_aerobics.is_valid():
+                        faqua_aerobics.save()
+                    else:
+                        print 'aqua_ex: %s' % faqua_aerobics.errors
+                else:
+                    print 'client_ex: %s' % cl.errors
             data['aqua_aerobics'] = aqua_aerobics.pk
             finance(data)
         else:
             print faqua_aerobics.errors
         return aqua_aerobics
+
+
+class ClientAquaAerobicsFullSerializer(serializers.ModelSerializer):
+    useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
+                                                                read_only=True)
+
+    class Meta:
+        model = ClientAquaAerobicsFull
+        fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
+                  'date_begin', 'date_end', 'useclientaquaaerobics_set',
+                  'rest_days', 'name', 'client', 'rest_visits', 'is_online')
 
 
 class ClientTicketSerializer(serializers.ModelSerializer):
@@ -236,13 +270,24 @@ class ClientTimingSerializer(serializers.ModelSerializer):
         return timing
 
 
+class ClientExtraSerializer(serializers.ModelSerializer):
+    """
+    Serializer for saving or update data for multi-client's products.
+    """
+    class Meta:
+        model = Client
+        fields = ('id', 'first_name', 'last_name', 'patronymic',
+                  'born')
+        read_only_fields = ('id')
+
+
 class ClientSerializer(serializers.ModelSerializer):
     avatar = Base64ImageField(
-        max_length=None, use_url=True,
+        max_length=None, use_url=True
     )
     clientclubcard_set = ClientClubCardSerializer(many=True, read_only=True)
-    clientaquaaerobics_set = ClientAquaAerobicsSerializer(many=True,
-                                                          read_only=True)
+    clientaquaaerobicsfull_set =\
+                   ClientAquaAerobicsFullSerializer(many=True, read_only=True)
     clientticket_set = ClientTicketSerializer(many=True, read_only=True)
     clientpersonal_set = ClientPersonalSerializer(many=True, read_only=True)
     clienttiming_set = ClientTimingSerializer(many=True, read_only=True)
@@ -251,24 +296,26 @@ class ClientSerializer(serializers.ModelSerializer):
     debt_set = DebtSerializer(many=True, read_only=True)
     debtupcoming_set = DebtUpcomingSerializer(many=True, read_only=True)
 
-    online_clubcard = serializers.BooleanField()
-    online_aqua = serializers.BooleanField()
-    online_ticket = serializers.BooleanField()
-    online_personal = serializers.BooleanField()
+    online_clubcard = serializers.BooleanField(read_only=True)
+    online_aqua = serializers.BooleanField(read_only=True)
+    online_ticket = serializers.BooleanField(read_only=True)
+    online_personal = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Client
         fields = ('id', 'first_name', 'last_name', 'patronymic',
                   'born',  'gender', 'mobile', 'address', 'passport',
-                  'phone', 'email', 'avatar', 'date', 'clientclubcard_set',
-                  'avatar_url', 'full_name', 'uid', 'clientaquaaerobics_set',
+                  'phone', 'email', 'avatar', 'date',
+                   'clientclubcard_set',
+                  'avatar_url', 'full_name', 'uid', 'clientaquaaerobicsfull_set',
                   'clientticket_set', 'clientpersonal_set', 'clienttiming_set',
                   'credit_set', 'debt_set', 'debtupcoming_set', 'card',
                   'introductory_date', 'introductory_employee',
                   'clientonline_set', 'online_clubcard', 'online_aqua',
                   'online_ticket', 'online_personal'
                   )
-        read_only_fields = ('id', 'full_name', 'avatar_url', 'uid', 'date')
+        read_only_fields = ('id', 'full_name', 'avatar_url', 'uid', 'date',
+                            'clientonline_set')
 
 
 def finance(data):
