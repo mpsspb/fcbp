@@ -412,6 +412,7 @@
     function add_client(key) {
       if ( key < 0) {
         vm.ext.full_name = vm.ext.last_name + ' ' + vm.ext.first_name + ' ' + vm.ext.patronymic
+        vm.ext.born = moment(vm.ext.exborn, 'DD.MM.YYYY').format('YYYY-MM-DD')
         vm.extraclients.push(vm.ext)
       } else {
         vm.extraclients.push(vm.findClients[key]);        
