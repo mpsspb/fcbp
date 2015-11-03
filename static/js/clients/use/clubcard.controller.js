@@ -29,7 +29,6 @@
     vm.personal = personal;
     vm.fitness = fitness;
     vm.freeze = freeze;
-    vm.freeze_date = freeze_date;
 
     vm.prolongation = prolongation;
     vm.is_paid = is_paid;
@@ -261,15 +260,7 @@
 
     }
 
-    function freeze_date() {
-      vm.valid_freeze_date = moment(vm.frdata.fdate, 'DD.MM.YYYY') >= moment().startOf('day')
-    }
-
     function freeze() {
-
-      if (!vm.valid_freeze_date) {
-        return 0
-      }
 
       if ( vm.frdata.is_credit ) {
         var credit_date = moment().add(1, 'days').startOf('day').format('DD.MM.YYYY');

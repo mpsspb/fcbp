@@ -188,7 +188,7 @@ class GuestClubCard(models.Model):
     client_club_card = models.ForeignKey(ClientClubCard)
     guest = models.CharField(max_length=60)
     born = models.DateField()
-    phone = models.IntegerField(null=True, blank=True)
+    phone = models.BigIntegerField(null=True, blank=True)
 
 
 class FitnessClubCard(models.Model):
@@ -271,7 +271,6 @@ class ClientAquaAerobics(models.Model):
                                                     end__isnull=True).count()
 
 
-
 class AquaAerobicsClients(models.Model):
     """
     External clients for the ClientAquaAerobics.
@@ -286,7 +285,7 @@ class AquaAerobicsClients(models.Model):
 
 class ClientAquaAerobicsFull(models.Model):
     """
-    The clients Aqua Aerobics card FULL JOIN 
+    The clients Aqua Aerobics card FULL JOIN
     with Aqua Aerobics Clients (External clients for the ClientAquaAerobics),
     history and status.
 

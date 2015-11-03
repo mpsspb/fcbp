@@ -16,7 +16,8 @@
             <td>срок действия</td><td>визитов</td>
             <td>вход</td>
           </tr>
-          <tr ng-repeat="card in vm.cardclient.clientclubcard_set">
+          <tr ng-repeat="card in vm.cardclient.clientclubcard_set" 
+          ng-class="card.is_frozen ? 'info' : ''">
             <td >
               {{ card.date | date:'dd.MM.yyyy' }}</td>
             <td>
