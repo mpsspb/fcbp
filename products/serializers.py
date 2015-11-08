@@ -10,7 +10,7 @@ class PeriodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Period
 
-        fields = ('id', 'value', 'is_active', 'is_month' )
+        fields = ('id', 'value', 'is_active', 'is_month')
         read_only_fields = ('id', )
 
 
@@ -21,9 +21,9 @@ class ClubCardSerializer(serializers.ModelSerializer):
         model = ClubCard
 
         fields = ('id', 'name', 'max_visit', 'period', 'period_data',
-                  'is_full_time', 'is_active',
+                  'is_full_time', 'is_active', 'freeze_times',
                   'period_freeze', 'period_activation',
-                  'period_prolongation', 'clients_count', 
+                  'period_prolongation', 'clients_count',
                   'guest_training', 'fitness_testing_discount',
                   'personal_training', 'price')
         read_only_fields = ('id', 'period_data',)
@@ -37,7 +37,7 @@ class AquaAerobicsSerializer(serializers.ModelSerializer):
 
         fields = ('id', 'name', 'max_visit', 'period', 'period_data',
                   'is_full_time', 'is_active',
-                  'period_prolongation', 'clients_count', 
+                  'period_prolongation', 'clients_count',
                   'price')
         read_only_fields = ('id', 'period_data',)
 
@@ -66,8 +66,9 @@ class TicketSerializer(serializers.ModelSerializer):
 
 
 class PositionSerializer(serializers.ModelSerializer):
+
     class Meta:
-      model = Position
+        model = Position
 
 
 class PersonalPositionSerializer(serializers.ModelSerializer):
@@ -87,8 +88,7 @@ class PersonalSerializer(serializers.ModelSerializer):
         model = Personal
         fields = ('id', 'name', 'max_visit', 'period', 'period_data',
                   'clients_count', 'is_full_time', 'is_active', 'price',
-                  'period_prolongation', 'personalposition_set'
-                   )
+                  'period_prolongation', 'personalposition_set')
         read_only = ('id', 'period_data', 'positions', )
 
     def create(self, validated_data, ):
@@ -109,6 +109,6 @@ class TimingSerializer(serializers.ModelSerializer):
 
         fields = ('id', 'name', 'period', 'period_data',
                   'is_active', 'minutes', 'period_freeze',
-                  'period_prolongation', 'clients_count', 
+                  'period_prolongation', 'clients_count',
                   'price')
         read_only_fields = ('id', 'period_data',)

@@ -168,6 +168,20 @@ class ClientClubCard(models.Model):
 
         return False
 
+    def escape_frozen(self):
+        freezes = FreezeClubCard.objects\
+                                .filter(client_club_card=self,
+                                        fdate__lte=date.today())
+        for f in freezes:
+            if f.tdate >= date.today():
+                days_freeze = (date.today() - f.fdate).days
+                if not f.is_paid:
+                    days_back = (f.tdate - date.today()).days + 1
+                    self.date_end = self.date_end - timedelta(days_back)
+                    self.save()
+                f.days = days_freeze
+                f.save()
+
 
 class ProlongationClubCard(models.Model):
     """
@@ -217,6 +231,7 @@ class FreezeClubCard(models.Model):
     client_club_card = models.ForeignKey(ClientClubCard)
     fdate = models.DateField()
     days = models.SmallIntegerField()
+    is_paid = models.BooleanField(default=False)
 
     @property
     def tdate(self):

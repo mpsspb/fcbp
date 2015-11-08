@@ -74,6 +74,7 @@
       * @desc Update ClubCard array on view
       */
       function cardclientSuccessFn(data, status, headers, config) {
+        console.log(data)
         console.log('success')
         activate()
       }

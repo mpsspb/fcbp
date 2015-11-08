@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -107,6 +107,9 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['post'], )
     def guest(self, request, pk):
+        """
+        use free guest visit
+        """
         data = request.data.copy()
         data['client_club_card'] = self.get_object().pk
         serializer = GuestClubCardSerializer(data=data)
@@ -119,12 +122,19 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
 
     @detail_route(methods=['post'], )
     def freeze(self, request, pk):
+        """
+        freeze the card and update the date_end of the card.
+        """
         data = request.data.copy()
-        data['client_club_card'] = self.get_object().pk
-        data['client'] = self.get_object().client.pk
+        club_card = self.get_object()
+        data['client_club_card'] = club_card.pk
+        data['client'] = club_card.client.pk
         serializer = FreezeClubCardSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+            date_end = club_card.date_end + timedelta(serializer.data['days'])
+            club_card.date_end = date_end
+            club_card.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,
@@ -169,6 +179,22 @@ class ClientTimingViewSet(viewsets.ModelViewSet):
 class UseClientClubCardViewSet(viewsets.ModelViewSet):
     queryset = UseClientClubCard.objects.order_by('-date')
     serializer_class = UseClientClubCardSerializer
+
+    def create(self, request):
+        """
+        Comming client to the club and escape existing freeze.
+        """
+        data = request.data.copy()
+        serializer = UseClientClubCardSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            ucc = ClientClubCard.objects.get(pk=data['client_club_card'])
+            if ucc.is_frozen:
+                ucc.escape_frozen()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
 
     @list_route(methods=['post'], )
     def exit(self, request):

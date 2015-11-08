@@ -22,6 +22,7 @@
     vm.fdata = {
       clients_count: 1,
       guest_training: 0,
+      freeze_times: 0,
       period_prolongation: 0,
       is_full_time: true,
     }
