@@ -75,6 +75,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     useclientclubcard_set = UseClientClubCardSerializer(many=True,
                                                         read_only=True)
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
+    client_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = ClientClubCard
@@ -83,7 +84,8 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'rest_days', 'rest_visits', 'useclientclubcard_set',
                   'rest_guest', 'guest_training', 'guestclubcard_set',
                   'fitness_testing_discount', 'personal_training',
-                  'rest_freeze', 'rest_freeze_times', 'is_frozen')
+                  'rest_freeze', 'rest_freeze_times', 'is_frozen',
+                  'client_name')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):
@@ -127,6 +129,7 @@ class ProlongationClubCardSerializer(serializers.ModelSerializer):
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
+    client_name = serializers.CharField(read_only=True)
     useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
                                                                 read_only=True)
 
@@ -134,7 +137,8 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
         model = ClientAquaAerobics
         fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'useclientaquaaerobics_set',
-                  'rest_days', 'name', 'client', 'rest_visits', 'is_online')
+                  'rest_days', 'name', 'client', 'rest_visits', 'is_online',
+                  'client_name')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
@@ -149,7 +153,7 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
         if faqua_aerobics.is_valid():
             aqua_aerobics = faqua_aerobics.save()
             for ex in data['extraclients']:
-                born=ex['born']
+                born = ex['born']
                 born = datetime.strptime(ex['born'], '%Y-%m-%d').date()
                 ex['born'] = born
                 cl = ClientExtraSerializer(data=ex)
@@ -190,12 +194,13 @@ class ClientAquaAerobicsFullSerializer(serializers.ModelSerializer):
 class ClientTicketSerializer(serializers.ModelSerializer):
     useclientticket_set = UseClientTicketSerializer(many=True,
                                                     read_only=True)
+    client_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = ClientTicket
         fields = ('id', 'ticket', 'status', 'date', 'date_start', 'is_online',
                   'date_begin', 'date_end', 'name', 'useclientticket_set',
-                  'rest_days', 'rest_visits', 'client')
+                  'rest_days', 'rest_visits', 'client', 'client_name')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
@@ -218,12 +223,14 @@ class ClientTicketSerializer(serializers.ModelSerializer):
 class ClientPersonalSerializer(serializers.ModelSerializer):
     useclientpersonal_set = UseClientPersonalSerializer(many=True,
                                                         read_only=True)
+    client_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = ClientPersonal
         fields = ('id', 'personal', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client', 'is_online',
-                  'rest_days', 'rest_visits', 'useclientpersonal_set')
+                  'rest_days', 'rest_visits', 'useclientpersonal_set',
+                  'client_name')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
@@ -245,12 +252,13 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
 
 class ClientTimingSerializer(serializers.ModelSerializer):
     useclienttiming_set = UseClientTimingSerializer(many=True, read_only=True)
+    client_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = ClientTiming
         fields = ('id', 'timing', 'status', 'date', 'date_start', 'client',
                   'date_begin', 'date_end', 'name', 'useclienttiming_set',
-                  'rest_days', 'rest_minutes')
+                  'rest_days', 'rest_minutes', 'client_name')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
@@ -286,8 +294,8 @@ class ClientSerializer(serializers.ModelSerializer):
         max_length=None, use_url=True
     )
     clientclubcard_set = ClientClubCardSerializer(many=True, read_only=True)
-    clientaquaaerobicsfull_set =\
-                   ClientAquaAerobicsFullSerializer(many=True, read_only=True)
+    clientaquaaerobicsfull_set = ClientAquaAerobicsFullSerializer(many=True,
+                                                                  read_only=True)
     clientticket_set = ClientTicketSerializer(many=True, read_only=True)
     clientpersonal_set = ClientPersonalSerializer(many=True, read_only=True)
     clienttiming_set = ClientTimingSerializer(many=True, read_only=True)
@@ -306,8 +314,8 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = ('id', 'first_name', 'last_name', 'patronymic',
                   'born',  'gender', 'mobile', 'address', 'passport',
                   'phone', 'email', 'avatar', 'date',
-                   'clientclubcard_set',
-                  'avatar_url', 'full_name', 'uid', 'clientaquaaerobicsfull_set',
+                  'clientclubcard_set', 'uid',
+                  'avatar_url', 'full_name', 'clientaquaaerobicsfull_set',
                   'clientticket_set', 'clientpersonal_set', 'clienttiming_set',
                   'credit_set', 'debt_set', 'debtupcoming_set', 'card',
                   'introductory_date', 'introductory_employee',

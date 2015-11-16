@@ -98,6 +98,10 @@ class ClientClubCard(models.Model):
     """
 
     @property
+    def client_name(self):
+        return self.client.full_name
+
+    @property
     def name(self):
         return self.club_card.name
 
@@ -262,6 +266,10 @@ class ClientAquaAerobics(models.Model):
     """
 
     @property
+    def client_name(self):
+        return self.client.full_name
+
+    @property
     def name(self):
         return self.aqua_aerobics.name
 
@@ -375,6 +383,10 @@ class ClientTicket(models.Model):
     """
 
     @property
+    def client_name(self):
+        return self.client.full_name
+
+    @property
     def name(self):
         return self.ticket.name
 
@@ -422,6 +434,10 @@ class ClientPersonal(models.Model):
     """
 
     @property
+    def client_name(self):
+        return self.client.full_name
+
+    @property
     def name(self):
         return self.personal.name
 
@@ -467,6 +483,10 @@ class ClientTiming(models.Model):
     1 - active
     2 - prospect
     """
+
+    @property
+    def client_name(self):
+        return self.client.full_name
 
     @property
     def name(self):
