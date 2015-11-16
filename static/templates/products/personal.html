@@ -1,7 +1,11 @@
 <div>
   <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ personal.name }} </span>
-  <div ng-show="collapsed" class="alert alert-warning col-md-12">
+  <div ng-show="collapsed" class="alert col-md-12" ng-class="{'alert-warning': personal.is_active}">
       <table class="table">
+          <tr>
+              <td width="400">Активна</td>
+              <td>{{ personal.is_active | YN }}</td>
+          </tr>
           <tr>
               <td width="400">Кол-во занятий</td>
               <td>{{ personal.max_visit | visits }}</td>
@@ -44,5 +48,6 @@
       <div ng-repeat="position in personal.positions">
       {{ position }}
       </div>
+      <button ng-click="vm.active()" class="btn btn-sm btn-default pull-right" > Активность </button>
   </div>
 </div>

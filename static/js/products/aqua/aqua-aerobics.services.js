@@ -26,6 +26,7 @@
       get: get,
       use:use,
       use_exit: use_exit,
+      active: active,
     };
 
     return AquaAerobics;
@@ -52,6 +53,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/aquaaerobics/' + uid + '/')
+    }
+
+    function active(uid) {
+      return $http.post('/api/v1/products/aquaaerobics/' + uid + '/active/')
     }
 
     function use(fdata) {

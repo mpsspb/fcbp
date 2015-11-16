@@ -68,6 +68,19 @@
 
   angular
     .module('fcbp')
+    .filter('YN', function() {
+        return function(input) {
+          if (input) {
+            return 'Да'
+          } else {
+            return 'Нет'
+          }
+          
+        }
+    });
+
+  angular
+    .module('fcbp')
     .filter('phone', function() {
         return function(input) {
           if (input ) {

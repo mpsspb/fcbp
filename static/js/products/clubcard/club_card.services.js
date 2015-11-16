@@ -31,6 +31,7 @@
       fitness: fitness,
       prolongation: prolongation,
       freeze: freeze,
+      active: active,
     };
 
     return ClubCard;
@@ -57,6 +58,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/clubcard/' + uid + '/')
+    }
+
+    function active(uid) {
+      return $http.post('/api/v1/products/club_cards/' + uid + '/active/')
     }
 
     function guest(uid, fdata) {

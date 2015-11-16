@@ -9,6 +9,19 @@
     .module('fcbp.tickets.directives')
     .directive('ticket', ticket);
 
+  var active = function($scope, Tickets) {
+    var vm = this;
+    vm.active = function () {
+      Tickets.active($scope.ticket.id).then(ticketSuccessFn, ticketErrorFn);
+
+      function ticketSuccessFn(data, status, headers, config) {
+        $scope.ticket = data.data;
+      }
+      function ticketErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+  };
   /**
   * @namespace ticket
   */
@@ -23,6 +36,8 @@
       scope: {
         ticket: '='
       },
+      controller: active,
+      controllerAs: 'vm',
       templateUrl: '/static/templates/products/ticket.html?v=1'
     };
 

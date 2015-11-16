@@ -9,6 +9,20 @@
     .module('fcbp.clubcard.directives')
     .directive('clubcard', clubcard);
 
+  var active = function($scope, ClubCard) {
+    var vm = this;
+    vm.active = function () {
+      ClubCard.active($scope.clubcard.id).then(clubcardSuccessFn, clubcardErrorFn);
+
+      function clubcardSuccessFn(data, status, headers, config) {
+        $scope.clubcard = data.data;
+      }
+      function clubcardErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+  };
+
   /**
   * @namespace ClubCard
   */
@@ -23,6 +37,8 @@
       scope: {
         clubcard: '='
       },
+      controller: active,
+      controllerAs: 'vm',
       templateUrl: '/static/templates/products/clubcard.html?1'
     };
 

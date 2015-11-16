@@ -26,6 +26,7 @@
       get: get,
       use: use,
       use_exit: use_exit,
+      active: active,
     };
 
     return Personals;
@@ -52,6 +53,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/personal/' + uid + '/')
+    }
+
+    function active(uid) {
+      return $http.post('/api/v1/products/personal/' + uid + '/active/')
     }
 
     function use(fdata) {

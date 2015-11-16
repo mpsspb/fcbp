@@ -9,6 +9,20 @@
     .module('fcbp.personal.directives')
     .directive('personal', personal);
 
+
+  var active = function($scope, Personals) {
+    var vm = this;
+    vm.active = function () {
+      Personals.active($scope.personal.id).then(personalSuccessFn, personalErrorFn);
+
+      function personalSuccessFn(data, status, headers, config) {
+        $scope.personal = data.data;
+      }
+      function personalErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+  };
   /**
   * @namespace Personal
   */
@@ -23,6 +37,8 @@
       scope: {
         personal: '='
       },
+      controller: active,
+      controllerAs: 'vm',
       templateUrl: '/static/templates/products/personal.html?1'
     };
 

@@ -1,7 +1,11 @@
 <div>
   <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ clubcard.name }} </span>
-  <div ng-show="collapsed" class="alert alert-warning col-md-12">
+  <div ng-show="collapsed" ng-class="{'alert-warning': clubcard.is_active}"  class="alert col-md-12">
       <table class="table">
+          <tr>
+              <td width="400">Активна</td>
+              <td>{{ clubcard.is_active | YN }}</td>
+          </tr>
           <tr>
               <td width="400">Кол-во визитов</td>
               <td>{{ clubcard.max_visit | visits }}</td>
@@ -52,5 +56,6 @@
           </tr>
       </table>
       <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
+      <button ng-click="vm.active()" class="btn btn-sm btn-default pull-right" > Активность </button>
   </div>
 </div>
