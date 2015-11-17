@@ -83,7 +83,7 @@
         console.log(data);
       }
 
-      ClubCard.list().then(clubcardsSuccessFn, clubcardsErrorFn);
+      ClubCard.active_list().then(clubcardsSuccessFn, clubcardsErrorFn);
 
       /**
       * @name clubcardsSuccessFn
@@ -101,7 +101,7 @@
         console.log(data);
       }
 
-      AquaAerobics.list().then(aquaaerobicsesSuccessFn, aquaaerobicsesErrorFn);
+      AquaAerobics.active_list().then(aquaaerobicsesSuccessFn, aquaaerobicsesErrorFn);
 
       /**
       * @name aquaaerobicsesSuccessFn
@@ -119,7 +119,7 @@
         console.log(data);
       }
 
-      Tickets.list().then(ticketsSuccessFn, ticketsErrorFn);
+      Tickets.active_list().then(ticketsSuccessFn, ticketsErrorFn);
 
       /**
       * @name ticketsSuccessFn
@@ -137,7 +137,7 @@
         console.log(data);
       }
 
-      Personals.list().then(personalsSuccessFn, personalsErrorFn);
+      Personals.active_list().then(personalsSuccessFn, personalsErrorFn);
 
       /**
       * @name personalsSuccessFn
@@ -155,7 +155,7 @@
         console.log(data);
       }
 
-      Timing.list().then(timingsSuccessFn, timingsErrorFn);
+      Timing.active_list().then(timingsSuccessFn, timingsErrorFn);
 
       /**
       * @name timingsSuccessFn

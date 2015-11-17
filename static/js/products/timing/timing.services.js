@@ -25,6 +25,8 @@
       list: list,
       get: get,
       use: use,
+      active: active,
+      active_list: active_list,
     };
 
     return Timing;
@@ -49,8 +51,16 @@
       return $http.get('/api/v1/products/timing/')
     }
 
+    function active_list() {
+      return $http.get('/api/v1/products/timing/active_list/')
+    }
+
     function get(uid) {
       return $http.get('/api/v1/clients/timing/' + uid + '/')
+    }
+
+    function active(uid) {
+      return $http.post('/api/v1/products/timing/' + uid + '/active/')
     }
 
     function use(fdata) {

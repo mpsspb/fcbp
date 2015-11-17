@@ -27,7 +27,8 @@
       use: use,
       use_exit: use_exit,
       active: active,
-    };
+      active_list: active_list,
+};
 
     return Tickets;
 
@@ -49,6 +50,10 @@
     **/
     function list() {
       return $http.get('/api/v1/products/tickets/')
+    }
+
+    function active_list() {
+      return $http.get('/api/v1/products/tickets/active_list/')
     }
 
     function get(uid) {

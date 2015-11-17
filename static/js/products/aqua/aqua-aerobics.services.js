@@ -27,6 +27,7 @@
       use:use,
       use_exit: use_exit,
       active: active,
+      active_list: active_list,
     };
 
     return AquaAerobics;
@@ -49,6 +50,10 @@
     **/
     function list() {
       return $http.get('/api/v1/products/aquaaerobics/')
+    }
+
+    function active_list() {
+      return $http.get('/api/v1/products/aquaaerobics/active_list/')
     }
 
     function get(uid) {

@@ -14,7 +14,8 @@ from .serializers import PersonalPositionSerializer, TimingSerializer
 
 class ActiveModel(object):
     """
-    active/deactive the clubcard.
+    active/deactive the objects.
+    list active objects.
     """
     @detail_route(methods=['post', 'get'], )
     def active(self, request, pk,):
@@ -22,6 +23,13 @@ class ActiveModel(object):
         obj.is_active = not obj.is_active
         obj.save()
         serializer = self.serializer_class(obj)
+        return Response(serializer.data)
+
+    @list_route(methods=['get'])
+    def active_list(self, request):
+        queryset = self.filter_queryset(self.get_queryset())\
+                       .filter(is_active=True)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
 

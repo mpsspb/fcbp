@@ -27,6 +27,7 @@
       use: use,
       use_exit: use_exit,
       active: active,
+      active_list: active_list,
     };
 
     return Personals;
@@ -49,6 +50,10 @@
     **/
     function list() {
       return $http.get('/api/v1/products/personal/')
+    }
+
+    function active_list() {
+      return $http.get('/api/v1/products/personal/active_list/')
     }
 
     function get(uid) {

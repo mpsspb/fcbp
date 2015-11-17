@@ -32,6 +32,7 @@
       prolongation: prolongation,
       freeze: freeze,
       active: active,
+      active_list: active_list,
     };
 
     return ClubCard;
@@ -54,6 +55,10 @@
     **/
     function list() {
       return $http.get('/api/v1/products/club_cards/')
+    }
+
+    function active_list() {
+      return $http.get('/api/v1/products/club_cards/active_list/')
     }
 
     function get(uid) {
