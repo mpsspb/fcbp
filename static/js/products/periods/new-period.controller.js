@@ -27,7 +27,6 @@
     * @memberOf fcbp.periods.controllers.NewPeriodController
     */
     function submit() {
-
       Periods.create(vm.fdata).then(createPeriodSuccessFn, createPeriodErrorFn);
 
 

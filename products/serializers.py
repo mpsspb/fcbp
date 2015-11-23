@@ -9,7 +9,6 @@ class PeriodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Period
-
         fields = ('id', 'value', 'is_active', 'is_month')
         read_only_fields = ('id', )
 
@@ -46,7 +45,6 @@ class SportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sport
-
         fields = ('id', 'name', 'is_active', )
         read_only_fields = ('id', )
 

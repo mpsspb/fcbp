@@ -116,7 +116,7 @@ AVATAR_ROOT = os.path.join(BASE_DIR, "avatar")
 AVATAR_URL = 'avatar/'
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except Exception as e:
     print("Unable import local settings : %s" % (e))
     exit(1)

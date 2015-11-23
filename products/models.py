@@ -10,7 +10,7 @@ class Discount(models.Model):
     Available discounts.
     """
     value = models.SmallIntegerField(
-            validators = [MinValueValidator(0), MaxValueValidator(100)])
+            validators=[MinValueValidator(0), MaxValueValidator(100)])
     is_active = models.BooleanField(default=True)
 
 
@@ -19,9 +19,12 @@ class Period(models.Model):
     Period for club card types.
     Default values in month, other way in days.
     """
-    value = models.SmallIntegerField(unique=True)
+    value = models.SmallIntegerField()
     is_month = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        unique_together = ('value', 'is_month')
 
 
 class ClubCard(models.Model):
@@ -116,7 +119,7 @@ class Personal(models.Model):
     @property
     def period_data(self):
         return self.period
-    
+
 
 class PersonalPosition(models.Model):
     """
