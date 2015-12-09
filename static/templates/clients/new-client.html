@@ -1,17 +1,31 @@
 <form class="form-horizontal">
 <div class="modal-body">
 
+<div class="panel panel-warning" ng-show="vm.list_matches.length">
+  <div class="panel-heading"
+    ng-click="vm.matches_show=!vm.matches_show">
+    <strong>Есть совпадения</strong>
+  </div>
+  <div class="panel-body">
+    <client client="client" ng-show="vm.matches_show"
+      ng-repeat="client in vm.list_matches">
+    </client>
+  </div>
+</div>
+
   <div class="form-group has-warning">
     <label class="col-md-2 control-label">Фамилия:</label>
     <div class="col-md-3">
       <input ng-model="vm.fdata.last_name" type="text"
-      class="form-control" placeholder="Фамилия">
+      class="form-control" placeholder="Фамилия"
+      ng-blur="vm.search_client()">
     </div>
 
     <label class="col-md-2 control-label">Имя:</label>
     <div class="col-md-3">
       <input ng-model="vm.fdata.first_name" type="text"
-      class="form-control" placeholder="Имя">
+      class="form-control" placeholder="Имя"
+      ng-blur="vm.search_client()">
     </div>
   </div>
 
@@ -19,7 +33,8 @@
     <label class="col-md-2 control-label">Отчество:</label>
     <div class="col-md-3">
       <input ng-model="vm.fdata.patronymic" type="text"
-      class="form-control" placeholder="Отчество">
+      class="form-control" placeholder="Отчество"
+      ng-blur="vm.search_client()">
     </div>
 
     <label class="col-md-2 control-label">Д. рождения:</label>

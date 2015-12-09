@@ -65,7 +65,7 @@ class ClientViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'], )
     def full_search(self, request):
         """
-        Search clients by carb or uid or istartswith last_name.
+        Search clients istartswith last_name, first_name and patronymic.
         """
         queryset = Client.objects.filter(pk=-1)
         last_name = request.data.get('last_name', None)
@@ -84,6 +84,29 @@ class ClientViewSet(viewsets.ModelViewSet):
                        Client.objects\
                              .filter(patronymic__istartswith=patronymic)
 
+        serializer = ClientSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @list_route(methods=['post'], )
+    def exact_search(self, request):
+        """
+        Search clients iexact of last_name, first_name and patronymic.
+        """
+        last_name = request.data.get('last_name', None)
+        if last_name:
+            queryset = Client.objects.filter(last_name__iexact=last_name)
+        first_name = request.data.get('first_name', None)
+        if first_name:
+            if last_name:
+                queryset = queryset.filter(first_name__iexact=first_name)
+            else:
+                queryset = Client.objects.filter(last_name__iexact=first_name)
+        patronymic = request.data.get('patronymic', None)
+        if patronymic:
+            if last_name or first_name:
+                queryset = queryset.filter(patronymic__iexact=patronymic)
+            else:
+                queryset = Client.objects.filter(last_name__iexact=patronymic)
         serializer = ClientSerializer(queryset, many=True)
         return Response(serializer.data)
 

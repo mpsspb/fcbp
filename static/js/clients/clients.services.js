@@ -28,6 +28,7 @@
       online: online,
       search: search,
       full_search: full_search,
+      exact_search: exact_search,
     };
 
     return Clients;
@@ -73,6 +74,10 @@
 
     function full_search(fdata) {
       return $http.post('/api/v1/clients/client/full_search/', fdata);
+    }
+
+    function exact_search(fdata) {
+      return $http.post('/api/v1/clients/client/exact_search/', fdata);
     }
 
   }
