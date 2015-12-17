@@ -219,20 +219,67 @@
   <strong> Заморожена</strong>
 </div>
 
-<i class="col-md-12 fa fa-credit-card">Клубная Карта <strong>{{ vm.card.client_name }}</strong></i>
-<br/>
-<div class="col-md-3">
-  <button class="btn btn-info btn-block"
-   data-toggle="modal" data-target="#CardPersonal"
-   ng-show="vm.card.personal_training"> Персоналка бонусная
-  </button>
+<div class="col-md-4">
+  <i class="row-border col-md-12 fa fa-credit-card">
+  <h4>Клубная Карта: {{ vm.card.name }} </h4>
+  <h4><u>{{ vm.card.client_name }}</u></h4>
+  </i>
+  <div class="row-border col-md-12">
+    <h4>
+      c {{ vm.card.date_begin | date:'dd.MM.yyyy' }}
+      по {{ vm.card.date_end | date:'dd.MM.yyyy' }}
+    </h4>    
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Персоналка бонусная</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-info btn-block"
+       ng-show="vm.card.personal_training"
+       data-toggle="modal" data-target="#CardPersonal"
+       > Записать </button>
+      <h4 ng-show="vm.card.personalclubcard_set">
+        {{ vm.card.personalclubcard_set[0].date | date:'dd.MM.yyyy' }}
+        {{ vm.card.personalclubcard_set[0].employee }}      
+      </h4>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Фитнес тестирование</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-info btn-block"
+       data-toggle="modal" data-target="#Fitness"
+       ng-show="vm.card.fitness_testing_discount"> Записать </button>
+      <h4 ng-show="vm.card.fitnessclubcard_set">
+        {{ vm.card.fitnessclubcard_set[0].date | date:'dd.MM.yyyy' }}
+        {{ vm.card.fitnessclubcard_set[0].employee }}      
+      </h4>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <button class="btn btn-warnning btn-block"
+     data-toggle="modal" data-target="#GuestPersonal"
+     ng-show="vm.card.rest_guest"> Гость
+    </button>
+  </div>
 </div>
-<div class="col-md-3">
-  <button class="btn btn-info btn-block"
-   data-toggle="modal" data-target="#Fitness"
-   ng-show="vm.card.fitness_testing_discount"> Фитнес тестирование
-  </button>
+
+<div class="col-md-8">
+  <table class="table">
+    <tr>
+      <td>дата</td><td>время</td><td>окончание</td>
+    </tr>
+    <tr ng-repeat="use in vm.card.useclientclubcard_set">
+      <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
+      <td> {{ use.date | date:'HH:mm' }} </td>
+      <td> {{ use.end | date:'HH:mm' }} </td>
+    </tr>
+  </table>
 </div>
+
+
 <div class="col-md-3">
   <button class="btn btn-primary btn-block"
    data-toggle="modal" data-target="#Prolongation"> Продление
@@ -259,7 +306,7 @@
   </tr>
 </table>
 <div class="col-md-2">
-  <a href="#/cardclient/{{ vm.card.client}}/" class="btn btn-default btn-block"> Отмена </a>
+  <a href="#/cardclient/{{ vm.card.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
 </div> 
 
 <div class="col-md-2" ng-switch on="vm.card.is_online">
@@ -267,9 +314,6 @@
   <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
 </div>
 
-<div class="col-md-2">
-  <button  ng-click="showHistory=!showHistory" class="btn btn-block btn-info">История</button>
-</div>
 <div class="col-md-2">
   <button class="btn btn-warnning btn-block"
    data-toggle="modal" data-target="#GuestPersonal"
@@ -281,20 +325,11 @@
 </div>
 
 <!-- Details tables -->
-<table class="table" ng-show="showHistory">
-  <tr>
-    <td>дата</td><td>время</td><td>окончание</td>
-  </tr>
-  <tr ng-repeat="use in vm.card.useclientclubcard_set">
-    <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ use.date | date:'HH:mm' }} </td>
-    <td> {{ use.end }} </td>
-  </tr>
-</table>
+
 
 <table class="table" ng-show="showGuests">
   <tr>
-    <td>дата</td><td>Гость</td><td>Дата Рожденя</td><td>Телефон</td>
+    <td>дата</td><td>Гость</td><td>Дата Рождения</td><td>Телефон</td>
   </tr>
   <tr ng-repeat="use in vm.card.guestclubcard_set">
     <td> {{ use.date | date:'dd.MM.yyyy' }} </td>

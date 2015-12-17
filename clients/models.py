@@ -215,7 +215,11 @@ class FitnessClubCard(models.Model):
     """
     date = models.DateTimeField(auto_now_add=True)
     client_club_card = models.ForeignKey(ClientClubCard)
-    personal = models.ForeignKey(Personal, )
+    personal = models.ForeignKey(Employee, )
+
+    @property
+    def employee(self):
+        return self.personal.initials
 
 
 class PersonalClubCard(models.Model):
@@ -224,7 +228,11 @@ class PersonalClubCard(models.Model):
     """
     date = models.DateTimeField(auto_now_add=True)
     client_club_card = models.ForeignKey(ClientClubCard)
-    personal = models.ForeignKey(Personal, )
+    personal = models.ForeignKey(Employee)
+
+    @property
+    def employee(self):
+        return self.personal.initials
 
 
 class FreezeClubCard(models.Model):

@@ -22,6 +22,7 @@
     vm.use = use;
 
     vm.uid = $routeParams.uid
+    // vm.uid = parseInt(vm.uid, 10);
 
     vm.valid_freeze_date = true;
 
@@ -184,7 +185,6 @@
       * @desc Update ClubCard array on view
       */
       function cardclientSuccessFn(data, status, headers, config) {
-        console.log(data);
         vm.pdata = {client_club_card: vm.uid,};
         activate();
       }
@@ -207,7 +207,6 @@
       * @desc Update ClubCard array on view
       */
       function cardclientSuccessFn(data, status, headers, config) {
-        console.log(data);
         vm.fitdata = {client_club_card: vm.uid,};
         activate();
       }

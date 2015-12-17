@@ -71,11 +71,29 @@ class FreezeClubCardSerializer(serializers.ModelSerializer):
         model = FreezeClubCard
 
 
+class FitnessClubCardSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = FitnessClubCard
+
+
+class PersonalClubCardSerializer(serializers.ModelSerializer):
+    employee = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = PersonalClubCard
+
+
 class ClientClubCardSerializer(serializers.ModelSerializer):
     useclientclubcard_set = UseClientClubCardSerializer(many=True,
                                                         read_only=True)
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
     client_name = serializers.CharField(read_only=True)
+    personalclubcard_set = PersonalClubCardSerializer(many=True,
+                                                      read_only=True)
+    fitnessclubcard_set = FitnessClubCardSerializer(many=True,
+                                                    read_only=True)
 
     class Meta:
         model = ClientClubCard
@@ -84,6 +102,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'rest_days', 'rest_visits', 'useclientclubcard_set',
                   'rest_guest', 'guest_training', 'guestclubcard_set',
                   'fitness_testing_discount', 'personal_training',
+                  'personalclubcard_set', 'fitnessclubcard_set',
                   'rest_freeze', 'rest_freeze_times', 'is_frozen',
                   'client_name')
         read_only_fields = ('id', )
@@ -104,16 +123,6 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         else:
             print fclub_card.errors
         return club_card
-
-
-class FitnessClubCardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FitnessClubCard
-
-
-class PersonalClubCardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PersonalClubCard
 
 
 class ProlongationClubCardSerializer(serializers.ModelSerializer):
@@ -294,8 +303,9 @@ class ClientSerializer(serializers.ModelSerializer):
         max_length=None, use_url=True
     )
     clientclubcard_set = ClientClubCardSerializer(many=True, read_only=True)
-    clientaquaaerobicsfull_set = ClientAquaAerobicsFullSerializer(many=True,
-                                                                  read_only=True)
+    clientaquaaerobicsfull_set = ClientAquaAerobicsFullSerializer(
+                                                            many=True,
+                                                            read_only=True)
     clientticket_set = ClientTicketSerializer(many=True, read_only=True)
     clientpersonal_set = ClientPersonalSerializer(many=True, read_only=True)
     clienttiming_set = ClientTimingSerializer(many=True, read_only=True)
