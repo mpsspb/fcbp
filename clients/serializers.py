@@ -67,6 +67,8 @@ class GuestClubCardSerializer(serializers.ModelSerializer):
 
 
 class FreezeClubCardSerializer(serializers.ModelSerializer):
+    tdate = serializers.DateTimeField(read_only=True)
+
     class Meta:
         model = FreezeClubCard
 
@@ -94,6 +96,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                                                       read_only=True)
     fitnessclubcard_set = FitnessClubCardSerializer(many=True,
                                                     read_only=True)
+    freezeclubcard_set = FreezeClubCardSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientClubCard
@@ -104,7 +107,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'fitness_testing_discount', 'personal_training',
                   'personalclubcard_set', 'fitnessclubcard_set',
                   'rest_freeze', 'rest_freeze_times', 'is_frozen',
-                  'client_name')
+                  'client_name', 'freezeclubcard_set')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):

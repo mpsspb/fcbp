@@ -223,7 +223,8 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
     def exit(self, request):
         card_id = request.data['client_club_card']
         exit = UseClientClubCard.objects\
-                                .filter(client_club_card=card_id)\
+                                .filter(client_club_card=card_id,
+                                        end=None)\
                                 .update(end=datetime.now())
         return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
@@ -236,7 +237,8 @@ class UseClientAquaAerobicsViewSet(viewsets.ModelViewSet):
     def exit(self, request):
         aqua_id = request.data['client_aqua_aerobics']
         exit = UseClientAquaAerobics.objects\
-                                    .filter(client_aqua_aerobics=aqua_id)\
+                                    .filter(client_aqua_aerobics=aqua_id,
+                                            end=None)\
                                     .update(end=datetime.now())
         return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
@@ -249,7 +251,8 @@ class UseClientTicketViewSet(viewsets.ModelViewSet):
     def exit(self, request):
         ticket_id = request.data['client_ticket']
         exit = UseClientTicket.objects\
-                              .filter(client_ticket=ticket_id)\
+                              .filter(client_ticket=ticket_id,
+                                      end=None)\
                               .update(end=datetime.now())
         return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
@@ -262,7 +265,8 @@ class UseClientPersonalViewSet(viewsets.ModelViewSet):
     def exit(self, request):
         personal_id = request.data['client_personal']
         exit = UseClientPersonal.objects\
-                                .filter(client_personal=personal_id)\
+                                .filter(client_personal=personal_id,
+                                        end=None)\
                                 .update(end=datetime.now())
         return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 

@@ -521,7 +521,7 @@ class UseClientClubCard(models.Model):
     Log information about use the Client Club Card.
     """
     date = models.DateTimeField(auto_now_add=True)
-    end = models.DateField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
     client_club_card = models.ForeignKey(ClientClubCard)
 
 
@@ -530,7 +530,7 @@ class UseClientAquaAerobics(models.Model):
     Log information about use the Client AquaAerobics.
     """
     date = models.DateTimeField(auto_now_add=True)
-    end = models.DateField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
     client_aqua_aerobics = models.ForeignKey(ClientAquaAerobics)
 
 
@@ -539,7 +539,7 @@ class UseClientTicket(models.Model):
     Log information about use the Client Ticket.
     """
     date = models.DateTimeField(auto_now_add=True)
-    end = models.DateField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
     client_ticket = models.ForeignKey(ClientTicket)
 
 
@@ -548,7 +548,7 @@ class UseClientPersonal(models.Model):
     Log information about use the Client Personal.
     """
     date = models.DateTimeField(auto_now_add=True)
-    end = models.DateField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
     client_personal = models.ForeignKey(ClientPersonal)
 
 
@@ -557,7 +557,7 @@ class UseClientTiming(models.Model):
     Log information about use the Client Timing.
     """
     date = models.DateTimeField(auto_now_add=True)
-    end = models.DateField(blank=True, null=True)
+    end = models.DateTimeField(blank=True, null=True)
     client_timing = models.ForeignKey(ClientTiming)
     minutes = models.IntegerField(default=1, blank=True)
 

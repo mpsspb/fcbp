@@ -231,7 +231,7 @@
     </h4>    
   </div>
 
-  <div class="panel panel-default col-md-12">
+  <div class="panel panel-default col-md-12" ng-show="vm.card.personal_training || vm.card.personalclubcard_set.length">
     <div class="panel-heading"><strong>Персоналка бонусная</strong></div>
     <div class="panel-body">
       <button class="btn btn-info btn-block"
@@ -245,9 +245,11 @@
     </div>
   </div>
 
-  <div class="panel panel-default col-md-12">
+  <div class="panel panel-default col-md-12"
+   ng-show="vm.card.fitness_testing_discount || vm.card.fitnessclubcard_set.length">
     <div class="panel-heading"><strong>Фитнес тестирование</strong></div>
     <div class="panel-body">
+    {{ vm.card.fitness_testing_discount || vm.card.fitnessclubcard_set.length }}
       <button class="btn btn-info btn-block"
        data-toggle="modal" data-target="#Fitness"
        ng-show="vm.card.fitness_testing_discount"> Записать </button>
@@ -258,15 +260,63 @@
     </div>
   </div>
 
-  <div class="col-md-6">
-    <button class="btn btn-warnning btn-block"
-     data-toggle="modal" data-target="#GuestPersonal"
-     ng-show="vm.card.rest_guest"> Гость
-    </button>
+  <div class="panel panel-default col-md-12" ng-show="vm.card.guest_training">
+    <div class="panel-heading">
+      <strong>Гость 
+        ({{ vm.card.guest_training}}/{{vm.card.rest_guest}})
+      </strong></div>
+    <div class="panel-body">
+      <button class="btn btn-warnning btn-block"
+      data-toggle="modal" data-target="#GuestPersonal"
+      ng-show="vm.card.rest_guest"> Записать </button>
+      <table class="table" ng-show="vm.card.guestclubcard_set.length">
+        <tr>
+          <td>дата</td><td>Гость</td><!-- <td>Дата Рождения</td><td>Телефон</td> -->
+        </tr>
+        <tr ng-repeat="use in vm.card.guestclubcard_set">
+          <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ use.guest }} </td>
+          <!-- <td> {{ use.born | date:'dd.MM.yyyy' }} </td>
+          <td> {{ use.phone | phone }} </td> -->
+        </tr>
+      </table>
+    </div>
   </div>
+
+  <div class="panel panel-default col-md-12" ng-show="vm.card.guest_training">
+    <div class="panel-heading"><strong>Заморозка</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-success btn-block"
+      data-toggle="modal" data-target="#Frost"> Записать </button>
+      <table class="table" ng-show="vm.card.freezeclubcard_set.length">
+        <tr>
+          <td>С</td><td>ПО</td><td>Дней</td>
+        </tr>
+        <tr ng-repeat="freez in vm.card.freezeclubcard_set">
+          <td> {{ freez.fdate | date:'dd.MM.yyyy' }} </td>
+          <td> {{ freez.tdste | date:'dd.MM.yyyy' }} </td>
+          <td> {{ freez.days }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <div class="col-md-8">
+  <div class="col-md-2" ng-switch on="vm.card.is_online">
+    <button class="btn btn-block btn-success" ng-click="vm.use(0)" ng-switch-when="0" >Вход</button>
+    <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
+  </div>
+  <div class="col-md-3">
+    <button class="btn btn-primary btn-block"
+     data-toggle="modal" data-target="#Prolongation"> Продление
+    </button>
+  </div>
+
+  <div class="col-md-3">
+    <a href="#/cardclient/{{ vm.card.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
+  </div>
   <table class="table">
     <tr>
       <td>дата</td><td>время</td><td>окончание</td>
@@ -279,65 +329,6 @@
   </table>
 </div>
 
-
-<div class="col-md-3">
-  <button class="btn btn-primary btn-block"
-   data-toggle="modal" data-target="#Prolongation"> Продление
-  </button>
-</div>
-<!-- Frost -->
-<div class="col-md-3">
-  <button class="btn btn-success btn-block"
-   data-toggle="modal" data-target="#Frost"> Заморозка
-  </button>
-</div>
-<br/>
-<br/>
-<table class="table">
-  <tr>
-    <td>дата</td><td>наименование</td>
-    <td>остаток дней</td><td>визитов</td>
-  </tr>
-  <tr>
-    <td> {{ vm.card.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ vm.card.name }} </td>
-    <td> {{ vm.card.rest_days }} </td>
-    <td> {{ vm.card.rest_visits }} </td>
-  </tr>
-</table>
-<div class="col-md-2">
-  <a href="#/cardclient/{{ vm.card.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
-</div> 
-
-<div class="col-md-2" ng-switch on="vm.card.is_online">
-  <button class="btn btn-block btn-success" ng-click="vm.use(0)" ng-switch-when="0" >Вход</button>
-  <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
-</div>
-
-<div class="col-md-2">
-  <button class="btn btn-warnning btn-block"
-   data-toggle="modal" data-target="#GuestPersonal"
-   ng-show="vm.card.rest_guest"> Гость
-  </button>
-</div>
-<div class="col-md-2" ng-show="vm.card.guest_training">
-  <button  ng-click="showGuests=!showGuests" class="btn btn-block btn-warnning">Гостевые визиты</button>
-</div>
-
-<!-- Details tables -->
-
-
-<table class="table" ng-show="showGuests">
-  <tr>
-    <td>дата</td><td>Гость</td><td>Дата Рождения</td><td>Телефон</td>
-  </tr>
-  <tr ng-repeat="use in vm.card.guestclubcard_set">
-    <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ use.guest }} </td>
-    <td> {{ use.born | date:'dd.MM.yyyy' }} </td>
-    <td> {{ use.phone | phone }} </td>
-  </tr>
-</table>
 <script type="text/javascript">
   jQuery(function($){
 
