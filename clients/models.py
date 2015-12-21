@@ -191,7 +191,7 @@ class ProlongationClubCard(models.Model):
     """
     Guest training for the Client Club Card.
     """
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     client_club_card = models.ForeignKey(ClientClubCard)
     days = models.SmallIntegerField()
     amount = models.DecimalField(max_digits=15, decimal_places=2,)
@@ -213,7 +213,7 @@ class FitnessClubCard(models.Model):
     """
     Fitness  testing discount for the Client Club Card.
     """
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     client_club_card = models.ForeignKey(ClientClubCard)
     personal = models.ForeignKey(Employee, )
 
@@ -226,7 +226,7 @@ class PersonalClubCard(models.Model):
     """
     Personal training discount for the Client Club Card.
     """
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     client_club_card = models.ForeignKey(ClientClubCard)
     personal = models.ForeignKey(Employee)
 

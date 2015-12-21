@@ -62,6 +62,10 @@
       <form class="form-horizontal">
       <div class="modal-body">
         <div class="form-group">
+          <label class="col-md-2"> Дата: </label>
+          <input class="col-md-4 sinput date-time" ng-model="vm.pdata.date">
+        </div>
+        <div class="form-group">
           <label class="col-md-3 control-label">Сотрудник:</label>
           <div class="col-md-7">
             <select ng-model="vm.pdata.personal"
@@ -93,6 +97,10 @@
       </div>
       <form class="form-horizontal">
       <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-2"> Дата: </label>
+          <input class="col-md-4 sinput date-time" ng-model="vm.fitdata.date">
+        </div>
         <div class="form-group">
           <label class="col-md-3 control-label">Сотрудник:</label>
           <div class="col-md-7">
@@ -132,6 +140,10 @@
         <div class="alert alert-warning" role="alert"
         ng-show="vm.prdata.is_paid">
           <strong>Платное</strong>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Начало: </label>
+          <input class="col-md-4 sinput date-time" ng-model="vm.prdata.date">
         </div>
         <div class="form-group">
           <label class="col-md-2"> Дней: </label>
@@ -249,7 +261,6 @@
    ng-show="vm.card.fitness_testing_discount || vm.card.fitnessclubcard_set.length">
     <div class="panel-heading"><strong>Фитнес тестирование</strong></div>
     <div class="panel-body">
-    {{ vm.card.fitness_testing_discount || vm.card.fitnessclubcard_set.length }}
       <button class="btn btn-info btn-block"
        data-toggle="modal" data-target="#Fitness"
        ng-show="vm.card.fitness_testing_discount"> Записать </button>
@@ -283,7 +294,7 @@
     </div>
   </div>
 
-  <div class="panel panel-default col-md-12" ng-show="vm.card.guest_training">
+  <div class="panel panel-default col-md-12">
     <div class="panel-heading"><strong>Заморозка</strong></div>
     <div class="panel-body">
       <button class="btn btn-success btn-block"
@@ -301,17 +312,30 @@
     </div>
   </div>
 
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Продление</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-primary btn-block"
+       data-toggle="modal" data-target="#Prolongation"> Записать
+      </button>
+      <table class="table" ng-show="vm.card.prolongationclubcard_set.length">
+        <tr>
+          <td>С</td><td>Дней</td>
+        </tr>
+        <tr ng-repeat="p in vm.card.prolongationclubcard_set">
+          <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ p.days }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <div class="col-md-8">
   <div class="col-md-2" ng-switch on="vm.card.is_online">
     <button class="btn btn-block btn-success" ng-click="vm.use(0)" ng-switch-when="0" >Вход</button>
     <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
-  </div>
-  <div class="col-md-3">
-    <button class="btn btn-primary btn-block"
-     data-toggle="modal" data-target="#Prolongation"> Продление
-    </button>
   </div>
 
   <div class="col-md-3">
@@ -333,6 +357,7 @@
   jQuery(function($){
 
    $(".date").mask("99.99.9999");
+   $(".date-time").mask("99.99.9999 99:99");
    $(".mobile").mask("(999)-999-9999");
    $(".phone").mask("999-9999");
 

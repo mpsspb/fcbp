@@ -87,6 +87,18 @@ class PersonalClubCardSerializer(serializers.ModelSerializer):
         model = PersonalClubCard
 
 
+class ProlongationClubCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProlongationClubCard
+
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        cc = ClientClubCard.objects.get(pk=data['client_club_card'])
+        cc.date_end = cc.date_end + timedelta(data['days'])
+        cc.save()
+        return ProlongationClubCard.objects.create(**validated_data)
+
+
 class ClientClubCardSerializer(serializers.ModelSerializer):
     useclientclubcard_set = UseClientClubCardSerializer(many=True,
                                                         read_only=True)
@@ -97,6 +109,8 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     fitnessclubcard_set = FitnessClubCardSerializer(many=True,
                                                     read_only=True)
     freezeclubcard_set = FreezeClubCardSerializer(many=True, read_only=True)
+    prolongationclubcard_set = ProlongationClubCardSerializer(many=True,
+                                                              read_only=True)
 
     class Meta:
         model = ClientClubCard
@@ -107,7 +121,8 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'fitness_testing_discount', 'personal_training',
                   'personalclubcard_set', 'fitnessclubcard_set',
                   'rest_freeze', 'rest_freeze_times', 'is_frozen',
-                  'client_name', 'freezeclubcard_set')
+                  'freezeclubcard_set', 'prolongationclubcard_set',
+                  'client_name')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):
@@ -126,18 +141,6 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         else:
             print fclub_card.errors
         return club_card
-
-
-class ProlongationClubCardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProlongationClubCard
-
-    def create(self, validated_data,):
-        data = self.context['request'].data.copy()
-        cc = ClientClubCard.objects.get(pk=data['client_club_card'])
-        cc.date_end = cc.date_end + timedelta(data['days'])
-        cc.save()
-        return ProlongationClubCard.objects.create(**validated_data)
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):

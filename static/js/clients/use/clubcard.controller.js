@@ -42,12 +42,14 @@
     * @memberOf fcbp.clubcard.controllers.NewClubCardController
     */
     function activate() {
+      var now = moment().format('DD.MM.YYYY HH:mm')
       // forms data initial
       vm.prdata = {
         days: 1,
         amount: 0.0,
         is_paid: false,
-        client_club_card: vm.uid
+        client_club_card: vm.uid,
+        date: now
       }
 
       vm.frdata = {
@@ -60,10 +62,12 @@
       }
       vm.pdata = {
         client_club_card: vm.uid,
+        date: now
       }
 
       vm.fitdata = {
         client_club_card: vm.uid,
+        date: now
       }
       // end forms
 
