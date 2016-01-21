@@ -3,6 +3,8 @@ from django.conf.urls import patterns, include, url
 from rest_framework import routers
 
 from .views import *
+from .advanced_search import ClientSearchViewSet
+
 
 router = routers.SimpleRouter()
 router.register(r'client', ClientViewSet, 'Client')
@@ -23,5 +25,8 @@ router.register(r'usetiming', UseClientTimingViewSet, 'UseClientTiming')
 router.register(r'personalclubcard', PersonalClubCardViewSet, 'PClubCard')
 router.register(r'fitness', FitnessClubCardViewSet, 'FitnessClubCard')
 router.register(r'prolongation', ProlongationClubCardViewSet, 'prolongation')
+
+router.register(r'advanced_search', ClientSearchViewSet, 'advanced_search')
+
 
 urlpatterns = router.urls

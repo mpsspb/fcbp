@@ -23,6 +23,10 @@
       controller: 'ClientsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/clients.html'
+    }).when('/advance_search', {
+      controller: 'AdvanceSearchController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/advance_search.html'
     }).when('/new-client', {
       controller: 'NewClientController',
       controllerAs: 'vm',

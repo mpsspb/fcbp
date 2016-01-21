@@ -1,0 +1,59 @@
+<!-- lists -->
+<div class="col-md-3">
+  <a href="#/clients" class="btn btn-block btn-default">К списку</a>  
+</div>
+<div class="clearfix"></div>
+<div class="col-md-3">
+  Условие поиска:
+  <input type="radio" name="condition" value="0" checked>И</input>
+  <input type="radio" name="condition" value="1">ИЛИ</input>
+</div>
+<div class="col-md-offset-2 col-md-5">
+  Условие сравнения:
+  <input type="radio" name="comparison" value="0" checked>Содержит</input>
+  <input type="radio" name="comparison" value="1">Начинается</input>
+  <input type="radio" name="comparison" value="2">Равно</input>
+</div>
+<div class="clearfix"></div>
+
+<nav class="navbar navbar-default">
+  <form class="navbar-form">
+    <div ng-show="vm.err_search_object" class="alert alert-danger"> Выберите поле поиска</div>
+    <div ng-show="vm.err_search_text" class="alert alert-danger"> Значение должно превышать три симовола</div>
+    <select ng-model="vm.search_object" class="col-md-2 form-control"
+      ng-options="key as value for (key, value) in vm.search_objects">
+    </select>
+    <input ng-model="vm.search_text" class="col-md-offset-1 col-md-4 form-control" placeholder="Значение"></input>
+    <button ng-click="vm.addSearch();" type="button" class="col-md-offset-1 col-md-2 btn btn-success">Добавить</button>
+    <button ng-click="vm.searchClient();" type="button" class="col-md-offset-1 col-md-2 btn btn-primary">Поиск</button>
+  </form>
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th> # </th> <th> Условие </th> <th> Значение </th> <th> Опции </th>
+      </tr>
+      <tr ng-repeat="obj in vm.fsearch">
+        <td>
+          {{ $index + 1 }}
+        </td>
+        <td>
+          {{ vm.search_objects[obj.search_object] }}
+        </td>
+        <td>
+          {{ obj.search_text }}
+        </td>
+        <td>
+          <button type="button" class="btn btn-xs btn-danger" 
+      ng-click="vm.removeSearch($index)">Убрать</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</nav>
+
+  <client client="client"  
+    ng-repeat="client in vm.clients | filter:searchText">
+  </client>
+
+<!-- end of the lists -->

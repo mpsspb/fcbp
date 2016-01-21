@@ -29,6 +29,7 @@
       search: search,
       full_search: full_search,
       exact_search: exact_search,
+      advanced_search: advanced_search,
     };
 
     return Clients;
@@ -78,6 +79,10 @@
 
     function exact_search(fdata) {
       return $http.post('/api/v1/clients/client/exact_search/', fdata);
+    }
+
+    function advanced_search(fdata) {
+      return $http.get('/api/v1/clients/advanced_search/', fdata);
     }
 
   }
