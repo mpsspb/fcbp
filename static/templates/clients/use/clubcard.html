@@ -303,10 +303,15 @@
         <tr>
           <td>С</td><td>ПО</td><td>Дней</td>
         </tr>
-        <tr ng-repeat="freez in vm.card.freezeclubcard_set">
+        <tr ng-repeat-start="freez in vm.card.freezeclubcard_set"
+        ng-class="freez.is_paid ? 'bg-danger' : ''">
           <td> {{ freez.fdate | date:'dd.MM.yyyy' }} </td>
           <td> {{ freez.tdste | date:'dd.MM.yyyy' }} </td>
           <td> {{ freez.days }}</td>
+        </tr>
+        <tr ng-if="freez.is_paid" ng-repeat-end class="bg-danger">
+          <td> {{ freez.date | date:'dd.MM.yyyy'}} </td>
+          <td colspan="2"> {{ freez.amount }} </td>
         </tr>
       </table>
     </div>

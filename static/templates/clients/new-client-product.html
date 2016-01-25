@@ -32,18 +32,33 @@
   </div>
 </div>
 <br/>
+{{ vm.error_amount }}
+<div class="alert alert-danger alert-dismissible" role="alert"
+ng-show="vm.error_amount">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong> Ошибка итоговой сумму (или не указана сумма платной активации)</strong>
+</div>
 
 <div class="panel panel-default">
   <div class="panel-body">
-      <center>
-        <strong class="col-md-3">{{ vm.product_choose(vm.product) }}</strong>
-        <div class="col-md-3">
+      <div class="col-md-6">
+        <strong class="col-md-6">{{ vm.product_choose(vm.product) }}</strong>
+        <div class="col-md-6">
           <select ng-model="vm.fdata.product"
            class="container-full" 
            ng-options="o.id as o.name for o in vm.options">
           </select>
         </div>
-      </center>
+      </div>
+        <div ng-show="vm.product=='card'" class="col-md-3">
+          <label class="text-success">Платная активация</label>
+          <input type="checkbox" ng-model="vm.fdata.is_paid_activate"/>
+        </div>
+        <div ng-show="vm.fdata.is_paid_activate" class="col-md-3">
+          <label class="text-success"> Сумма: </label>
+          <input class="sinput" type="number" min="0" value="0" 
+          ng-model="vm.fdata.paid_activate_amount">
+        </div>
    </div>
 </div>
 

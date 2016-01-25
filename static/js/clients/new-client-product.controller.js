@@ -32,6 +32,7 @@
     vm.search_client = search_client;
     vm.add_client = add_client;
     vm.rm_client = rm_client;
+    vm.error_amount = false;
 
     vm.fdata = {
       discount: 0,
@@ -197,8 +198,18 @@
     function submit() {
 
       if (vm.chk_amount() != 0 && !vm.fdata.is_credit){
-        console.log('error amount')
+        console.log('error amount!')
+        vm.error_amount = true;
         return 0;
+      } else if (vm.fdata.is_paid_activate) {
+        if (vm.fdata.paid_activate_amount == undefined
+            || vm.fdata.paid_activate_amount < 0) {
+          console.log('error paid_activate_amount')
+          vm.error_amount = true;
+          return 0;          
+        }
+      } else {
+        vm.error_amount = false
       }
 
       if ( vm.fdata.is_credit ) {

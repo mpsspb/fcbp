@@ -89,6 +89,8 @@ class ClientClubCard(models.Model):
     date_end = models.DateField(blank=True)
     client = models.ForeignKey(Client, )
     club_card = models.ForeignKey(ClubCard, )
+    is_paid_activate = models.BooleanField(default=False)
+    paid_activate_amount = models.IntegerField(blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     """
     status valid data:
@@ -244,6 +246,7 @@ class FreezeClubCard(models.Model):
     fdate = models.DateField()
     days = models.SmallIntegerField()
     is_paid = models.BooleanField(default=False)
+    amount = models.IntegerField(blank=True, null=True)
 
     @property
     def tdate(self):
