@@ -5,11 +5,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
 
 from .models import Period, ClubCard, AquaAerobics, Sport, Ticket
-from .models import Personal, PersonalPosition, Timing
-from .serializers import PeriodSerializer, ClubCardSerializer
-from .serializers import AquaAerobicsSerializer, SportSerializer
-from .serializers import TicketSerializer, PersonalSerializer
-from .serializers import PersonalPositionSerializer, TimingSerializer
+from .models import Personal, PersonalPosition, Timing, Discount
+from .serializers import (
+                    PeriodSerializer, ClubCardSerializer,
+                    AquaAerobicsSerializer, SportSerializer,
+                    TicketSerializer, PersonalSerializer, DiscountSerializer,
+                    PersonalPositionSerializer, TimingSerializer)
 
 
 class ActiveModel(object):
@@ -31,6 +32,11 @@ class ActiveModel(object):
                        .filter(is_active=True)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+
+class DiscountViewSet(viewsets.ModelViewSet):
+    queryset = Discount.objects.order_by('description')
+    serializer_class = DiscountSerializer
 
 
 class PeriodViewSet(viewsets.ModelViewSet):

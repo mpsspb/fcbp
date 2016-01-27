@@ -235,8 +235,10 @@
   <i class="row-border col-md-12 fa fa-credit-card">
   <h4>Клубная Карта: {{ vm.card.name }} </h4>
   <h4><u>{{ vm.card.client_name }}</u></h4>
+  <h4>{{ vm.card.client_mobile | phone }}</h4>
   </i>
   <div class="row-border col-md-12">
+    <h5 ng-show="vm.card.is_paid_activate" class="bg-success">Платная активация</h5>
     <h4>
       c {{ vm.card.date_begin | date:'dd.MM.yyyy' }}
       по {{ vm.card.date_end | date:'dd.MM.yyyy' }}

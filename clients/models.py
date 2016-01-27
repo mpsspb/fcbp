@@ -104,6 +104,10 @@ class ClientClubCard(models.Model):
         return self.client.full_name
 
     @property
+    def client_mobile(self):
+        return self.client.mobile
+
+    @property
     def name(self):
         return self.club_card.name
 

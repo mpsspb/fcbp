@@ -15,6 +15,7 @@
       'fcbp.personal.directives',
       'fcbp.timing.controllers',
       'fcbp.timing.directives',
+      'fcbp.discounts.controllers',
     ]);
 
   angular
@@ -52,5 +53,9 @@
 
   angular
     .module('fcbp.timing.directives', [])
+
+  angular
+    .module('fcbp.discounts.controllers', [])
+
 
 })();

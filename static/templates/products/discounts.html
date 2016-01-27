@@ -1,0 +1,48 @@
+<!-- Modal new sport -->
+<div class="modal fade" id="NewDiscount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 300px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Новый вид занятий</h4>
+      </div>
+      <form role="form" ng-controller="NewDiscountController as vm">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-11">
+            <label>Введите описание</label>
+            <input  type="text" required class="form-control"
+            ng-model="vm.fdata.description">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="vm.submit()">сохранить</button>          
+      </div>
+      </form>
+    </div>
+  </div>
+</div> <!-- end modal sport -->
+
+<!-- lists -->
+<div>
+  <div class="col-md-3">
+    <a href="#/products" class="btn btn-primary btn-block">
+      Справочники
+    </a>
+  </div>
+ <div class="col-md-3">
+  <button data-toggle="modal" data-target="#NewDiscount" class="btn btn-info btn-block">
+    Новый вид скидки
+  </button>
+ </div>
+ <div class="col-md-6" style="height:34px">&nbsp;</div>
+ <div class="col-md-4">
+     <br/>
+  <div class="alert alert-info col-md-12" ng-repeat="discount in vm.discounts">
+  {{ discount.description }}
+  </div>
+ </div>
+</div>
+<!-- end of the lists -->

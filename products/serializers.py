@@ -1,8 +1,14 @@
 from rest_framework import serializers
 
 from employees.models import Position
-from .models import Period, ClubCard, AquaAerobics, Sport, Ticket
-from .models import Personal, PersonalPosition, Timing
+from .models import (Period, ClubCard, AquaAerobics, Sport, Ticket,
+                     Personal, PersonalPosition, Timing, Discount)
+
+
+class DiscountSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Discount
 
 
 class PeriodSerializer(serializers.ModelSerializer):

@@ -9,9 +9,8 @@ class Discount(models.Model):
     """
     Available discounts.
     """
-    value = models.SmallIntegerField(
-            validators=[MinValueValidator(0), MaxValueValidator(100)])
     is_active = models.BooleanField(default=True)
+    description = models.CharField(max_length=150, unique=True)
 
 
 class Period(models.Model):
