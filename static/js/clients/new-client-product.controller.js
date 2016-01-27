@@ -354,7 +354,7 @@
       }
 
       var month = vm.credit_date.split('.')[1]
-      var year = '20' + vm.credit_date.split('.')[2]
+      var year = vm.credit_date.split('.')[2]
 
       if (month < 1 || month > 12) { // check month range
         msg = "Месяц должен быть в диапазоне от 1 до 12.";

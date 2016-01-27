@@ -111,6 +111,8 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     freezeclubcard_set = FreezeClubCardSerializer(many=True, read_only=True)
     prolongationclubcard_set = ProlongationClubCardSerializer(many=True,
                                                               read_only=True)
+    credit_set = CreditSerializer(many=True, read_only=True)
+    payment_set = PaymentSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientClubCard
@@ -122,7 +124,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'personalclubcard_set', 'fitnessclubcard_set',
                   'rest_freeze', 'rest_freeze_times', 'is_frozen',
                   'freezeclubcard_set', 'prolongationclubcard_set',
-                  'client_name')
+                  'client_name', 'credit_set', 'payment_set')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):

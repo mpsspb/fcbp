@@ -1,4 +1,10 @@
 <form >
+<div class="row col-md-12 bg-info">
+    <center><strong>
+      {{ vm.client.full_name }}
+      {{ vm.client.born | date:'dd.MM.yyyy' }}
+    </strong></center>
+</div>
 <div class="row">
   <div class="col-md-offset-1 col-md-2">
     <button ng-click="vm.reset(); vm.options=vm.clubcards; vm.product='card'"
@@ -32,7 +38,7 @@
   </div>
 </div>
 <br/>
-{{ vm.error_amount }}
+
 <div class="alert alert-danger alert-dismissible" role="alert"
 ng-show="vm.error_amount">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

@@ -335,6 +335,36 @@
     </div>
   </div>
 
+  <div class="panel panel-default col-md-12" ng-show="vm.card.credit_set.length">
+    <div class="panel-heading"><strong>Долги</strong></div>
+    <div class="panel-body">
+      <table class="table">
+        <tr>
+          <td>Дата</td><td>Сумма</td>
+        </tr>
+        <tr ng-repeat="cr in vm.card.credit_set">
+          <td> {{ cr.schedule | date:'dd.MM.yyyy' }} </td>
+          <td> {{ cr.amount }} руб.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12" ng-show="vm.card.payment_set.length">
+    <div class="panel-heading"><strong>Платежи</strong></div>
+    <div class="panel-body">
+      <table class="table">
+        <tr>
+          <td>Дата</td><td>Сумма</td>
+        </tr>
+        <tr ng-repeat="p in vm.card.payment_set">
+          <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ p.amount }} руб.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <div class="col-md-8">
