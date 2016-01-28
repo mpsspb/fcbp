@@ -6,6 +6,7 @@
     </strong></center>
 </div>
 <div class="row">
+<br/><br/>
   <div class="col-md-offset-1 col-md-2">
     <button ng-click="vm.reset(); vm.options=vm.clubcards; vm.product='card'"
     class="btn btn-block btn-warning">
@@ -88,7 +89,20 @@ ng-show="vm.error_amount">
   </div>  
 <br/><br/>
 </div>
-
+<div class="col-md-12" ng-show="vm.fdata.discount > 0">
+  <div class="col-md-3">
+    &nbsp;
+  </div>
+  <div class="col-md-5">
+    <label>Вид Скидки</label>
+    <select ng-model="vm.fdata.discount_type"
+     ng-options="o.id as o.description for o in vm.discounts">
+    </select>
+  </div>
+  <div class="col-md-3 text-danger" ng-show="vm.error_discount">
+    <label>Выберите вид скидки</label>
+  </div>
+</div>
 <div class="col-md-12">
   <label class="col-md-2 control-label">Вид оплаты:</label>
     <div class="col-md-2">

@@ -2,7 +2,8 @@ from datetime import date, timedelta
 from django.db import models
 from django.db.models import Sum
 
-from products.models import ClubCard, AquaAerobics, Ticket, Personal, Timing
+from products.models import (ClubCard, AquaAerobics, Ticket, Personal, Timing,
+                             Discount)
 from employees.models import Employee
 
 
@@ -91,6 +92,7 @@ class ClientClubCard(models.Model):
     club_card = models.ForeignKey(ClubCard, )
     is_paid_activate = models.BooleanField(default=False)
     paid_activate_amount = models.IntegerField(blank=True, null=True)
+    discount_type = models.ForeignKey(Discount, blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     """
     status valid data:

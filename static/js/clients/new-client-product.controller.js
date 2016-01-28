@@ -13,7 +13,7 @@
                                         '$http',
                                         'Clients', 'ClubCard', 'Timing',
                                         'AquaAerobics', 'Tickets', 'Personals',
-                                        'ClientPayment'];
+                                        'ClientPayment', 'Discounts'];
 
   /**
   * @namespace NewClientProductController
@@ -21,7 +21,7 @@
   function NewClientProductController($rootScope, $routeParams, $scope, $http,
                                        Clients, ClubCard, Timing,
                                        AquaAerobics, Tickets, Personals,
-                                       ClientPayment) {
+                                       ClientPayment, Discounts) {
     var vm = this;
 
     vm.submit = submit;
@@ -45,6 +45,7 @@
 
     vm.credits = [];
 
+    vm.discounts = [];
     vm.clubcards = [];
     vm.aquaaerobicses = [];
     vm.tickets = [];
@@ -82,6 +83,14 @@
       */
       function cardclientErrorFn(data, status, headers, config) {
         console.log(data);
+      }
+
+      Discounts.list().then(discountSuccessFn, discountErrorFn);
+      function discountSuccessFn(data, status, headers, config) {
+        vm.discounts = data.data
+      }
+      function discountErrorFn(data, status, headers, config) {
+        console.log(data)
       }
 
       ClubCard.active_list().then(clubcardsSuccessFn, clubcardsErrorFn);
@@ -224,6 +233,16 @@
 
       vm.fdata.credits = vm.credits;
       vm.fdata.extraclients = vm.extraclients;
+      if ( vm.fdata.discount == 0 ) {
+        vm.fdata.discount_type = undefined;
+      } else {
+        if (vm.fdata.discount_type == undefined || vm.fdata.discount_type == 0) {
+          vm.error_discount = true;
+          return;
+        } else {
+          vm.error_discount = false;
+        }
+      }
 
       if (vm.product == 'card') {
         vm.fdata.club_card = vm.fdata.product
