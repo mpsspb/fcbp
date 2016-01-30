@@ -30,6 +30,7 @@
       full_search: full_search,
       exact_search: exact_search,
       advanced_search: advanced_search,
+      last_clubcard: last_clubcard,
     };
 
     return Clients;
@@ -84,6 +85,10 @@
     function advanced_search(fdata) {
       return $http.get('/api/v1/clients/advanced_search/', fdata);
     }
+
+    function last_clubcard(uid, fdata) {
+      return $http.get('/api/v1/clients/client/' + uid + '/last_clubcard/')
+    };
 
   }
 

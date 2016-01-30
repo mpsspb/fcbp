@@ -93,6 +93,7 @@ class ClientClubCard(models.Model):
     is_paid_activate = models.BooleanField(default=False)
     paid_activate_amount = models.IntegerField(blank=True, null=True)
     discount_type = models.ForeignKey(Discount, blank=True, null=True)
+    discount_amount = models.FloatField(blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     """
     status valid data:
@@ -112,6 +113,14 @@ class ClientClubCard(models.Model):
     @property
     def name(self):
         return self.club_card.name
+
+    @property
+    def discount_name(self):
+        if self.discount_type:
+            return '%s %s' % (self.discount_type.description,
+                              self.discount_amount)
+        else:
+            return ''
 
     @property
     def rest_days(self):

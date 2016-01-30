@@ -33,6 +33,7 @@
     vm.add_client = add_client;
     vm.rm_client = rm_client;
     vm.error_amount = false;
+    vm.all_last = false;
 
     vm.fdata = {
       discount: 0,
@@ -45,6 +46,8 @@
 
     vm.credits = [];
 
+    vm.last_first = [];
+    vm.last_last = [];
     vm.discounts = [];
     vm.clubcards = [];
     vm.aquaaerobicses = [];
@@ -183,6 +186,26 @@
         console.log(data);
       }
 
+      Clients.last_clubcard(uid).then(lastcardSuccessFn, lastcardErrorFn);
+
+      /**
+      * @name lastcardSuccessFn
+      * @desc Update last_clubcards data on view
+      */
+      function lastcardSuccessFn(data, status, headers, config) {
+        console.log(data.data.cards)
+        vm.last_first = data.data.first;
+        vm.last_last = data.data.last;
+      }
+
+      /**
+      * @name lastcardErrorFn
+      * @desc console log error
+      */
+      function lastcardErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
     }
 
     $scope.$watch('vm.fdata.product', function(id){
@@ -246,6 +269,7 @@
 
       if (vm.product == 'card') {
         vm.fdata.club_card = vm.fdata.product
+        vm.fdata.discount_amount = vm.fdata.discount
         $http.post('/api/v1/clients/clubcard/', vm.fdata)
              .then(SuccessFn, ErrorFn);
       } else if (vm.product == 'aqua') {

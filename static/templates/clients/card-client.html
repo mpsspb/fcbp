@@ -13,6 +13,7 @@
         <table class="table">
           <tr>
             <td>дата</td><td>наименование</td>
+            <td>активирована</td>
             <td>срок действия</td><td>визитов</td>
             <td>вход</td>
           </tr>
@@ -25,6 +26,7 @@
                 {{ card.name }}
               </span>
             </td>
+            <td> {{ card.date_start | date:'dd.MM.yyyy' }}</td>
             <td> {{ card.date_end | date:'dd.MM.yyyy' }}</td>
             <td> {{ card.rest_visits }} </td>
             <td ng-switch on="card.is_online">

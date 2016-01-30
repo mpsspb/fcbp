@@ -5,6 +5,40 @@
       {{ vm.client.born | date:'dd.MM.yyyy' }}
     </strong></center>
 </div>
+
+<div class="row col-md-12 bg-warning">
+    <table class="table">
+    <caption>
+      <strong>Ранее куплено</strong>
+      <button class="btn btn-primary btn-xs"
+      ng-click="vm.all_last=!vm.all_last">Все</button>
+
+    </caption>
+     <thead>
+      <tr>
+        <th>Наименование</th><th>Начало</th>
+        <th>Окончание</th><th width="250">Скидка</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ vm.last_first.name }}</td>
+        <td>{{ vm.last_first.date_start | date:'dd.MM.yyyy' }}</td>
+        <td>{{ vm.last_first.date_end | date:'dd.MM.yyyy' }}</td>
+        <td>{{ vm.last_first.discount_name || 'Нет'}}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr ng-repeat="card in vm.last_last" ng-show="vm.all_last">
+        <td>{{ card.name }}</td>
+        <td>{{ card.date_start | date:'dd.MM.yyyy' }}</td>
+        <td>{{ card.date_end | date:'dd.MM.yyyy' }}</td>
+        <td>{{ card.discount_name || 'Нет' }}</td>
+      </tr>
+    </tfoot>      
+    </table>
+</div>
+
 <div class="row">
 <br/><br/>
   <div class="col-md-offset-1 col-md-2">

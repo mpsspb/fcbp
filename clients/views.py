@@ -9,6 +9,7 @@ from rest_framework.pagination import PageNumberPagination
 from .models import *
 from .forms import *
 from .serializers import *
+from .serializers_light import ClientClubCardSerial
 from .use_serializers import *
 
 
@@ -122,6 +123,22 @@ class ClientViewSet(viewsets.ModelViewSet):
         else:
             print form.errors
         return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
+
+    @detail_route(methods=['get'], )
+    def last_clubcard(self, request, pk):
+        """
+        Set introductory for the user.
+        """
+        client = self.get_object()
+        queryset = ClientClubCard.objects.filter(client=client)\
+                                         .order_by('-date')[:5]
+        first = queryset[0]
+        last = queryset[1:5]
+        serializer_first = ClientClubCardSerial(first)
+        serializer_last = ClientClubCardSerial(last, many=True)
+        return Response({'first': serializer_first.data,
+                         'last': serializer_last.data},
+                        status=status.HTTP_202_ACCEPTED)
 
 
 class ClientClubCardViewSet(viewsets.ModelViewSet):
