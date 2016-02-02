@@ -4,13 +4,16 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
 
-from .models import Period, ClubCard, AquaAerobics, Sport, Ticket
-from .models import Personal, PersonalPosition, Timing, Discount
+from .models import (
+                    Period, ClubCard, AquaAerobics, Sport, Ticket,
+                    Personal, PersonalPosition, Timing, Discount,
+                    Training)
 from .serializers import (
                     PeriodSerializer, ClubCardSerializer,
                     AquaAerobicsSerializer, SportSerializer,
                     TicketSerializer, PersonalSerializer, DiscountSerializer,
-                    PersonalPositionSerializer, TimingSerializer)
+                    PersonalPositionSerializer, TimingSerializer,
+                    TrainingSerializer)
 
 
 class ActiveModel(object):
@@ -57,6 +60,11 @@ class AquaAerobicsViewSet(viewsets.ModelViewSet, ActiveModel):
 class SportViewSet(viewsets.ModelViewSet):
     queryset = Sport.objects.order_by('name')
     serializer_class = SportSerializer
+
+
+class TrainingViewSet(viewsets.ModelViewSet):
+    queryset = Training.objects.order_by('name')
+    serializer_class = TrainingSerializer
 
 
 class TicketViewSet(viewsets.ModelViewSet, ActiveModel):

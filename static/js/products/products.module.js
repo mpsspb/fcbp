@@ -9,6 +9,7 @@
       'fcbp.aquaaerobics.controllers',
       'fcbp.aquaaerobics.directives',
       'fcbp.sports.controllers',
+      'fcbp.training.controllers',
       'fcbp.tickets.controllers',
       'fcbp.tickets.directives',
       'fcbp.personals.controllers',
@@ -35,6 +36,9 @@
 
   angular
     .module('fcbp.sports.controllers', [])
+
+  angular
+    .module('fcbp.training.controllers', [])
 
   angular
     .module('fcbp.tickets.controllers', [])

@@ -2,7 +2,8 @@ from rest_framework import serializers
 
 from employees.models import Position
 from .models import (Period, ClubCard, AquaAerobics, Sport, Ticket,
-                     Personal, PersonalPosition, Timing, Discount)
+                     Personal, PersonalPosition, Timing, Discount,
+                     Training)
 
 
 class DiscountSerializer(serializers.ModelSerializer):
@@ -51,8 +52,12 @@ class SportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sport
-        fields = ('id', 'name', 'is_active', )
-        read_only_fields = ('id', )
+
+
+class TrainingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Training
 
 
 class TicketSerializer(serializers.ModelSerializer):
