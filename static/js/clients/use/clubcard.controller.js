@@ -10,13 +10,13 @@
     .controller('UseClientCardController', UseClientCardController);
 
   UseClientCardController.$inject = ['$location', '$rootScope', '$routeParams', '$scope',
-                                     'ClubCard', 'Employees'];
+                                     'ClubCard', 'Employees', 'Training'];
 
   /**
   * @namespace UseClientCardController
   */
   function UseClientCardController($location, $rootScope, $routeParams, $scope,
-                                  ClubCard, Employees) {
+                                  ClubCard, Employees, Training) {
     var vm = this;
 
     vm.use = use;
@@ -30,6 +30,9 @@
     vm.personal = personal;
     vm.fitness = fitness;
     vm.freeze = freeze;
+    vm.add_train = add_train;
+    vm.rm_train = rm_train;
+    vm.use_trainings = [];
 
     vm.prolongation = prolongation;
     vm.is_paid = is_paid;
@@ -60,6 +63,7 @@
         fdate: moment().format('DD.MM.YYYY'),
         is_credit: false
       }
+
       vm.pdata = {
         client_club_card: vm.uid,
         date: now
@@ -116,12 +120,31 @@
         console.log(data)
       }
 
+      Training.list().then(listTrainingSuccessFn, listTrainingErrorFn);
+    
+      /**
+      * @name listTrainingSuccessFn
+      * @desc Show snackbar with success message
+      */
+      function listTrainingSuccessFn(data, status, headers, config) {
+        vm.trainings = data.data;
+      }
+
+
+      /**
+      * @name listTrainingErrorFn
+      * @desc Propogate error event and show snackbar with error message
+      */
+      function listTrainingErrorFn(data, status, headers, config) {
+        console.log(data)
+      }
+
     }
 
     function use(out) {
 
       var uid = $routeParams.uid
-      var fdata = {client_club_card: uid}
+      var fdata = {client_club_card: uid, trains: vm.use_trainings }
 
       if (out) {
         ClubCard.use_exit(fdata).then(cardclientSuccessFn, cardclientErrorFn);
@@ -181,6 +204,16 @@
 
     }
 
+    function add_train(key) {
+      vm.use_trainings.push({'name': vm.trainings[key].name,
+                             'id': vm.trainings[key].id
+                            });
+    }
+
+    function rm_train(key) {
+      vm.use_trainings.splice(key, 1);
+    }
+
     function personal() {
       ClubCard.personal(vm.pdata).then(cardclientSuccessFn, cardclientErrorFn);
 
@@ -222,8 +255,8 @@
       function cardclientErrorFn(data, status, headers, config) {
         console.log(data);
       }
+    };
 
-    }
 
     function prolongation() {
       ClubCard.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
