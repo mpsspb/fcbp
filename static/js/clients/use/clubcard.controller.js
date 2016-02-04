@@ -144,7 +144,7 @@
     function use(out) {
 
       var uid = $routeParams.uid
-      var fdata = {client_club_card: uid, trains: vm.use_trainings }
+      var fdata = {client_club_card: uid, trainings: vm.use_trainings }
 
       if (out) {
         ClubCard.use_exit(fdata).then(cardclientSuccessFn, cardclientErrorFn);

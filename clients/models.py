@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import Sum
 
 from products.models import (ClubCard, AquaAerobics, Ticket, Personal, Timing,
-                             Discount)
+                             Discount, Training)
 from employees.models import Employee
 
 
@@ -133,7 +133,8 @@ class ClientClubCard(models.Model):
     def rest_visits(self):
         if self.club_card.max_visit == 99999:
             return '-'
-        used = UseClientClubCard.objects.filter(client_club_card=self).count()
+        visits = UseClientClubCard.objects.filter(client_club_card=self)
+        used = ClubCardTrains.objects.filter(visit__in=visits).count()
         return self.club_card.max_visit - used
 
     @property
@@ -206,7 +207,7 @@ class ClientClubCard(models.Model):
 
 class ProlongationClubCard(models.Model):
     """
-    Guest training for the Client Club Card.
+    Prolongation for the Client Club Card.
     """
     date = models.DateTimeField()
     client_club_card = models.ForeignKey(ClientClubCard)
@@ -541,6 +542,14 @@ class UseClientClubCard(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(blank=True, null=True)
     client_club_card = models.ForeignKey(ClientClubCard)
+
+
+class ClubCardTrains(models.Model):
+    """
+    The list of trainings of the visit by club card.
+    """
+    visit = models.ForeignKey(UseClientClubCard)
+    training = models.ForeignKey(Training)
 
 
 class UseClientAquaAerobics(models.Model):

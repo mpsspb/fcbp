@@ -225,9 +225,17 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
         Comming client to the club and escape existing freeze.
         """
         data = request.data.copy()
+        trainings = data.get('trainings', [])
+        if len(trainings) < 1:
+            return Response({'Error:': 'Empty trainings'},
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
         serializer = UseClientClubCardSerializer(data=data)
         if serializer.is_valid():
-            serializer.save()
+            obj = serializer.save()
+            # save trainings
+            for tr in trainings:
+                ClubCardTrains.objects.create(visit_id=obj.pk,
+                                              training_id=tr['id'])
             ucc = ClientClubCard.objects.get(pk=data['client_club_card'])
             if ucc.is_frozen:
                 ucc.escape_frozen()
