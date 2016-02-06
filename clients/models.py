@@ -551,6 +551,9 @@ class ClubCardTrains(models.Model):
     visit = models.ForeignKey(UseClientClubCard)
     training = models.ForeignKey(Training)
 
+    def name(self):
+        return self.training.name
+
 
 class UseClientAquaAerobics(models.Model):
     """

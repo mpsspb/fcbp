@@ -1,10 +1,21 @@
 from rest_framework import serializers
 
-from .models import UseClientClubCard, UseClientAquaAerobics
-from .models import UseClientTicket, UseClientPersonal, UseClientTiming
+from .models import (UseClientClubCard, UseClientAquaAerobics,
+                     UseClientTicket, UseClientPersonal, UseClientTiming,
+                     ClubCardTrains)
+
+
+class ClubCardTrainsSerializer(serializers.ModelSerializer):
+
+    name = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = ClubCardTrains
 
 
 class UseClientClubCardSerializer(serializers.ModelSerializer):
+
+    clubcardtrains_set = ClubCardTrainsSerializer(many=True, read_only=True)
 
     class Meta:
         model = UseClientClubCard
