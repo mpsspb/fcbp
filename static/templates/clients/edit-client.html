@@ -1,0 +1,129 @@
+<form class="form-horizontal">
+<div class="modal-body">
+
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.success">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong>  Данные успешно обнолены. </strong>
+</div>
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="vm.error">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <strong> Ошибка обновления: {{ vm.error_data }} </strong>
+</div>
+
+  <div class="form-group has-warning">
+    <label class="col-md-2 control-label">Фамилия:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.last_name" type="text"
+      class="form-control" placeholder="Фамилия"
+      ng-blur="vm.search_client()">
+    </div>
+
+    <label class="col-md-2 control-label">Имя:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.first_name" type="text"
+      class="form-control" placeholder="Имя"
+      ng-blur="vm.search_client()">
+    </div>
+  </div>
+
+  <div class="form-group has-warning">
+    <label class="col-md-2 control-label">Отчество:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.patronymic" type="text"
+      class="form-control" placeholder="Отчество"
+      ng-blur="vm.search_client()">
+    </div>
+
+    <label class="col-md-2 control-label">Д. рождения:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.born" type="text" 
+      class="form-control date" placeholder="ДД.ММ.ГГГГ">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label">Номер карты:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.card" type="number"
+      class="form-control" placeholder="Номер карты">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label">Мобильный:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.mobile_form" type="text"
+      class="form-control mobile" placeholder="Номер телефона">
+    </div>
+
+    <label class="col-md-2 control-label">Прямой</label>
+    <div class="col-md-1">
+      <input type="checkbox" class="mobile-toggle form-control">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label">Пол:</label>
+    <label class="col-md-1 control-label">М</label>
+    <div class="col-md-1">
+      <input ng-model="vm.fdata.gender" type="radio"
+      name="gender" value="1">
+    </div>
+    <label class="col-md-1 control-label">Ж</label>
+    <div class="col-md-1">
+      <input ng-model="vm.fdata.gender" type="radio"
+      name="gender" value="0">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label">Адрес:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.address" type="text"
+      class="form-control" placeholder="Адрес">
+    </div>
+
+    <label class="col-md-2 control-label">Паспорт:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.passport" type="text"
+      class="form-control" placeholder="Паспорт">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label">Д. телефон:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.phone_str" type="text"
+      class="form-control phone" placeholder="Домашний телефон">
+    </div>
+
+    <label class="col-md-2 control-label">Эл. адрес:</label>
+    <div class="col-md-3">
+      <input ng-model="vm.fdata.email" type="email"
+      class="form-control" placeholder="Эл. адрес">
+    </div>
+  </div>
+
+</div>
+<div class="modal-footer">
+  <a href="#/cardclient/{{ vm.fdata.id }}/" class="btn btn-default pull-left">отмена</a>
+
+  <button type="submit" class="btn btn-primary pull-right" ng-click="vm.submit()">сохранить</button>          
+</div>
+</form>
+<script type="text/javascript">
+  jQuery(function($){
+   $(".date").mask("99.99.9999");
+   $(".mobile").mask("(999)-999-9999");
+   $(".phone").mask("999-9999");
+
+   $('.mobile-toggle').on('click', function(){
+    if ($(this).is (':checked')) {
+        $(".mobile").mask("999-9999");
+    } else {
+        $(".mobile").mask("(999)-999-9999");
+    }
+   })
+});
+</script>

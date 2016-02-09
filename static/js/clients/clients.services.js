@@ -24,6 +24,7 @@
       create: create,
       list: list,
       get: get,
+      update: update,
       introductory: introductory,
       online: online,
       search: search,
@@ -59,6 +60,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/client/' + uid + '/')
+    }
+
+    function update(fdata, uid) {
+      return $http.put('/api/v1/clients/client/' + uid + '/', fdata)
     }
 
     function introductory(uid, fdata) {
