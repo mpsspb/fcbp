@@ -9,8 +9,12 @@
     .module('fcbp.clubcard.directives')
     .directive('clubcard', clubcard);
 
-  var active = function($scope, ClubCard) {
+  var DirectControl = function($scope, ClubCard, Periods) {
     var vm = this;
+    vm.success = false;
+    vm.error = false;
+    vm.error_data = '';
+
     vm.active = function () {
       ClubCard.active($scope.clubcard.id).then(clubcardSuccessFn, clubcardErrorFn);
 
@@ -21,6 +25,50 @@
         console.log(data);
       }
     };
+
+    vm.update = function() {
+      ClubCard.update($scope.clubcard.id, $scope.clubcard).then(updSuccessFn, updErrorFn);
+
+      function updSuccessFn(data, status, headers, config) {
+        $scope.clubcard = data.data;
+        vm.success = true;
+      }
+      function updErrorFn(data, status, headers, config) {
+        vm.error = true;
+        vm.error_data = data.data;
+        console.log(data);
+      }
+
+    }
+
+    activate();
+
+    /**
+    * @name activate
+    * @desc Actions to be performed when this controller is instantiated
+    * @memberOf fcbp.clubcard.controllers.NewClubCardController
+    */
+    function activate() {
+      Periods.list().then(periodsSuccessFn, periodsErrorFn);
+
+      /**
+      * @name periodsSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function periodsSuccessFn(data, status, headers, config) {
+        vm.periods = data.data;
+      }
+
+      /**
+      * @name periodsErrorFn
+      * @desc console log error
+      */
+      function periodsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+  
   };
 
   /**
@@ -37,7 +85,7 @@
       scope: {
         clubcard: '='
       },
-      controller: active,
+      controller: DirectControl,
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/clubcard.html?1'
     };

@@ -24,6 +24,7 @@
       create: create,
       list: list,
       get: get,
+      update: update,
       use: use,
       use_exit: use_exit,
       guest: guest,
@@ -63,6 +64,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/clubcard/' + uid + '/')
+    }
+
+    function update(uid, fdata) {
+      return $http.put('/api/v1/products/club_cards/' + uid + '/', fdata)
     }
 
     function active(uid) {

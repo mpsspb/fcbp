@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -90,6 +91,7 @@ REST_FRAMEWORK = {
          '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
          '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
         ),
+    'COERCE_DECIMAL_TO_STRING': False,
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 10,
 }
