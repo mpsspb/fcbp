@@ -1,6 +1,10 @@
+import os
 from datetime import date, timedelta
+
 from django.db import models
 from django.db.models import Sum
+from django.db.models.signals import pre_save
+from django.dispatch.dispatcher import receiver
 
 from products.models import (ClubCard, AquaAerobics, Ticket, Personal, Timing,
                              Discount, Training)
@@ -73,6 +77,24 @@ class Client(models.Model):
             self.last_name = self.last_name.strip()
             self.patronymic = self.patronymic.strip()
         super(Client, self).save(*args, **kwargs)
+
+
+@receiver(pre_save, sender=Client)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    """Deletes file from filesystem
+    when corresponding `Client` object is changed.
+    """
+    if not instance.pk:
+        return False
+    try:
+        old_file = Client.objects.get(pk=instance.pk).avatar
+    except Client.DoesNotExist:
+        return False
+
+    new_file = instance.avatar
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
 
 
 class ClientClubCard(models.Model):

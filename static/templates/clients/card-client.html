@@ -314,7 +314,7 @@
   </div>
 
 <div class="col-md-4">
-<a href="#/clients" class="btn btn-block btn-default">К списку</a>  
+  <a href="#/clients" class="btn btn-block btn-default">К списку</a>  
 </div>
 
 <div class="col-md-4">
@@ -368,6 +368,9 @@
 
 </form>
 <img class="col-md-4 col-md-offset-2" ng-src="{{ vm.cardclient.avatar_url }}">
+<div class="col-md-4 col-md-offset-2">
+  <a href="#/photo-client/{{ vm.cardclient.id }}" class="btn btn-block btn-warning">Обновить фото</a>  
+</div>
 <hr/>
 <script  type="text/javascript">
   $(document).on('click','td span', function() {

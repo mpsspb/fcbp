@@ -35,6 +35,10 @@
       controller: 'EditClientController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/edit-client.html'
+    }).when('/photo-client/:uid', {
+      controller: 'PhotoClientController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/photo-client.html'
     }).when('/new-client-product/:uid', {
       controller: 'NewClientProductController',
       controllerAs: 'vm',
