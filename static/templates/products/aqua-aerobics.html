@@ -1,42 +1,120 @@
 <div>
-  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ aquaaerobics.name }} </span>
-  <div ng-show="collapsed" ng-class="{'alert-warning': aquaaerobics.is_active}" class="alert col-md-12">
-      <table class="table">
-          <tr>
-              <td width="400">Активна</td>
-              <td>{{ aquaaerobics.is_active | YN }}</td>
-          </tr>
-          <tr>
-              <td width="400">Кол-во визитов</td>
-              <td>{{ aquaaerobics.max_visit | visits }}</td>
-          </tr>
-          <tr>
-              <td>
-                  Срок
-              </td>
-              <td>
-              {{ aquaaerobics.period_data | period_str }}    
-              </td>
-          </tr>
-          <tr>
-              <td>Время посещения</td>
-              <td>{{ aquaaerobics.is_full_time | card_time }}</td>
-          </tr>
-          <tr>
-              <td>Цена</td>
-              <td>{{ aquaaerobics.price }}</td>
-          </tr>
-          <tr>
-              <td>Продление</td>
-              <td>{{ aquaaerobics.period_prolongation}} дней</td>
-          </tr>
-          <tr>
-              <td>Кол-во клиентов</td>
-              <td>{{ aquaaerobics.clients_count}}</td>
-          </tr>
-      </table>
-      <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
-      <button ng-click="vm.active()" class="btn btn-sm btn-default pull-right" > Активность </button>
+  <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ aqua.name }} </span>
+  <div ng-show="collapsed" ng-class="{'alert-warning': aqua.is_active}" class="alert col-md-12">
+
+  <button ng-click="edit=!edit" class="btn btn-sm btn-warning" ng-show="!edit"> Правка </button>
+  <button ng-click="edit=!edit" class="btn btn-sm btn-default" ng-show="edit"> Отмена </button>
+  <button class="btn btn-sm btn-success pull-right" ng-show="edit"
+          ng-click="vm.update()"> Сохранить </button>
+
+  <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.success">
+    <button type="button" class="close" ng-click="vm.success=false"><span>&times;</span></button>
+    <strong>  Данные успешно обнолены. </strong>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible" role="alert" ng-show="vm.error">
+    <button type="button" class="close" ng-click="vm.error=false"><span>&times;</span></button>
+    <strong> Ошибка обновления: {{ vm.error_data }} </strong>
+  </div>
+
+  <table class="table" ng-show="!edit">
+      <tr>
+          <td width="400">Активна</td>
+          <td>{{ aqua.is_active | YN }}</td>
+      </tr>
+      <tr>
+          <td width="400">Кол-во визитов</td>
+          <td>{{ aqua.max_visit | visits }}</td>
+      </tr>
+      <tr>
+          <td>
+              Срок
+          </td>
+          <td>
+          {{ aqua.period_data | period_str }}    
+          </td>
+      </tr>
+      <tr>
+          <td>Время посещения</td>
+          <td>{{ aqua.is_full_time | card_time }}</td>
+      </tr>
+      <tr>
+          <td>Цена</td>
+          <td>{{ aqua.price }}</td>
+      </tr>
+      <tr>
+          <td>Продление</td>
+          <td>{{ aqua.period_prolongation}} дней</td>
+      </tr>
+      <tr>
+          <td>Кол-во клиентов</td>
+          <td>{{ aqua.clients_count}}</td>
+      </tr>
+  </table>
+
+  <ng-form ng-show="edit" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-md-5 control-label">Наименование:</label>
+      <div class="col-md-7">
+        <input ng-model="aqua.name" type="text" class="form-control"
+            placeholder="Наименование">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Кол-во занятий:</label>
+      <div class="col-md-3">
+        <input ng-model="aqua.max_visit" type="number" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Срок действия:</label>
+      <div class="col-md-7">
+        <select ng-model="aqua.period"
+        ng-options="period.id as period | period_str 
+                    for period in vm.periods"></select>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-5 control-label">Время посещения:</label>
+        <label class="col-md-offset-1 col-md-1 control-label">Полное</label>
+        <div class="col-md-1">
+          <input ng-model="aqua.is_full_time" type="radio"
+          name="is_full_time{{aqua.id}}" ng-value="true">
+        </div>
+        <label class="col-md-offset-1 col-md-1 control-label">Утро</label>
+        <div class="col-md-1">
+          <input ng-model="aqua.is_full_time" type="radio"
+          name="is_full_time{{aqua.id}}" ng-value="false">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-5 control-label">Цена:</label>
+        <div class="col-md-3">
+          <input ng-model="aqua.price" step="0.01" type="number" class="form-control">
+        </div>
+      </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Продление дней:</label>
+          <div class="col-md-3">
+            <input ng-model="aqua.period_prolongation" type="number" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-5 control-label">Количество клиентов:</label>
+          <div class="col-md-3">
+            <input ng-model="aqua.clients_count" type="number" class="form-control">
+          </div>
+        </div>
+
+  </ng-form>
+
+  <button ng-show="!edit" ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
+  <button ng-show="!edit" ng-click="vm.active()" class="btn btn-sm btn-default pull-right" > Активность </button>
 
   </div>
 </div>

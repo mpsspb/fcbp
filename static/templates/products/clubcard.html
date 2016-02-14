@@ -1,10 +1,21 @@
 <div>
   <span ng-click="collapsed=!collapsed" class="alert alert-info col-md-12" > {{ clubcard.name }} </span>
   <div ng-show="collapsed" ng-class="{'alert-warning': clubcard.is_active}"  class="alert col-md-12">
-    <button ng-click="edit=!edit" class="btn btn-sm btn-warning" ng-show="!edit"> Правка </button>
-    <button ng-click="edit=!edit" class="btn btn-sm btn-default" ng-show="edit"> Отмена </button>
-    <button class="btn btn-sm btn-success pull-right" ng-show="edit"
-            ng-click="vm.update()"> Сохранить </button>
+  <button ng-click="edit=!edit" class="btn btn-sm btn-warning" ng-show="!edit"> Правка </button>
+  <button ng-click="edit=!edit" class="btn btn-sm btn-default" ng-show="edit"> Отмена </button>
+  <button class="btn btn-sm btn-success pull-right" ng-show="edit"
+          ng-click="vm.update()"> Сохранить </button>
+
+  <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.success">
+    <button type="button" class="close" ng-click="vm.success=false"><span>&times;</span></button>
+    <strong>  Данные успешно обнолены. </strong>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible" role="alert" ng-show="vm.error">
+    <button type="button" class="close" ng-click="vm.error=false"><span>&times;</span></button>
+    <strong> Ошибка обновления: {{ vm.error_data }} </strong>
+  </div>
+
       <table class="table" ng-show="!edit">
           <tr>
               <td width="400">Активна</td>
@@ -60,125 +71,116 @@
           </tr>
       </table>
 
-  <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.success">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>  Данные успешно обнолены. </strong>
-  </div>
+  <ng-form ng-show="edit" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-md-5 control-label">Наименование:</label>
+      <div class="col-md-7">
+        <input ng-model="clubcard.name" type="text" class="form-control"
+            placeholder="Наименование вида карты">
+      </div>
+    </div>
 
-  <div class="alert alert-danger alert-dismissible" role="alert" ng-show="vm.error">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong> Ошибка обновления: {{ vm.error_data }} </strong>
-  </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Кол-во визитов:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.max_visit" type="number" class="form-control">
+      </div>
+      <label class="col-md-offset-1 col-md-2">Безлимитное:</label>
+      <input type="checkbox" class="pull-left"
+      ng-model="clubcard.is_max_visit">
+    </div>
 
-      <ng-form ng-show="edit" class="form-horizontal">
-        <div class="form-group">
-          <label class="col-md-5 control-label">Наименование:</label>
-          <div class="col-md-7">
-            <input ng-model="clubcard.name" type="text" class="form-control"
-                placeholder="Наименование вида карты">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Срок действия:</label>
+      <div class="col-md-7">
+        <select ng-model="clubcard.period"
+        ng-options="period.id as period | period_str 
+                    for period in vm.periods"></select>
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Кол-во визитов:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.max_visit" type="number" class="form-control">
-          </div>
-          <label class="col-md-offset-1 col-md-2">Безлимитное:</label>
-          <input type="checkbox" class="pull-left"
-          ng-model="clubcard.is_max_visit">
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Время посещения:</label>
+      <label class="col-md-offset-1 col-md-1 control-label">Полное</label>
+      <div class="col-md-1">
+        <input ng-model="clubcard.is_full_time" type="radio"
+        name="is_full_time{{clubcard.id}}" ng-value="true">
+      </div>
+      <label class="col-md-offset-1 col-md-1 control-label">Утро</label>
+      <div class="col-md-1">
+        <input ng-model="clubcard.is_full_time" type="radio"
+        name="is_full_time{{clubcard.id}}" ng-value="false">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Срок действия:</label>
-          <div class="col-md-7">
-            <select ng-model="clubcard.period"
-            ng-options="period.id as period | period_str 
-                        for period in vm.periods"></select>
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Цена:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.price" step="0.01" type="number" class="form-control">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Время посещения:</label>
-          <label class="col-md-offset-1 col-md-1 control-label">Полное</label>
-          <div class="col-md-1">
-            <input ng-model="clubcard.is_full_time" type="radio"
-            name="is_full_time{{clubcard.id}}" ng-value="true">
-          </div>
-          <label class="col-md-offset-1 col-md-1 control-label">Утро</label>
-          <div class="col-md-1">
-            <input ng-model="clubcard.is_full_time" type="radio"
-            name="is_full_time{{clubcard.id}}" ng-value="false">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Активация карты:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.period_activation" type="number" class="form-control">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Цена:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.price" step="0.01" type="number" class="form-control">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Заморозка:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.period_freeze" type="number" class="form-control">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Активация карты:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.period_activation" type="number" class="form-control">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Кол-во заморозок:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.freeze_times" type="number" class="form-control">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Заморозка:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.period_freeze" type="number" class="form-control">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Продление дней:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.period_prolongation" type="number" class="form-control">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Кол-во заморозок:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.freeze_times" type="number" class="form-control">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Количество клиентов:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.clients_count" type="number" class="form-control">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Продление дней:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.period_prolongation" type="number" class="form-control">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Гостевые тренировки:</label>
+      <div class="col-md-3">
+        <input ng-model="clubcard.guest_training" type="number" class="form-control">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Количество клиентов:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.clients_count" type="number" class="form-control">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Скидка на фитнес-тестирование:</label>
+      <div class="col-md-4">
+        <input ng-model="clubcard.fitness_testing_discount"
+        type="checkbox">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Гостевые тренировки:</label>
-          <div class="col-md-3">
-            <input ng-model="clubcard.guest_training" type="number" class="form-control">
-          </div>
-        </div>
+    <div class="form-group">
+      <label class="col-md-5 control-label">Персональная тренировка:</label>
+      <div class="col-md-4">
+        <input ng-model="clubcard.personal_training"
+        type="checkbox">
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Скидка на фитнес-тестирование:</label>
-          <div class="col-md-4">
-            <input ng-model="clubcard.fitness_testing_discount"
-            type="checkbox">
-          </div>
-        </div>
+  </ng-form>
 
-        <div class="form-group">
-          <label class="col-md-5 control-label">Персональная тренировка:</label>
-          <div class="col-md-4">
-            <input ng-model="clubcard.personal_training"
-            type="checkbox">
-          </div>
-        </div>
-
-      </ng-form>
-      <button ng-show="!edit" ng-click="collapsed=!collapsed" class="btn btn-sm btn-primary" > скрыть </button>
-      <button ng-show="!edit" ng-click="vm.active()" class="btn btn-sm btn-default pull-right" > Активность </button>
+  <button ng-show="!edit" ng-click="collapsed=!collapsed" class="btn btn-sm btn-primary" > скрыть </button>
+  <button ng-show="!edit" ng-click="vm.active()" class="btn btn-sm btn-default pull-right" > Активность </button>
   </div>
 </div>

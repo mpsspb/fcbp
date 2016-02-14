@@ -24,6 +24,7 @@
       create: create,
       list: list,
       get: get,
+      update: update,
       use:use,
       use_exit: use_exit,
       active: active,
@@ -58,6 +59,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/aquaaerobics/' + uid + '/')
+    }
+
+    function update(uid, fdata) {
+      return $http.put('/api/v1/products/aquaaerobics/' + uid + '/', fdata)
     }
 
     function active(uid) {

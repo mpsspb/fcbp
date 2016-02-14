@@ -26,12 +26,12 @@ class ClubCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubCard
 
-        fields = ('id', 'name', 'max_visit', 'period', 'period_data',
-                  'is_full_time', 'is_active', 'freeze_times',
-                  'period_freeze', 'period_activation',
-                  'period_prolongation', 'clients_count',
-                  'guest_training', 'fitness_testing_discount',
-                  'personal_training', 'price')
+        # fields = ('id', 'name', 'max_visit', 'period', 'period_data',
+        #           'is_full_time', 'is_active', 'freeze_times',
+        #           'period_freeze', 'period_activation',
+        #           'period_prolongation', 'clients_count',
+        #           'guest_training', 'fitness_testing_discount',
+        #           'personal_training', 'price')
         read_only_fields = ('id', 'period_data',)
 
 
@@ -41,10 +41,10 @@ class AquaAerobicsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AquaAerobics
 
-        fields = ('id', 'name', 'max_visit', 'period', 'period_data',
-                  'is_full_time', 'is_active',
-                  'period_prolongation', 'clients_count',
-                  'price')
+        # fields = ('id', 'name', 'max_visit', 'period', 'period_data',
+        #           'is_full_time', 'is_active',
+        #           'period_prolongation', 'clients_count',
+        #           'price')
         read_only_fields = ('id', 'period_data',)
 
 
