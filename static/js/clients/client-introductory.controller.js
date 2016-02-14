@@ -59,7 +59,7 @@
       */
       function createClientSuccessFn(data, status, headers, config) {
         console.log('Success! Client created.');
-        window.location = '/#/clients';
+        window.location = '#/cardclient/' + vm.uid + '/';
       }
 
 

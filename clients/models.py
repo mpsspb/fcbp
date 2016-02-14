@@ -44,6 +44,10 @@ class Client(models.Model):
                            .exists()
 
     @property
+    def introductory_employee_name(self,):
+        return self.introductory_employee.initials
+
+    @property
     def online_aqua(self,):
         return ClientOnline.objects.filter(client=self, product='aqua')\
                            .exists()

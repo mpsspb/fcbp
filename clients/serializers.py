@@ -329,19 +329,21 @@ class ClientSerializer(serializers.ModelSerializer):
     online_aqua = serializers.BooleanField(read_only=True)
     online_ticket = serializers.BooleanField(read_only=True)
     online_personal = serializers.BooleanField(read_only=True)
+    introductory_employee_name = serializers.CharField(read_only=True)
 
     class Meta:
         model = Client
         fields = ('id', 'first_name', 'last_name', 'patronymic',
                   'born',  'gender', 'mobile', 'address', 'passport',
                   'phone', 'email', 'avatar', 'date',
-                  'clientclubcard_set', 'uid',
-                  'avatar_url', 'full_name', 'clientaquaaerobicsfull_set',
-                  'clientticket_set', 'clientpersonal_set', 'clienttiming_set',
+                  'clientclubcard_set', 'uid', 'avatar_url',
+                  'full_name', 'clientaquaaerobicsfull_set',
+                  'clientticket_set', 'clientpersonal_set',
                   'credit_set', 'debt_set', 'debtupcoming_set', 'card',
-                  'introductory_date', 'introductory_employee',
+                  'online_personal', 'clienttiming_set',
                   'clientonline_set', 'online_clubcard', 'online_aqua',
-                  'online_ticket', 'online_personal'
+                  'online_ticket', 'introductory_date',
+                  'introductory_employee', 'introductory_employee_name'
                   )
         read_only_fields = ('id', 'full_name', 'avatar_url', 'uid', 'date',
                             'clientonline_set')

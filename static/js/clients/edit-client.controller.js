@@ -42,8 +42,7 @@
       */
       function cardclientSuccessFn(data, status, headers, config) {
         vm.fdata = data.data;
-        vm.fdata.born = moment(vm.fdata.born, 'YYYY-MM-DD').format('DD.MM.YYYY')
-
+        vm.fdata.born = moment(vm.fdata.born, 'YYYY-MM-DD').format('DD.MM.YYYY');
       }
 
       /**
@@ -93,7 +92,11 @@
       } else {
         delete vm.fdata.phone
       }
+
       delete vm.fdata.avatar
+      delete vm.fdata.introductory_date
+      delete vm.fdata.introductory_employee
+
       Clients.update(vm.fdata, vm.fdata.id).then(updClientSuccessFn, updClientErrorFn);
 
 

@@ -14,7 +14,7 @@
           <tr>
             <td>дата</td><td>наименование</td>
             <td>активирована</td>
-            <td>срок действия</td><td>визитов</td>
+            <td>срок действия</td><td>тренировки</td>
           </tr>
           <tr ng-repeat="card in vm.cardclient.clientclubcard_set" 
           ng-class="card.is_frozen ? 'info' : ''">
@@ -231,6 +231,11 @@
     <a ng-href="#/client-introductory/{{ vm.cardclient.id }}/" 
     class="btn btn-block btn-info"
     >Вводный инструктаж</a>
+  </div>
+  <div class="col-md-4" ng-show="vm.cardclient.introductory_date">
+    <span>Вводный инструктаж</span>
+    <span>{{ vm.cardclient.introductory_date | date:'dd.MM.yyyy' }}</span>
+    <span>{{ vm.cardclient.introductory_employee_name }}</span>
   </div>
   <a class="btn btn-warning col-md-3"
      href="#/edit-client/{{ vm.cardclient.id }}/">
