@@ -11,3 +11,7 @@ avatar/
 
 # bakup files
 *.bak
+
+# celery db
+schedule-*
+celerybeat-schedule

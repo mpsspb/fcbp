@@ -270,11 +270,13 @@
 </div>
 
 <div class="col-md-4">
-  <i class="row-border col-md-12 fa fa-credit-card">
-  <h4>Клубная Карта: {{ vm.card.name }} </h4>
+<div class="col-md-12 row-border ">
+  <h4>
+  <i class="fa fa-credit-card">
+  </i> Клубная Карта: {{ vm.card.name }} </h4>
   <h4><u>{{ vm.card.client_name }}</u></h4>
   <h4>{{ vm.card.client_mobile | phone }}</h4>
-  </i>
+</div>
   <div class="row-border col-md-12">
     <h5 ng-show="vm.card.is_paid_activate" class="bg-success">Платная активация</h5>
     <h4>
@@ -282,7 +284,6 @@
       по {{ vm.card.date_end | date:'dd.MM.yyyy' }}
     </h4>    
   </div>
-
   <div class="panel panel-default col-md-12" ng-show="vm.card.personal_training || vm.card.personalclubcard_set.length">
     <div class="panel-heading"><strong>Персоналка бонусная</strong></div>
     <div class="panel-body">
@@ -320,17 +321,21 @@
       <button class="btn btn-warnning btn-block"
       data-toggle="modal" data-target="#GuestPersonal"
       ng-show="vm.card.rest_guest"> Записать </button>
-      <table class="table" ng-show="vm.card.guestclubcard_set.length">
-        <tr>
-          <td>дата</td><td>Гость</td><!-- <td>Дата Рождения</td><td>Телефон</td> -->
-        </tr>
-        <tr ng-repeat="use in vm.card.guestclubcard_set">
-          <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
-          <td> {{ use.guest }} </td>
-          <!-- <td> {{ use.born | date:'dd.MM.yyyy' }} </td>
-          <td> {{ use.phone | phone }} </td> -->
-        </tr>
-      </table>
+
+
+      <div class="row" ng-show="vm.card.guestclubcard_set.length">
+        <div class="col-md-6">дата</div>
+        <div class="col-md-6">Гость</div>
+      </div>
+      <div class="row cursor-pointer" ng-repeat="use in vm.card.guestclubcard_set"
+       ng-click="collapsed=!collapsed">
+        <div class="col-md-6"> {{ use.date | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-6"> {{ use.guest }} </div>
+        <div ng-show="collapsed" class="bg-info col-md-12">
+          <div class="col-md-6"> {{ use.born | date:'dd.MM.yyyy' }} </div>
+          <div class="col-md-6"> {{ use.phone | phone }} </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -339,21 +344,27 @@
     <div class="panel-body">
       <button class="btn btn-success btn-block"
       data-toggle="modal" data-target="#Frost"> Записать </button>
-      <table class="table" ng-show="vm.card.freezeclubcard_set.length">
-        <tr>
-          <td>С</td><td>ПО</td><td>Дней</td>
+      <div class="row" ng-show="vm.card.freezeclubcard_set.length">
+        <div class="col-md-4">С</div>
+        <div class="col-md-4">ПО</div>
+        <div class="col-md-4">Дней</div>
+      </div>
+      <div class="row" ng-repeat="freez in vm.card.freezeclubcard_set"
+       ng-click="collapsed=!collapsed"
+       ng-class="freez.is_paid ? 'bg-danger cursor-pointer' : ''">
+        <div class="col-md-4"> {{ freez.fdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.tdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.days }} </div>
+        <div ng-show="collapsed && freez.is_paid" class="bg-info col-md-12">
+          <div class="col-md-8"> купил: {{ freez.date | date:'dd.MM.yyyy'}} </div>
+          <div class="col-md-4"> {{ freez.amount }} руб.</div>
+        </div>
+      </div>
+<!--         <tr ng-if="" ng-repeat-end class="bg-danger">
+          <td>  </td>
+          <td colspan="2">  </td>
         </tr>
-        <tr ng-repeat-start="freez in vm.card.freezeclubcard_set"
-        ng-class="freez.is_paid ? 'bg-danger' : ''">
-          <td> {{ freez.fdate | date:'dd.MM.yyyy' }} </td>
-          <td> {{ freez.tdste | date:'dd.MM.yyyy' }} </td>
-          <td> {{ freez.days }}</td>
-        </tr>
-        <tr ng-if="freez.is_paid" ng-repeat-end class="bg-danger">
-          <td> {{ freez.date | date:'dd.MM.yyyy'}} </td>
-          <td colspan="2"> {{ freez.amount }} </td>
-        </tr>
-      </table>
+      </table> -->
     </div>
   </div>
 

@@ -37,6 +37,7 @@
 
     vm.fdata = {
       discount: 0,
+      bonus_amount: 0,
       price: 0,
       payment_type: 1,
       is_credit: 0,
@@ -222,6 +223,10 @@
           vm.fdata.amount = vm.total();
     });
 
+    $scope.$watch('vm.fdata.bonus_amount', function(id){
+          vm.fdata.amount = vm.total();
+    });
+
     /**
     * @name submit
     * @desc Create a new Client Product
@@ -266,6 +271,17 @@
           vm.error_discount = false;
         }
       }
+      if ( vm.fdata.bonus_amount == 0 ) {
+        vm.fdata.bonus_type = undefined;
+      } else {
+        if (vm.fdata.bonus_type == undefined || vm.fdata.bonus_amount == 0) {
+          vm.error_bonus = true;
+          return;
+        } else {
+          vm.error_bonus = false;
+        }
+      }
+
 
       if (vm.product == 'card') {
         vm.fdata.club_card = vm.fdata.product
@@ -346,7 +362,7 @@
     * @memberOf fcbp.client.controllers.NewClientProductController
     */
     function total() {
-      var total = vm.fdata.price * (100 - vm.fdata.discount) / 100;
+      var total = vm.fdata.price * (100 - vm.fdata.discount) / 100 - vm.fdata.bonus_amount;
       return total;
     }
 

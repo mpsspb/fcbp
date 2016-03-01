@@ -109,7 +109,7 @@ ng-show="vm.error_amount">
   </div>
   <div class="col-md-3">
     <label >Скидка: </label>
-    <input class="sinput" type="number" min="0" max="100" step="0.01"
+    <input class="sinput pull-right" type="number" min="0" max="100" step="0.01"
     ng-model="vm.fdata.discount"> %
   </div>
   <div class="col-md-3">
@@ -137,6 +137,31 @@ ng-show="vm.error_amount">
     <label>Выберите вид скидки</label>
   </div>
 </div>
+
+<div class="col-md-12">
+  <div class="col-md-3 col-md-offset-3">
+    <label >Бонус: </label>
+    <input class="sinput pull-right" type="number" min="0" step="0.01"
+    ng-model="vm.fdata.bonus_amount"> руб.
+  </div>  
+<br/><br/>
+</div>
+
+<div class="col-md-12" ng-show="vm.fdata.bonus_amount > 0">
+  <div class="col-md-3">
+    &nbsp;
+  </div>
+  <div class="col-md-5">
+    <label>Вид Бонуса</label>
+    <select ng-model="vm.fdata.bonus_type"
+     ng-options="o.id as o.description for o in vm.discounts">
+    </select>
+  </div>
+  <div class="col-md-3 text-danger" ng-show="vm.error_bonus">
+    <label>Выберите вид бонуса</label>
+  </div>
+</div>
+
 <div class="col-md-12">
   <label class="col-md-2 control-label">Вид оплаты:</label>
     <div class="col-md-2">

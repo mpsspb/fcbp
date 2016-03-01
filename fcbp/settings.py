@@ -8,7 +8,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = open('secret.txt').read().strip()
+secret_file = os.path.join(BASE_DIR, 'secret.txt')
+SECRET_KEY = open(secret_file).read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -116,6 +117,23 @@ STATICFILES_DIRS = (
 
 AVATAR_ROOT = os.path.join(BASE_DIR, "avatar")
 AVATAR_URL = 'avatar/'
+
+BROKER_URL = 'redis://127.0.0.1:6379/3'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/3'
+BROKER_TRANSPORT_OPTIONS = {
+    'priority_steps': range(10),
+}
+CELERY_QUEUES = {
+    'default': {
+        "exchange": "fcbp",
+        "binding_key": "fcbp",
+    }}
+CELERYBEAT_SCHEDULE_FILENAME = os.path.join(BASE_DIR, "schedule-bmdp")
+# CELERY_IMPORTS = ("answermachine.actions.tasks",)
+CELERY_DEFAULT_QUEUE = 'default'
+# CELERY_IGNORE_RESULT = True
+CELERY_ACCEPT_CONTENT = ['pickle']
+REDIS_CONNECT_RETRY = True
 
 try:
     from .local_settings import *
