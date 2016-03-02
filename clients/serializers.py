@@ -135,9 +135,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         data['count'] = 1
         data['status'] = 2
         data['date_start'] = date.today()
-        data['date_begin'] = date.today()
         obj = ClubCard.objects.get(pk=data['club_card'])
-        data['date_end'] = date_end(data['date_begin'], obj)
         fclub_card = FormClientClubCard(data)
         if fclub_card.is_valid():
             club_card = fclub_card.save()

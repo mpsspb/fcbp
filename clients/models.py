@@ -112,8 +112,8 @@ class ClientClubCard(models.Model):
     """
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
-    date_begin = models.DateField(blank=True)
-    date_end = models.DateField(blank=True)
+    date_begin = models.DateField(null=True, blank=True)
+    date_end = models.DateField(null=True, blank=True)
     client = models.ForeignKey(Client, )
     club_card = models.ForeignKey(ClubCard, )
     is_paid_activate = models.BooleanField(default=False)
@@ -153,6 +153,8 @@ class ClientClubCard(models.Model):
 
     @property
     def rest_days(self):
+        if not self.date_end:
+            return None
         rest_days = (self.date_end - date.today()).days
         if rest_days < 1:
             return 0
@@ -572,6 +574,18 @@ class UseClientClubCard(models.Model):
     end = models.DateTimeField(blank=True, null=True)
     client_club_card = models.ForeignKey(ClientClubCard)
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            is_first = UseClientClubCard.objects\
+                        .filter(client_club_card=self.client_club_card)\
+                        .count()
+            if is_first == 0:
+                cc = self.client_club_card
+                cc.date_begin = date.today()
+                cc.date_end = date_end(date.today(), cc.club_card)
+                cc.save()
+        super(UseClientClubCard, self).save(*args, **kwargs)
+
 
 class ClubCardTrains(models.Model):
     """
@@ -641,3 +655,15 @@ class ClientOnline(models.Model):
     class Meta:
         db_table = 'v_client_online'
         managed = False
+
+
+def date_end(date_begin, obj):
+    """
+    Return date end for the obj
+    """
+    if obj.period.is_month:
+        months = obj.period.value
+        return date_begin + relativedelta(months=months)
+    else:
+        days = obj.period.value
+        return date_begin + timedelta(days=days)

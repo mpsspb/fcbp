@@ -280,8 +280,14 @@
   <div class="row-border col-md-12">
     <h5 ng-show="vm.card.is_paid_activate" class="bg-success">Платная активация</h5>
     <h4>
+      <div ng-if="vm.card.date_begin">
       c {{ vm.card.date_begin | date:'dd.MM.yyyy' }}
       по {{ vm.card.date_end | date:'dd.MM.yyyy' }}
+      </div>
+      <div ng-if="!vm.card.date_begin">
+       неактивна
+      </div>
+
     </h4>    
   </div>
   <div class="panel panel-default col-md-12" ng-show="vm.card.personal_training || vm.card.personalclubcard_set.length">

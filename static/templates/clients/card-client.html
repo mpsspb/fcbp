@@ -25,7 +25,7 @@
                 {{ card.name }}
               </span>
             </td>
-            <td> {{ card.date_start | date:'dd.MM.yyyy' }}</td>
+            <td> {{ (card.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
             <td> {{ card.date_end | date:'dd.MM.yyyy' }}</td>
             <td> {{ card.rest_visits }} </td>
           </tr>
