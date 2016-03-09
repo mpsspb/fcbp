@@ -7,8 +7,7 @@ from celery.decorators import periodic_task
 
 from django.conf import settings
 
-from .models import ClientClubCard
-from .serializers import date_end
+from .models import ClientClubCard, date_end
 
 
 @periodic_task(name="clients.activate_card",
