@@ -105,6 +105,8 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
     client_name = serializers.CharField(read_only=True)
     client_mobile = serializers.IntegerField(read_only=True)
+    client_uid = serializers.IntegerField(read_only=True)
+    client_card = serializers.IntegerField(read_only=True)
     personalclubcard_set = PersonalClubCardSerializer(many=True,
                                                       read_only=True)
     fitnessclubcard_set = FitnessClubCardSerializer(many=True,
@@ -125,9 +127,9 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'personalclubcard_set', 'fitnessclubcard_set',
                   'rest_freeze', 'rest_freeze_times', 'is_frozen',
                   'freezeclubcard_set', 'prolongationclubcard_set',
-                  'client_name', 'credit_set', 'payment_set',
+                  'client_name', 'credit_set', 'payment_set', 'client_card',
                   'client_mobile', 'is_paid_activate', 'paid_activate_amount',
-                  'discount_amount', 'bonus_amount')
+                  'discount_amount', 'bonus_amount', 'client_uid')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):

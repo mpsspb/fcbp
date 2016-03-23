@@ -43,7 +43,7 @@ class DiscountViewSet(viewsets.ModelViewSet):
 
 
 class PeriodViewSet(viewsets.ModelViewSet):
-    queryset = Period.objects.order_by('value')
+    queryset = Period.objects.order_by('is_month', 'value')
     serializer_class = PeriodSerializer
 
 

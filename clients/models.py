@@ -141,6 +141,14 @@ class ClientClubCard(models.Model):
         return self.client.mobile
 
     @property
+    def client_uid(self):
+        return self.client.uid
+
+    @property
+    def client_card(self):
+        return self.client.card
+
+    @property
     def name(self):
         return self.club_card.name
 
@@ -255,8 +263,9 @@ class GuestClubCard(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     client_club_card = models.ForeignKey(ClientClubCard)
     guest = models.CharField(max_length=60)
-    born = models.DateField()
-    phone = models.BigIntegerField(null=True, blank=True)
+    phone = models.BigIntegerField()
+    born = models.DateField(null=True, blank=True)
+    passport = models.TextField(null=True, blank=True)
 
 
 class FitnessClubCard(models.Model):

@@ -9,14 +9,16 @@
     .module('fcbp.clients.controllers')
     .controller('UseClientCardController', UseClientCardController);
 
-  UseClientCardController.$inject = ['$location', '$rootScope', '$routeParams', '$scope',
+  UseClientCardController.$inject = ['$location', '$rootScope', '$routeParams',
+                                     '$scope', '$http',
                                      'ClubCard', 'Employees', 'Training'];
 
   /**
   * @namespace UseClientCardController
   */
-  function UseClientCardController($location, $rootScope, $routeParams, $scope,
-                                  ClubCard, Employees, Training) {
+  function UseClientCardController($location, $rootScope, $routeParams,
+                                   $scope, $http,
+                                   ClubCard, Employees, Training) {
     var vm = this;
 
     vm.use = use;
@@ -30,6 +32,7 @@
     vm.personal = personal;
     vm.fitness = fitness;
     vm.freeze = freeze;
+    vm.paid_activate = paid_activate;
     vm.add_train = add_train;
     vm.rm_train = rm_train;
     vm.use_trainings = [];
@@ -54,7 +57,7 @@
         client_club_card: vm.uid,
         date: now
       }
-
+      // freeze data
       vm.frdata = {
         days: 1,
         amount: 0.0,
@@ -62,6 +65,11 @@
         client_club_card: vm.uid,
         fdate: moment().format('DD.MM.YYYY'),
         is_credit: false
+      }
+      //  paid activate data
+      vm.padata = {
+        is_paid_activate: true,
+        paid_activate_amount: 0,
       }
 
       vm.pdata = {
@@ -175,7 +183,7 @@
     function guest() {
       var numberPattern = /\d+/g;
 
-      if (vm.fguest.mobile_form){
+      if (vm.fguest.mobile_form) {
         var phone = vm.fguest.mobile_form.match( numberPattern );
         vm.fguest.phone = phone.join("");
       } else {
@@ -323,8 +331,30 @@
       function freezeErrorFn(data, status, headers, config) {
         console.log(data);
       }
+    };
 
-    }
+    function paid_activate() {
+
+      $http.put('/api/v1/clients/clubcard/' + vm.uid + '/', vm.padata
+                ).then(paid_activateSuccessFn, paid_activateErrorFn);
+
+      /**
+      * @name paid_activateSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function paid_activateSuccessFn(data, status, headers, config) {
+        console.log(data);
+        activate();
+      }
+
+      /**
+      * @name paid_activateErrorFn
+      * @desc console log error
+      */
+      function paid_activateErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
 
   };
 

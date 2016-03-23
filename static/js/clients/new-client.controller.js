@@ -9,12 +9,12 @@
     .module('fcbp.clients.controllers')
     .controller('NewClientController', NewClientController);
 
-  NewClientController.$inject = ['$rootScope', '$scope', 'ClubCard', 'Clients'];
+  NewClientController.$inject = ['$rootScope', '$scope', 'Clients'];
 
   /**
   * @namespace NewClientController
   */
-  function NewClientController($rootScope, $scope, ClubCard, Clients) {
+  function NewClientController($rootScope, $scope, Clients) {
     var vm = this;
 
     vm.submit = submit;

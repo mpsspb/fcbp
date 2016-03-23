@@ -153,6 +153,14 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
     queryset = ClientClubCard.objects.order_by('-date')
     serializer_class = ClientClubCardSerializer
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data,
+                                         partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
     @detail_route(methods=['post'], )
     def guest(self, request, pk):
         """

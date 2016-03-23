@@ -54,7 +54,20 @@
             class="form-control" placeholder="ФИО">
           </div>
         </div>
+
         <div class="form-group has-warning">
+          <label class="col-md-3 control-label">Мобильный:</label>
+          <div class="col-md-6">
+            <input ng-model="vm.fguest.mobile_form" type="text"
+            class="form-control mobile" placeholder="Номер телефона">
+          </div>
+          <label class="col-md-2 control-label">Прямой</label>
+          <div class="col-md-1">
+            <input type="checkbox" class="mobile-toggle form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-md-3 control-label">Д. рождения:</label>
             <div class="col-md-6">
               <input ng-model="vm.fguest.born" type="text" 
@@ -63,16 +76,10 @@
         </div>
 
         <div class="form-group">
-          <label class="col-md-3 control-label">Мобильный:</label>
-          <div class="col-md-6">
-            <input ng-model="vm.fguest.mobile_form" type="text"
-            class="form-control mobile" placeholder="Номер телефона">
-          </div>
-
-          <label class="col-md-2 control-label">Прямой</label>
-          <div class="col-md-1">
-            <input type="checkbox" class="mobile-toggle form-control">
-          </div>
+            <label class="col-md-3 control-label">Паспорт:</label>
+            <div class="col-md-6">
+              <textarea ng-model="vm.fguest.passport" class="form-control"></textarea>
+            </div>
         </div>
 
       </div>
@@ -265,6 +272,36 @@
 </div>
 <!-- end modal Frost -->
 
+<!-- Modal PaidActivate -->
+<div class="modal fade" id="PaidActivate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Платная активация </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.padata.paid_activate_amount">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right"
+        data-dismiss="modal" ng-click="vm.paid_activate()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal PaidActivate -->
+
 <div class="alert alert-info" role="alert" ng-show="vm.card.is_frozen">
   <strong> Заморожена</strong>
 </div>
@@ -275,6 +312,8 @@
   <i class="fa fa-credit-card">
   </i> Клубная Карта: {{ vm.card.name }} </h4>
   <h4><u>{{ vm.card.client_name }}</u></h4>
+  <h4>ЧС: {{ vm.card.client_uid }}</h4>
+  <h4>Карта: {{ vm.card.client_card }}</h4>
   <h4>{{ vm.card.client_mobile | phone }}</h4>
 </div>
   <div class="row-border col-md-12">
@@ -285,7 +324,10 @@
       по {{ vm.card.date_end | date:'dd.MM.yyyy' }}
       </div>
       <div ng-if="!vm.card.date_begin">
-       неактивна
+       неактивна 
+       <button class="btn btn-success"
+       data-toggle="modal" data-target="#PaidActivate"
+       ng-show="!vm.card.is_paid_activate"> Платная активация </button>
       </div>
 
     </h4>    
@@ -333,13 +375,14 @@
         <div class="col-md-6">дата</div>
         <div class="col-md-6">Гость</div>
       </div>
-      <div class="row cursor-pointer" ng-repeat="use in vm.card.guestclubcard_set"
+      <div class="row cursor-pointer" ng-repeat="guest in vm.card.guestclubcard_set"
        ng-click="collapsed=!collapsed">
-        <div class="col-md-6"> {{ use.date | date:'dd.MM.yyyy' }} </div>
-        <div class="col-md-6"> {{ use.guest }} </div>
+        <div class="col-md-6"> {{ guest.date | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-6"> {{ guest.guest }} </div>
         <div ng-show="collapsed" class="bg-info col-md-12">
-          <div class="col-md-6"> {{ use.born | date:'dd.MM.yyyy' }} </div>
-          <div class="col-md-6"> {{ use.phone | phone }} </div>
+          <div class="col-md-6"> Д. Р. {{ guest.born | date:'dd.MM.yyyy' }} </div>
+          <div class="col-md-6"> {{ guest.phone | phone }} </div>
+          <div class="col-md-12"> Пасспорт: {{ guest.passport}} </div>
         </div>
       </div>
     </div>
