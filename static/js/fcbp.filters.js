@@ -99,4 +99,20 @@
         }
     });
 
+  angular
+    .module('fcbp')
+    .filter('payment_type', function() {
+        return function(input) {
+          if (input == 1) {
+            return 'нал.'
+          } else if (input == 2) {
+            return 'безнал.'
+          } else if (input == 3) {
+            return 'банк'
+          } else if (input == 0) {
+            return 'иное'
+          }
+        }
+    });
+
 })();

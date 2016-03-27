@@ -10,14 +10,14 @@
     .controller('UseClientCardController', UseClientCardController);
 
   UseClientCardController.$inject = ['$location', '$rootScope', '$routeParams',
-                                     '$scope', '$http',
+                                     '$scope', '$http', 'ClientPayment',
                                      'ClubCard', 'Employees', 'Training'];
 
   /**
   * @namespace UseClientCardController
   */
   function UseClientCardController($location, $rootScope, $routeParams,
-                                   $scope, $http,
+                                   $scope, $http, ClientPayment,
                                    ClubCard, Employees, Training) {
     var vm = this;
 
@@ -36,6 +36,7 @@
     vm.add_train = add_train;
     vm.rm_train = rm_train;
     vm.use_trainings = [];
+    vm.payment = payment;
 
     vm.prolongation = prolongation;
     vm.is_paid = is_paid;
@@ -354,6 +355,30 @@
       function paid_activateErrorFn(data, status, headers, config) {
         console.log(data);
       }
+    };
+
+    // function for close credit
+    function payment(payment_type, uid) {
+      ClientPayment.close_credit(payment_type, uid)
+                   .then(closeSuccessFn, closeErrorFn);
+
+      /**
+      * @name closeSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function closeSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name closeErrorFn
+      * @desc console log error
+      */
+      function closeErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
     };
 
   };
