@@ -31,7 +31,7 @@ def activate_card(**kwargs):
                run_every=crontab(hour=3, minute=15))
 def end_card(**kwargs):
     """
-    Reminder if balance not enough for auto prolongation.
+    Disable client club card.
     """
     for card in ClientClubCard.objects.filter(date_end__lte=date.today()):
         card.status = 0

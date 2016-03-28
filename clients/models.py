@@ -111,6 +111,7 @@ class ClientClubCard(models.Model):
     Date begin - is start of using the card.
 
     """
+
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
     date_begin = models.DateField(null=True, blank=True)
@@ -131,6 +132,12 @@ class ClientClubCard(models.Model):
     1 - active
     2 - prospect
     """
+
+    def save(self, *args, **kwargs):
+        if self.status == 0:
+            if self.date_end > date.today():
+                self.date_end = date.today()
+        super(ClientClubCard, self).save(*args, **kwargs)
 
     @property
     def client_name(self):

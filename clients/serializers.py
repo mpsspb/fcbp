@@ -99,7 +99,26 @@ class ProlongationClubCardSerializer(serializers.ModelSerializer):
         return ProlongationClubCard.objects.create(**validated_data)
 
 
+class ActiveListSerializer(serializers.ListSerializer):
+    """
+    Exclude archive/disabled objects.
+    """
+    def to_representation(self, data):
+        data = data.exclude(status=0)
+        return super(ActiveListSerializer, self).to_representation(data)
+
+
+class ArchiveListSerializer(serializers.ListSerializer):
+    """
+    Archive/disabled objects.
+    """
+    def to_representation(self, data):
+        data = data.filter(status=False)
+        return super(ArchiveListSerializer, self).to_representation(data)
+
+
 class ClientClubCardSerializer(serializers.ModelSerializer):
+
     useclientclubcard_set = UseClientClubCardSerializer(many=True,
                                                         read_only=True)
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
@@ -118,6 +137,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     payment_set = PaymentSerializer(many=True, read_only=True)
 
     class Meta:
+        list_serializer_class = ActiveListSerializer
         model = ClientClubCard
         fields = ('id', 'club_card', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client', 'is_online',
@@ -313,7 +333,8 @@ class ClientSerializer(serializers.ModelSerializer):
     avatar = Base64ImageField(
         max_length=None, use_url=True
     )
-    clientclubcard_set = ClientClubCardSerializer(many=True, read_only=True)
+    clientclubcard_set = ClientClubCardSerializer(
+        many=True, read_only=True)
     clientaquaaerobicsfull_set = ClientAquaAerobicsFullSerializer(
                                                             many=True,
                                                             read_only=True)

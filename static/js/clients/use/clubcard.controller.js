@@ -33,6 +33,7 @@
     vm.fitness = fitness;
     vm.freeze = freeze;
     vm.paid_activate = paid_activate;
+    vm.to_archive = to_archive;
     vm.add_train = add_train;
     vm.rm_train = rm_train;
     vm.use_trainings = [];
@@ -71,6 +72,10 @@
       vm.padata = {
         is_paid_activate: true,
         paid_activate_amount: 0,
+      }
+      //  to archive data
+      vm.ardata = {
+        status: 0
       }
 
       vm.pdata = {
@@ -353,6 +358,29 @@
       * @desc console log error
       */
       function paid_activateErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
+    function to_archive() {
+
+      $http.put('/api/v1/clients/clubcard/' + vm.uid + '/', vm.ardata
+                ).then(to_archiveSuccessFn, to_archiveErrorFn);
+
+      /**
+      * @name to_archiveSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function to_archiveSuccessFn(data, status, headers, config) {
+        console.log(data);
+        activate();
+      }
+
+      /**
+      * @name to_archiveErrorFn
+      * @desc console log error
+      */
+      function to_archiveErrorFn(data, status, headers, config) {
         console.log(data);
       }
     };
