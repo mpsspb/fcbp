@@ -39,6 +39,10 @@
       controller: 'PhotoClientController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/photo-client.html'
+    }).when('/archive/:uid', {
+      controller: 'ArchiveController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/archive.html'
     }).when('/new-client-product/:uid', {
       controller: 'NewClientProductController',
       controllerAs: 'vm',

@@ -1,0 +1,220 @@
+<div class="col-md-4"> <!-- start left side bar -->
+<div class="col-md-12 row-border ">
+  <h4>
+  <i class="fa fa-credit-card">
+  </i> Клубная Карта: {{ vm.card.name }} </h4>
+  <h4><u>{{ vm.card.client_name }}</u></h4>
+  <h4>ЧС: {{ vm.card.client_uid }}</h4>
+  <h4>Карта: {{ vm.card.client_card }}</h4>
+  <h4>{{ vm.card.client_mobile | phone }}</h4>
+</div>
+  <div class="row-border col-md-12">
+    <h5 ng-show="vm.card.is_paid_activate" class="bg-success">Платная активация</h5>
+    <h4>
+      <div ng-if="vm.card.date_begin">
+      c {{ vm.card.date_begin | date:'dd.MM.yyyy' }}
+      по {{ vm.card.date_end | date:'dd.MM.yyyy' }}
+      </div>
+      <div ng-if="!vm.card.date_begin">
+       неактивна
+      </div>
+    </h4>    
+  </div>
+  <div class="panel panel-default col-md-12" ng-show="vm.card.personal_training || vm.card.personalclubcard_set.length">
+    <div class="panel-heading"><strong>Персоналка бонусная</strong></div>
+    <div class="panel-body">
+      <h4 ng-show="vm.card.personalclubcard_set">
+        {{ vm.card.personalclubcard_set[0].date | date:'dd.MM.yyyy' }}
+        {{ vm.card.personalclubcard_set[0].employee }}      
+      </h4>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12"
+   ng-show="vm.card.fitness_testing_discount || vm.card.fitnessclubcard_set.length">
+    <div class="panel-heading"><strong>Фитнес тестирование</strong></div>
+    <div class="panel-body">
+      <h4 ng-show="vm.card.fitnessclubcard_set">
+        {{ vm.card.fitnessclubcard_set[0].date | date:'dd.MM.yyyy' }}
+        {{ vm.card.fitnessclubcard_set[0].employee }}      
+      </h4>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12" ng-show="vm.card.guest_training">
+    <div class="panel-heading">
+      <strong>Гость 
+        ({{ vm.card.guest_training}}/{{vm.card.rest_guest}})
+      </strong></div>
+    <div class="panel-body">
+      <div class="row" ng-show="vm.card.guestclubcard_set.length">
+        <div class="col-md-6">дата</div>
+        <div class="col-md-6">Гость</div>
+      </div>
+      <div class="row cursor-pointer" ng-repeat="guest in vm.card.guestclubcard_set"
+       ng-click="collapsed=!collapsed">
+        <div class="col-md-6"> {{ guest.date | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-6"> {{ guest.guest }} </div>
+        <div ng-show="collapsed" class="bg-info col-md-12">
+          <div class="col-md-6"> Д. Р. {{ guest.born | date:'dd.MM.yyyy' }} </div>
+          <div class="col-md-6"> {{ guest.phone | phone }} </div>
+          <div class="col-md-12"> Паспорт: {{ guest.passport}} </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Заморозка</strong></div>
+    <div class="panel-body">
+      <div class="row" ng-show="vm.card.freezeclubcard_set.length">
+        <div class="col-md-4">С</div>
+        <div class="col-md-4">ПО</div>
+        <div class="col-md-4">Дней</div>
+      </div>
+      <div class="row" ng-repeat="freez in vm.card.freezeclubcard_set"
+       ng-click="collapsed=!collapsed"
+       ng-class="freez.is_paid ? 'bg-danger cursor-pointer' : ''">
+        <div class="col-md-4"> {{ freez.fdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.tdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.days }} </div>
+        <div ng-show="collapsed && freez.is_paid" class="bg-info col-md-12">
+          <div class="col-md-8"> купил: {{ freez.date | date:'dd.MM.yyyy'}} </div>
+          <div class="col-md-4"> {{ freez.amount }} руб.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Продление</strong></div>
+    <div class="panel-body">
+      <table class="table" ng-show="vm.card.prolongationclubcard_set.length">
+        <tr>
+          <td>С</td><td>Дней</td>
+        </tr>
+        <tr ng-repeat="p in vm.card.prolongationclubcard_set">
+          <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ p.days }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div> <!-- end left side bar -->
+
+<div class="col-md-8"> <!-- start main info -->
+  <div class="row col-md-12">
+    <div class="col-md-3">
+      <a href="#/cardclient/{{ vm.card.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-md-3"><center>дата</center></div>
+      <div class="col-md-3">время</div>
+      <div class="col-md-3">окончание</div>
+      <div class="col-md-3">Занятий</div>
+    </div>      
+    <div ng-repeat="use in vm.card.useclientclubcard_set"
+         ng-click="collapsed=!collapsed">
+        <div class="col-md-3"> {{ use.date | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-3"> {{ use.date | date:'HH:mm' }} </div>
+        <div class="col-md-3"> {{ use.end | date:'HH:mm' }} </div>
+        <div class="col-md-3"> <button class="btn btn-xs btn-warning btn-trainings"
+              >{{ use.clubcardtrains_set.length }}</button>
+        </div>
+        <div ng-show="collapsed" class="bg-info col-md-12">
+          <span ng-repeat="train in use.clubcardtrains_set">
+            {{ train.name }}, &nbsp;
+          </span>
+        </div>
+    </div>
+</div> <!-- end main info -->
+
+<div class="panel panel-default col-md-12"
+ ng-show="vm.card.discount_amount || vm.card.bonus_amount"> <!-- start bonus info -->
+  <div class="panel-heading"><strong>Бонусы при покупке</strong></div>
+  <span class="col-md-6" ng-show="vm.card.discount_amount">
+    <strong>Скидка: {{ vm.card.discount_amount }} %</strong>
+  </span>
+  <span class="col-md-6" ng-show="vm.card.bonus_amount">
+    <strong>Бонус: {{ vm.card.bonus_amount }} руб.</strong>
+  </span>
+</div> <!-- end bonus info -->
+
+<div class="panel panel-default col-md-12"
+ ng-show="vm.card.payment_set.length || vm.card.credit_set.length"> <!-- start payment info -->
+  <div class="panel panel-danger col-md-12" ng-show="vm.card.credit_set.length">
+    <div class="panel-heading"><strong>Долги</strong></div>
+    <div class="panel-body">
+      <table class="table">
+        <tr>
+          <td class="col-md-3">Дата</td><td class="col-md-3">Сумма</td><td></td><td></td>
+        </tr>
+        <tr ng-repeat="cr in vm.card.credit_set">
+          <td> {{ cr.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ cr.amount }} руб.</td>
+                  <td>
+          <button class="btn btn-warning btn-sm"
+          ng-click="show_pay_type=!show_pay_type">
+            Оплатить
+          </button>
+        </td>
+        <td>
+          <div ng-show="show_pay_type">
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(1, cr.id)">
+            нал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(2, cr.id)">
+             безнал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(3, cr.id)">
+             банк
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(0, cr.id)">
+             иное
+            </button>
+          </div>
+        </td>
+
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="panel panel-info col-md-12" ng-show="vm.card.payment_set.length">
+    <div class="panel-heading"><strong>Платежи</strong></div>
+    <div class="panel-body">
+      <table class="table">
+        <tr>
+          <td>Дата</td><td>Сумма</td><td>Вид платежа</td>
+        </tr>
+        <tr ng-repeat="p in vm.card.payment_set">
+          <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ p.amount }} руб.</td>
+          <td> {{ p.payment_type | payment_type }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+    <!-- {{ vm.card.credit_set }} -->
+  </div>
+</div> <!-- end payment info -->
+
+<script type="text/javascript">
+  jQuery(function($){
+
+   $(".date").mask("99.99.9999");
+   $(".date-time").mask("99.99.9999 99:99");
+   $(".mobile").mask("(999)-999-9999");
+   $(".phone").mask("999-9999");
+
+   $('.mobile-toggle').on('click', function(){
+    if ($(this).is (':checked')) {
+        $(".mobile").mask("999-9999");
+    } else {
+        $(".mobile").mask("(999)-999-9999");
+    };
+
+   });
+
+});
+</script>

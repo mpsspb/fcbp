@@ -34,6 +34,9 @@
       freeze: freeze,
       active: active,
       active_list: active_list,
+      archive_list: archive_list,
+      archive_client_list: archive_client_list,
+      archive_get: archive_get,
     };
 
     return ClubCard;
@@ -64,6 +67,18 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/clubcard/' + uid + '/')
+    }
+
+    function archive_list(uid) {
+      return $http.get('/api/v1/clients/archive/clubcard/')
+    }
+
+    function archive_client_list(uid) {
+      return $http.get('/api/v1/clients/archive/clubcard/'+ uid + '/client/')
+    }
+
+    function archive_get(uid) {
+      return $http.get('/api/v1/clients/archive/clubcard/' + uid + '/')
     }
 
     function update(uid, fdata) {

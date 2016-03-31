@@ -30,3 +30,5 @@ router.register(r'advanced_search', ClientSearchViewSet, 'advanced_search')
 
 
 urlpatterns = router.urls
+
+urlpatterns += url(r'^archive/', include('clients.urls_archive')),

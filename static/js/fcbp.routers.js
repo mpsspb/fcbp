@@ -5,7 +5,8 @@
     .module('fcbp.routes', [
       'fcbp.common.routes',
       'fcbp.product.routes',
-      'fcbp.reception.routes'
+      'fcbp.reception.routes',
+      'fcbp.archive.routes'
       ]);
     
   angular
