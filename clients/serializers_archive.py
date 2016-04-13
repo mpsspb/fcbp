@@ -55,7 +55,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
     client_name = serializers.CharField(read_only=True)
     name = serializers.CharField(read_only=True)
-    rest_visits = serializers.IntegerField(read_only=True)
+    rest_visits = serializers.CharField(read_only=True)
     client_mobile = serializers.IntegerField(read_only=True)
     client_uid = serializers.IntegerField(read_only=True)
     client_card = serializers.IntegerField(read_only=True)

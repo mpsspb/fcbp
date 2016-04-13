@@ -17,8 +17,8 @@
 <table class="table">
   <tr>
     <td>дата продажи</td><td>наименование</td>
-    <td>активирована</td>
-    <td>срок действия</td><td>тренировки</td>
+    <td>активирована</td><td>срок действия</td>
+    <td>тренировки</td><td>комментарий</td>
   </tr>
   <tr ng-repeat="card in vm.clubcard_set">
     <td >
@@ -31,6 +31,9 @@
     <td> {{ (card.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
     <td> {{ card.date_end | date:'dd.MM.yyyy' }}</td>
     <td> {{ card.rest_visits }} </td>
+    <td> <i class="fa fa-2x fa-info-circle text-yellow cursor-pointer" aria-hidden="true" 
+    ng-show="card.block_comment" title="{{ card.block_comment }}"></i>
+    </td>
   </tr>
 </table>
 </div>

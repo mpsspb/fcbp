@@ -75,7 +75,8 @@
       }
       //  to archive data
       vm.ardata = {
-        status: 0
+        status: 0,
+        block_comment: ''
       }
 
       vm.pdata = {

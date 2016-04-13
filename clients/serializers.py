@@ -149,7 +149,8 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'freezeclubcard_set', 'prolongationclubcard_set',
                   'client_name', 'credit_set', 'payment_set', 'client_card',
                   'client_mobile', 'is_paid_activate', 'paid_activate_amount',
-                  'discount_amount', 'bonus_amount', 'client_uid')
+                  'discount_amount', 'bonus_amount', 'client_uid',
+                  'block_comment')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):
