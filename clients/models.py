@@ -283,6 +283,15 @@ class FitnessClubCard(models.Model):
     client_club_card = models.ForeignKey(ClientClubCard)
     personal = models.ForeignKey(Employee, )
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            card = self.client_club_card
+            if not card.date_begin:
+                card.date_begin = date.today()
+                card.date_end = date_end(date.today(), card.club_card)
+                card.save()
+        super(FitnessClubCard, self).save(*args, **kwargs)
+
     @property
     def employee(self):
         return self.personal.initials

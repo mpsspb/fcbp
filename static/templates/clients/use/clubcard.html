@@ -143,12 +143,12 @@
       <form class="form-horizontal">
       <div class="modal-body">
         <div class="form-group">
-          <label class="col-md-2"> Дата: </label>
+          <label class="col-md-4 control-label"> Дата проведения: </label>
           <input class="col-md-4 sinput date-time" ng-model="vm.fitdata.date">
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Сотрудник:</label>
-          <div class="col-md-7">
+          <label class="col-md-4 control-label">Сотрудник:</label>
+          <div class="col-md-6">
             <select ng-model="vm.fitdata.personal"
             ng-options="employee.id as employee.initials
                         for employee in vm.employees"></select>
@@ -314,7 +314,7 @@
   <h4><u>{{ vm.card.client_name }}</u></h4>
   <h4>ЧС: {{ vm.card.client_uid }}</h4>
   <h4>Карта: {{ vm.card.client_card }}</h4>
-  <h4>{{ vm.card.client_mobile | phone }}</h4>
+  <h4>Тел.: {{ vm.card.client_mobile | phone }}</h4>
 </div>
   <div class="row-border col-md-12">
     <h5 ng-show="vm.card.is_paid_activate" class="bg-success">Платная активация</h5>
@@ -348,7 +348,7 @@
 
   <div class="panel panel-default col-md-12"
    ng-show="vm.card.fitness_testing_discount || vm.card.fitnessclubcard_set.length">
-    <div class="panel-heading"><strong>Фитнес тестирование</strong></div>
+    <div class="panel-heading"><strong>Фитнес тестирование 50%</strong></div>
     <div class="panel-body">
       <button class="btn btn-info btn-block"
        data-toggle="modal" data-target="#Fitness"
@@ -513,7 +513,6 @@
             </button>
           </div>
         </td>
-
         </tr>
       </table>
     </div>
