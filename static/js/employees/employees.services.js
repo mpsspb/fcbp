@@ -23,6 +23,7 @@
     var Employees = {
       create: create,
       list: list,
+      sellers: sellers,
     };
 
     return Employees;
@@ -45,6 +46,10 @@
     **/
     function list() {
       return $http.get('/api/v1/employees/employees/')
+    }
+    // only employees who is seller
+    function sellers() {
+      return $http.get('/api/v1/employees/employees/sellers/')
     }
   }
 

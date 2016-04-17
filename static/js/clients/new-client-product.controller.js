@@ -13,7 +13,7 @@
                                         '$http',
                                         'Clients', 'ClubCard', 'Timing',
                                         'AquaAerobics', 'Tickets', 'Personals',
-                                        'ClientPayment', 'Discounts'];
+                                        'ClientPayment', 'Discounts', 'Employees'];
 
   /**
   * @namespace NewClientProductController
@@ -21,7 +21,7 @@
   function NewClientProductController($rootScope, $routeParams, $scope, $http,
                                        Clients, ClubCard, Timing,
                                        AquaAerobics, Tickets, Personals,
-                                       ClientPayment, Discounts) {
+                                       ClientPayment, Discounts, Employees) {
     var vm = this;
 
     vm.submit = submit;
@@ -205,6 +205,14 @@
       */
       function lastcardErrorFn(data, status, headers, config) {
         console.log(data);
+      }
+
+      Employees.sellers().then(employeesSuccessFn, employeesErrorFn);
+      function employeesSuccessFn(data, status, headers, config) {
+        vm.employees = data.data
+      }
+      function employeesErrorFn(data, status, headers, config) {
+        console.log(data)
       }
 
     }

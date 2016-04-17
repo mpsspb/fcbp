@@ -103,6 +103,20 @@ ng-show="vm.error_amount">
    </div>
 </div>
 
+<div class="panel panel-default">
+  <div class="panel-body">
+      <div class="col-md-6">
+        <strong class="col-md-6">продавец</strong>
+        <div class="col-md-6">
+          <select ng-model="vm.fdata.employee"
+           class="container-full" 
+           ng-options="e.id as e.initials for e in vm.employees">
+          </select>
+        </div>
+      </div>
+   </div>
+</div>
+
 <div class="col-md-12">
   <div class="col-md-3">
     <label>Стоимость: {{ vm.fdata.price }}</label>

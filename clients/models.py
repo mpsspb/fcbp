@@ -127,6 +127,7 @@ class ClientClubCard(models.Model):
     bonus_amount = models.FloatField(blank=True, null=True)
     block_comment = models.CharField(max_length=150, blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
+    employee = models.ForeignKey(Employee, blank=True, null=True)
     """
     status valid data:
     0 - disabled

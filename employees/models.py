@@ -18,6 +18,7 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=30)
     patronymic = models.CharField(max_length=30)
     born = models.DateField()
+    is_seller = models.BooleanField(default=False)
 
     @property
     def full_name(self,):
