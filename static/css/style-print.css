@@ -42,3 +42,7 @@
 .table-print td {
   border: 1px solid black;
 }
+
+.table-print td.no-border {
+  border-right: hidden;
+}

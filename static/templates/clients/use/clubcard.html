@@ -339,6 +339,10 @@
   <strong><a ng-href="api/v1/clients/clubcard/{{vm.card.id}}/card/">Печать</a></strong>
 </div>
 
+<div class="alert alert-info" role="alert" ng-show="!vm.card.printed">
+  <strong><a ng-href="api/v1/clients/clubcard/{{vm.card.id}}/personal/">Членское</a></strong>
+</div>
+
 <div class="col-md-4"> <!-- start left side bar -->
 <div class="col-md-12 row-border ">
   <h4>

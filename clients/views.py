@@ -164,6 +164,16 @@ class ClientClubCardViewSet(viewsets.ModelViewSet, TemplateResponseMixin):
         return Response(serializer.data)
 
     @detail_route(methods=['get'], )
+    def personal(self, request, pk):
+        """
+        Print personal client card.
+        """
+        card = self.get_object()
+        cont = {'client': card.client, 'card': card}
+        self.template_name = 'card/client.html'
+        return TemplateResponseMixin.render_to_response(self, cont)
+
+    @detail_route(methods=['get'], )
     def card(self, request, pk):
         """
         Print form of the card.
