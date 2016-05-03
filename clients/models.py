@@ -40,6 +40,11 @@ class Client(models.Model):
         return "%s %s %s" % (self.last_name, self.first_name, self.patronymic)
 
     @property
+    def initials(self,):
+        return "%s %s. %s." % (
+            self.last_name, self.first_name[:1], self.patronymic[:1])
+
+    @property
     def online_clubcard(self,):
         return ClientOnline.objects.filter(client=self, product='clubcard')\
                            .exists()
@@ -128,6 +133,7 @@ class ClientClubCard(models.Model):
     block_comment = models.CharField(max_length=150, blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     employee = models.ForeignKey(Employee, blank=True, null=True)
+    printed = models.BooleanField(default=False)
     """
     status valid data:
     0 - disabled

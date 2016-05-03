@@ -15,6 +15,15 @@
         border-top:0 ;
       }
 
+.table-print {
+  border-collapse: collapse;
+  width: 800px;
+}
+
+.table-print td {
+  border: 1px solid black;
+}
+
 /*
 * add more panel color
 */

@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.pagination import PageNumberPagination
 
+from django.views.generic.base import TemplateResponseMixin
+
 from .models import *
 from .forms import *
 from .serializers import *
@@ -149,7 +151,7 @@ class ClientViewSet(viewsets.ModelViewSet):
                         status=status.HTTP_202_ACCEPTED)
 
 
-class ClientClubCardViewSet(viewsets.ModelViewSet):
+class ClientClubCardViewSet(viewsets.ModelViewSet, TemplateResponseMixin):
     queryset = ClientClubCard.objects.order_by('-date')
     serializer_class = ClientClubCardSerializer
 
@@ -160,6 +162,28 @@ class ClientClubCardViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+    @detail_route(methods=['get'], )
+    def card(self, request, pk):
+        """
+        Print form of the card.
+        """
+        card = self.get_object()
+        pre_payments = []
+        for p in card.payment_set.all().order_by('date'):
+            pre_payments.append((p.date, p.amount))
+        for cr in card.credit_set.all().order_by('schedule'):
+            pre_payments.append((cr.schedule, cr.amount))
+        # rebuild payments to four elements
+        payments = []
+        for k, v in map(None, pre_payments, '*'*4):
+            if k is not None:
+                payments.append(k)
+            else:
+                payments.append((None, None))
+        cont = {'card': card, 'payments': payments}
+        self.template_name = 'card/clubcard.html'
+        return TemplateResponseMixin.render_to_response(self, cont)
 
     @detail_route(methods=['post'], )
     def guest(self, request, pk):

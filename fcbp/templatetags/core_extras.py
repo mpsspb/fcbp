@@ -27,3 +27,14 @@ def static_version(path_string):
         return ('%s%s?v=%s' % (STATIC_URL, path_string, mtime,))
     except:
         return path_string
+
+
+@register.filter()
+def phone(value):
+    num = str(value)
+    if len(num) == 7:
+        return '%s - %s' % (num[:3], num[3:])
+    elif len(num) == 10:
+        return '+7 (%s) %s - %s' % (num[:3], num[3:6], num[6:])
+    else:
+        return num

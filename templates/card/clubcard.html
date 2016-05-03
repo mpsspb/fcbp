@@ -1,0 +1,180 @@
+{% load staticfiles %}
+{% load core_extras %}
+{% load client_extras %}
+<!DOCTYPE html>
+<html lang="en" ng-app="fcbp">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Печать{% endblock %}</title>
+    <link href="{% static "bootstrap-3/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "font-awesome-4/css/font-awesome.min.css" %}" rel="stylesheet">
+    <link href="{% static_version "css/style-print.css" %}" rel="stylesheet">
+
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+  <body class="print">
+    <center>
+        <a href="/#/usecardclient/{{ card.id }}" class="no-print btn btn-info" 
+        type="button">
+            <i class="fa fa-credit-card"></i> назад в карту
+        </a>
+        <a href="#btnPrint" class="no-print btn btn-primary " 
+        type="button" id="btnPrint">
+            <i class="fa fa-print"></i> печать
+        </a>
+    </center>
+{% for i in '01' %}
+    <table width="800">
+        <tr>
+            <td colspan="6" align="center"><strong>Дополнительное соглашение к </strong></td>
+        </tr>
+        <tr>
+            <td colspan="6" align="center">
+            Договору об оказании услуг клубом «Красота и  сила» от {{ card.date|date:"d.m.Y" }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" align="left">
+                Санкт-Петербург
+            </td>
+            <td width="40">дата</td>
+            <td width="40"><strong>{% now "d.m.Y" %}</strong></td>
+        </tr>
+        <tr>
+            <td colspan="6" align="justify">
+                «Исполнитель» в лице директора фитнес-клуба «Красота и сила» Труфановой Александры Евгеньевны, действующей на основании доверенности №11/2015 от 01.02.2015 г., выданной индивидуальным предпринимателем Семеновой Галиной Валентиновной, действующей на основании свидетельства о государственной регистрации от 11 декабря 2014 г. №78008973695, с одной стороны и «Член Клуба»
+            </td>
+        </tr>
+    </table>
+    <table class="table-print">
+        <tr>
+            <td width="300"><strong>{{ card.client.last_name }}</strong></td>
+            <td width="200"><strong>{{ card.client.first_name }}</strong></td>
+            <td width="200"><strong>{{ card.client.patronymic }}</strong></td>
+            <td >ЧС</td>
+            <td width="140"><strong>{{ card.client.uid }}</strong></td>
+        </tr>
+        <tr>
+            <td>Дата рождения <strong>{{ card.client.born | date:"d.m.Y" }}</strong></td>
+            <td colspan="2">№ паспорта <strong>{{ card.client.passport|default:"" }}</strong></td>
+            <td>карта</td>
+            <td><strong>{{ card.client.card|default:"" }}</strong></td>
+        </tr>
+    </table>
+
+    <table width="800">
+        <tr>
+            <td>
+                с другой стороны, заключили настоящее дополнительное соглашение к Договору  об оказании услуг клубом «Красота и сила» от 01.02.2015 г. о нижеследующем:
+            </td>
+        </tr><tr>
+            <td>
+            1.  По настоящему дополнительному соглашению Член клуба приобретает пакет услуг:
+            </td>
+        </tr>
+    </table>
+
+    <table class="table-print">
+        <tr>
+            <td width="150">вид карты</td>
+            <td width="150">базовая стоимость</td>
+            <td width="150">кол-во тренировок</td>
+            <td rowspan="2" width="100">Гостевые тренировки</td>
+            <td rowspan="2" width="20">{{ card.club_card.guest_training }}</td>
+            <td colspan="2" width="200">рассрочка платежа</td>
+        </tr>
+        <tr>
+            <td rowspan="2"><strong>{{ card.club_card.name }}</strong></td>
+            <td><strong>{{ card.club_card.price }}</strong></td>
+            <td><strong>{% if card.club_card.max_visit == 99999 %}неограничено
+                        {% else %}{{ card.club_card.max_visit }}{% endif %}
+                </strong>
+            </td>
+            <td>{{ payments.1.0| date:"d.m.Y" }}</td>
+            <td>{{ payments.1.1| default:'' }}</td>
+        </tr>
+        <tr>
+            <td>льгота/бонус/ кредит</td>
+            <td>заморозка</td>
+            <td rowspan="2">персон в трен зале</td>
+            <td rowspan="2">!!!</td>
+            <td>{{ payments.2.0| date:"d.m.Y" }}</td>
+            <td>{{ payments.1.1| default:'' }}</td>
+        </tr>
+        <tr>
+            <td rowspan="3">оплачено, руб<br/>
+                <strong>{{ card | first_paymet }}</strong>
+                <strong>{{ card| first_paymet_date | date:"d.m.Y" }}</strong>
+            </td>
+            <td><strong>{% if card.discount_type %}льгота/{% endif %}
+                        {% if card.bonus_type %}бонус/{% endif %}
+                        {% if card.bonus_type %}льгота/{% endif %}
+                </strong></td>
+            <td><strong>{{ card.club_card.period_freeze }} дней</strong></td>
+            <td>{{ payments.3.0| date:"d.m.Y" }}</td>
+            <td>{{ payments.3.1| default:'' }}</td>
+        </tr>
+        <tr>
+            <td>срок активации</td>
+            <td>кол-во заморозок</td>
+            <td rowspan="2">переоформл. на др. лицо</td>
+            <td rowspan="2">!!!</td>
+            <td colspan="2" rowspan="2">При задержке платежа карта считается недействительной</td>
+        </tr>
+        <tr>
+            <td><strong>{{ card.club_card.period_activation }} дней </strong></td>
+            <td><strong>{{ card.club_card.freeze_times }}</strong></td>
+        </tr>
+    </table>
+
+    <table width="800">
+        <tr>
+            <td>
+                2   Услуга оказывается при предъявления карты. Карта является именной.
+            </td>
+        </tr><tr>
+            <td>
+                3   Продолжительность одной тренировки – 1 час.
+            </td>
+        </tr><tr>
+            <td>
+                4   Карта действует: УБВ – по будням с 8 до 18 и выходным; П - в любое время работы клуба
+            </td>
+        </tr><tr>
+            <td>
+                5   Взаимоотношения  Сторон прекращаются надлежащим выполнением ими обязательств по Договору об оказании услуг клубом «Красота и сила» от {{ card.date|date:"d.m.Y" }} г. в сответствии с видом плаченной услуги.
+            </td>
+        </tr><tr>
+            <td>
+                6   Клиент подтверждает, что перед заключением настоящего дополнительного соглашения к договору об оказании услуг клубом «Красота и сила» от {{ card.date|date:"d.m.Y" }} г., Исполнитель ознакомил его с содержанием Договора об оказании услуг клубом «Красота и сила» от {{ card.date|date:"d.m.Y" }} г. и приложениями к нему, а так же, что их содержание Клиенту понятно.
+            </td>
+        </tr>
+    </table>
+
+<div class="row">
+    <div class="col-md-2"> Исполнитель </div>
+    <div class="col-md-2 col-offset-md-1"> Труфанова А.Е. </div>
+    <div class="col-md-2 col-offset-md-1"> Член клуба </div>
+    <div class="col-md-2 col-offset-md-1"> {{ card.client.initials }} </div>    
+</div>
+<div class="row">
+    <div class="col-md-2"> телефон </div>
+    <div class="col-md-2 col-offset-md-1"> 8 911 979 328 </div>
+    <div class="col-md-2 col-offset-md-1"> телефон </div>
+    <div class="col-md-2 col-offset-md-1"> {{ card.client.mobile| default:'' | phone  }} </div>
+</div>
+{% if i == '0' %}
+<br/>
+<br/>
+{% endif %}
+{% endfor %}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "jquery/jquery-2.1.4.min.js" %}"></script>
+    <script type="text/javascript">
+    $("#btnPrint").click(function() {
+        window.print()
+    });
+    </script>
+  </body>
+</html>
