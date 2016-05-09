@@ -15,7 +15,7 @@
   </head>
   <body class="print">
     <center>
-        <a href="/#/usecardclient/{{ card.id }}" class="no-print btn btn-info" 
+        <a href="/#/cardclient/{{ client.id }}" class="no-print btn btn-info" 
         type="button">
             <i class="fa fa-credit-card"></i> назад в карту
         </a>
@@ -24,6 +24,7 @@
             <i class="fa fa-print"></i> печать
         </a>
     </center>
+{% for i in '12' %}
     <div class="row">
         <div class="col-md-6 text-center"> ЧЛЕНСКОЕ СОГЛАШЕНИЕ (Персональная карта клиента)</div>
     </div>
@@ -54,24 +55,24 @@
             <td colspan="5"><strong>{{ client.passport|default:'' }}</strong></td>
         </tr>
         <tr>
-            <td colspan="3">С условиями Договора на оказание услуг от {{ card.date|date:"d.m.Y" }} г. согласен(а)</td>
+            <td colspan="3">С условиями Договора на оказание услуг от 01.02.2015 г. согласен(а)</td>
             <td colspan="2"></td>
-            <td rowspan="6">{{ client.last_name }}
-            {{ client.first_name }}
+            <td rowspan="6">{{ client.last_name }}<br/>
+            {{ client.first_name }}<br/>
             {{ client.patronymic }}</td>
         </tr>
         <tr>
-            <td colspan="3">С правилами посещения клуба «Красота и сила» согласно Приложению №1 к Договору от {{ card.date|date:"d.m.Y" }} г.ознакомлен(а)
+            <td colspan="3">С правилами посещения клуба «Красота и сила» согласно Приложению №1 к Договору от 01.02.2015 г.ознакомлен(а)
             </td>
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="3">С правилами переоформлений клубных карт, абонементов и клип-карт согласно Приложению №2 к Договору от {{ card.date|date:"d.m.Y" }} г. ознакомлен(а)
+            <td colspan="3">С правилами переоформлений клубных карт, абонементов и клип-карт согласно Приложению №2 к Договору от 01.02.2015 г. ознакомлен(а)
             </td>
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td colspan="3">С правилами возвратов клубных карт, абонементов и клип-карт согласно Приложению №3 к Договору от {{ card.date|date:"d.m.Y" }} г. ознакомлен(а)
+            <td colspan="3">С правилами возвратов клубных карт, абонементов и клип-карт согласно Приложению №3 к Договору от 01.02.2015 г. ознакомлен(а)
             </td>
             <td colspan="2"></td>
         </tr>
@@ -91,6 +92,8 @@
             <td ></td><td colspan="3"></td>
         </tr>
     </table>
+{% if forloop.first %}<br/><br/>{% endif %}
+{% endfor %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "jquery/jquery-2.1.4.min.js" %}"></script>
     <script type="text/javascript">

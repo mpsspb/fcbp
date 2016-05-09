@@ -21,7 +21,7 @@ class ClientResultsSetPagination(PageNumberPagination):
     max_page_size = 10000
 
 
-class ClientViewSet(viewsets.ModelViewSet):
+class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
 
     serializer_class = ClientSerializer
     pagination_class = ClientResultsSetPagination
@@ -47,6 +47,16 @@ class ClientViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(last_name__istartswith=letter)
 
         return queryset
+
+    @detail_route(methods=['get'], )
+    def personal(self, request, pk):
+        """
+        Print personal client card.
+        """
+        client = self.get_object()
+        cont = {'client': client}
+        self.template_name = 'client_personal.html'
+        return TemplateResponseMixin.render_to_response(self, cont)
 
     @list_route(methods=['get'], )
     def online(self, request):
@@ -162,16 +172,6 @@ class ClientClubCardViewSet(viewsets.ModelViewSet, TemplateResponseMixin):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-
-    @detail_route(methods=['get'], )
-    def personal(self, request, pk):
-        """
-        Print personal client card.
-        """
-        card = self.get_object()
-        cont = {'client': card.client, 'card': card}
-        self.template_name = 'card/client.html'
-        return TemplateResponseMixin.render_to_response(self, cont)
 
     @detail_route(methods=['get'], )
     def card(self, request, pk):
