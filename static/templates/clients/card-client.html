@@ -50,9 +50,9 @@
         <div class="modal-body">
           <table class="table">
             <tr>
-              <td>дата</td><td>наименование</td>
-              <td>срок действия</td><td>визитов</td>
-              <td>вход</td>
+              <td>дата продажи</td><td>наименование</td>
+              <td>активирована</td>
+              <td>срок действия</td><td>тренировки</td>
             </tr>
             <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobicsfull_set">
               <td> {{ aqua.date | date:'dd.MM.yyyy' }} </td>
@@ -61,18 +61,9 @@
                   {{ aqua.name }}
                 </span>
               </td>
+              <td>{{ (aqua.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
               <td> {{ aqua.date_end | date:'dd.MM.yyyy' }} </td>
               <td> {{ aqua.rest_visits }} </td>
-            <td ng-switch on="aqua.is_online">
-              <button class="btn btn-block btn-success"
-              ng-click="vm.aquause(aqua.id, 0)" ng-switch-when="0">
-                Вход
-              </button>
-              <button class="btn btn-block btn-danger"
-              ng-click="vm.aquause(aqua.id, 1)" ng-switch-default>
-                Выход
-              </button>
-            </td>
             </tr>
           </table>
         </div>

@@ -345,8 +345,8 @@ class ClientAquaAerobics(models.Model):
     """
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
-    date_begin = models.DateField(blank=True)
-    date_end = models.DateField(blank=True)
+    date_begin = models.DateField(null=True, blank=True)
+    date_end = models.DateField(null=True, blank=True)
     client = models.ForeignKey(Client, )
     aqua_aerobics = models.ForeignKey(AquaAerobics, )
     status = models.SmallIntegerField(default=2, blank=True, )
@@ -367,6 +367,8 @@ class ClientAquaAerobics(models.Model):
 
     @property
     def rest_days(self):
+        if not self.date_end:
+            return None
         rest_days = (self.date_end - date.today()).days
         if rest_days < 1:
             return 0
@@ -432,6 +434,8 @@ class ClientAquaAerobicsFull(models.Model):
 
     @property
     def rest_days(self):
+        if not self.date_end:
+            return None
         rest_days = (self.date_end - date.today()).days
         if rest_days < 1:
             return 0
@@ -639,6 +643,17 @@ class UseClientAquaAerobics(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(blank=True, null=True)
     client_aqua_aerobics = models.ForeignKey(ClientAquaAerobics)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            is_first = UseClientAquaAerobics.objects.filter(
+                client_aqua_aerobics=self.client_aqua_aerobics).count()
+            if is_first == 0:
+                aqua = self.client_aqua_aerobics
+                aqua.date_begin = date.today()
+                aqua.date_end = date_end(date.today(), aqua.aqua_aerobics)
+                aqua.save()
+        super(UseClientAquaAerobics, self).save(*args, **kwargs)
 
 
 class UseClientTicket(models.Model):
