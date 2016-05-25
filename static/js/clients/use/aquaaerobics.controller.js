@@ -9,15 +9,18 @@
     .module('fcbp.clients.controllers')
     .controller('UseClientAquaController', UseClientAquaController);
 
-  UseClientAquaController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', 'AquaAerobics'];
+  UseClientAquaController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', 
+                                     'ClientPayment', 'AquaAerobics'];
 
   /**
   * @namespace UseClientAquaController
   */
-  function UseClientAquaController($location, $rootScope, $routeParams, $scope, AquaAerobics) {
+  function UseClientAquaController($location, $rootScope, $routeParams, $scope, 
+                                   ClientPayment, AquaAerobics) {
     var vm = this;
 
     vm.use = use;
+    vm.payment = payment;
 
     activate();
 
@@ -49,10 +52,16 @@
 
     }
 
-    function use() {
+    function use(out) {
 
       var uid = $routeParams.uid
       var fdata = {client_aqua_aerobics: uid}
+
+      if (out) {
+        AquaAerobics.use_exit(fdata).then(aquaclientSuccessFn, aquaclientErrorFn);
+        return 1
+      }
+
       AquaAerobics.use(fdata).then(aquaclientSuccessFn, aquaclientErrorFn);
 
       /**
@@ -73,6 +82,30 @@
       }
 
     }
+
+    // function for close credit
+    function payment(payment_type, uid) {
+      ClientPayment.close_credit(payment_type, uid)
+                   .then(closeSuccessFn, closeErrorFn);
+
+      /**
+      * @name closeSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function closeSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name closeErrorFn
+      * @desc console log error
+      */
+      function closeErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    };
 
   };
 

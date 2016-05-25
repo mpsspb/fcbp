@@ -169,20 +169,24 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
-    client_name = serializers.CharField(read_only=True)
     useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
                                                                 read_only=True)
+    rest_visits = serializers.IntegerField(read_only=True)
+    is_online = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    client_name = serializers.CharField(read_only=True)
+    rest_days = serializers.IntegerField(read_only=True)
+    client_uid = serializers.IntegerField(read_only=True)
+    client_card = serializers.IntegerField(read_only=True)
+    client_mobile = serializers.IntegerField(read_only=True)
+    credit_set = CreditSerializer(many=True, read_only=True)
+    payment_set = PaymentSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientAquaAerobics
-        fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'useclientaquaaerobics_set',
-                  'rest_days', 'name', 'client', 'rest_visits', 'is_online',
-                  'client_name')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
-        # print data
         data['count'] = 1
         data['status'] = 2
         data['date_start'] = date.today()

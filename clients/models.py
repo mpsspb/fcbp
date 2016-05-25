@@ -12,6 +12,25 @@ from products.models import (ClubCard, AquaAerobics, Ticket, Personal, Timing,
 from employees.models import Employee
 
 
+class GenericProperty(object):
+    """ Generic property need for all services """
+    @property
+    def client_mobile(self):
+        return self.client.mobile
+
+    @property
+    def client_uid(self):
+        return self.client.uid
+
+    @property
+    def client_name(self):
+        return self.client.full_name
+
+    @property
+    def client_card(self):
+        return self.client.card
+
+
 class Client(models.Model):
     """
     Clients data.
@@ -107,7 +126,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
             os.remove(old_file.path)
 
 
-class ClientClubCard(models.Model):
+class ClientClubCard(GenericProperty, models.Model):
     """
     The clients club card,
     history and status.
@@ -146,22 +165,6 @@ class ClientClubCard(models.Model):
             if self.date_end > date.today():
                 self.date_end = date.today()
         super(ClientClubCard, self).save(*args, **kwargs)
-
-    @property
-    def client_name(self):
-        return self.client.full_name
-
-    @property
-    def client_mobile(self):
-        return self.client.mobile
-
-    @property
-    def client_uid(self):
-        return self.client.uid
-
-    @property
-    def client_card(self):
-        return self.client.card
 
     @property
     def name(self):
@@ -334,7 +337,7 @@ class FreezeClubCard(models.Model):
         return self.fdate + timedelta(days=(self.days-1))
 
 
-class ClientAquaAerobics(models.Model):
+class ClientAquaAerobics(GenericProperty, models.Model):
     """
     The clients Aqua Aerobics card,
     history and status.
@@ -349,17 +352,20 @@ class ClientAquaAerobics(models.Model):
     date_end = models.DateField(null=True, blank=True)
     client = models.ForeignKey(Client, )
     aqua_aerobics = models.ForeignKey(AquaAerobics, )
+    discount_type = models.ForeignKey(Discount, blank=True, null=True)
+    discount_amount = models.FloatField(blank=True, null=True)
+    bonus_type = models.ForeignKey(Discount, blank=True, null=True,
+                                   related_name="aqua_bonus_type")
+    bonus_amount = models.FloatField(blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
+    employee = models.ForeignKey(Employee, blank=True, null=True)
+    printed = models.BooleanField(default=False)
     """
     status valid data:
     0 - disabled
     1 - active
     2 - prospect
     """
-
-    @property
-    def client_name(self):
-        return self.client.full_name
 
     @property
     def name(self):

@@ -290,10 +290,9 @@
         }
       }
 
-
+      vm.fdata.discount_amount = vm.fdata.discount
       if (vm.product == 'card') {
         vm.fdata.club_card = vm.fdata.product
-        vm.fdata.discount_amount = vm.fdata.discount
         $http.post('/api/v1/clients/clubcard/', vm.fdata)
              .then(SuccessFn, ErrorFn);
       } else if (vm.product == 'aqua') {

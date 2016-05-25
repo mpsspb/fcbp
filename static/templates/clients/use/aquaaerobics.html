@@ -1,36 +1,101 @@
-<i class="fa fa-life-ring">Аквааэробика
- <strong>{{ vm.aqua.client_name }}</strong></i>
-<table class="table">
-  <tr>
-    <td>дата</td><td>наименование</td>
-    <td>остаток дней</td><td>визитов</td>
-  </tr>
-  <tr>
-    <td> {{ vm.aqua.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ vm.aqua.name }} </td>
-    <td> {{ vm.aqua.rest_days }} </td>
-    <td> {{ vm.aqua.rest_visits }} </td>
-  </tr>
-</table>
-<div class="col-md-3">
-  <a href="#/cardclient/{{ vm.aqua.client }}/" class="btn btn-default pull-left">отмена</a>
-</div> 
-
-<div class="col-md-3">
-  <button ng-click="vm.use()" class="btn btn-block btn-danger">Использовать</button>
+<div class="alert alert-info" role="alert" ng-show="vm.aqua.is_frozen">
+  <strong> Заморожена</strong>
 </div>
 
-<div class="col-md-3">
-  <button  ng-click="showHistory=!showHistory" class="btn btn-block btn-info">История</button>
+<div class="alert alert-info" role="alert" ng-show="!vm.aqua.printed">
+  <strong><a ng-href="api/v1/clients/clubcard/{{vm.aqua.id}}/card/">Печать</a></strong>
 </div>
 
-<table class="table" ng-show="showHistory">
-  <tr>
-    <td>дата</td><td>время</td><td>окончание</td>
-  </tr>
-  <tr ng-repeat="use in vm.aqua.useclientaquaaerobics_set">
-    <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ use.date | date:'HH:mm' }} </td>
-    <td> {{ use.end }} </td>
-  </tr>
-</table>
+<div class="col-md-4"> <!-- start left side bar -->
+  <div class="col-md-12 row-border ">
+    <h4>
+    <i class="fa fa-life-ring">
+    </i> Аквааэробика: {{ vm.aqua.name }} </h4>
+    <h4><u>{{ vm.aqua.client_name }}</u></h4>
+    <h4>ЧС: {{ vm.aqua.client_uid }}</h4>
+    <h4>Карта: {{ vm.aqua.client_card }}</h4>
+    <h4>Тел.: {{ vm.aqua.client_mobile | phone }}</h4>
+  </div>
+
+</div> <!-- end left side bar -->
+
+<div class="col-md-8"> <!-- start main info -->
+  <div class="row col-md-12">
+    <div class="col-md-2" ng-switch on="vm.aqua.is_online">
+      <button class="btn btn-block btn-success"  
+      ng-switch-when="0" ng-click="vm.use(0)">Вход</button>
+      <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
+    </div>
+    <div class="col-md-3">
+      <a href="#/cardclient/{{ vm.aqua.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#BlockCard"
+      >Блокировка </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4"><center>дата</center></div>
+    <div class="col-md-4">время</div>
+    <div class="col-md-4">окончание</div>
+  </div>      
+  <div ng-repeat="use in vm.aqua.useclientaquaaerobics_set">
+      <div class="col-md-4"> {{ use.date | date:'dd.MM.yyyy' }} </div>
+      <div class="col-md-4"> {{ use.date | date:'HH:mm' }} </div>
+      <div class="col-md-4"> {{ use.end | date:'HH:mm' }} </div>
+  </div>
+</div> <!-- end main info -->
+
+<div class="panel panel-default col-md-12"
+ ng-show="vm.aqua.discount_amount || vm.aqua.bonus_amount"> <!-- start bonus info -->
+  <div class="panel-heading"><strong>Бонусы при покупке</strong></div>
+  <span class="col-md-6" ng-show="vm.aqua.discount_amount">
+    <strong>Скидка: {{ vm.aqua.discount_amount }} %</strong>
+  </span>
+  <span class="col-md-6" ng-show="vm.aqua.bonus_amount">
+    <strong>Бонус: {{ vm.aqua.bonus_amount }} руб.</strong>
+  </span>
+</div> <!-- end bonus info -->
+
+<div class="panel panel-info col-md-12"><!-- payment info -->
+  <div class="panel-heading"><strong>Платежи</strong></div>
+  <div class="panel-body">
+    <table class="table">
+      <tr>
+        <td class="col-md-3">Дата(срок) оплаты</td><td class="col-md-3">Сумма</td><td>Вид платежа</td><td></td>
+      </tr>
+      <tr ng-repeat="p in vm.aqua.payment_set">
+        <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+        <td> {{ p.amount }} руб.</td>
+        <td> {{ p.payment_type | payment_type }}</td>
+        <td></td>
+      </tr>
+      <tr ng-repeat="cr in vm.aqua.credit_set">
+        <td> {{ cr.schedule | date:'dd.MM.yyyy' }} </td>
+        <td> {{ cr.amount }} руб.</td>
+        <td>
+          <button class="btn btn-warning btn-sm"
+          ng-click="show_pay_type=!show_pay_type">
+            Оплатить
+          </button>
+        </td>
+        <td>
+          <div ng-show="show_pay_type">
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(1, cr.id)">
+            нал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(2, cr.id)">
+             безнал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(3, cr.id)">
+             банк
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(0, cr.id)">
+             иное
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- end payment info -->
