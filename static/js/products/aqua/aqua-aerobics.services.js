@@ -29,6 +29,7 @@
       use_exit: use_exit,
       active: active,
       active_list: active_list,
+      freeze: freeze,
     };
 
     return AquaAerobics;
@@ -81,8 +82,12 @@
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });
-    }
+    };
 
-  }
+    function freeze(uid, fdata) {
+      return $http.post('/api/v1/clients/aquaaerobics/' + uid + '/freeze/', fdata)
+    };
+
+  };
 
 })();

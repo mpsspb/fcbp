@@ -54,7 +54,8 @@
               <td>активирована</td>
               <td>срок действия</td><td>тренировки</td>
             </tr>
-            <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobicsfull_set">
+            <tr ng-repeat="aqua in vm.cardclient.clientaquaaerobicsfull_set"
+            ng-class="aqua.is_frozen ? 'info' : ''">
               <td> {{ aqua.date | date:'dd.MM.yyyy' }} </td>
               <td> 
                 <span data-href="#/useaquaaerobics/{{ aqua.id }}">

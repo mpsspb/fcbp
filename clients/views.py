@@ -161,9 +161,27 @@ class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
                         status=status.HTTP_202_ACCEPTED)
 
 
-class ClientClubCardViewSet(viewsets.ModelViewSet, TemplateResponseMixin):
-    queryset = ClientClubCard.objects.order_by('-date')
-    serializer_class = ClientClubCardSerializer
+class GenericProduct(object):
+    """ Generic options for client's products."""
+    @detail_route(methods=['post'], )
+    def freeze(self, request, pk):
+        """
+        freeze the card and update the date_end of the card.
+        """
+        data = request.data.copy()
+        obj = self.get_object()
+        data[self.freeze_obj] = obj.pk
+        data['client'] = obj.client.pk
+        serializer = self.serializer_freeze(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            date_end = obj.date_end + timedelta(serializer.data['days'])
+            obj.date_end = date_end
+            obj.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_406_NOT_ACCEPTABLE)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -172,6 +190,14 @@ class ClientClubCardViewSet(viewsets.ModelViewSet, TemplateResponseMixin):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+
+class ClientClubCardViewSet(
+        GenericProduct, viewsets.ModelViewSet, TemplateResponseMixin):
+    queryset = ClientClubCard.objects.order_by('-date')
+    serializer_class = ClientClubCardSerializer
+    serializer_freeze = FreezeClubCardSerializer
+    freeze_obj = 'client_club_card'
 
     @detail_route(methods=['get'], )
     def card(self, request, pk):
@@ -210,26 +236,6 @@ class ClientClubCardViewSet(viewsets.ModelViewSet, TemplateResponseMixin):
             return Response(serializer.errors,
                             status=status.HTTP_406_NOT_ACCEPTABLE)
 
-    @detail_route(methods=['post'], )
-    def freeze(self, request, pk):
-        """
-        freeze the card and update the date_end of the card.
-        """
-        data = request.data.copy()
-        club_card = self.get_object()
-        data['client_club_card'] = club_card.pk
-        data['client'] = club_card.client.pk
-        serializer = FreezeClubCardSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            date_end = club_card.date_end + timedelta(serializer.data['days'])
-            club_card.date_end = date_end
-            club_card.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_406_NOT_ACCEPTABLE)
-
 
 class FitnessClubCardViewSet(viewsets.ModelViewSet):
     queryset = FitnessClubCard.objects.order_by('-date')
@@ -246,9 +252,12 @@ class ProlongationClubCardViewSet(viewsets.ModelViewSet):
     serializer_class = ProlongationClubCardSerializer
 
 
-class ClientAquaAerobicsViewSet(viewsets.ModelViewSet):
+class ClientAquaAerobicsViewSet(
+        GenericProduct, viewsets.ModelViewSet, TemplateResponseMixin):
     queryset = ClientAquaAerobics.objects.order_by('-date')
     serializer_class = ClientAquaAerobicsSerializer
+    serializer_freeze = FreezeAquaSerializer
+    freeze_obj = 'client_aqua'
 
 
 class ClientTicketViewSet(viewsets.ModelViewSet):
@@ -286,9 +295,6 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
             for tr in trainings:
                 ClubCardTrains.objects.create(visit_id=obj.pk,
                                               training_id=tr['id'])
-            ucc = ClientClubCard.objects.get(pk=data['client_club_card'])
-            if ucc.is_frozen:
-                ucc.escape_frozen()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,

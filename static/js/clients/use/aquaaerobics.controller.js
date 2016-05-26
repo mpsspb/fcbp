@@ -19,8 +19,10 @@
                                    ClientPayment, AquaAerobics) {
     var vm = this;
 
+    vm.uid = $routeParams.uid
     vm.use = use;
     vm.payment = payment;
+    vm.freeze = freeze;
 
     activate();
 
@@ -31,8 +33,7 @@
     */
     function activate() {
 
-      var uid = $routeParams.uid
-      AquaAerobics.get(uid).then(aquaclientSuccessFn, aquaclientErrorFn);
+      AquaAerobics.get(vm.uid).then(aquaclientSuccessFn, aquaclientErrorFn);
 
       /**
       * @name aquaclientSuccessFn
@@ -50,12 +51,21 @@
         console.log(data);
       }
 
+      // freeze data
+      vm.frdata = {
+        days: 1,
+        amount: 0.0,
+        is_paid: false,
+        client_aqua: vm.uid,
+        fdate: moment().format('DD.MM.YYYY'),
+        is_credit: false
+      }
+
     }
 
     function use(out) {
 
-      var uid = $routeParams.uid
-      var fdata = {client_aqua_aerobics: uid}
+      var fdata = {client_aqua_aerobics: vm.uid}
 
       if (out) {
         AquaAerobics.use_exit(fdata).then(aquaclientSuccessFn, aquaclientErrorFn);
@@ -81,7 +91,36 @@
         console.log(data);
       }
 
-    }
+    };
+
+    function freeze() {
+
+      if ( vm.frdata.is_credit ) {
+        var credit_date = moment().add(1, 'days').startOf('day').format('DD.MM.YYYY');
+        vm.frdata.schedule = credit_date;
+        vm.frdata.discount = 0;
+        vm.frdata.count = 1;
+      }
+
+      AquaAerobics.freeze(vm.uid, vm.frdata).then(freezeSuccessFn, freezeErrorFn);
+
+      /**
+      * @name freezeSuccessFn
+      * @desc Update AquaAerobics array on view
+      */
+      function freezeSuccessFn(data, status, headers, config) {
+        console.log(data);
+        activate();
+      }
+
+      /**
+      * @name freezeErrorFn
+      * @desc console log error
+      */
+      function freezeErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
 
     // function for close credit
     function payment(payment_type, uid) {

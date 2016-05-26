@@ -30,6 +30,19 @@ class GenericProperty(object):
     def client_card(self):
         return self.client.card
 
+    def escape_frozen(self):
+        freeze_model = eval(self.freeze_class)
+        filtr = {freeze_model.product: self, 'fdate__lte': date.today()}
+        freezes = freeze_model.objects.filter(**filtr)
+        for f in freezes:
+            if f.tdate >= date.today():
+                days_freeze = (date.today() - f.fdate).days
+                days_back = (f.tdate - date.today()).days + 1
+                self.date_end = self.date_end - timedelta(days_back)
+                self.save()
+                f.days = days_freeze
+                f.save()
+
 
 class Client(models.Model):
     """
@@ -135,6 +148,7 @@ class ClientClubCard(GenericProperty, models.Model):
     Date begin - is start of using the card.
 
     """
+    freeze_class = 'FreezeClubCard'
 
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
@@ -248,20 +262,6 @@ class ClientClubCard(GenericProperty, models.Model):
 
         return False
 
-    def escape_frozen(self):
-        freezes = FreezeClubCard.objects\
-                                .filter(client_club_card=self,
-                                        fdate__lte=date.today())
-        for f in freezes:
-            if f.tdate >= date.today():
-                days_freeze = (date.today() - f.fdate).days
-                if not f.is_paid:
-                    days_back = (f.tdate - date.today()).days + 1
-                    self.date_end = self.date_end - timedelta(days_back)
-                    self.save()
-                f.days = days_freeze
-                f.save()
-
 
 class ProlongationClubCard(models.Model):
     """
@@ -325,6 +325,8 @@ class FreezeClubCard(models.Model):
     """
     Freeze club card.
     """
+    product = 'client_club_card'
+
     date = models.DateTimeField(auto_now_add=True)
     client_club_card = models.ForeignKey(ClientClubCard)
     fdate = models.DateField()
@@ -346,6 +348,9 @@ class ClientAquaAerobics(GenericProperty, models.Model):
     Date begin - is start of using the card.
 
     """
+
+    freeze_class = 'FreezeAqua'
+
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
     date_begin = models.DateField(null=True, blank=True)
@@ -392,6 +397,34 @@ class ClientAquaAerobics(GenericProperty, models.Model):
     def is_online(self):
         return UseClientAquaAerobics.objects.filter(client_aqua_aerobics=self,
                                                     end__isnull=True).count()
+
+    @property
+    def is_frozen(self):
+        freezes = FreezeAqua.objects\
+                            .filter(client_aqua=self,
+                                    fdate__lte=date.today())
+        for f in freezes:
+            if f.tdate >= date.today():
+                return True
+        return False
+
+
+class FreezeAqua(models.Model):
+    """
+    Freeze club card.
+    """
+    product = 'client_aqua'
+
+    date = models.DateTimeField(auto_now_add=True)
+    client_aqua = models.ForeignKey(ClientAquaAerobics)
+    fdate = models.DateField()
+    days = models.SmallIntegerField()
+    is_paid = models.BooleanField(default=False)
+    amount = models.IntegerField(blank=True, null=True)
+
+    @property
+    def tdate(self):
+        return self.fdate + timedelta(days=(self.days-1))
 
 
 class AquaAerobicsClients(models.Model):
@@ -459,6 +492,16 @@ class ClientAquaAerobicsFull(models.Model):
     def is_online(self):
         return UseClientAquaAerobics.objects.filter(client_aqua_aerobics=self,
                                                     end__isnull=True).count()
+
+    @property
+    def is_frozen(self):
+        freezes = FreezeAqua.objects\
+                            .filter(client_aqua=self,
+                                    fdate__lte=date.today())
+        for f in freezes:
+            if f.tdate >= date.today():
+                return True
+        return False
 
 
 class ClientTicket(models.Model):
@@ -628,6 +671,8 @@ class UseClientClubCard(models.Model):
                 cc.date_begin = date.today()
                 cc.date_end = date_end(date.today(), cc.club_card)
                 cc.save()
+            if self.client_club_card.is_frozen:
+                self.client_club_card.escape_frozen()
         super(UseClientClubCard, self).save(*args, **kwargs)
 
 
@@ -659,6 +704,8 @@ class UseClientAquaAerobics(models.Model):
                 aqua.date_begin = date.today()
                 aqua.date_end = date_end(date.today(), aqua.aqua_aerobics)
                 aqua.save()
+            if self.client_aqua_aerobics.is_frozen:
+                self.client_aqua_aerobics.escape_frozen()
         super(UseClientAquaAerobics, self).save(*args, **kwargs)
 
 

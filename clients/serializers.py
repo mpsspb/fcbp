@@ -168,11 +168,19 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         return club_card
 
 
+class FreezeAquaSerializer(serializers.ModelSerializer):
+    tdate = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FreezeAqua
+
+
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
                                                                 read_only=True)
     rest_visits = serializers.IntegerField(read_only=True)
     is_online = serializers.IntegerField(read_only=True)
+    is_frozen = serializers.BooleanField(read_only=True)
     name = serializers.CharField(read_only=True)
     client_name = serializers.CharField(read_only=True)
     rest_days = serializers.IntegerField(read_only=True)
@@ -181,6 +189,7 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     client_mobile = serializers.IntegerField(read_only=True)
     credit_set = CreditSerializer(many=True, read_only=True)
     payment_set = PaymentSerializer(many=True, read_only=True)
+    freezeaqua_set = FreezeAquaSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientAquaAerobics
@@ -229,7 +238,8 @@ class ClientAquaAerobicsFullSerializer(serializers.ModelSerializer):
         model = ClientAquaAerobicsFull
         fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'useclientaquaaerobics_set',
-                  'rest_days', 'name', 'client', 'rest_visits', 'is_online')
+                  'rest_days', 'name', 'client', 'rest_visits', 'is_online',
+                  'is_frozen')
 
 
 class ClientTicketSerializer(serializers.ModelSerializer):
