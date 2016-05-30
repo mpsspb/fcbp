@@ -9,13 +9,13 @@
     .module('fcbp.clients.controllers')
     .controller('UseClientAquaController', UseClientAquaController);
 
-  UseClientAquaController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', 
-                                     'ClientPayment', 'AquaAerobics'];
+  UseClientAquaController.$inject = ['$location', '$rootScope', '$routeParams', '$scope',
+                                     '$http', 'ClientPayment', 'AquaAerobics'];
 
   /**
   * @namespace UseClientAquaController
   */
-  function UseClientAquaController($location, $rootScope, $routeParams, $scope, 
+  function UseClientAquaController($location, $rootScope, $routeParams, $scope, $http,
                                    ClientPayment, AquaAerobics) {
     var vm = this;
 
@@ -23,6 +23,7 @@
     vm.use = use;
     vm.payment = payment;
     vm.freeze = freeze;
+    vm.paid_activate = paid_activate;
 
     activate();
 
@@ -60,7 +61,11 @@
         fdate: moment().format('DD.MM.YYYY'),
         is_credit: false
       }
-
+      //  paid activate data
+      vm.padata = {
+        is_paid_activate: true,
+        paid_activate_amount: 0,
+      }
     }
 
     function use(out) {
@@ -118,6 +123,29 @@
       * @desc console log error
       */
       function freezeErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
+    function paid_activate() {
+
+      $http.put('/api/v1/clients/aquaaerobics/' + vm.uid + '/', vm.padata
+                ).then(paid_activateSuccessFn, paid_activateErrorFn);
+
+      /**
+      * @name paid_activateSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function paid_activateSuccessFn(data, status, headers, config) {
+        console.log(data);
+        activate();
+      }
+
+      /**
+      * @name paid_activateErrorFn
+      * @desc console log error
+      */
+      function paid_activateErrorFn(data, status, headers, config) {
         console.log(data);
       }
     };

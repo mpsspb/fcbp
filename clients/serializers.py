@@ -192,6 +192,7 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     freezeaqua_set = FreezeAquaSerializer(many=True, read_only=True)
 
     class Meta:
+        list_serializer_class = ActiveListSerializer
         model = ClientAquaAerobics
 
     def create(self, validated_data,):
@@ -235,6 +236,7 @@ class ClientAquaAerobicsFullSerializer(serializers.ModelSerializer):
                                                                 read_only=True)
 
     class Meta:
+        list_serializer_class = ActiveListSerializer
         model = ClientAquaAerobicsFull
         fields = ('id', 'aqua_aerobics', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'useclientaquaaerobics_set',

@@ -362,9 +362,11 @@ class ClientAquaAerobics(GenericProperty, models.Model):
     bonus_type = models.ForeignKey(Discount, blank=True, null=True,
                                    related_name="aqua_bonus_type")
     bonus_amount = models.FloatField(blank=True, null=True)
-    status = models.SmallIntegerField(default=2, blank=True, )
     employee = models.ForeignKey(Employee, blank=True, null=True)
     printed = models.BooleanField(default=False)
+    is_paid_activate = models.BooleanField(default=False)
+    paid_activate_amount = models.IntegerField(blank=True, null=True)
+    status = models.SmallIntegerField(default=2, blank=True, )
     """
     status valid data:
     0 - disabled

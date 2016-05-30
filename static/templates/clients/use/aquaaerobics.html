@@ -53,6 +53,37 @@
 </div>
 <!-- end modal Frost -->
 
+
+<!-- Modal PaidActivate -->
+<div class="modal fade" id="PaidActivate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Платная активация </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.padata.paid_activate_amount">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right"
+        data-dismiss="modal" ng-click="vm.paid_activate()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal PaidActivate -->
+
 <div class="alert alert-info" role="alert" ng-show="vm.aqua.is_frozen">
   <strong> Заморожена</strong>
 </div>
@@ -85,7 +116,6 @@
        data-toggle="modal" data-target="#PaidActivate"
        ng-show="!vm.aqua.is_paid_activate"> Платная активация </button>
       </div>
-
     </h4>    
   </div>
 
