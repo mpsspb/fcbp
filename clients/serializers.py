@@ -88,15 +88,9 @@ class PersonalClubCardSerializer(serializers.ModelSerializer):
 
 
 class ProlongationClubCardSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ProlongationClubCard
-
-    def create(self, validated_data,):
-        data = self.context['request'].data.copy()
-        cc = ClientClubCard.objects.get(pk=data['client_club_card'])
-        cc.date_end = cc.date_end + timedelta(data['days'])
-        cc.save()
-        return ProlongationClubCard.objects.create(**validated_data)
 
 
 class ActiveListSerializer(serializers.ListSerializer):
@@ -175,6 +169,12 @@ class FreezeAquaSerializer(serializers.ModelSerializer):
         model = FreezeAqua
 
 
+class ProlongationAquaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProlongationAqua
+
+
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
                                                                 read_only=True)
@@ -190,6 +190,8 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     credit_set = CreditSerializer(many=True, read_only=True)
     payment_set = PaymentSerializer(many=True, read_only=True)
     freezeaqua_set = FreezeAquaSerializer(many=True, read_only=True)
+    prolongationaqua_set = ProlongationAquaSerializer(
+        many=True, read_only=True)
 
     class Meta:
         list_serializer_class = ActiveListSerializer

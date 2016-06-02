@@ -25,6 +25,7 @@ router.register(r'usetiming', UseClientTimingViewSet, 'UseClientTiming')
 router.register(r'personalclubcard', PersonalClubCardViewSet, 'PClubCard')
 router.register(r'fitness', FitnessClubCardViewSet, 'FitnessClubCard')
 router.register(r'prolongation', ProlongationClubCardViewSet, 'prolongation')
+router.register(r'aquaprolongation', ProlongationAquaViewSet, 'aquaprolongation')
 
 router.register(r'advanced_search', ClientSearchViewSet, 'advanced_search')
 

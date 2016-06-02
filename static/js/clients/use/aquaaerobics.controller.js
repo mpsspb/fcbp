@@ -23,6 +23,7 @@
     vm.use = use;
     vm.payment = payment;
     vm.freeze = freeze;
+    vm.prolongation = prolongation;
     vm.paid_activate = paid_activate;
 
     activate();
@@ -65,6 +66,15 @@
       vm.padata = {
         is_paid_activate: true,
         paid_activate_amount: 0,
+      }
+      // forms prolongation data
+      var now = moment().format('DD.MM.YYYY HH:mm')
+      vm.prdata = {
+        days: 1,
+        amount: 0.0,
+        is_paid: false,
+        client_aqua: vm.uid,
+        date: now
       }
     }
 
@@ -127,6 +137,34 @@
       }
     };
 
+    function prolongation() {
+      AquaAerobics.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
+
+      /**
+      * @name prolongationSuccessFn
+      * @desc Update AquaAerobics array on view
+      */
+      function prolongationSuccessFn(data, status, headers, config) {
+        console.log(data);
+        vm.prdata = {
+          days: 1,
+          amount: 0.0,
+          is_paid: false,
+          client_aqua: vm.uid
+        }
+        activate();
+      }
+
+      /**
+      * @name prolongationErrorFn
+      * @desc console log error
+      */
+      function prolongationErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
     function paid_activate() {
 
       $http.put('/api/v1/clients/aquaaerobics/' + vm.uid + '/', vm.padata
@@ -134,7 +172,7 @@
 
       /**
       * @name paid_activateSuccessFn
-      * @desc Update ClubCard array on view
+      * @desc Update AquaAerobics array on view
       */
       function paid_activateSuccessFn(data, status, headers, config) {
         console.log(data);
@@ -157,7 +195,7 @@
 
       /**
       * @name closeSuccessFn
-      * @desc Update ClubCard array on view
+      * @desc Update AquaAerobics array on view
       */
       function closeSuccessFn(data, status, headers, config) {
         console.log('success')

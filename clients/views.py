@@ -247,6 +247,11 @@ class PersonalClubCardViewSet(viewsets.ModelViewSet):
     serializer_class = PersonalClubCardSerializer
 
 
+class ProlongationAquaViewSet(viewsets.ModelViewSet):
+    queryset = ProlongationAqua.objects.order_by('-date')
+    serializer_class = ProlongationAquaSerializer
+
+
 class ProlongationClubCardViewSet(viewsets.ModelViewSet):
     queryset = ProlongationClubCard.objects.order_by('-date')
     serializer_class = ProlongationClubCardSerializer

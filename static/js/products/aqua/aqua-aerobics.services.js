@@ -30,6 +30,7 @@
       active: active,
       active_list: active_list,
       freeze: freeze,
+      prolongation: prolongation,
     };
 
     return AquaAerobics;
@@ -86,6 +87,13 @@
 
     function freeze(uid, fdata) {
       return $http.post('/api/v1/clients/aquaaerobics/' + uid + '/freeze/', fdata)
+    };
+
+    function prolongation(fdata) {
+      return $http.post('/api/v1/clients/aquaprolongation/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
     };
 
   };

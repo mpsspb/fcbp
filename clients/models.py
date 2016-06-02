@@ -12,6 +12,15 @@ from products.models import (ClubCard, AquaAerobics, Ticket, Personal, Timing,
 from employees.models import Employee
 
 
+class GenericProlongation(object):
+
+    def parent_upd(self, *args, **kwargs):
+        days = self.days
+        parent = self.parent
+        parent.date_end = parent.date_end + timedelta(days)
+        parent.save()
+
+
 class GenericProperty(object):
     """ Generic property need for all services """
     @property
@@ -263,7 +272,7 @@ class ClientClubCard(GenericProperty, models.Model):
         return False
 
 
-class ProlongationClubCard(models.Model):
+class ProlongationClubCard(GenericProlongation, models.Model):
     """
     Prolongation for the Client Club Card.
     """
@@ -272,6 +281,15 @@ class ProlongationClubCard(models.Model):
     days = models.SmallIntegerField()
     amount = models.DecimalField(max_digits=15, decimal_places=2,)
     is_paid = models.BooleanField(default=False)
+
+    @property
+    def parent(self):
+        return self.client_club_card
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.parent_upd(self,)
+        super(ProlongationClubCard, self).save(*args, **kwargs)
 
 
 class GuestClubCard(models.Model):
@@ -427,6 +445,26 @@ class FreezeAqua(models.Model):
     @property
     def tdate(self):
         return self.fdate + timedelta(days=(self.days-1))
+
+
+class ProlongationAqua(GenericProlongation, models.Model):
+    """
+    Prolongation for the Client Club Card.
+    """
+    date = models.DateTimeField()
+    client_aqua = models.ForeignKey(ClientAquaAerobics)
+    days = models.SmallIntegerField()
+    amount = models.DecimalField(max_digits=15, decimal_places=2,)
+    is_paid = models.BooleanField(default=False)
+
+    @property
+    def parent(self):
+        return self.client_aqua
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.parent_upd(self,)
+        super(ProlongationAqua, self).save(*args, **kwargs)
 
 
 class AquaAerobicsClients(models.Model):
