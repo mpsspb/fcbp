@@ -38,3 +38,31 @@
 </table>
 </div>
 <!-- end ClubCard -->
+
+<!-- AquaAerobics -->
+<div class="panel panel-info col-md-12">
+  <div class="panel-heading"><strong>Аквааэробика</strong></div>
+<table class="table">
+  <tr>
+    <td>дата продажи</td><td>наименование</td>
+    <td>активирована</td><td>срок действия</td>
+    <td>тренировки</td><td>комментарий</td>
+  </tr>
+  <tr ng-repeat="aqua in vm.aqua_set">
+    <td >
+      {{ aqua.date | date:'dd.MM.yyyy' }}</td>
+    <td>
+      <strong><a href="#/archive/aquaaerobics/{{ aqua.id }}">
+        {{ aqua.name }}
+      </a></strong>
+    </td>
+    <td> {{ (aqua.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
+    <td> {{ aqua.date_end | date:'dd.MM.yyyy' }}</td>
+    <td> {{ aqua.rest_visits }} </td>
+    <td> <i class="fa fa-2x fa-info-circle text-yellow cursor-pointer" aria-hidden="true" 
+    ng-show="aqua.block_comment" title="{{ aqua.block_comment }}"></i>
+    </td>
+  </tr>
+</table>
+</div>
+<!-- end AquaAerobics -->

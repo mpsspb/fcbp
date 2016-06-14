@@ -31,6 +31,7 @@
       active_list: active_list,
       freeze: freeze,
       prolongation: prolongation,
+      archive_client_list: archive_client_list,
     };
 
     return AquaAerobics;
@@ -94,6 +95,10 @@
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });
+    };
+
+    function archive_client_list(uid) {
+      return $http.get('/api/v1/clients/archive/aquaaerobics/'+ uid + '/client/')
     };
 
   };

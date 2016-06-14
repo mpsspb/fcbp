@@ -224,9 +224,26 @@
       <a href="#/cardclient/{{ vm.aqua.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
     </div>
     <div class="col-md-3">
-      <button class="btn btn-block btn-warning" data-toggle="modal" data-target="#BlockCard"
-      >Блокировка </button>
+      <button class="btn btn-block btn-warning" ng-click="vm.show_block=!vm.show_block">Блокировка </button>
     </div>
+<!-- Modal block the card -->
+  <div class="row col-md-12" ng-show="vm.show_block">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-3"> Комментарий: </label>
+          <input class="col-md-6 sinput" ng-model="vm.ardata.block_comment" placeholder="Не менее 8 символов">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left"
+         ng-click="vm.show_block=!vm.show_block">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" ng-click="vm.to_archive()"
+         ng-disabled="vm.ardata.block_comment.length < 8">
+          Применить
+        </button>
+      </div>
+  </div>
+<!-- end block the card -->
   </div>
   <div class="row">
     <div class="col-md-4"><center>дата</center></div>

@@ -25,6 +25,7 @@
     vm.freeze = freeze;
     vm.prolongation = prolongation;
     vm.paid_activate = paid_activate;
+    vm.to_archive = to_archive;
 
     activate();
 
@@ -76,6 +77,11 @@
         client_aqua: vm.uid,
         date: now
       }
+      //  to archive data
+      vm.ardata = {
+        status: 0,
+        block_comment: ''
+      }
     }
 
     function use(out) {
@@ -106,6 +112,28 @@
         console.log(data);
       }
 
+    };
+
+
+    function to_archive() {
+
+      $http.put('/api/v1/clients/aquaaerobics/' + vm.uid + '/', vm.ardata
+                ).then(to_archiveSuccessFn, to_archiveErrorFn);
+
+      /**
+      * @name to_archiveSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function to_archiveSuccessFn(data, status, headers, config) {
+        window.location = '/#/archive/aquaaerobics/' + vm.uid
+      }
+      /**
+      * @name to_archiveErrorFn
+      * @desc console log error
+      */
+      function to_archiveErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
     };
 
     function freeze() {
@@ -175,7 +203,7 @@
       * @desc Update AquaAerobics array on view
       */
       function paid_activateSuccessFn(data, status, headers, config) {
-        console.log(data);
+        window.location = '#/archive/aquaaerobics/' + vm.uid + '/';
         activate();
       }
 

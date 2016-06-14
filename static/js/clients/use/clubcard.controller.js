@@ -364,7 +364,6 @@
     };
 
     function to_archive() {
-
       $http.put('/api/v1/clients/clubcard/' + vm.uid + '/', vm.ardata
                 ).then(to_archiveSuccessFn, to_archiveErrorFn);
 
@@ -373,8 +372,7 @@
       * @desc Update ClubCard array on view
       */
       function to_archiveSuccessFn(data, status, headers, config) {
-        console.log(data);
-        activate();
+        window.location = '/#/archive/clubcard/' + vm.uid
       }
 
       /**

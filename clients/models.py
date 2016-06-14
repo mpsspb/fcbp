@@ -384,6 +384,7 @@ class ClientAquaAerobics(GenericProperty, models.Model):
     printed = models.BooleanField(default=False)
     is_paid_activate = models.BooleanField(default=False)
     paid_activate_amount = models.IntegerField(blank=True, null=True)
+    block_comment = models.CharField(max_length=150, blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     """
     status valid data:

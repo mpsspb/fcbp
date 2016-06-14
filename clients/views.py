@@ -264,6 +264,28 @@ class ClientAquaAerobicsViewSet(
     serializer_freeze = FreezeAquaSerializer
     freeze_obj = 'client_aqua'
 
+    @detail_route(methods=['get'], )
+    def card(self, request, pk):
+        """
+        Print form of the card.
+        """
+        aqua = self.get_object()
+        pre_payments = []
+        for p in aqua.payment_set.all().order_by('date'):
+            pre_payments.append((p.date, p.amount))
+        for cr in aqua.credit_set.all().order_by('schedule'):
+            pre_payments.append((cr.schedule, cr.amount))
+        # rebuild payments to four elements
+        payments = []
+        for k, v in map(None, pre_payments, '*'*4):
+            if k is not None:
+                payments.append(k)
+            else:
+                payments.append((None, None))
+        cont = {'aqua': aqua, 'payments': payments}
+        self.template_name = 'card/aqua.html'
+        return TemplateResponseMixin.render_to_response(self, cont)
+
 
 class ClientTicketViewSet(viewsets.ModelViewSet):
     queryset = ClientTicket.objects.order_by('-date')

@@ -1,0 +1,131 @@
+
+<div class="col-md-4"> <!-- start left side bar -->
+  <div class="col-md-12 row-border ">
+    <h4>
+    <i class="fa fa-life-ring">
+    </i> Аквааэробика: {{ vm.aqua.name }} </h4>
+    <h4><u>{{ vm.aqua.client_name }}</u></h4>
+    <h4>ЧС: {{ vm.aqua.client_uid }}</h4>
+    <h4>Карта: {{ vm.aqua.client_card }}</h4>
+    <h4>Тел.: {{ vm.aqua.client_mobile | phone }}</h4>
+  </div>
+
+  <div class="row-border col-md-12">
+    <h4>
+      <div ng-if="vm.aqua.date_begin">
+      c {{ vm.aqua.date_begin | date:'dd.MM.yyyy' }}
+      по {{ vm.aqua.date_end | date:'dd.MM.yyyy' }}
+      </div>
+    </h4>    
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Заморозка</strong></div>
+    <div class="panel-body">
+      <div class="row" ng-show="vm.aqua.freezeclubcard_set.length">
+        <div class="col-md-4">С</div>
+        <div class="col-md-4">ПО</div>
+        <div class="col-md-4">Дней</div>
+      </div>
+      <div class="row" ng-repeat="freez in vm.aqua.freezeaqua_set"
+       ng-click="collapsed=!collapsed"
+       ng-class="freez.is_paid ? 'bg-danger cursor-pointer' : ''">
+        <div class="col-md-4"> {{ freez.fdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.tdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.days }} </div>
+        <div ng-show="collapsed && freez.is_paid" class="bg-info col-md-12">
+          <div class="col-md-8"> купил: {{ freez.date | date:'dd.MM.yyyy'}} </div>
+          <div class="col-md-4"> {{ freez.amount }} руб.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Продление</strong></div>
+    <div class="panel-body">
+      <table class="table" ng-show="vm.aqua.prolongationaqua_set.length">
+        <tr>
+          <td>С</td><td>Дней</td>
+        </tr>
+        <tr ng-repeat="p in vm.aqua.prolongationaqua_set">
+          <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ p.days }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div> <!-- end left side bar -->
+
+<div class="col-md-8"> <!-- start main info -->
+  <div class="row col-md-12">
+    <div class="col-md-3">
+      <a href="#/cardclient/{{ vm.aqua.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4"><center>дата</center></div>
+    <div class="col-md-4">время</div>
+    <div class="col-md-4">окончание</div>
+  </div>      
+  <div ng-repeat="use in vm.aqua.useclientaquaaerobics_set">
+      <div class="col-md-4"> {{ use.date | date:'dd.MM.yyyy' }} </div>
+      <div class="col-md-4"> {{ use.date | date:'HH:mm' }} </div>
+      <div class="col-md-4"> {{ use.end | date:'HH:mm' }} </div>
+  </div>
+</div> <!-- end main info -->
+
+<div class="panel panel-default col-md-12"
+ ng-show="vm.aqua.discount_amount || vm.aqua.bonus_amount"> <!-- start bonus info -->
+  <div class="panel-heading"><strong>Бонусы при покупке</strong></div>
+  <span class="col-md-6" ng-show="vm.aqua.discount_amount">
+    <strong>Скидка: {{ vm.aqua.discount_amount }} %</strong>
+  </span>
+  <span class="col-md-6" ng-show="vm.aqua.bonus_amount">
+    <strong>Бонус: {{ vm.aqua.bonus_amount }} руб.</strong>
+  </span>
+</div> <!-- end bonus info -->
+
+<div class="panel panel-info col-md-12"><!-- payment info -->
+  <div class="panel-heading"><strong>Платежи</strong></div>
+  <div class="panel-body">
+    <table class="table">
+      <tr>
+        <td class="col-md-3">Дата(срок) оплаты</td><td class="col-md-3">Сумма</td><td>Вид платежа</td><td></td>
+      </tr>
+      <tr ng-repeat="p in vm.aqua.payment_set">
+        <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+        <td> {{ p.amount }} руб.</td>
+        <td> {{ p.payment_type | payment_type }}</td>
+        <td></td>
+      </tr>
+      <tr ng-repeat="cr in vm.aqua.credit_set">
+        <td> {{ cr.schedule | date:'dd.MM.yyyy' }} </td>
+        <td> {{ cr.amount }} руб.</td>
+        <td>
+          <button class="btn btn-warning btn-sm"
+          ng-click="show_pay_type=!show_pay_type">
+            Оплатить
+          </button>
+        </td>
+        <td>
+          <div ng-show="show_pay_type">
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(1, cr.id)">
+            нал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(2, cr.id)">
+             безнал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(3, cr.id)">
+             банк
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(0, cr.id)">
+             иное
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- end payment info -->

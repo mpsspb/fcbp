@@ -44,7 +44,7 @@ class ArchiveListSerializer(serializers.ListSerializer):
     Archive/disabled objects.
     """
     def to_representation(self, data):
-        data = data.filter(status=False)
+        data = data.filter(status=0)
         return super(ArchiveListSerializer, self).to_representation(data)
 
 
@@ -72,3 +72,39 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     class Meta:
         list_serializer_class = ArchiveListSerializer
         model = ClientClubCard
+
+
+class FreezeAquaSerializer(serializers.ModelSerializer):
+    tdate = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FreezeAqua
+
+
+class ProlongationAquaSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProlongationAqua
+
+
+class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
+    useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
+                                                                read_only=True)
+    rest_visits = serializers.IntegerField(read_only=True)
+    is_online = serializers.IntegerField(read_only=True)
+    is_frozen = serializers.BooleanField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    client_name = serializers.CharField(read_only=True)
+    rest_days = serializers.IntegerField(read_only=True)
+    client_uid = serializers.IntegerField(read_only=True)
+    client_card = serializers.IntegerField(read_only=True)
+    client_mobile = serializers.IntegerField(read_only=True)
+    credit_set = CreditSerializer(many=True, read_only=True)
+    payment_set = PaymentSerializer(many=True, read_only=True)
+    freezeaqua_set = FreezeAquaSerializer(many=True, read_only=True)
+    prolongationaqua_set = ProlongationAquaSerializer(
+        many=True, read_only=True)
+
+    class Meta:
+        list_serializer_class = ArchiveListSerializer
+        model = ClientAquaAerobics

@@ -23,6 +23,10 @@
       controller: 'UseClientCardController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/archive/clubcard.html'
+    }).when('/archive/aquaaerobics/:uid', {
+      controller: 'UseClientAquaController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/archive/aquaaerobics.html'
     })
   }
 })();

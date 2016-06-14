@@ -10,13 +10,13 @@
     .controller('ArchiveController', ArchiveController);
 
   ArchiveController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', 'Clients',
-                               'ClubCard', ];
+                               'ClubCard', 'AquaAerobics'];
 
   /**
   * @namespace ArchiveController
   */
   function ArchiveController($location, $rootScope, $routeParams, $scope, Clients,
-                             ClubCard) {
+                             ClubCard, AquaAerobics) {
     var vm = this;
 
     activate();
@@ -62,6 +62,25 @@
       * @desc console log error
       */
       function cardclientErrorFn(data, status, headers, config) {
+        console.log(data);
+      };
+
+
+      AquaAerobics.archive_client_list(uid).then(aquaSuccessFn, aquaErrorFn);
+
+      /**
+      * @name aquaSuccessFn
+      * @desc Update AquaAerobics array on view
+      */
+      function aquaSuccessFn(data, status, headers, config) {
+        vm.aqua_set = data.data;
+      }
+
+      /**
+      * @name aquaErrorFn
+      * @desc console log error
+      */
+      function aquaErrorFn(data, status, headers, config) {
         console.log(data);
       }
 
