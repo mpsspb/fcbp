@@ -26,6 +26,7 @@
       get: get,
       use: use,
       use_exit: use_exit,
+      freeze: freeze,
       active: active,
       active_list: active_list,
 };
@@ -76,7 +77,11 @@
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });
-    }
+    };
+
+    function freeze(uid, fdata) {
+      return $http.post('/api/v1/clients/ticket/' + uid + '/freeze/', fdata)
+    };
 
   }
 

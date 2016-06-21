@@ -431,9 +431,7 @@ class ClientAquaAerobics(GenericProperty, models.Model):
 
 
 class FreezeAqua(models.Model):
-    """
-    Freeze club card.
-    """
+    """Freeze aqua aerobics."""
     product = 'client_aqua'
 
     date = models.DateTimeField(auto_now_add=True)
@@ -545,22 +543,26 @@ class ClientAquaAerobicsFull(models.Model):
         return False
 
 
-class ClientTicket(models.Model):
+class ClientTicket(GenericProperty, models.Model):
     """
     The clients tickets,
     history and status.
 
     Date start - the date for the start period of activation.
     Date begin - is start of using the card.
-
     """
+
+    freeze_class = 'FreezeTicket'
+
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
-    date_begin = models.DateField(blank=True)
-    date_end = models.DateField(blank=True)
+    date_begin = models.DateField(null=True, blank=True)
+    date_end = models.DateField(null=True, blank=True)
     client = models.ForeignKey(Client, )
     ticket = models.ForeignKey(Ticket, )
     status = models.SmallIntegerField(default=2, blank=True, )
+    printed = models.BooleanField(default=False)
+    block_comment = models.CharField(max_length=150, blank=True, null=True)
     """
     status valid data:
     0 - disabled
@@ -575,6 +577,16 @@ class ClientTicket(models.Model):
     @property
     def name(self):
         return self.ticket.name
+
+    @property
+    def is_frozen(self):
+        freezes = FreezeTicket.objects\
+                            .filter(client_ticket=self,
+                                    fdate__lte=date.today())
+        for f in freezes:
+            if f.tdate >= date.today():
+                return True
+        return False
 
     @property
     def rest_days(self):
@@ -594,6 +606,42 @@ class ClientTicket(models.Model):
     def is_online(self):
         return UseClientTicket.objects.filter(client_ticket=self,
                                               end__isnull=True).count()
+
+
+class FreezeTicket(models.Model):
+    """Freeze ticket."""
+    product = 'client_ticket'
+
+    date = models.DateTimeField(auto_now_add=True)
+    client_ticket = models.ForeignKey(ClientTicket)
+    fdate = models.DateField()
+    days = models.SmallIntegerField()
+    is_paid = models.BooleanField(default=False)
+    amount = models.IntegerField(blank=True, null=True)
+
+    @property
+    def tdate(self):
+        return self.fdate + timedelta(days=(self.days-1))
+
+
+class ProlongationTicket(GenericProlongation, models.Model):
+    """
+    Prolongation for the Client Ticket.
+    """
+    date = models.DateTimeField()
+    client_ticket = models.ForeignKey(ClientTicket)
+    days = models.SmallIntegerField()
+    amount = models.DecimalField(max_digits=15, decimal_places=2,)
+    is_paid = models.BooleanField(default=False)
+
+    @property
+    def parent(self):
+        return self.client_ticket
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.parent_upd(self,)
+        super(ProlongationTicket, self).save(*args, **kwargs)
 
 
 class ClientPersonal(models.Model):
@@ -757,6 +805,19 @@ class UseClientTicket(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(blank=True, null=True)
     client_ticket = models.ForeignKey(ClientTicket)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            is_first = UseClientTicket.objects.filter(
+                client_ticket=self.client_ticket).count()
+            if is_first == 0:
+                ticket = self.client_ticket
+                ticket.date_begin = date.today()
+                ticket.date_end = date_end(date.today(), ticket.ticket)
+                ticket.save()
+            if self.client_ticket.is_frozen:
+                self.client_ticket.escape_frozen()
+        super(UseClientTicket, self).save(*args, **kwargs)
 
 
 class UseClientPersonal(models.Model):

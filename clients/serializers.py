@@ -246,25 +246,35 @@ class ClientAquaAerobicsFullSerializer(serializers.ModelSerializer):
                   'is_frozen')
 
 
+class FreezeTicketSerializer(serializers.ModelSerializer):
+    tdate = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FreezeTicket
+
+
 class ClientTicketSerializer(serializers.ModelSerializer):
     useclientticket_set = UseClientTicketSerializer(many=True,
                                                     read_only=True)
     client_name = serializers.CharField(read_only=True)
+    client_mobile = serializers.IntegerField(read_only=True)
+    client_uid = serializers.IntegerField(read_only=True)
+    client_card = serializers.IntegerField(read_only=True)
+    is_frozen = serializers.BooleanField(read_only=True)
+    is_online = serializers.IntegerField(read_only=True)
+    rest_visits = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    freezeticket_set = FreezeTicketSerializer(many=True, read_only=True)
 
     class Meta:
         model = ClientTicket
-        fields = ('id', 'ticket', 'status', 'date', 'date_start', 'is_online',
-                  'date_begin', 'date_end', 'name', 'useclientticket_set',
-                  'rest_days', 'rest_visits', 'client', 'client_name')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()
         data['count'] = 1
         data['status'] = 2
         data['date_start'] = date.today()
-        data['date_begin'] = date.today()
         obj = Ticket.objects.get(pk=data['ticket'])
-        data['date_end'] = date_end(data['date_begin'], obj)
         fticket = FormClientTicket(data)
         if fticket.is_valid():
             ticket = fticket.save()

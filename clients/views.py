@@ -287,9 +287,12 @@ class ClientAquaAerobicsViewSet(
         return TemplateResponseMixin.render_to_response(self, cont)
 
 
-class ClientTicketViewSet(viewsets.ModelViewSet):
+class ClientTicketViewSet(
+        GenericProduct, viewsets.ModelViewSet, TemplateResponseMixin):
     queryset = ClientTicket.objects.order_by('-date')
     serializer_class = ClientTicketSerializer
+    serializer_freeze = FreezeTicketSerializer
+    freeze_obj = 'client_ticket'
 
 
 class ClientPersonalViewSet(viewsets.ModelViewSet):

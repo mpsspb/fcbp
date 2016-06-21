@@ -19,7 +19,7 @@
                                    ClientPayment, AquaAerobics) {
     var vm = this;
 
-    vm.uid = $routeParams.uid
+    vm.uid = $routeParams.uid;
     vm.use = use;
     vm.payment = payment;
     vm.freeze = freeze;

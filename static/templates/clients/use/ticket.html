@@ -1,3 +1,133 @@
+<!-- Modal Frost -->
+<div class="modal fade" id="Frost" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Заморозка </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="alert alert-info" role="alert"
+          ng-show="!vm.frdata.is_paid && vm.free_freeze">
+          <strong>Бесплатная</strong>
+        </div>
+        <div class="alert alert-danger" role="alert"
+          ng-show="!vm.frdata.is_paid && !vm.free_freeze">
+          <strong>Бесплатная заморозка не доступна</strong>
+        </div>
+        <div class="alert alert-warning" role="alert" ng-show="vm.frdata.is_paid">
+          <strong>Платная</strong>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Дней: </label>
+          <input class="col-md-4 sinput" type="number" min="1"
+          ng-model="vm.frdata.days">
+          <label class="col-md-2 control-label">Платная</label>
+          <input type="checkbox" class="col-md-1" 
+          ng-click="vm.is_paid()"
+          ng-model="vm.frdata.is_paid">
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Начало: </label>
+          <input class="col-md-4 sinput date" ng-model="vm.frdata.fdate">
+        </div>
+        <div class="form-group" ng-show="vm.frdata.is_paid">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.frdata.amount">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right"
+        data-dismiss="modal" ng-click="vm.freeze()"
+        ng-disabled="!vm.frdata.is_paid && !vm.free_freeze">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal Frost -->
+
+<div class="alert alert-info" role="alert" ng-show="vm.ticket.is_frozen">
+  <strong> Заморожена</strong>
+</div>
+
+<div class="alert alert-info" role="alert" ng-show="!vm.ticket.printed">
+  <strong><a ng-href="api/v1/clients/ticket/{{vm.ticket.id}}/card/">Печать</a></strong>
+</div>
+
+<div class="col-md-4"> <!-- start left side bar -->
+  <div class="col-md-12 row-border ">
+    <h4>
+    <i class="fa fa-ticket">
+    </i> Абонемент: {{ vm.ticket.name }} </h4>
+    <h4><u>{{ vm.ticket.client_name }}</u></h4>
+    <h4>ЧС: {{ vm.ticket.client_uid }}</h4>
+    <h4>Карта: {{ vm.ticket.client_card }}</h4>
+    <h4>Тел.: {{ vm.ticket.client_mobile | phone }}</h4>
+  </div>
+
+  <div class="row-border col-md-12">
+    <h4>
+      <div ng-if="vm.ticket.date_begin">
+      c {{ vm.ticket.date_begin | date:'dd.MM.yyyy' }}
+      по {{ vm.ticket.date_end | date:'dd.MM.yyyy' }}
+      </div>
+      <div ng-if="!vm.ticket.date_begin">
+       неактивна 
+      </div>
+    </h4>    
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Заморозка</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-success btn-block"
+      data-toggle="modal" data-target="#Frost"> Записать </button>
+      <div class="row" ng-show="vm.ticket.freezeticket_set.length">
+        <div class="col-md-4">С</div>
+        <div class="col-md-4">ПО</div>
+        <div class="col-md-4">Дней</div>
+      </div>
+      <div class="row" ng-repeat="freez in vm.ticket.freezeticket_set"
+       ng-click="collapsed=!collapsed"
+       ng-class="freez.is_paid ? 'bg-danger cursor-pointer' : ''">
+        <div class="col-md-4"> {{ freez.fdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.tdate | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-4"> {{ freez.days }} </div>
+        <div ng-show="collapsed && freez.is_paid" class="bg-info col-md-12">
+          <div class="col-md-8"> купил: {{ freez.date | date:'dd.MM.yyyy'}} </div>
+          <div class="col-md-4"> {{ freez.amount }} руб.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Продление</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-primary btn-block"
+       data-toggle="modal" data-target="#Prolongation"> Записать
+      </button>
+      <table class="table" ng-show="vm.aqua.prolongationaqua_set.length">
+        <tr>
+          <td>С</td><td>Дней</td>
+        </tr>
+        <tr ng-repeat="p in vm.aqua.prolongationaqua_set">
+          <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ p.days }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div> <!-- end left side bar -->
+
 <i class="fa fa-ticket">Абонемент <strong>{{ vm.ticket.client_name }}</strong></i>
 <table class="table">
   <tr>

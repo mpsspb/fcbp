@@ -52,8 +52,6 @@
   </div>
 </div>
 <!-- end modal Frost -->
-
-
 <!-- Modal PaidActivate -->
 <div class="modal fade" id="PaidActivate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 600px;">
@@ -83,7 +81,6 @@
   </div>
 </div>
 <!-- end modal PaidActivate -->
-
 <!-- Modal Prolongation -->
 <div class="modal fade" id="Prolongation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 600px;">
@@ -139,7 +136,7 @@
 </div>
 
 <div class="alert alert-info" role="alert" ng-show="!vm.aqua.printed">
-  <strong><a ng-href="api/v1/clients/clubcard/{{vm.aqua.id}}/card/">Печать</a></strong>
+  <strong><a ng-href="api/v1/clients/aquaaerobics/{{vm.aqua.id}}/card/">Печать</a></strong>
 </div>
 
 <div class="col-md-4"> <!-- start left side bar -->
@@ -174,7 +171,7 @@
     <div class="panel-body">
       <button class="btn btn-success btn-block"
       data-toggle="modal" data-target="#Frost"> Записать </button>
-      <div class="row" ng-show="vm.aqua.freezeclubcard_set.length">
+      <div class="row" ng-show="vm.aqua.freezeaqua_set.length">
         <div class="col-md-4">С</div>
         <div class="col-md-4">ПО</div>
         <div class="col-md-4">Дней</div>

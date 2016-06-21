@@ -9,15 +9,19 @@
     .module('fcbp.clients.controllers')
     .controller('UseClientTicketController', UseClientTicketController);
 
-  UseClientTicketController.$inject = ['$location', '$rootScope', '$routeParams', '$scope', 'Tickets'];
+  UseClientTicketController.$inject = ['$location', '$rootScope', '$routeParams', '$scope',
+                                       '$http', 'ClientPayment', 'Tickets'];
 
   /**
   * @namespace UseClientTicketController
   */
-  function UseClientTicketController($location, $rootScope, $routeParams, $scope, Tickets) {
+  function UseClientTicketController($location, $rootScope, $routeParams, $scope, $http,
+                                     ClientPayment, Tickets) {
     var vm = this;
 
+    vm.uid = $routeParams.uid;
     vm.use = use;
+    vm.freeze = freeze;
 
     activate();
 
@@ -28,8 +32,17 @@
     */
     function activate() {
 
-      var uid = $routeParams.uid
-      Tickets.get(uid).then(ticketclientSuccessFn, ticketclientErrorFn);
+      // freeze data
+      vm.frdata = {
+        days: 1,
+        amount: 0.0,
+        is_paid: false,
+        client_aqua: vm.uid,
+        fdate: moment().format('DD.MM.YYYY'),
+        is_credit: false
+      };
+
+      Tickets.get(vm.uid).then(ticketclientSuccessFn, ticketclientErrorFn);
 
       /**
       * @name ticketclientSuccessFn
@@ -51,8 +64,7 @@
 
     function use() {
 
-      var uid = $routeParams.uid
-      var fdata = {client_ticket: uid}
+      var fdata = {client_ticket: vm.uid}
       Tickets.use(fdata).then(ticketclientSuccessFn, ticketclientErrorFn);
 
       /**
@@ -72,7 +84,36 @@
         console.log(data);
       }
 
-    }
+    };
+
+    function freeze() {
+
+      if ( vm.frdata.is_credit ) {
+        var credit_date = moment().add(1, 'days').startOf('day').format('DD.MM.YYYY');
+        vm.frdata.schedule = credit_date;
+        vm.frdata.discount = 0;
+        vm.frdata.count = 1;
+      }
+
+      Tickets.freeze(vm.uid, vm.frdata).then(freezeSuccessFn, freezeErrorFn);
+
+      /**
+      * @name freezeSuccessFn
+      * @desc Update Tickets array on view
+      */
+      function freezeSuccessFn(data, status, headers, config) {
+        console.log(data);
+        activate();
+      }
+
+      /**
+      * @name freezeErrorFn
+      * @desc console log error
+      */
+      function freezeErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
 
   };
 
