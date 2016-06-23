@@ -27,8 +27,10 @@
       use: use,
       use_exit: use_exit,
       freeze: freeze,
+      prolongation: prolongation,
       active: active,
       active_list: active_list,
+      archive_client_list: archive_client_list,
 };
 
     return Tickets;
@@ -82,6 +84,18 @@
     function freeze(uid, fdata) {
       return $http.post('/api/v1/clients/ticket/' + uid + '/freeze/', fdata)
     };
+
+    function prolongation(fdata) {
+      return $http.post('/api/v1/clients/prolongationticket/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    };
+
+    function archive_client_list(uid) {
+      return $http.get('/api/v1/clients/archive/ticket/'+ uid + '/client/')
+    };
+
 
   }
 

@@ -560,6 +560,11 @@ class ClientTicket(GenericProperty, models.Model):
     date_end = models.DateField(null=True, blank=True)
     client = models.ForeignKey(Client, )
     ticket = models.ForeignKey(Ticket, )
+    discount_type = models.ForeignKey(Discount, blank=True, null=True)
+    discount_amount = models.FloatField(blank=True, null=True)
+    bonus_type = models.ForeignKey(Discount, blank=True, null=True,
+                                   related_name="ticket_bonus_type")
+    bonus_amount = models.FloatField(blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     printed = models.BooleanField(default=False)
     block_comment = models.CharField(max_length=150, blank=True, null=True)

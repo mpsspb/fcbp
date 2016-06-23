@@ -27,6 +27,10 @@
       controller: 'UseClientAquaController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/archive/aquaaerobics.html'
+    }).when('/archive/ticket/:uid', {
+      controller: 'UseClientTicketController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/archive/ticket.html'
     })
   }
 })();

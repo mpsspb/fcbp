@@ -108,3 +108,36 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     class Meta:
         list_serializer_class = ArchiveListSerializer
         model = ClientAquaAerobics
+
+
+class FreezeTicketSerializer(serializers.ModelSerializer):
+    tdate = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = FreezeTicket
+
+
+class ProlongationTicketSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProlongationTicket
+
+
+class ClientTicketSerializer(serializers.ModelSerializer):
+    useclientticket_set = UseClientTicketSerializer(many=True,
+                                                    read_only=True)
+    client_name = serializers.CharField(read_only=True)
+    client_mobile = serializers.IntegerField(read_only=True)
+    client_uid = serializers.IntegerField(read_only=True)
+    client_card = serializers.IntegerField(read_only=True)
+    is_frozen = serializers.BooleanField(read_only=True)
+    is_online = serializers.IntegerField(read_only=True)
+    rest_visits = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    freezeticket_set = FreezeTicketSerializer(many=True, read_only=True)
+    prolongationticket_set = ProlongationTicketSerializer(
+        many=True, read_only=True)
+
+    class Meta:
+        list_serializer_class = ArchiveListSerializer
+        model = ClientTicket

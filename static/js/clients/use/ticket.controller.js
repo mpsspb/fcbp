@@ -22,6 +22,9 @@
     vm.uid = $routeParams.uid;
     vm.use = use;
     vm.freeze = freeze;
+    vm.prolongation = prolongation;
+    vm.to_archive = to_archive;
+    vm.payment = payment;
 
     activate();
 
@@ -37,10 +40,24 @@
         days: 1,
         amount: 0.0,
         is_paid: false,
-        client_aqua: vm.uid,
+        client_ticket: vm.uid,
         fdate: moment().format('DD.MM.YYYY'),
         is_credit: false
       };
+      // forms prolongation data
+      var now = moment().format('DD.MM.YYYY HH:mm')
+      vm.prdata = {
+        days: 1,
+        amount: 0.0,
+        is_paid: false,
+        client_ticket: vm.uid,
+        date: now
+      }
+      //  to archive data
+      vm.ardata = {
+        status: 0,
+        block_comment: ''
+      }
 
       Tickets.get(vm.uid).then(ticketclientSuccessFn, ticketclientErrorFn);
 
@@ -62,9 +79,15 @@
 
     }
 
-    function use() {
+    function use(out) {
 
       var fdata = {client_ticket: vm.uid}
+
+      if (out) {
+        Tickets.use_exit(fdata).then(ticketclientSuccessFn, ticketclientErrorFn);
+        return 1
+      }
+
       Tickets.use(fdata).then(ticketclientSuccessFn, ticketclientErrorFn);
 
       /**
@@ -113,6 +136,79 @@
       function freezeErrorFn(data, status, headers, config) {
         console.log(data);
       }
+    };
+
+
+    function prolongation() {
+      Tickets.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
+
+      /**
+      * @name prolongationSuccessFn
+      * @desc Update Tickets array on view
+      */
+      function prolongationSuccessFn(data, status, headers, config) {
+        // vm.prdata = {
+        //   days: 1,
+        //   amount: 0.0,
+        //   is_paid: false,
+        //   client_ticket: vm.uid
+        // }
+        activate();
+      }
+
+      /**
+      * @name prolongationErrorFn
+      * @desc console log error
+      */
+      function prolongationErrorFn(data, status, headers, config) {
+        console.log(data);
+      };
+
+    };
+
+    function to_archive() {
+
+      $http.put('/api/v1/clients/ticket/' + vm.uid + '/', vm.ardata
+                ).then(to_archiveSuccessFn, to_archiveErrorFn);
+
+      /**
+      * @name to_archiveSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function to_archiveSuccessFn(data, status, headers, config) {
+        window.location = '/#/archive/ticket/' + vm.uid
+      }
+      /**
+      * @name to_archiveErrorFn
+      * @desc console log error
+      */
+      function to_archiveErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
+    // function for close credit
+    function payment(payment_type, uid) {
+      ClientPayment.close_credit(payment_type, uid)
+                   .then(closeSuccessFn, closeErrorFn);
+
+      /**
+      * @name closeSuccessFn
+      * @desc Update AquaAerobics array on view
+      */
+      function closeSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name closeErrorFn
+      * @desc console log error
+      */
+      function closeErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
     };
 
   };

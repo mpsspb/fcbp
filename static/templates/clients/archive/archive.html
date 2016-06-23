@@ -66,3 +66,31 @@
 </table>
 </div>
 <!-- end AquaAerobics -->
+
+<!-- Ticket -->
+<div class="panel panel-success col-md-12">
+  <div class="panel-heading"><strong>Абонементы</strong></div>
+<table class="table">
+  <tr>
+    <td>дата продажи</td><td>наименование</td>
+    <td>активирована</td><td>срок действия</td>
+    <td>тренировки</td><td>комментарий</td>
+  </tr>
+  <tr ng-repeat="ticket in vm.ticket_set">
+    <td >
+      {{ ticket.date | date:'dd.MM.yyyy' }}</td>
+    <td>
+      <strong><a href="#/archive/ticket/{{ ticket.id }}">
+        {{ ticket.name }}
+      </a></strong>
+    </td>
+    <td> {{ (ticket.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
+    <td> {{ ticket.date_end | date:'dd.MM.yyyy' }}</td>
+    <td> {{ ticket.rest_visits }} </td>
+    <td> <i class="fa fa-2x fa-info-circle text-yellow cursor-pointer" aria-hidden="true" 
+    ng-show="ticket.block_comment" title="{{ ticket.block_comment }}"></i>
+    </td>
+  </tr>
+</table>
+</div>
+<!-- end Ticket -->

@@ -52,6 +52,55 @@
   </div>
 </div>
 <!-- end modal Frost -->
+<!-- Modal Prolongation -->
+<div class="modal fade" id="Prolongation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Продление</h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="alert alert-info" role="alert"
+        ng-show="!vm.prdata.is_paid">
+          <strong>Бесплатное</strong>
+        </div>
+        <div class="alert alert-warning" role="alert"
+        ng-show="vm.prdata.is_paid">
+          <strong>Платное</strong>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Начало: </label>
+          <input class="col-md-4 sinput date-time" ng-model="vm.prdata.date">
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Дней: </label>
+          <input class="col-md-4 sinput" type="number" min="1"
+          ng-model="vm.prdata.days">
+          <label class="col-md-2 control-label">Платное</label>
+          <input type="checkbox" class="col-md-1" 
+          ng-click="vm.is_paid()"
+          ng-model="vm.prdata.is_paid">
+        </div>
+        <div class="form-group" ng-show="vm.prdata.is_paid">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.prdata.amount">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.prolongation()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal Prolongation -->
 
 <div class="alert alert-info" role="alert" ng-show="vm.ticket.is_frozen">
   <strong> Заморожена</strong>
@@ -114,11 +163,11 @@
       <button class="btn btn-primary btn-block"
        data-toggle="modal" data-target="#Prolongation"> Записать
       </button>
-      <table class="table" ng-show="vm.aqua.prolongationaqua_set.length">
+      <table class="table" ng-show="vm.ticket.prolongationticket_set.length">
         <tr>
           <td>С</td><td>Дней</td>
         </tr>
-        <tr ng-repeat="p in vm.aqua.prolongationaqua_set">
+        <tr ng-repeat="p in vm.ticket.prolongationticket_set">
           <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
           <td> {{ p.days }}</td>
         </tr>
@@ -128,38 +177,101 @@
 
 </div> <!-- end left side bar -->
 
-<i class="fa fa-ticket">Абонемент <strong>{{ vm.ticket.client_name }}</strong></i>
-<table class="table">
-  <tr>
-    <td>дата</td><td>наименование</td>
-    <td>остаток дней</td><td>визитов</td>
-  </tr>
-  <tr>
-    <td> {{ vm.ticket.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ vm.ticket.name }} </td>
-    <td> {{ vm.ticket.rest_days }} </td>
-    <td> {{ vm.ticket.rest_visits }} </td>
-  </tr>
-</table>
-<div class="col-md-3">
-  <a href="#/cardclient/{{ vm.ticket.client }}/" class="btn btn-default pull-left">отмена</a>
-</div> 
+<div class="col-md-8"> <!-- start main info -->
+  <div class="row col-md-12">
+    <div class="col-md-2" ng-switch on="vm.ticket.is_online">
+      <button class="btn btn-block btn-success"  
+      ng-switch-when="0" ng-click="vm.use(0)">Вход</button>
+      <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
+    </div>
+    <div class="col-md-3">
+      <a href="#/cardclient/{{ vm.ticket.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-block btn-warning" ng-click="vm.show_block=!vm.show_block">Блокировка </button>
+    </div>
+<!-- Modal block the ticket -->
+  <div class="row col-md-12" ng-show="vm.show_block">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-3"> Комментарий: </label>
+          <input class="col-md-6 sinput" ng-model="vm.ardata.block_comment" placeholder="Не менее 8 символов">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left"
+         ng-click="vm.show_block=!vm.show_block">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" ng-click="vm.to_archive()"
+         ng-disabled="vm.ardata.block_comment.length < 8">
+          Применить
+        </button>
+      </div>
+  </div>
+<!-- end block the ticket -->
+  </div>
 
-<div class="col-md-3">
-  <button ng-click="vm.use()" class="btn btn-block btn-danger">Использовать</button>
-</div>
+  <div class="row">
+    <div class="col-md-4"><center>дата</center></div>
+    <div class="col-md-4">время</div>
+    <div class="col-md-4">окончание</div>
+  </div>      
+  <div ng-repeat="use in vm.ticket.useclientticket_set">
+      <div class="col-md-4"> {{ use.date | date:'dd.MM.yyyy' }} </div>
+      <div class="col-md-4"> {{ use.date | date:'HH:mm' }} </div>
+      <div class="col-md-4"> {{ use.end | date:'HH:mm' }} </div>
+  </div>
+</div> <!-- end main info -->
 
-<div class="col-md-3">
-  <button  ng-click="showHistory=!showHistory" class="btn btn-block btn-info">История</button>
-</div>
+<div class="panel panel-default col-md-12"
+ ng-show="vm.ticket.discount_amount || vm.ticket.bonus_amount"> <!-- start bonus info -->
+  <div class="panel-heading"><strong>Бонусы при покупке</strong></div>
+  <span class="col-md-6" ng-show="vm.ticket.discount_amount">
+    <strong>Скидка: {{ vm.ticket.discount_amount }} %</strong>
+  </span>
+  <span class="col-md-6" ng-show="vm.ticket.bonus_amount">
+    <strong>Бонус: {{ vm.ticket.bonus_amount }} руб.</strong>
+  </span>
+</div> <!-- end bonus info -->
 
-<table class="table" ng-show="showHistory">
-  <tr>
-    <td>дата</td><td>время</td><td>окончание</td>
-  </tr>
-  <tr ng-repeat="use in vm.ticket.useclientticket_set">
-    <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ use.date | date:'HH:mm' }} </td>
-    <td> {{ use.end }} </td>
-  </tr>
-</table>
+<div class="panel panel-info col-md-12"><!-- payment info -->
+  <div class="panel-heading"><strong>Платежи</strong></div>
+  <div class="panel-body">
+    <table class="table">
+      <tr>
+        <td class="col-md-3">Дата(срок) оплаты</td><td class="col-md-3">Сумма</td><td>Вид платежа</td><td></td>
+      </tr>
+      <tr ng-repeat="p in vm.ticket.payment_set">
+        <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+        <td> {{ p.amount }} руб.</td>
+        <td> {{ p.payment_type | payment_type }}</td>
+        <td></td>
+      </tr>
+      <tr ng-repeat="cr in vm.ticket.credit_set">
+        <td> {{ cr.schedule | date:'dd.MM.yyyy' }} </td>
+        <td> {{ cr.amount }} руб.</td>
+        <td>
+          <button class="btn btn-warning btn-sm"
+          ng-click="show_pay_type=!show_pay_type">
+            Оплатить
+          </button>
+        </td>
+        <td>
+          <div ng-show="show_pay_type">
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(1, cr.id)">
+            нал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(2, cr.id)">
+             безнал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(3, cr.id)">
+             банк
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(0, cr.id)">
+             иное
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- end payment info -->

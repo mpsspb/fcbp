@@ -253,6 +253,12 @@ class FreezeTicketSerializer(serializers.ModelSerializer):
         model = FreezeTicket
 
 
+class ProlongationTicketSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProlongationTicket
+
+
 class ClientTicketSerializer(serializers.ModelSerializer):
     useclientticket_set = UseClientTicketSerializer(many=True,
                                                     read_only=True)
@@ -263,10 +269,15 @@ class ClientTicketSerializer(serializers.ModelSerializer):
     is_frozen = serializers.BooleanField(read_only=True)
     is_online = serializers.IntegerField(read_only=True)
     rest_visits = serializers.IntegerField(read_only=True)
+    credit_set = CreditSerializer(many=True, read_only=True)
+    payment_set = PaymentSerializer(many=True, read_only=True)
     name = serializers.CharField(read_only=True)
     freezeticket_set = FreezeTicketSerializer(many=True, read_only=True)
+    prolongationticket_set = ProlongationTicketSerializer(
+        many=True, read_only=True)
 
     class Meta:
+        list_serializer_class = ActiveListSerializer
         model = ClientTicket
 
     def create(self, validated_data,):

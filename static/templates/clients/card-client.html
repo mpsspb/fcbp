@@ -84,41 +84,34 @@
         <h4 class="modal-title" id="myModalLabel">
         <i class="fa fa-ticket"></i> Абонемент </h4>
       </div>
-      <div class="modal-body">
-        <table class="table">
-          <tr>
-            <td>дата</td><td>наименование</td>
-              <td>срок действия</td><td>визитов</td>
-              <td>вход</td>
-          </tr>
-          <tr ng-repeat="ticket in vm.cardclient.clientticket_set">
-            <td> {{ ticket.date | date:'dd.MM.yyyy' }} </td>
-            <td> 
-              <span data-href="#/useticket/{{ ticket.id }}">
-                {{ ticket.name }}
-              </span>
-            </td>
-            <td> {{ ticket.date_end | date:'dd.MM.yyyy' }} </td>
-            <td> {{ ticket.rest_visits }} </td>
-            <td ng-switch on="ticket.is_online">
-              <button class="btn btn-block btn-success"
-              ng-click="vm.ticketuse(ticket.id, 0)" ng-switch-when="0">
-                Вход
-              </button>
-              <button class="btn btn-block btn-danger"
-              ng-click="vm.ticketuse(ticket.id, 1)" ng-switch-default>
-                Выход
-              </button>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer bg-success">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>
+        <div class="modal-body">
+          <table class="table">
+            <tr>
+              <td>дата продажи</td><td>наименование</td>
+              <td>активирована</td>
+              <td>срок действия</td><td>тренировки</td>
+            </tr>
+            <tr ng-repeat="ticket in vm.cardclient.clientticket_set"
+            ng-class="ticket.is_frozen ? 'info' : ''">
+              <td> {{ ticket.date | date:'dd.MM.yyyy' }} </td>
+              <td> 
+                <span data-href="#/useticket/{{ ticket.id }}">
+                  {{ ticket.name }}
+                </span>
+              </td>
+              <td>{{ (ticket.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
+              <td> {{ ticket.date_end | date:'dd.MM.yyyy' }} </td>
+              <td> {{ ticket.rest_visits }} </td>
+            </tr>
+          </table>
+        </div>
+       <div class="modal-footer bg-success">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>          
       </div>
     </div>
   </div>
 </div> <!-- end modal Ticket -->
+
 
 <!-- Modal use Personal -->
 <div class="modal fade" id="UsePersonal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

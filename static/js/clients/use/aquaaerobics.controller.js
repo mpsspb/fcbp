@@ -173,7 +173,6 @@
       * @desc Update AquaAerobics array on view
       */
       function prolongationSuccessFn(data, status, headers, config) {
-        console.log(data);
         vm.prdata = {
           days: 1,
           amount: 0.0,

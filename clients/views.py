@@ -247,6 +247,11 @@ class PersonalClubCardViewSet(viewsets.ModelViewSet):
     serializer_class = PersonalClubCardSerializer
 
 
+class ProlongationTicketViewSet(viewsets.ModelViewSet):
+    queryset = ProlongationTicket.objects.order_by('-date')
+    serializer_class = ProlongationTicketSerializer
+
+
 class ProlongationAquaViewSet(viewsets.ModelViewSet):
     queryset = ProlongationAqua.objects.order_by('-date')
     serializer_class = ProlongationAquaSerializer
@@ -293,6 +298,28 @@ class ClientTicketViewSet(
     serializer_class = ClientTicketSerializer
     serializer_freeze = FreezeTicketSerializer
     freeze_obj = 'client_ticket'
+
+    @detail_route(methods=['get'], )
+    def card(self, request, pk):
+        """
+        Print form of the card.
+        """
+        ticket = self.get_object()
+        pre_payments = []
+        for p in ticket.payment_set.all().order_by('date'):
+            pre_payments.append((p.date, p.amount))
+        for cr in ticket.credit_set.all().order_by('schedule'):
+            pre_payments.append((cr.schedule, cr.amount))
+        # rebuild payments to four elements
+        payments = []
+        for k, v in map(None, pre_payments, '*'*4):
+            if k is not None:
+                payments.append(k)
+            else:
+                payments.append((None, None))
+        cont = {'ticket': ticket, 'payments': payments}
+        self.template_name = 'card/ticket.html'
+        return TemplateResponseMixin.render_to_response(self, cont)
 
 
 class ClientPersonalViewSet(viewsets.ModelViewSet):
