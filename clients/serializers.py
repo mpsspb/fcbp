@@ -4,7 +4,6 @@ from dateutil.relativedelta import relativedelta
 from rest_framework import serializers
 
 from .models import *
-# from .models_external import ClientAquaAerobicsFull
 from .forms import *
 from .use_serializers import *
 from products.models import *
@@ -365,6 +364,12 @@ class ClientExtraSerializer(serializers.ModelSerializer):
         read_only_fields = ('id')
 
 
+class ClientOnlineSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ClientOnline
+
+
 class ClientSerializer(serializers.ModelSerializer):
     avatar = Base64ImageField(
         max_length=None, use_url=True
@@ -387,21 +392,13 @@ class ClientSerializer(serializers.ModelSerializer):
     online_ticket = serializers.BooleanField(read_only=True)
     online_personal = serializers.BooleanField(read_only=True)
     introductory_employee_name = serializers.CharField(read_only=True)
+    avatar_url = serializers.CharField(read_only=True)
+    full_name = serializers.CharField(read_only=True)
+    passport = serializers.CharField(read_only=True)
+    clientonline_set = ClientOnlineSerializer(many=True, read_only=True)
 
     class Meta:
         model = Client
-        fields = ('id', 'first_name', 'last_name', 'patronymic',
-                  'born',  'gender', 'mobile', 'address', 'passport',
-                  'phone', 'email', 'avatar', 'date',
-                  'clientclubcard_set', 'uid', 'avatar_url',
-                  'full_name', 'clientaquaaerobicsfull_set',
-                  'clientticket_set', 'clientpersonal_set',
-                  'credit_set', 'debt_set', 'debtupcoming_set', 'card',
-                  'online_personal', 'clienttiming_set',
-                  'clientonline_set', 'online_clubcard', 'online_aqua',
-                  'online_ticket', 'introductory_date',
-                  'introductory_employee', 'introductory_employee_name'
-                  )
         read_only_fields = ('id', 'full_name', 'avatar_url', 'uid', 'date',
                             'clientonline_set')
 

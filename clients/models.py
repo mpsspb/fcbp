@@ -68,13 +68,21 @@ class Client(models.Model):
     mobile = models.BigIntegerField(null=True, blank=True)
     gender = models.SmallIntegerField(default=0, blank=True)
     address = models.CharField(max_length=100, null=True, blank=True)
-    passport = models.TextField(null=True, blank=True)
+    passport_number = models.TextField(null=True, blank=True)
+    passport_date = models.DateField(null=True, blank=True)
+    passport_issued = models.TextField(null=True, blank=True)
     phone = models.IntegerField(null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     avatar = models.ImageField(upload_to="avatar/", null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
 
     introductory_date = models.DateTimeField(blank=True, null=True)
     introductory_employee = models.ForeignKey(Employee, blank=True, null=True)
+
+    @property
+    def passport(self):
+        return '%s %s %s' % (
+            self.passport_number, self.passport_date, self.passport_issued)
 
     @property
     def full_name(self,):
