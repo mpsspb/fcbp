@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
@@ -208,6 +209,39 @@ class ClientClubCard(GenericProperty, models.Model):
                               self.discount_amount)
         else:
             return ''
+
+    @property
+    def discount_value(self):
+        if self.discount_type:
+            return self.discount_amount
+        elif self.bonus_type:
+            return self.bonus_amount
+        else:
+            return ''
+
+    @property
+    def discount_short(self):
+        if self.discount_type:
+            return self.discount_type.short
+        elif self.bonus_type:
+            return self.bonus_type.short
+        else:
+            return ''
+
+    @property
+    def period(self):
+        if self.club_card.period.is_month:
+            return u'%s месяцев' % self.club_card.period.value
+        else:
+            return u'%s дней' % self.club_card.period.value
+
+    @property
+    def personal_training(self):
+        if self.club_card.personal_training:
+            return 1
+        else:
+            return 0
+    
 
     @property
     def rest_days(self):

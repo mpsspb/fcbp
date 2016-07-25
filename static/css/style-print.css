@@ -41,6 +41,7 @@
 
 .table-print td {
   border: 1px solid black;
+  text-align: center;
 }
 
 .table-print td.no-border {

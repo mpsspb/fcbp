@@ -23,6 +23,7 @@
     var Discounts = {
       create: create,
       list: list,
+      update: update,
     };
 
     return Discounts;
@@ -45,6 +46,13 @@
     **/
     function list() {
       return $http.get('/api/v1/products/discount/')
+    }
+
+    function update(id, fdata) {
+      return $http.put('/api/v1/products/discount/' + id + '/', fdata
+                        ).error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
     }
   }
 
