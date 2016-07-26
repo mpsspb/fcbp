@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 from rest_framework import serializers
 
 from employees.models import Position
 from .models import (Period, ClubCard, AquaAerobics, Sport, Ticket,
                      Personal, PersonalPosition, Timing, Discount,
-                     Training)
+                     Training, CardText, CardTextItems)
 
 
 class DiscountSerializer(serializers.ModelSerializer):
@@ -121,3 +122,19 @@ class TimingSerializer(serializers.ModelSerializer):
                   'period_prolongation', 'clients_count',
                   'price')
         read_only_fields = ('id', 'period_data',)
+
+
+class CardTextItemsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CardTextItems
+        read_only_fields = ('id',)
+
+
+class CardTextSerializer(serializers.ModelSerializer):
+    cardtextitems_set = CardTextItemsSerializer(many=True, read_only=True)
+    name = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = CardText
+        read_only_fields = ('id',)

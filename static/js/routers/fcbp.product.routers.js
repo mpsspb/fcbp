@@ -43,6 +43,10 @@
       controller: 'DiscountsController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/products/discounts.html'
+    }).when('/cardtexts', {
+      controller: 'CardTextController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/products/cardtexts.html'
     }).when('/tickets', {
       controller: 'TicketsController',
       controllerAs: 'vm',

@@ -1,19 +1,20 @@
+# -*- coding: utf-8 -*-
 import json
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route, list_route
+from rest_framework import mixins
+from rest_framework import generics
 
 from .models import (
-                    Period, ClubCard, AquaAerobics, Sport, Ticket,
-                    Personal, PersonalPosition, Timing, Discount,
-                    Training)
+    Period, ClubCard, AquaAerobics, Sport, Ticket, Personal, PersonalPosition,
+    Timing, Discount, Training, CardText, CardTextItems)
 from .serializers import (
-                    PeriodSerializer, ClubCardSerializer,
-                    AquaAerobicsSerializer, SportSerializer,
-                    TicketSerializer, PersonalSerializer, DiscountSerializer,
-                    PersonalPositionSerializer, TimingSerializer,
-                    TrainingSerializer)
+    PeriodSerializer, ClubCardSerializer, AquaAerobicsSerializer,
+    SportSerializer, TicketSerializer, PersonalSerializer, DiscountSerializer,
+    PersonalPositionSerializer, TimingSerializer, TrainingSerializer,
+    CardTextSerializer, CardTextItemsSerializer)
 
 
 class ActiveModel(object):
@@ -85,3 +86,19 @@ class PersonalPositionViewSet(viewsets.ModelViewSet):
 class TimingViewSet(viewsets.ModelViewSet, ActiveModel):
     queryset = Timing.objects.order_by('name')
     serializer_class = TimingSerializer
+
+
+class CardTextList(viewsets.ModelViewSet):
+    queryset = CardText.objects.order_by('text_type')
+    serializer_class = CardTextSerializer
+
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        cardtextitems = request.data.get('cardtextitems_set')
+        cardtext = self.get_object()
+        resp = super(CardTextList, self).update(request, *args, **kwargs)
+        if not cardtextitems:
+            cardtext.cardtextitems_set.all().delete()
+        else:
+            cardtext.update_items(cardtextitems)
+        return resp

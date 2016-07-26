@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core import serializers
@@ -157,3 +160,41 @@ class Timing(models.Model):
     @property
     def period_data(self):
         return self.period
+
+
+class CardText(models.Model):
+    """
+    Text for print cards.
+    """
+    text_types = (
+        (1, 'клубная карта'),
+    )
+
+    text_type = models.SmallIntegerField(choices=text_types, unique=True)
+    header = models.TextField(null=True, blank=True)
+    additional_header = models.TextField(null=True, blank=True)
+
+    @property
+    def name(self):
+        return dict(self.text_types)[self.text_type]
+
+    def update_items(self, cardtextitems):
+        """ Update all cardtextitems items """
+        for o, item in enumerate(cardtextitems):
+            try:
+                old_item = CardTextItems.objects.get(
+                    card_text=self, order=o+1)
+                old_item.item = item['item']
+                old_item.save()
+            except CardTextItems.DoesNotExist:
+                CardTextItems.objects.create(
+                    card_text=self, order=o+1, item=item['item'])
+        self.cardtextitems_set.filter(order__gt=len(cardtextitems)).delete()
+
+
+class CardTextItems(models.Model):
+    """ Text lines for print card."""
+    date = models.DateTimeField(auto_now_add=True)
+    card_text = models.ForeignKey(CardText)
+    item = models.TextField()
+    order = models.SmallIntegerField()

@@ -43,7 +43,7 @@
         </tr>
         <tr>
             <td colspan="6" align="justify">
-                «Исполнитель» в лице директора фитнес-клуба «Красота и сила» Труфановой Александры Евгеньевны, действующей на основании доверенности №11/2015 от 01.02.2015 г., выданной индивидуальным предпринимателем Семеновой Галиной Валентиновной, действующей на основании свидетельства о государственной регистрации от 11 декабря 2014 г. №78008973695, с одной стороны и «Член Клуба»
+            {{ text.header }}
             </td>
         </tr>
     </table>
@@ -66,7 +66,7 @@
     <table width="800">
         <tr>
             <td>
-                с другой стороны, заключили настоящее дополнительное соглашение к Договору  об оказании услуг клубом «Красота и сила» от 01.02.2015 г. о нижеследующем:
+                {{ text.additional_header }}
             </td>
         </tr><tr>
             <td>
@@ -134,38 +134,29 @@
         </tr>
     </table>
     <table width="800">
+        {% for item in text.cardtextitems_set.all %}
         <tr>
             <td>
-                2   Услуга оказывается при предъявления карты. Карта является именной.
-            </td>
-        </tr><tr>
-            <td>
-                3   Продолжительность одной тренировки – 1 час.
-            </td>
-        </tr><tr>
-            <td>
-                4   Карта действует: УБВ – по будням с 8 до 18 и выходным; П - в любое время работы клуба
-            </td>
-        </tr><tr>
-            <td>
-                5   Взаимоотношения  Сторон прекращаются надлежащим выполнением ими обязательств по Договору об оказании услуг клубом «Красота и сила» от {{ card.date|date:"d.m.Y" }} г. в сответствии с видом плаченной услуги.
-            </td>
-        </tr><tr>
-            <td>
-                6   Клиент подтверждает, что перед заключением настоящего дополнительного соглашения к договору об оказании услуг клубом «Красота и сила» от {{ card.date|date:"d.m.Y" }} г., Исполнитель ознакомил его с содержанием Договора об оказании услуг клубом «Красота и сила» от {{ card.date|date:"d.m.Y" }} г. и приложениями к нему, а так же, что их содержание Клиенту понятно.
+                {{ forloop.counter|add:"1" }} {{ item.item }}
             </td>
         </tr>
+          
+        {% endfor %}
     </table>
-
-    <div class="col-md-2"> Исполнитель </div>
-    <div class="col-md-3"> <span class="pull-right">Труфанова А.Е.</span> </div>
-    <div class="col-md-2 col-md-offset-1"> Член клуба </div>
-    <div class="col-md-4"> <span class="pull-right">{{ card.client.initials }}</span> </div>    
-    
-    <div class="col-md-2"> телефон </div>
-    <div class="col-md-3"> <span class="pull-right">8 911 979 328</span> </div>
-    <div class="col-md-2 col-md-offset-1"> телефон </div>
-    <div class="col-md-4"> <span class="pull-right">{{ card.client.mobile| default:'' | phone  }} </span></div>
+  <table width="800">
+    <tr>
+        <td>Исполнитель</td>
+        <td><span class="pull-right">Труфанова А.Е. </span></td>
+        <td><span class="pull-right">Член клуба</span></td>
+        <td width="300"><span class="pull-right">{{ card.client.initials }}</span></td>
+    </tr>
+    <tr>
+        <td>телефон</td>
+        <td><span class="pull-right">8 911 979 328 </span></td>
+        <td><span class="pull-right">телефон</span></td>
+        <td><span class="pull-right">{{ card.client.mobile| default:'' | phone  }}</span></td>
+    </tr>
+  </table>
 {% if i == '0' %}
 <br/>
 <br/>

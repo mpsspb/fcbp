@@ -1,0 +1,51 @@
+<!-- lists -->
+<div>
+  <div class="col-md-3">
+    <a href="#/products" class="btn btn-primary btn-block">
+      Справочники
+    </a>
+  </div>
+ <div class="col-md-3">&nbsp; </div>
+ <div class="col-md-6" style="height:34px">&nbsp;</div>
+     <br/>
+  <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.success">
+    <button type="button" class="close" ng-click="vm.success=false"><span>&times;</span></button>
+    <strong>  Данные успешно обновлены. </strong>
+  </div>
+  
+  <div class="alert alert-danger alert-dismissible" role="alert" ng-show="vm.error">
+    <button type="button" class="close" ng-click="vm.error=false"><span>&times;</span></button>
+    <strong> Ошибка обновления: {{ vm.error_data }} </strong>
+  </div>
+
+  <div class="alert alert-info col-md-12" ng-repeat="cardtext in vm.cardtexts">
+    <div><strong>{{ cardtext.name }}</strong></div>
+    <div ng-show="!edit">{{ cardtext.header }}</div><br/>
+    <div ng-show="!edit">{{ cardtext.additional_header }}</div>
+    <input ng-show="edit" ng-model="cardtext.header" type="text" class="form-control" placeholder="Шапка">
+    <input ng-show="edit" ng-model="cardtext.additional_header" type="text" class="form-control" placeholder="Шапка дополнение">
+    <table class="table">
+      <caption> Список пунктов <button class="pull-right btn btn-sm btn-default col-md-2"
+           ng-click="vm.add_item(cardtext)">добавить</button>
+      </caption>
+      <tr ng-repeat="item in cardtext.cardtextitems_set">
+        <td>{{ $index + 2 }}</td>
+        <td><span ng-show="!edit">
+              {{ item.item }}
+            </span>
+            <input ng-show="edit" ng-model="item.item"
+            type="text" class="form-control" placeholder="Текст">
+            </input>
+        </td>
+        <td><i class="fa fa-times cursor-pointer" ng-click="vm.rm_item(cardtext, $index)"></i>
+        </td>
+      </tr>
+    </table>
+
+    <button ng-click="edit=!edit" class="btn btn-sm btn-warning pull-right" ng-show="!edit"> Правка </button>
+    <button ng-click="edit=!edit" class="btn btn-sm btn-default pull-right" ng-show="edit"> Отмена </button>
+    <button class="btn btn-sm btn-success pull-left" ng-show="edit"
+            ng-click="vm.update(cardtext)"> Сохранить </button>
+  </div>
+</div>
+<!-- end of the lists -->

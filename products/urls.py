@@ -3,10 +3,9 @@ from django.conf.urls import patterns, include, url
 from rest_framework import routers
 
 from .views import (
-                PeriodViewSet, ClubCardViewSet, AquaAerobicsViewSet,
-                SportViewSet, TicketViewSet, PersonalViewSet,
-                PersonalPositionViewSet, TimingViewSet, DiscountViewSet,
-                TrainingViewSet)
+	PeriodViewSet, ClubCardViewSet, AquaAerobicsViewSet, SportViewSet,
+	TicketViewSet, PersonalViewSet, PersonalPositionViewSet, TimingViewSet,
+	DiscountViewSet, TrainingViewSet, CardTextList)
 
 
 router = routers.SimpleRouter()
@@ -20,5 +19,6 @@ router.register(r'personal', PersonalViewSet)
 router.register(r'personalpos', PersonalPositionViewSet)
 router.register(r'timing', TimingViewSet)
 router.register(r'discount', DiscountViewSet)
+router.register(r'cardtext', CardTextList)
 
 urlpatterns = router.urls

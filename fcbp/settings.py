@@ -87,7 +87,6 @@ REST_FRAMEWORK = {
     'DATE_INPUT_FORMATS': (
          '%d.%m.%Y',    # '25.10.2006
         ),
-
     'DATETIME_INPUT_FORMATS': (
          '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
          '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'

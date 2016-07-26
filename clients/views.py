@@ -13,6 +13,7 @@ from .forms import *
 from .serializers import *
 from .serializers_light import ClientClubCardSerial
 from .use_serializers import *
+from products.models import CardText
 
 
 class ClientResultsSetPagination(PageNumberPagination):
@@ -217,7 +218,8 @@ class ClientClubCardViewSet(
                 payments.append(k)
             else:
                 payments.append((None, None))
-        cont = {'card': card, 'payments': payments}
+        text = CardText.objects.get(pk=1)
+        cont = {'card': card, 'payments': payments, 'text': text}
         self.template_name = 'card/clubcard.html'
         return TemplateResponseMixin.render_to_response(self, cont)
 

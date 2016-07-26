@@ -7,14 +7,14 @@
 
   angular
     .module('fcbp.discounts.controllers')
-    .controller('DiscountsController', SportsController);
+    .controller('DiscountsController', DiscountsController);
 
-  SportsController.$inject = ['$scope', '$http', 'Authentication', 'Discounts'];
+  DiscountsController.$inject = ['$scope', '$http', 'Discounts'];
 
   /**
-  * @namespace SportsController
+  * @namespace DiscountsController
   */
-  function SportsController($scope, $http, Authentication, Discounts) {
+  function DiscountsController($scope, $http, Discounts) {
     var vm = this;
 
     vm.discounts = [];
@@ -24,7 +24,7 @@
     /**
     * @name activate
     * @desc Actions to be performed when this controller is instantiated
-    * @memberOf fcbp.sports.controllers.SportsController
+    * @memberOf fcbp.sports.controllers.DiscountsController
     */
     function activate() {
 
