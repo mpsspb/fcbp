@@ -23,6 +23,7 @@ class GenericProlongation(object):
 
 
 class GenericProperty(object):
+
     """ Generic property need for all services """
     @property
     def client_mobile(self):
@@ -55,6 +56,7 @@ class GenericProperty(object):
 
 
 class Client(models.Model):
+
     """
     Clients data.
     """
@@ -158,6 +160,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
 
 
 class ClientClubCard(GenericProperty, models.Model):
+
     """
     The clients club card,
     history and status.
@@ -241,7 +244,6 @@ class ClientClubCard(GenericProperty, models.Model):
             return 1
         else:
             return 0
-    
 
     @property
     def rest_days(self):
@@ -315,6 +317,7 @@ class ClientClubCard(GenericProperty, models.Model):
 
 
 class ProlongationClubCard(GenericProlongation, models.Model):
+
     """
     Prolongation for the Client Club Card.
     """
@@ -335,6 +338,7 @@ class ProlongationClubCard(GenericProlongation, models.Model):
 
 
 class GuestClubCard(models.Model):
+
     """
     Guest training for the Client Club Card.
     """
@@ -347,6 +351,7 @@ class GuestClubCard(models.Model):
 
 
 class FitnessClubCard(models.Model):
+
     """
     Fitness  testing discount for the Client Club Card.
     """
@@ -369,6 +374,7 @@ class FitnessClubCard(models.Model):
 
 
 class PersonalClubCard(models.Model):
+
     """
     Personal training discount for the Client Club Card.
     """
@@ -382,6 +388,7 @@ class PersonalClubCard(models.Model):
 
 
 class FreezeClubCard(models.Model):
+
     """
     Freeze club card.
     """
@@ -400,6 +407,7 @@ class FreezeClubCard(models.Model):
 
 
 class ClientAquaAerobics(GenericProperty, models.Model):
+
     """
     The clients Aqua Aerobics card,
     history and status.
@@ -440,6 +448,11 @@ class ClientAquaAerobics(GenericProperty, models.Model):
         return self.aqua_aerobics.name
 
     @property
+    def extra_client(self):
+        clients = self.aquaaerobicsclients_set.all().values('client')
+        return Client.objects.filter(pk__in=clients)
+
+    @property
     def rest_days(self):
         if not self.date_end:
             return None
@@ -473,6 +486,7 @@ class ClientAquaAerobics(GenericProperty, models.Model):
 
 
 class FreezeAqua(models.Model):
+
     """Freeze aqua aerobics."""
     product = 'client_aqua'
 
@@ -489,6 +503,7 @@ class FreezeAqua(models.Model):
 
 
 class ProlongationAqua(GenericProlongation, models.Model):
+
     """
     Prolongation for the Client Club Card.
     """
@@ -509,6 +524,7 @@ class ProlongationAqua(GenericProlongation, models.Model):
 
 
 class AquaAerobicsClients(models.Model):
+
     """
     External clients for the ClientAquaAerobics.
     """
@@ -521,6 +537,7 @@ class AquaAerobicsClients(models.Model):
 
 
 class ClientAquaAerobicsFull(models.Model):
+
     """
     The clients Aqua Aerobics card FULL JOIN
     with Aqua Aerobics Clients (External clients for the ClientAquaAerobics),
@@ -586,6 +603,7 @@ class ClientAquaAerobicsFull(models.Model):
 
 
 class ClientTicket(GenericProperty, models.Model):
+
     """
     The clients tickets,
     history and status.
@@ -628,8 +646,8 @@ class ClientTicket(GenericProperty, models.Model):
     @property
     def is_frozen(self):
         freezes = FreezeTicket.objects\
-                            .filter(client_ticket=self,
-                                    fdate__lte=date.today())
+            .filter(client_ticket=self,
+                    fdate__lte=date.today())
         for f in freezes:
             if f.tdate >= date.today():
                 return True
@@ -656,6 +674,7 @@ class ClientTicket(GenericProperty, models.Model):
 
 
 class FreezeTicket(models.Model):
+
     """Freeze ticket."""
     product = 'client_ticket'
 
@@ -672,6 +691,7 @@ class FreezeTicket(models.Model):
 
 
 class ProlongationTicket(GenericProlongation, models.Model):
+
     """
     Prolongation for the Client Ticket.
     """
@@ -692,6 +712,7 @@ class ProlongationTicket(GenericProlongation, models.Model):
 
 
 class ClientPersonal(models.Model):
+
     """
     The clients personals,
     history and status.
@@ -743,6 +764,7 @@ class ClientPersonal(models.Model):
 
 
 class ClientTiming(models.Model):
+
     """
     The clients timings,
     history and status.
@@ -790,6 +812,7 @@ class ClientTiming(models.Model):
 
 
 class UseClientClubCard(models.Model):
+
     """
     Log information about use the Client Club Card.
     """
@@ -800,8 +823,8 @@ class UseClientClubCard(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             is_first = UseClientClubCard.objects\
-                        .filter(client_club_card=self.client_club_card)\
-                        .count()
+                .filter(client_club_card=self.client_club_card)\
+                .count()
             if is_first == 0:
                 cc = self.client_club_card
                 cc.date_begin = date.today()
@@ -813,6 +836,7 @@ class UseClientClubCard(models.Model):
 
 
 class ClubCardTrains(models.Model):
+
     """
     The list of trainings of the visit by club card.
     """
@@ -824,6 +848,7 @@ class ClubCardTrains(models.Model):
 
 
 class UseClientAquaAerobics(models.Model):
+
     """
     Log information about use the Client AquaAerobics.
     """
@@ -846,6 +871,7 @@ class UseClientAquaAerobics(models.Model):
 
 
 class UseClientTicket(models.Model):
+
     """
     Log information about use the Client Ticket.
     """
@@ -868,6 +894,7 @@ class UseClientTicket(models.Model):
 
 
 class UseClientPersonal(models.Model):
+
     """
     Log information about use the Client Personal.
     """
@@ -877,6 +904,7 @@ class UseClientPersonal(models.Model):
 
 
 class UseClientTiming(models.Model):
+
     """
     Log information about use the Client Timing.
     """
@@ -887,6 +915,7 @@ class UseClientTiming(models.Model):
 
 
 class ExtClientClubCard(models.Model):
+
     """
     Extended clients for the Client Club Card
     where clients_count > 1.
@@ -896,6 +925,7 @@ class ExtClientClubCard(models.Model):
 
 
 class ClientOnline(models.Model):
+
     """
     Clients who has not end date in the use tables.
     """

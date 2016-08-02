@@ -255,8 +255,28 @@
   </div>
 </div> <!-- end main info -->
 
+<!-- start extra clients info -->
+<div class="panel panel-success col-md-12" ng-show="vm.aqua.extra_client.length">
+  <div class="panel-heading">
+    <strong>Сплит клиенты</strong>
+  </div>
+    <div class="row">
+      <strong class="col-md-3 panel-title">ФИО</strong>
+      <strong class="col-md-3 panel-title">Телефон</strong>
+      <strong class="col-md-3 panel-title">ЧС</strong>
+      <strong class="col-md-3 panel-title">Карта</strong>
+    </div>
+    <div class="row" ng-repeat="client in vm.aqua.extra_client">
+      <div class="col-md-3"> {{ client.initials }} </div>
+      <div class="col-md-3"> {{ client.mobile | phone }} </div>
+      <div class="col-md-3"> {{ client.uid }} </div>
+      <div class="col-md-3"> {{ client.card }} </div>      
+    </div>
+</div> <!-- end extra clients info -->
+
+<!-- start bonus info -->
 <div class="panel panel-default col-md-12"
- ng-show="vm.aqua.discount_amount || vm.aqua.bonus_amount"> <!-- start bonus info -->
+ ng-show="vm.aqua.discount_amount || vm.aqua.bonus_amount">
   <div class="panel-heading"><strong>Бонусы при покупке</strong></div>
   <span class="col-md-6" ng-show="vm.aqua.discount_amount">
     <strong>Скидка: {{ vm.aqua.discount_amount }} %</strong>

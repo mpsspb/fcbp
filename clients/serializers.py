@@ -12,6 +12,7 @@ from finance.forms import *
 
 
 class Base64ImageField(serializers.ImageField):
+
     """
     A Django REST framework field for handling image-uploads through
     raw post data.
@@ -61,6 +62,7 @@ class Base64ImageField(serializers.ImageField):
 
 
 class GuestClubCardSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = GuestClubCard
 
@@ -93,18 +95,22 @@ class ProlongationClubCardSerializer(serializers.ModelSerializer):
 
 
 class ActiveListSerializer(serializers.ListSerializer):
+
     """
     Exclude archive/disabled objects.
     """
+
     def to_representation(self, data):
         data = data.exclude(status=0)
         return super(ActiveListSerializer, self).to_representation(data)
 
 
 class ArchiveListSerializer(serializers.ListSerializer):
+
     """
     Archive/disabled objects.
     """
+
     def to_representation(self, data):
         data = data.filter(status=False)
         return super(ArchiveListSerializer, self).to_representation(data)
@@ -174,6 +180,19 @@ class ProlongationAquaSerializer(serializers.ModelSerializer):
         model = ProlongationAqua
 
 
+class ClientExtraSerializer(serializers.ModelSerializer):
+
+    """
+    Serializer for saving or update data for multi-client's products.
+    """
+    class Meta:
+        model = Client
+        fields = (
+            'id', 'first_name', 'last_name', 'patronymic', 'born', 'uid',
+            'mobile', 'card', 'initials')
+        read_only_fields = ('id', 'uid', 'mobile', 'card', 'initials')
+
+
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     useclientaquaaerobics_set = UseClientAquaAerobicsSerializer(many=True,
                                                                 read_only=True)
@@ -191,6 +210,8 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     freezeaqua_set = FreezeAquaSerializer(many=True, read_only=True)
     prolongationaqua_set = ProlongationAquaSerializer(
         many=True, read_only=True)
+
+    extra_client = ClientExtraSerializer(many=True, read_only=True)
 
     class Meta:
         list_serializer_class = ActiveListSerializer
@@ -353,17 +374,6 @@ class ClientTimingSerializer(serializers.ModelSerializer):
         return timing
 
 
-class ClientExtraSerializer(serializers.ModelSerializer):
-    """
-    Serializer for saving or update data for multi-client's products.
-    """
-    class Meta:
-        model = Client
-        fields = ('id', 'first_name', 'last_name', 'patronymic',
-                  'born')
-        read_only_fields = ('id')
-
-
 class ClientOnlineSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -377,8 +387,8 @@ class ClientSerializer(serializers.ModelSerializer):
     clientclubcard_set = ClientClubCardSerializer(
         many=True, read_only=True)
     clientaquaaerobicsfull_set = ClientAquaAerobicsFullSerializer(
-                                                            many=True,
-                                                            read_only=True)
+        many=True,
+        read_only=True)
     clientticket_set = ClientTicketSerializer(many=True, read_only=True)
     clientpersonal_set = ClientPersonalSerializer(many=True, read_only=True)
     clienttiming_set = ClientTimingSerializer(many=True, read_only=True)
