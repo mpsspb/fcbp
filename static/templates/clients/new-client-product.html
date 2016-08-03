@@ -82,17 +82,17 @@ ng-show="vm.error_amount">
 
 <div class="panel panel-default">
   <div class="panel-body">
-      <div class="col-md-6">
-        <strong class="col-md-6">{{ vm.product_choose(vm.product) }}</strong>
-        <div class="col-md-6">
+      <div class="col-md-7">
+        <strong class="col-md-3">{{ vm.product_choose(vm.product) }}</strong>
+        <div class="col-md-9">
           <select ng-model="vm.fdata.product"
            class="container-full" 
            ng-options="o.id as o.name for o in vm.options">
           </select>
         </div>
       </div>
-        <div ng-show="vm.product=='card'" class="col-md-3">
-          <label class="text-success">Платная активация</label>
+        <div ng-show="vm.product=='card'" class="col-md-2">
+          <label class="text-success"><i class="fa fa-rub"></i> активация</label>
           <input type="checkbox" ng-model="vm.fdata.is_paid_activate"/>
         </div>
         <div ng-show="vm.fdata.is_paid_activate" class="col-md-3">
@@ -105,9 +105,9 @@ ng-show="vm.error_amount">
 
 <div class="panel panel-default">
   <div class="panel-body">
-      <div class="col-md-6">
-        <strong class="col-md-6">продавец</strong>
-        <div class="col-md-6">
+      <div class="col-md-7">
+        <strong class="col-md-3">продавец</strong>
+        <div class="col-md-9">
           <select ng-model="vm.fdata.employee"
            class="container-full" 
            ng-options="e.id as e.initials for e in vm.employees">
