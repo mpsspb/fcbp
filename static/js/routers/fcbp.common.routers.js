@@ -63,6 +63,10 @@
       controller: 'NewEmployeeController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/employees/new-employee.html'
+    }).when('/edit-employee/:uid', {
+      controller: 'NewEmployeeController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/employees/new-employee.html'
     }).when('/employees-list', {
       controller: 'EmployeesListController',
       controllerAs: 'vm',

@@ -9,16 +9,43 @@
     .module('fcbp.employees.controllers')
     .controller('NewEmployeeController', NewEmployeeController);
 
-  NewEmployeeController.$inject = ['$scope', '$http', 'Authentication' , 'Employees'];
+  NewEmployeeController.$inject = ['$scope', '$http', '$routeParams', 'Authentication' , 'Employees'];
 
   /**
   * @namespace NewEmployeeController
   */
-  function NewEmployeeController($scope, $http, Authentication, Employees ) {
+  function NewEmployeeController($scope, $http, $routeParams, Authentication, Employees ) {
     var vm = this;
 
     vm.isAuthenticated = isAuthenticated();
     vm.submit = submit
+    vm.uid = $routeParams.uid
+
+    if ( vm.uid != undefined ){
+      activate();
+    }
+
+    function activate() {
+
+      Employees.get(vm.uid).then(cardempSuccessFn, cardempErrorFn);
+
+      /**
+      * @name cardempSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function cardempSuccessFn(data, status, headers, config) {
+        vm.fdata = data.data;
+        vm.fdata.born = moment(vm.fdata.born, 'YYYY-MM-DD').format('DD.MM.YYYY');
+      }
+
+      /**
+      * @name cardempErrorFn
+      * @desc console log error
+      */
+      function cardempErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    }
 
     /**
     * @name isAuthenticated
@@ -30,7 +57,12 @@
     };
 
     function submit() {
-      Employees.create(vm.fdata).then(createEmployeeSuccessFn, createEmployeeErrorFn);
+      console.log(vm.uid)
+      if ( vm.uid == undefined ){
+        Employees.create(vm.fdata).then(createEmployeeSuccessFn, createEmployeeErrorFn);
+      } else {
+        Employees.edit(vm.uid, vm.fdata).then(createEmployeeSuccessFn, createEmployeeErrorFn);
+      }
     
       /**
       * @name createEmployeeSuccessFn

@@ -1,6 +1,15 @@
 <div class="alert alert-info col-md-12" >
-<span class="col-md-3">
-    {{ employee.full_name }}
-</span>
-<span class="col-md-2">{{ employee.born | date:'dd.MM.yyyy' }}</span>
+<div class="col-md-12">
+	<span class="col-md-3">
+	    {{ employee.full_name }}
+	</span>
+	<span class="col-md-2">{{ employee.born | date:'dd.MM.yyyy' }}</span>
+  <a href="#/edit-employee/{{employee.id}}" class="btn btn-sm btn-warning"> Правка </a>
 </div>
+</div>
+
+<script type="text/javascript">
+  jQuery(function($){
+   $(".date").mask("99.99.9999");
+});
+</script>

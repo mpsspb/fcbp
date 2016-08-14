@@ -23,6 +23,8 @@
     var Employees = {
       create: create,
       list: list,
+      get: get,
+      edit: edit,
       sellers: sellers,
     };
 
@@ -46,6 +48,15 @@
     **/
     function list() {
       return $http.get('/api/v1/employees/employees/')
+    }
+    function get(uid) {
+      return $http.get('/api/v1/employees/employees/' + uid + '/')
+    }
+    function edit(uid, fdata) {
+      return $http.put('/api/v1/employees/employees/' + uid + '/',
+        fdata).error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
     }
     // only employees who is seller
     function sellers() {
