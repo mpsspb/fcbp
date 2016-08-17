@@ -7,6 +7,7 @@ from rest_framework.decorators import detail_route, list_route
 from rest_framework import mixins
 from rest_framework import generics
 
+from fcbp.views import ActiveModel
 from .models import (
     Period, ClubCard, AquaAerobics, Sport, Ticket, Personal, PersonalPosition,
     Timing, Discount, Training, CardText, CardTextItems)
@@ -15,27 +16,6 @@ from .serializers import (
     SportSerializer, TicketSerializer, PersonalSerializer, DiscountSerializer,
     PersonalPositionSerializer, TimingSerializer, TrainingSerializer,
     CardTextSerializer, CardTextItemsSerializer)
-
-
-class ActiveModel(object):
-    """
-    active/deactive the objects.
-    list active objects.
-    """
-    @detail_route(methods=['post', 'get'], )
-    def active(self, request, pk,):
-        obj = self.get_object()
-        obj.is_active = not obj.is_active
-        obj.save()
-        serializer = self.serializer_class(obj)
-        return Response(serializer.data)
-
-    @list_route(methods=['get'])
-    def active_list(self, request):
-        queryset = self.filter_queryset(self.get_queryset())\
-                       .filter(is_active=True)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 class DiscountViewSet(viewsets.ModelViewSet):

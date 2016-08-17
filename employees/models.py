@@ -2,23 +2,22 @@ from django.db import models
 
 
 class Position(models.Model):
-    """
-    Positions of the employees.
-    """
+
+    """Positions of the employees."""
     name = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True, blank=True)
 
 
 class Employee(models.Model):
-    """
-    Employees data.
-    """
+
+    """Employees data."""
     date = models.DateTimeField(auto_now_add=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     patronymic = models.CharField(max_length=30)
     born = models.DateField()
     is_seller = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True, blank=True)
 
     @property
     def full_name(self,):
@@ -31,9 +30,8 @@ class Employee(models.Model):
 
 
 class EmployeePosition(models.Model):
-    """
-    Career.
-    """
+
+    """Career."""
     date = models.DateTimeField(auto_now_add=True)
     employee = models.ForeignKey(Employee)
     position = models.ForeignKey(Position)

@@ -13,8 +13,8 @@ class PositionSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
 
+    full_name = serializers.CharField(max_length=250)
+
     class Meta:
         model = Employee
-        fields = ('id', 'first_name', 'last_name', 'patronymic',
-                  'full_name', 'born', 'initials', 'is_seller')
-        read_only_fields = ('id', )
+        read_only_fields = ('id', 'full_name')

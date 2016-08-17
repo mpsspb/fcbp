@@ -24,6 +24,10 @@
   border: 1px solid black;
 }
 
+.alert-grey {
+  background-color: #ddd;
+}
+
 /*
 * add more panel color
 */

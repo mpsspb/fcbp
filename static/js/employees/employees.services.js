@@ -26,6 +26,7 @@
       get: get,
       edit: edit,
       sellers: sellers,
+      active: active,
     };
 
     return Employees;
@@ -57,6 +58,9 @@
         fdata).error(function(data, status, headers, config) {
                           console.log(data)
                         });
+    }
+    function active(uid) {
+      return $http.post('/api/v1/employees/employees/' + uid + '/active/')
     }
     // only employees who is seller
     function sellers() {
