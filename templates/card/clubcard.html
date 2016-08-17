@@ -137,7 +137,7 @@
         {% for item in text.cardtextitems_set.all %}
         <tr>
             <td>
-                {{ forloop.counter|add:"1" }} {{ item.item }}
+                {{ forloop.counter|add:"1" }}. {{ item.item }}
             </td>
         </tr>
           
