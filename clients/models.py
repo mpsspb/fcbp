@@ -201,6 +201,10 @@ class ClientClubCard(GenericProperty, models.Model):
                 self.date_end = date.today()
         super(ClientClubCard, self).save(*args, **kwargs)
 
+    def deactivate(self, ):
+        self.status = 0
+        self.save()
+
     @property
     def name(self):
         return self.club_card.name
@@ -832,6 +836,9 @@ class UseClientClubCard(models.Model):
                 cc.save()
             if self.client_club_card.is_frozen:
                 self.client_club_card.escape_frozen()
+        if self.end and self.client_club_card.rest_visits < 1:
+            # set status not activate
+            self.client_club_card.deactivate()
         super(UseClientClubCard, self).save(*args, **kwargs)
 
 

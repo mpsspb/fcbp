@@ -92,19 +92,16 @@ class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
         queryset = Client.objects.filter(pk=-1)
         last_name = request.data.get('last_name', None)
         if last_name:
-            queryset = queryset |\
-                       Client.objects\
-                             .filter(last_name__istartswith=last_name)
+            queryset = queryset | Client.objects.filter(
+                last_name__istartswith=last_name)
         first_name = request.data.get('first_name', None)
         if first_name:
-            queryset = queryset |\
-                       Client.objects\
-                             .filter(first_name__istartswith=first_name)
+            queryset = queryset | Client.objects.filter(
+                first_name__istartswith=first_name)
         patronymic = request.data.get('patronymic', None)
         if patronymic:
-            queryset = queryset |\
-                       Client.objects\
-                             .filter(patronymic__istartswith=patronymic)
+            queryset = queryset | Client.objects.filter(
+                patronymic__istartswith=patronymic)
 
         serializer = ClientSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -163,6 +160,7 @@ class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
 
 
 class GenericProduct(object):
+
     """ Generic options for client's products."""
     @detail_route(methods=['post'], )
     def freeze(self, request, pk):
@@ -362,10 +360,11 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'], )
     def exit(self, request):
         card_id = request.data['client_club_card']
-        exit = UseClientClubCard.objects\
-                                .filter(client_club_card=card_id,
-                                        end=None)\
-                                .update(end=datetime.now())
+        exits = UseClientClubCard.objects.filter(
+            client_club_card=card_id, end=None)
+        for e in exits:
+            e.end = datetime.now()
+            e.save()
         return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
 
