@@ -467,13 +467,16 @@
       </div>
   </div>
 <!-- end block the card -->
-
     <div class="row">
       <div class="col-md-3"><center>дата</center></div>
       <div class="col-md-3">время</div>
       <div class="col-md-3">окончание</div>
       <div class="col-md-3">Занятий</div>
-    </div>      
+    </div>
+    <div class="row alert alert-danger alert-dismissible" role="alert" ng-show="vm.error">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong> Ошибка: {{ vm.error }} </strong>
+    </div>
     <div ng-repeat="use in vm.card.useclientclubcard_set"
          ng-click="collapsed=!collapsed">
         <div class="col-md-3"> {{ use.date | date:'dd.MM.yyyy' }} </div>

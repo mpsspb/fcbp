@@ -22,6 +22,7 @@
     var vm = this;
 
     vm.use = use;
+    vm.error = '';
 
     vm.uid = $routeParams.uid
     // vm.uid = parseInt(vm.uid, 10);
@@ -173,8 +174,13 @@
       * @desc Update ClubCard array on view
       */
       function cardclientSuccessFn(data, status, headers, config) {
-        activate();
-        console.log('success')
+          console.log(data.data)
+        if ('error' in data.data) {
+          vm.error = data.data['error']
+        } else {
+          activate();
+          console.log('success')
+        }
       }
 
       /**

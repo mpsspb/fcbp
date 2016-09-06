@@ -7,6 +7,7 @@ from rest_framework.decorators import list_route, detail_route
 from rest_framework.pagination import PageNumberPagination
 
 from django.views.generic.base import TemplateResponseMixin
+from django.utils.translation import ugettext as _
 
 from .models import *
 from .forms import *
@@ -343,8 +344,13 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
         data = request.data.copy()
         trainings = data.get('trainings', [])
         if len(trainings) < 1:
-            return Response({'Error:': 'Empty trainings'},
-                            status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({'error': _('Empty trainings')})
+        card_id = int(request.data['client_club_card'])
+        card = ClientClubCard.objects.get(pk=card_id)
+        if card.status == 0:
+            return Response({'error': _('Card is disabled')})
+        if len(trainings) > card.rest_visits_int:
+            return Response({'error': _('Too many trainings')})
         serializer = UseClientClubCardSerializer(data=data)
         if serializer.is_valid():
             obj = serializer.save()

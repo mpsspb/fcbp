@@ -73,37 +73,41 @@ TEMPLATE_DIRS = (
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
+)
+
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
-USE_I18N = False
+USE_I18N = True
 
-USE_L10N = False
+USE_L10N = True
 
 USE_TZ = False
 
 REST_FRAMEWORK = {
     'DATE_INPUT_FORMATS': (
-         '%d.%m.%Y',    # '25.10.2006
-        ),
+        '%d.%m.%Y',    # '25.10.2006
+    ),
     'DATETIME_INPUT_FORMATS': (
-         '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
-         '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
-        ),
+        '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
+        '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
+    ),
     'COERCE_DECIMAL_TO_STRING': False,
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE': 10,
 }
 
 DATE_INPUT_FORMATS = (
-     '%d.%m.%Y',    # '25.10.2006
-    )
+    '%d.%m.%Y',    # '25.10.2006
+)
 
 DATETIME_INPUT_FORMATS = (
-     '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
-     '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
-    )
+    '%d.%m.%Y %H:%M:%S',  # '25.10.2006 22:15:30'
+    '%d.%m.%Y %H:%M',  # '25.10.2006 22:15'
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

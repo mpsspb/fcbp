@@ -267,6 +267,14 @@ class ClientClubCard(GenericProperty, models.Model):
         return self.club_card.max_visit - used
 
     @property
+    def rest_visits_int(self):
+        if self.club_card.max_visit == 99999:
+            return 99999
+        visits = UseClientClubCard.objects.filter(client_club_card=self)
+        used = ClubCardTrains.objects.filter(visit__in=visits).count()
+        return self.club_card.max_visit - used
+
+    @property
     def is_online(self):
         return UseClientClubCard.objects.filter(client_club_card=self,
                                                 end__isnull=True).count()
