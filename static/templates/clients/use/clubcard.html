@@ -497,10 +497,10 @@
  ng-show="vm.card.discount_amount || vm.card.bonus_amount"> <!-- start bonus info -->
   <div class="panel-heading"><strong>Бонусы при покупке</strong></div>
   <span class="col-md-6" ng-show="vm.card.discount_amount">
-    <strong>Скидка: {{ vm.card.discount_amount }} %</strong>
+    <strong>Скидка({{ vm.card.discount_description }}): {{ vm.card.discount_amount }} %</strong>
   </span>
   <span class="col-md-6" ng-show="vm.card.bonus_amount">
-    <strong>Бонус: {{ vm.card.bonus_amount }} руб.</strong>
+    <strong>Бонус({{ vm.card.discount_description }}): {{ vm.card.bonus_amount }} руб.</strong>
   </span>
 </div> <!-- end bonus info -->
 

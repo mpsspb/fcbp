@@ -236,6 +236,15 @@ class ClientClubCard(GenericProperty, models.Model):
             return ''
 
     @property
+    def discount_description(self):
+        if self.discount_type:
+            return self.discount_type.description
+        elif self.bonus_type:
+            return self.bonus_type.description
+        else:
+            return ''
+
+    @property
     def period(self):
         if self.club_card.period.is_month:
             return u'%s месяцев' % self.club_card.period.value
