@@ -10,14 +10,14 @@
     .controller('UseClientCardController', UseClientCardController);
 
   UseClientCardController.$inject = ['$location', '$rootScope', '$routeParams',
-                                     '$scope', '$http', 'ClientPayment',
+                                     '$route', '$scope', '$http', 'ClientPayment',
                                      'ClubCard', 'Employees', 'Training'];
 
   /**
   * @namespace UseClientCardController
   */
   function UseClientCardController($location, $rootScope, $routeParams,
-                                   $scope, $http, ClientPayment,
+                                   $route, $scope, $http, ClientPayment,
                                    ClubCard, Employees, Training) {
     var vm = this;
 
@@ -35,6 +35,7 @@
     vm.freeze = freeze;
     vm.paid_activate = paid_activate;
     vm.to_archive = to_archive;
+    vm.update_date_begin = update_date_begin;
     vm.add_train = add_train;
     vm.rm_train = rm_train;
     vm.use_trainings = [];
@@ -89,6 +90,7 @@
         client_club_card: vm.uid,
         date: now
       }
+
       // end forms
 
 
@@ -100,6 +102,12 @@
       */
       function cardclientSuccessFn(data, status, headers, config) {
         vm.card = data.data;
+        if (vm.card.date_begin) {
+          // freeze data
+          vm.new_date = {
+            date_begin: moment(vm.card.date_begin, 'YYYY-MM-DD').format('DD.MM.YYYY'),
+          }
+        }
         if (vm.card.rest_freeze > 0 && vm.card.rest_freeze_times > 0) {
           vm.free_freeze = true
         } else {
@@ -333,7 +341,6 @@
       * @desc Update ClubCard array on view
       */
       function freezeSuccessFn(data, status, headers, config) {
-        console.log(data);
         activate();
       }
 
@@ -386,6 +393,29 @@
       * @desc console log error
       */
       function to_archiveErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
+
+    function update_date_begin() {
+      vm.new_date['update_success'] = false
+      $http.put('/api/v1/clients/clubcard/' + vm.uid + '/', vm.new_date
+                ).then(update_date_beginSuccessFn, update_date_beginErrorFn);
+
+      /**
+      * @name update_date_beginSuccessFn
+      * @desc Update ClubCard on view
+      */
+      function update_date_beginSuccessFn(data, status, headers, config) {
+         $route.reload();
+      }
+
+      /**
+      * @name update_date_beginErrorFn
+      * @desc console log error
+      */
+      function update_date_beginErrorFn(data, status, headers, config) {
         console.log(data);
       }
     };

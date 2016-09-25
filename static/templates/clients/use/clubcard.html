@@ -547,6 +547,22 @@
   </div>
 </div> <!-- end payment info -->
 
+<div class="panel panel-danger col-md-12"> <!-- extra option -->
+  <div class="panel-heading"><strong>Дополнительные опции</strong></div>
+  <div class="panel-body">
+    <span class="col-md-3 cursor-pointer btn-warning" ng-click="coll_d=!coll_d" ng-show="vm.new_date.date_begin">
+      <strong>Изменить дату активации</strong>
+      <span class="bg-success" ng-show="vm.new_date.update_success">обновлено</span>
+    </span>
+  </div>
+  <div ng-show="coll_d" class="col-md-12">
+    <div class="col-md-3"><input ng-model="vm.new_date.date_begin" type="text"
+     class="form-control date" ng-model>
+    </div>
+    <div class="btn btn-primary col-md-3" ng-click="vm.update_date_begin()">Применить</div>
+  </div>
+</div> <!-- end extra option -->
+
 <script type="text/javascript">
   jQuery(function($){
 
