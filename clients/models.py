@@ -200,8 +200,10 @@ class ClientClubCard(GenericProperty, models.Model):
             if self.date_end > date.today():
                 self.date_end = date.today()
         if self.pk:
+            delta_begin = None
             old_date_begin = ClientClubCard.objects.get(pk=self.pk).date_begin
-            delta_begin = self.date_begin - old_date_begin
+            if old_date_begin:
+                delta_begin = self.date_begin - old_date_begin
             if delta_begin:
                 self.date_end += delta_begin
         super(ClientClubCard, self).save(*args, **kwargs)
