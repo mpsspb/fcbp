@@ -1,0 +1,1 @@
+CARD_SET = slice(0,80)

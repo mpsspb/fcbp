@@ -143,3 +143,9 @@ try:
 except Exception as e:
     print("Unable import local settings : %s" % (e))
     exit(1)
+
+try:
+    from .sys_settings import *
+except Exception as e:
+    print("Unable import local settings : %s" % (e))
+    exit(1)

@@ -8,6 +8,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from django.views.generic.base import TemplateResponseMixin
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 from .models import *
 from .forms import *
@@ -75,7 +76,7 @@ class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
         """
         Search clients by carb or uid or istartswith last_name.
         """
-        search = request.data['search']
+        search = request.data['search'][settings.CARD_SET]
         try:
             search = int(search)
             queryset = Client.objects.filter(card=search)
