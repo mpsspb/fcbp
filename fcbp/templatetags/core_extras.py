@@ -31,6 +31,8 @@ def static_version(path_string):
 
 @register.filter()
 def phone(value):
+    if not value:
+        return ''
     num = str(value)
     if len(num) == 7:
         return '%s - %s' % (num[:3], num[3:])
