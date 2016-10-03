@@ -24,75 +24,98 @@
             <i class="fa fa-print"></i> печать
         </a>
     </center>
-{% for i in '12' %}
-    <div class="row">
-        <div class="col-md-6 text-center"> ЧЛЕНСКОЕ СОГЛАШЕНИЕ (Персональная карта клиента)</div>
-    </div>
-    <table class="table-print">
+{% for i in '01' %}
+    <table width="800">
         <tr>
-            <td class="no-border">Фамилия, Имя, Отчество</td>
-            <td class="no-border" width="150"><strong>{{ client.last_name }}</strong></td>
-            <td class="no-border" width="200"><strong>{{ client.first_name }}</strong></td>
-            <td width="150"><strong>{{ client.patronymic }}</strong></td>
-            <td class="no-border">ЧС</td>
-            <td width="100"> &nbsp;<strong>{{ client.uid }}</strong></td>
+            <td colspan="6" align="center"><strong>Приложение №3 </strong>
+             к Абонентскому договору от {{ card.date|date:"d.m.Y" }}<br/>
+             О предоставлении права пользования физкультурно-оздоровительными услугами клуба<br/>
+             «Красота и cила» расположенному по адресу: г. Пушкин, б-р А. Толстого,  д. 50, кор. 1</td>
         </tr>
         <tr>
-            <td class="no-border">Дата рождения </td>
-            <td><strong>{{ client.born | date:"d.m.Y" }}</strong></td>
-            <td class="no-border">Адрес места жительства</td>
-            <td colspan="3"><strong>{{ client.address|default:'' }}<strong></td>
-        </tr>
-        <tr>
-            <td class="no-border">Контактные телефоны</td>
-            <td class="no-border"><strong>{{ client.mobile|default:''|phone }}</strong></td>
-            <td ><strong>{{ client.phone|default:''|phone }}</strong></td>
-            <td >Адрес электронной почты</td>
-            <td colspan="2"><strong>{{ client.email|default:'' }}</strong></td>
-        </tr>
-        <tr>
-            <td class="no-border">Документ, удостоверяющий личность</td>
-            <td colspan="5"><strong>{{ client.passport|default:'' }}</strong></td>
-        </tr>
-        <tr>
-            <td colspan="3">С условиями Договора на оказание услуг от 01.02.2015 г. согласен(а)</td>
-            <td colspan="2"></td>
-            <td rowspan="6">{{ client.last_name }}<br/>
-            {{ client.first_name }}<br/>
-            {{ client.patronymic }}</td>
-        </tr>
-        <tr>
-            <td colspan="3">С правилами посещения клуба «Красота и сила» согласно Приложению №1 к Договору от 01.02.2015 г.ознакомлен(а)
+            <td colspan="6" align="justify">
+            {{ text.header }}
             </td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td colspan="3">С правилами переоформлений клубных карт, абонементов и клип-карт согласно Приложению №2 к Договору от 01.02.2015 г. ознакомлен(а)
-            </td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td colspan="3">С правилами возвратов клубных карт, абонементов и клип-карт согласно Приложению №3 к Договору от 01.02.2015 г. ознакомлен(а)
-            </td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td colspan="3">Я согласен на получение информационных сообщений, новостей, рекламы по сетям электросвязи, в том числе распространяемых посредством использования телефонной, подвижной радиотелефонной, электронной связи, включая направленных посредством SMS-сообщений
-            </td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td colspan="3">Настоящим выражаю свое согласие на обработку моих персональных данных, указанных в настоящей персональной карте клиента
-            </td>
-            <td colspan="2"></td>
-        </tr>
-        <tr>
-            <td>Дата заполнения</td>
-            <td>{% now "d.m.Y" %}</td>
-            <td ></td><td colspan="3"></td>
         </tr>
     </table>
-{% if forloop.first %}<br/><br/>{% endif %}
+    <table class="table-print">
+        <tr>
+           <td colspan="4" width="400">
+            <strong>Персональная карта Клиента Клуба "Красота и сила"</strong>
+           </td>
+           <td>№ договора</td>
+           <td width="240">{{ client.uid }}</td>
+        </tr>
+        <tr>
+            <td width="140"><i>Фамилия, Имя, Отчество</i></td>
+            <td><strong>{{ client.last_name }}</strong></td>
+            <td colspan="2"><strong>{{ client.first_name }}</strong></td>
+            <td colspan="2"><strong>{{ client.patronymic }}</strong></td>
+        </tr>
+        <tr>
+            <td><i>Дата рождения</i></td>
+            <td> {{ client.born | date:"d.m.Y" }}</td>
+            <td><i>Контактные телефоны</i></td>
+            <td colspan="3">{{ client.mobile | phone }} 
+                {% if client.mobile and client.phone %}, {% endif %}
+                {{ client.phone | phone }}</td>
+        </tr>
+        <tr>
+            <td><i>Адрес электронной почты</i></td>
+            <td colspan="5">{{ client.email | default:'' }}</td>
+        </tr>
+        <tr>
+            <td><i>Адрес места жительства</i></td>
+            <td colspan="5">{{ client.address | default:'' }}</td>
+        </tr>
+        <tr>
+            <td rowspan="2"><i>Документ удостоверяющий личность</i></td>
+            <td><i>номер</i></td>
+            <td colspan="2">{{ client.passport_number | default:'' }}</td>
+            <td><i>дата выдачи </i></td>
+            <td colspan="2"> {{ client.passport_date | date:"d.m.Y"  }}</td>
+        </tr>
+        <tr>
+            <td><i>выдан</i></td>
+            <td colspan="5">{{ client.passport_issued | default:''}}</td>
+        </tr>
+    </table>
+
+    <table width="800">
+        <tr>
+            <td>
+                {{ text.additional_header }}
+            </td>
+        </tr>
+    </table>
+    <table width="800">
+        {% for item in text.cardtextitems_set.all %}
+        <tr>
+            <td>
+                {{ item.item }}
+            </td>
+        </tr>
+          
+        {% endfor %}
+    </table>
+  <table width="800" class="table-print">
+    <tr>
+        <td width="120"><i>Клиент</i></td>
+        <td colspan="3"></td>
+        <td width="120"><i>Исполнитель</i></td>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <td width="120">Дата заполнения</td>
+        <td colspan="3"></td>
+        <td width="120">Дата заполнения</td>
+        <td colspan="3"></td>
+    </tr>
+  </table>
+{% if i == '0' %}
+<br/>
+<br/>
+{% endif %}
 {% endfor %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "jquery/jquery-2.1.4.min.js" %}"></script>
