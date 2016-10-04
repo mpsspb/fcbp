@@ -14,6 +14,7 @@ class PositionSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
 
     full_name = serializers.CharField(max_length=250, read_only=True)
+    initials = serializers.CharField(max_length=250, read_only=True)
 
     class Meta:
         model = Employee
