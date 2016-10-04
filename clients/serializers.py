@@ -410,7 +410,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        read_only_fields = ('id', 'full_name', 'avatar_url', 'uid', 'date',
+        read_only_fields = ('id', 'full_name', 'avatar_url', 'date',
                             'clientonline_set')
 
 
