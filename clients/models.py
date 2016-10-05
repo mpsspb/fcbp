@@ -197,7 +197,10 @@ class ClientClubCard(GenericProperty, models.Model):
 
     def save(self, *args, **kwargs):
         if self.status == 0:
-            if self.date_end > date.today():
+            if not self.date_begin:
+                self.date_begin = date.today()
+                self.date_end = date.today()
+            else:
                 self.date_end = date.today()
         if self.pk:
             delta_begin = None
@@ -973,9 +976,11 @@ def date_end(date_begin, obj):
     """
     Return date end for the obj
     """
+    # the first day used
+    date_from  = date_begin - timedelta(days=1)
     if obj.period.is_month:
         months = obj.period.value
-        return date_begin + relativedelta(months=months)
+        return date_from + relativedelta(months=months)
     else:
         days = obj.period.value
-        return date_begin + timedelta(days=days)
+        return date_from + timedelta(days=days)

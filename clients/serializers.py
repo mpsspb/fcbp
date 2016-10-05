@@ -433,15 +433,3 @@ def finance(data):
             form.save()
         else:
             print form.errors
-
-
-def date_end(date_begin, obj):
-    """
-    Return date end for the obj
-    """
-    if obj.period.is_month:
-        months = obj.period.value
-        return date_begin + relativedelta(months=months)
-    else:
-        days = obj.period.value
-        return date_begin + timedelta(days=days)
