@@ -21,6 +21,6 @@ class EmployeeViewSet(ActiveModel, viewsets.ModelViewSet):
         """
         Only employees who is seller.
         """
-        queryset = self.queryset.filter(is_seller=True)
+        queryset = self.queryset.filter(is_seller=True, is_active=True)
         serializer = EmployeeSerializer(queryset, many=True)
         return Response(serializer.data)
