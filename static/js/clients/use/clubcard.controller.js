@@ -114,6 +114,18 @@
           vm.free_freeze = false
           vm.frdata.is_paid = true
         }
+        // for edit personalclubcard
+        if (vm.card.personalclubcard_set.length) {
+          var p_data = vm.card.personalclubcard_set[0]
+          vm.pdata = p_data
+          vm.pdata['date'] = moment(p_data.date, 'YYYY-MM-DD HH:mm').format('DD.MM.YYYY HH:mm')
+        }
+        // for edit fitnessclubcard_set
+        if (vm.card.fitnessclubcard_set.length) {
+          var f_data = vm.card.fitnessclubcard_set[0]
+          vm.fitdata = f_data
+          vm.fitdata['date'] = moment(f_data.date, 'YYYY-MM-DD HH:mm').format('DD.MM.YYYY HH:mm')
+        }
       }
 
       /**

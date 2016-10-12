@@ -344,9 +344,12 @@
        data-toggle="modal" data-target="#CardPersonal"
        > Записать </button>
       <h4 ng-show="vm.card.personalclubcard_set">
-        {{ vm.card.personalclubcard_set[0].date | date:'dd.MM.yyyy' }}
-        {{ vm.card.personalclubcard_set[0].employee }}      
+        {{ vm.pdata.date }}, {{ vm.pdata.employee }}      
       </h4>
+       <button class="btn btn-warning btn-block btn-xs"
+       ng-show="vm.card.personalclubcard_set.length"
+       data-toggle="modal" data-target="#CardPersonal"
+       > Правка </button>
     </div>
   </div>
 
@@ -358,9 +361,12 @@
        data-toggle="modal" data-target="#Fitness"
        ng-show="vm.card.fitness_testing_discount"> Записать </button>
       <h4 ng-show="vm.card.fitnessclubcard_set">
-        {{ vm.card.fitnessclubcard_set[0].date | date:'dd.MM.yyyy' }}
-        {{ vm.card.fitnessclubcard_set[0].employee }}      
+        {{ vm.fitdata.date }}, {{ vm.fitdata.employee }}
       </h4>
+       <button class="btn btn-warning btn-block btn-xs"
+       ng-show="vm.card.fitnessclubcard_set.length"
+       data-toggle="modal" data-target="#Fitness"
+       > Правка </button>
     </div>
   </div>
 

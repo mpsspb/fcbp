@@ -108,17 +108,31 @@
     }
 
     function personal(fdata) {
-      return $http.post('/api/v1/clients/personalclubcard/',  fdata)
-                  .error(function(data, status, headers, config) {
-                          console.log(data)
-                        });
+      if (fdata.id > 0) {
+        return $http.put('/api/v1/clients/personalclubcard/' + fdata.id + '/',  fdata)
+                    .error(function(data, status, headers, config) {
+                            console.log(data)
+                          });
+      } else {
+        return $http.post('/api/v1/clients/personalclubcard/',  fdata)
+                    .error(function(data, status, headers, config) {
+                            console.log(data)
+                          });
+      }
     }
 
     function fitness(fdata) {
-      return $http.post('/api/v1/clients/fitness/',  fdata)
-                  .error(function(data, status, headers, config) {
-                          console.log(data)
-                        });
+      if (fdata.id > 0) {
+        return $http.put('/api/v1/clients/fitness/' + fdata.id + '/',  fdata)
+                    .error(function(data, status, headers, config) {
+                            console.log(data)
+                          });
+      } else {
+        return $http.post('/api/v1/clients/fitness/',  fdata)
+                    .error(function(data, status, headers, config) {
+                            console.log(data)
+                          });
+      }
     }
 
     function prolongation(fdata) {
