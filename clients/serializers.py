@@ -410,8 +410,8 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        read_only_fields = ('id', 'full_name', 'avatar_url', 'date',
-                            'clientonline_set')
+        read_only_fields = (
+            'id', 'full_name', 'avatar_url', 'date', 'clientonline_set')
 
 
 def finance(data):
