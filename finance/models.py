@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from datetime import datetime
+
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -6,6 +9,7 @@ from clients.models import Client, ClientPersonal, ClientTiming
 
 
 class Credit(models.Model):
+
     """
     Clients credits before payment.
 
@@ -32,10 +36,11 @@ class Credit(models.Model):
 
 
 class Payment(models.Model):
+
     """
     Client payments.
     """
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(blank=True)
     payment_type = models.SmallIntegerField(default=1, )
     """
     cash = 1,
@@ -57,3 +62,31 @@ class Payment(models.Model):
     discount = models.IntegerField(default=0,
                                    validators=[MinValueValidator(0),
                                                MaxValueValidator(100)])
+
+    def save(self, *args, **kwargs):
+        if not self.date:
+            self.date = datetime.now()
+        super(Payment, self).save(*args, **kwargs)
+
+    def goods(self):
+        # first of existing goods
+        all_goods = (
+            self.club_card, self.aqua_aerobics, self.ticket, self.personal,
+            self.timing)
+        return next(x for x in all_goods if x)
+
+    def description(self):
+        msg = u'Платеж от {date} на сумму {amount} руб. за {goods}'
+        data = {'date': self.date, 'amount': self.amount,
+                'goods': self.goods().name}
+        return msg.format(**data)
+
+    def split(self, amount):
+        try:
+            amount = int(amount)
+        except Exception as e:
+            return
+        new_payment = self
+        new_payment.amount = self.amount - amount
+        new_payment.pk = None
+        new_payment.save()

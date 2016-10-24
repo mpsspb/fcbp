@@ -30,10 +30,19 @@ class Period(models.Model):
         unique_together = ('value', 'is_month')
 
 
-class ClubCard(models.Model):
+class GenericProduct(object):
+
+    @property
+    def full_name(self):
+        return '{ptype} {name}'.format(ptype=self.ptype, name=self.name)
+
+
+class ClubCard(models.Model, GenericProduct):
     """
     Club card types.
     """
+    ptype = u'Клубная карта'
+
     name = models.CharField(max_length=255, unique=True)
     max_visit = models.IntegerField()
     period = models.ForeignKey(Period, )
@@ -54,10 +63,12 @@ class ClubCard(models.Model):
         return self.period
 
 
-class AquaAerobics(models.Model):
+class AquaAerobics(models.Model, GenericProduct):
     """
     Aqua Aerobics types.
     """
+    ptype = u'Аквааэробика'
+
     name = models.CharField(max_length=255, unique=True)
     max_visit = models.IntegerField()
     period = models.ForeignKey(Period, )

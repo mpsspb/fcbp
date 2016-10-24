@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+  {% block container %}
+<nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController as vm">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">ФК Красота и Сила</a>
+    </div> <!-- ./navbar-header -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav pull-right">
+        {% if request.user.is_authenticated %}
+          <li>{{ request.user.username }}</li>
+          <li><a href="javascript:void(0)" ng-click="vm.logout()">Выход</a></li>
+        {% else %}
+          <li><a href="#/login">Вход</a></li>
+        {% endif %}
+      </ul>
+    </div> <!-- /.collapse.navbar-collapse -->
+  </div> <!-- /.container-fluid -->
+</nav>
+
+  <div class="container-fluid">
+   <form action="" method="POST">
+   {% csrf_token %}
+      <label class="col-md-1 control-label">С:</label>
+      <div class="col-md-2">
+        <input name="fdate" type="text"  class="form-control date"
+        value="{{ fdate|date:'d.m.Y H:i' }}">
+      </div>
+      <label class="col-md-1 control-label">По:</label>
+      <div class="col-md-2">
+        <input name="tdate" type="text"  class="form-control date"
+        value="{{ tdate|date:'d.m.Y H:i' }}">
+      </div>
+      <div class="col-md-1"> <button class="btn btn-primary">фильтр</button></div>
+   </form>
+   <br>
+   <br>
+   {% for p in payments %}
+   <div class="col-md-12 row table">
+    <div class="col-md-1"> <strong>{{ p.amount }}руб.</strong></div>
+    <div class="col-md-1">
+      <a class="btn btn-xs btn-warning" href="{% url 'payment-update-amount' p.pk %}">
+        разбить
+      </a>
+    </div>
+    <div class="col-md-2">{{ p.date|date:'d.m.Y H:i' }}</div>
+    <div class="col-md-2">
+      <a class="btn btn-xs btn-success" href="{% url 'payment-update-date' p.pk %}">
+        Изменить дату
+      </a>
+    </div>
+    <div class="col-md-2"> {{ p.client.initials }} </div>
+    <div class="col-md-4"> {{ p.goods.full_name }} </div>
+   </div>
+   {% endfor %}
+  </div>
+{% endblock %}
+
+  {% block extra_js %}
+<script type="text/javascript">
+  jQuery(function($){
+   $(".date").mask("99.99.9999 99:99");
+});
+</script>
+
+  {% endblock %}

@@ -54,6 +54,13 @@ class GenericProperty(object):
                 f.days = days_freeze
                 f.save()
 
+    @property
+    def name(self):
+        return self.product.name
+
+    def full_name(self):
+        return self.product.full_name
+
 
 class Client(models.Model):
 
@@ -216,8 +223,8 @@ class ClientClubCard(GenericProperty, models.Model):
         self.save()
 
     @property
-    def name(self):
-        return self.club_card.name
+    def product(self):
+        return self.club_card
 
     @property
     def discount_name(self):
@@ -475,8 +482,8 @@ class ClientAquaAerobics(GenericProperty, models.Model):
     """
 
     @property
-    def name(self):
-        return self.aqua_aerobics.name
+    def product(self):
+        return self.aqua_aerobics
 
     @property
     def extra_client(self):
@@ -977,7 +984,7 @@ def date_end(date_begin, obj):
     Return date end for the obj
     """
     # the first day used
-    date_from  = date_begin - timedelta(days=1)
+    date_from = date_begin - timedelta(days=1)
     if obj.period.is_month:
         months = obj.period.value
         return date_from + relativedelta(months=months)

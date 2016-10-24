@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+  {% block container %}
+<nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController as vm">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">ФК Красота и Сила</a>
+    </div> <!-- ./navbar-header -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav pull-right">
+        {% if request.user.is_authenticated %}
+          <li>{{ request.user.username }}</li>
+          <li><a href="javascript:void(0)" ng-click="vm.logout()">Выход</a></li>
+        {% else %}
+          <li><a href="#/login">Вход</a></li>
+        {% endif %}
+      </ul>
+    </div> <!-- /.collapse.navbar-collapse -->
+  </div> <!-- /.container-fluid -->
+</nav>
+
+  <div class="container-fluid">
+  <div class="row col-md-12">
+    <div class="alert alert-warning">
+      <strong> {{ payment.description }} </strong>
+    </div>
+  </div>
+  <form action="" method="POST">
+   {% csrf_token %}
+    <div class="col-md-2">
+      <a class="btn btn-sm btn-default" href="{% url 'finance' %}">Назад</a>
+    </div>
+    {% if 'date' in form.fields %}
+   <label class="col-md-2 control-label">Дата платежа:</label>
+    <div class="col-md-2">
+      <input name="date" type="text"  class="form-control date"
+      value="{{ payment.date|date:'d.m.Y H:i' }}">
+    </div>
+    <div class="col-md-12">
+      <label class="col-md-2 control-label">Вид оплаты:</label>
+      <div class="col-md-2">
+        <label class="control-label">Иное</label>
+        <input type="radio" name="payment_type" value="0">
+      </div>
+      <div class="col-md-2">
+      <label class="control-label">Наличные</label>
+        <input type="radio" name="payment_type" value="1">
+      </div>
+      <div class="col-md-2">
+        <label class="control-label">Безналичные</label>
+        <input type="radio" name="payment_type" value="2">
+      </div>
+      <div class="col-md-2">
+        <label class="control-label">Банк</label>
+        <input type="radio" name="payment_type" value="3">
+      </div>
+    </div>
+    {% else %}
+   <div class="control-label col-md-2">
+     Остаток: <strong id="default_val">{{ payment.amount }}</strong>
+   </div>
+    <div class="col-md-2">
+      <input type="number" name="amount" class="form-control" value="0">
+    </div>
+    {% endif %}
+    <div class="col-md-2">
+      <button class="btn btn-sm btn-success">Сохранить</button>
+    </div>
+  </form>
+  </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+{% if 'date' in form.fields %}
+
+  jQuery(function($){
+   $(".date").mask("99.99.9999 99:99");
+  });
+
+  $('input:radio[name=payment_type]')[{{ payment.payment_type}}].checked = true;
+
+{% else %}
+  $( document ).on( "change", '[name=amount]', function() {
+      var default_val = parseFloat('{{ payment.amount }}')
+      var res_val = default_val - this.value
+      console.log('res_val: ' + res_val)
+      $("#default_val").text(res_val);
+      if (res_val < 1) {
+        $('.btn-success').prop('disabled', true);
+      } else {
+        $('.btn-success').prop('disabled', false);
+      }
+  });
+{% endif %}
+</script>
+{% endblock %}

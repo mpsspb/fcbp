@@ -179,6 +179,11 @@ ng-show="vm.error_amount">
 <div class="col-md-12">
   <label class="col-md-2 control-label">Вид оплаты:</label>
     <div class="col-md-2">
+      <label class="control-label">Иное</label>
+      <input ng-model="vm.fdata.payment_type" type="radio"
+      name="payment_type" value="0">
+    </div>
+    <div class="col-md-2">
     <label class="control-label">Наличные</label>
       <input ng-model="vm.fdata.payment_type" type="radio"
       name="payment_type" value="1">
@@ -192,11 +197,6 @@ ng-show="vm.error_amount">
       <label class="control-label">Банк</label>
       <input ng-model="vm.fdata.payment_type" type="radio"
       name="payment_type" value="3">
-    </div>
-    <div class="col-md-2">
-      <label class="control-label">Иное</label>
-      <input ng-model="vm.fdata.payment_type" type="radio"
-      name="payment_type" value="0">
     </div>
     <div ng-show="vm.total() > vm.fdata.amount" class="col-md-2">
         <label class="control-label text-primary">Долг</label>
