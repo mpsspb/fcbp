@@ -11,14 +11,14 @@
 
   UseClientCardController.$inject = ['$location', '$rootScope', '$routeParams',
                                      '$route', '$scope', '$http', 'ClientPayment',
-                                     'ClubCard', 'Employees', 'Training'];
+                                     'ClientCredit', 'ClubCard', 'Employees', 'Training'];
 
   /**
   * @namespace UseClientCardController
   */
   function UseClientCardController($location, $rootScope, $routeParams,
                                    $route, $scope, $http, ClientPayment,
-                                   ClubCard, Employees, Training) {
+                                   ClientCredit, ClubCard, Employees, Training) {
     var vm = this;
 
     vm.use = use;
@@ -40,6 +40,8 @@
     vm.rm_train = rm_train;
     vm.use_trainings = [];
     vm.payment = payment;
+    vm.day_change = day_change;
+    vm.cr_split = cr_split;
 
     vm.prolongation = prolongation;
     vm.is_paid = is_paid;
@@ -126,6 +128,10 @@
           vm.fitdata = f_data
           vm.fitdata['date'] = moment(f_data.date, 'YYYY-MM-DD HH:mm').format('DD.MM.YYYY HH:mm')
         }
+        // for edit credit_set date
+        angular.forEach(vm.card.credit_set, function (value, key) {
+          value.schedule = moment(value.schedule, 'YYYY-MM-DD').format('DD.MM.YYYY');
+        });
       }
 
       /**
@@ -454,6 +460,52 @@
         console.log(data);
       }
 
+    };
+
+    // function for update date of the credit
+    function day_change(cr) {
+      var fdata = {'schedule': cr.schedule}
+      ClientCredit.update(cr.id, fdata).then(CrUpdSuccessFn, CrUpdErrorFn);
+
+      /**
+      * @name CrUpdSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function CrUpdSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name CrUpdErrorFn
+      * @desc console log error
+      */
+      function CrUpdErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
+    // function for split amount of the credit
+    function cr_split(cr) {
+      var fdata = {'amount': cr.amount}
+      ClientCredit.update(cr.id, fdata).then(CrUpdSuccessFn, CrUpdErrorFn);
+
+      /**
+      * @name CrUpdSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function CrUpdSuccessFn(data, status, headers, config) {
+        console.log('success')
+        activate()
+      }
+
+      /**
+      * @name CrUpdErrorFn
+      * @desc console log error
+      */
+      function CrUpdErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
     };
 
   };

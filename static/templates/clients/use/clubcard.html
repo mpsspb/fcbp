@@ -524,8 +524,21 @@
         <td></td>
       </tr>
       <tr ng-repeat="cr in vm.card.credit_set">
-        <td> {{ cr.schedule | date:'dd.MM.yyyy' }} </td>
-        <td> {{ cr.amount }} руб.</td>
+        <td><button class="btn btn-xs btn-info" ng-click="day_change=!day_change">изменить</button>
+            {{ cr.schedule | date:'dd.MM.yyyy' }}
+            <div class="block" ng-show="day_change">
+            <input class="col-md-6 sinput date-time" ng-model="cr.schedule">
+            <button class="col-md-4 col-md-offset-1 btn btn-xs btn-primary" ng-click="vm.day_change(cr)">применить</button>
+            </div>
+        </td>
+        <td> <button class="btn btn-xs btn-success" ng-click="cr_split=!cr_split">разбить</button>
+            {{ cr.amount }} руб.
+            <div class="block" ng-show="cr_split">
+            <input class="col-md-6 sinput" ng-model="cr.amount">
+            <button class="col-md-4 col-md-offset-1 btn btn-xs btn-primary" ng-click="vm.cr_split(cr)">применить</button>
+            </div>
+        </td>
+        </td>
         <td>
           <button class="btn btn-warning btn-sm"
           ng-click="show_pay_type=!show_pay_type">

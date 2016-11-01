@@ -23,6 +23,7 @@
     var ClientCredit = {
       create: create,
       list: list,
+      update: update,
     };
 
     return ClientCredit;
@@ -47,6 +48,10 @@
       return $http.get('/api/v1/finance/credits/', 
                         {params: {page: page,
                                   letter: letter} })
+    }
+
+    function update(uid, fdata) {
+      return $http.put('/api/v1/finance/credits/' + uid + '/', fdata)
     }
 
   }

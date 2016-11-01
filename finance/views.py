@@ -36,6 +36,21 @@ class CreditViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        amount = int(request.data.get('amount', 0))
+        if amount and amount > instance.amount:
+            return Response({'error': u'Неверная сумма'},
+                   status.HTTP_406_NOT_ACCEPTABLE)
+        elif amount and amount < instance.amount:
+            instance.split(amount)
+            instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data,
+                                         partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.order_by('-date')

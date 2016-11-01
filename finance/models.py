@@ -34,6 +34,16 @@ class Credit(models.Model):
     class Meta:
         ordering = ('schedule',)
 
+    def split(self, amount):
+        try:
+            amount = int(amount)
+        except Exception as e:
+            return
+        new_credit = self
+        new_credit.amount = self.amount - amount
+        new_credit.pk = None
+        new_credit.save()
+
 
 class Payment(models.Model):
 
