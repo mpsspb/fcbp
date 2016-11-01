@@ -435,6 +435,9 @@
         <tr ng-repeat="p in vm.card.prolongationclubcard_set">
           <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
           <td> {{ p.days }}</td>
+          <td>
+            <i class="fa fa-recycle cursor-pointer text-red" ng-click="vm.prolongation_del(p.id)"></i>
+          </td>
         </tr>
       </table>
     </div>

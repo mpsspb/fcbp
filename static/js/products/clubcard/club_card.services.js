@@ -31,6 +31,7 @@
       personal: personal,
       fitness: fitness,
       prolongation: prolongation,
+      prolongation_del: prolongation_del,
       freeze: freeze,
       active: active,
       active_list: active_list,
@@ -137,6 +138,13 @@
 
     function prolongation(fdata) {
       return $http.post('/api/v1/clients/prolongation/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function prolongation_del(uid) {
+      return $http.delete('/api/v1/clients/prolongation/' + uid + '/')
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });

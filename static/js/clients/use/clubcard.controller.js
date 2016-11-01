@@ -44,6 +44,7 @@
     vm.cr_split = cr_split;
 
     vm.prolongation = prolongation;
+    vm.prolongation_del = prolongation_del;
     vm.is_paid = is_paid;
 
     activate();
@@ -304,7 +305,6 @@
       }
     };
 
-
     function prolongation() {
       ClubCard.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
 
@@ -320,6 +320,27 @@
           is_paid: false,
           client_club_card: vm.uid
         }
+        activate();
+      }
+
+      /**
+      * @name prolongationErrorFn
+      * @desc console log error
+      */
+      function prolongationErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    function prolongation_del(uid) {
+      ClubCard.prolongation_del(uid).then(prolongationSuccessFn, prolongationErrorFn);
+
+      /**
+      * @name prolongationSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function prolongationSuccessFn(data, status, headers, config) {
         activate();
       }
 

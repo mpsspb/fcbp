@@ -18,7 +18,11 @@ class GenericProlongation(object):
     def parent_upd(self, *args, **kwargs):
         days = self.days
         parent = self.parent
-        parent.date_end = parent.date_end + timedelta(days)
+        is_delete = kwargs.get('is_delete')
+        if is_delete:
+            parent.date_end = parent.date_end - timedelta(days)
+        else:
+            parent.date_end = parent.date_end + timedelta(days)
         parent.save()
 
 
@@ -373,6 +377,10 @@ class ProlongationClubCard(GenericProlongation, models.Model):
         if not self.pk:
             self.parent_upd(self,)
         super(ProlongationClubCard, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.parent_upd(self, is_delete=True)
+        super(ProlongationClubCard, self).delete(*args, **kwargs)
 
 
 class GuestClubCard(models.Model):
