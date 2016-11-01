@@ -24,6 +24,24 @@
 
     function activate() {
 
+      Clients.get(vm.uid).then(cardclientSuccessFn, cardclientErrorFn);
+        /**
+      * @name cardclientSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function cardclientSuccessFn(data, status, headers, config) {
+        vm.fdata = data.data;
+        vm.fdata['introductory_date'] = moment(vm.fdata['introductory_date'], 'YYYY-MM-DD HH:mm').format('DD.MM.YYYY HH:mm')
+      }
+
+      /**
+      * @name cardclientErrorFn
+      * @desc console log error
+      */
+      function cardclientErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
       Employees.list().then(listEmployeeSuccessFn, listEmployeeErrorFn);
     
       /**
@@ -58,7 +76,6 @@
       * @desc Show snackbar with success message
       */
       function createClientSuccessFn(data, status, headers, config) {
-        console.log('Success! Client created.');
         window.location = '#/cardclient/' + vm.uid + '/';
       }
 

@@ -226,6 +226,9 @@
     <span>Вводный инструктаж</span>
     <span>{{ vm.cardclient.introductory_date | date:'dd.MM.yyyy' }}</span>
     <span>{{ vm.cardclient.introductory_employee_name }}</span>
+    <a ng-href="#/client-introductory/{{ vm.cardclient.id }}/" 
+    class="btn btn-block btn-primary btn-xs"
+    >изменить</a>
   </div>
   <a class="btn btn-warning col-md-3"
      href="#/edit-client/{{ vm.cardclient.id }}/">
