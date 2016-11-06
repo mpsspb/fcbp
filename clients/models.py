@@ -451,6 +451,12 @@ class FreezeClubCard(models.Model):
     def tdate(self):
         return self.fdate + timedelta(days=(self.days-1))
 
+    def delete(self, *args, **kwargs):
+        cc = self.client_club_card
+        cc.date_end = cc.date_end - timedelta(days=self.days)
+        cc.save()
+        super(FreezeClubCard, self).delete(*args, **kwargs)
+
 
 class ClientAquaAerobics(GenericProperty, models.Model):
 

@@ -193,6 +193,11 @@ class GenericProduct(object):
         return Response(serializer.data)
 
 
+class FreezeClubCardViewSet(viewsets.ModelViewSet):
+    queryset = FreezeClubCard.objects.all()
+    serializer_class = FreezeClubCardSerializer
+
+
 class ClientClubCardViewSet(
         GenericProduct, viewsets.ModelViewSet, TemplateResponseMixin):
     queryset = ClientClubCard.objects.order_by('-date')

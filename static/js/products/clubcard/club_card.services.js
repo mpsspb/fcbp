@@ -33,6 +33,7 @@
       prolongation: prolongation,
       prolongation_del: prolongation_del,
       freeze: freeze,
+      freeze_del: freeze_del,
       active: active,
       active_list: active_list,
       archive_list: archive_list,
@@ -152,6 +153,12 @@
 
     function freeze(uid, fdata) {
       return $http.post('/api/v1/clients/clubcard/' + uid + '/freeze/', fdata)
+    }
+
+
+    function freeze_del(uid) {
+      // delete freeze club card
+      return $http.delete('/api/v1/clients/freezecc/' + uid + '/')
     }
 
   }

@@ -33,6 +33,8 @@
     vm.personal = personal;
     vm.fitness = fitness;
     vm.freeze = freeze;
+    vm.freeze_chg = freeze_chg;
+    vm.freeze_del = freeze_del;
     vm.paid_activate = paid_activate;
     vm.to_archive = to_archive;
     vm.update_date_begin = update_date_begin;
@@ -71,6 +73,7 @@
         is_paid: false,
         client_club_card: vm.uid,
         fdate: moment().format('DD.MM.YYYY'),
+        tdate: moment().add(1, 'days').format('DD.MM.YYYY'),
         is_credit: false
       }
       //  paid activate data
@@ -391,6 +394,45 @@
         console.log(data);
       }
     };
+
+    function freeze_chg(field) {
+      if (field == 'days') {
+        var tdate = moment(vm.frdata.fdate, 'DD.MM.YYYY').add(vm.frdata.days, 'days')
+        vm.frdata.tdate = tdate.format('DD.MM.YYYY')
+      } else if (field == 'fdate' || field == 'tdate') {
+        var fdate = moment(vm.frdata.fdate, 'DD.MM.YYYY')
+        var tdate = moment(vm.frdata.tdate, 'DD.MM.YYYY')
+        vm.frdata.days = tdate.diff(fdate, 'days')
+      }
+      if (vm.frdata.days < 1) {
+        vm.frdata.err = 'Неверные значения дат'
+      } else {
+        vm.frdata.err = ''
+      }
+    }
+
+
+    function freeze_del(uid) {
+      console.log('cool')
+      ClubCard.freeze_del(uid).then(prolongationSuccessFn, prolongationErrorFn);
+
+      /**
+      * @name prolongationSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function prolongationSuccessFn(data, status, headers, config) {
+        activate();
+      }
+
+      /**
+      * @name prolongationErrorFn
+      * @desc console log error
+      */
+      function prolongationErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
 
     function paid_activate() {
 
