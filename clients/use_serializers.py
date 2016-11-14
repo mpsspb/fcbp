@@ -16,6 +16,7 @@ class ClubCardTrainsSerializer(serializers.ModelSerializer):
 class UseClientClubCardSerializer(serializers.ModelSerializer):
 
     clubcardtrains_set = ClubCardTrainsSerializer(many=True, read_only=True)
+    date = serializers.DateTimeField(required=False, allow_null=True)
 
     class Meta:
         model = UseClientClubCard

@@ -26,6 +26,9 @@
       get: get,
       update: update,
       use: use,
+      use_update: use_update,
+      use_get: use_get,
+      use_del: use_del,
       use_exit: use_exit,
       guest: guest,
       personal: personal,
@@ -97,6 +100,27 @@
 
     function use(fdata) {
       return $http.post('/api/v1/clients/useclubcard/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function use_update(uid, fdata) {
+      return $http.put('/api/v1/clients/useclubcard/' + uid + '/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function use_get(uid) {
+      return $http.get('/api/v1/clients/useclubcard/' + uid + '/')
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function use_del(uid) {
+      return $http.delete('/api/v1/clients/useclubcard/' + uid + '/')
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });

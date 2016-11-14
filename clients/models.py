@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from dateutil.relativedelta import relativedelta
 
 from django.db import models
@@ -8,8 +8,8 @@ from django.db.models import Sum
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 
-from products.models import (ClubCard, AquaAerobics, Ticket, Personal, Timing,
-                             Discount, Training)
+from products.models import (
+    ClubCard, AquaAerobics, Ticket, Personal, Timing, Discount, Training)
 from employees.models import Employee
 
 
@@ -290,6 +290,7 @@ class ClientClubCard(GenericProperty, models.Model):
 
     @property
     def rest_visits(self):
+        # return string if max
         if self.club_card.max_visit == 99999:
             return '-'
         visits = UseClientClubCard.objects.filter(client_club_card=self)
@@ -298,6 +299,7 @@ class ClientClubCard(GenericProperty, models.Model):
 
     @property
     def rest_visits_int(self):
+        # return number if max
         if self.club_card.max_visit == 99999:
             return 99999
         visits = UseClientClubCard.objects.filter(client_club_card=self)
@@ -868,11 +870,16 @@ class UseClientClubCard(models.Model):
     """
     Log information about use the Client Club Card.
     """
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField()
     end = models.DateTimeField(blank=True, null=True)
     client_club_card = models.ForeignKey(ClientClubCard)
 
+    class Meta:
+        ordering = ['date']
+
     def save(self, *args, **kwargs):
+        if not self.date:
+            self.date = datetime.now()
         if not self.pk:
             is_first = UseClientClubCard.objects\
                 .filter(client_club_card=self.client_club_card)\

@@ -498,8 +498,17 @@
         <div class="col-md-3"> {{ use.date | date:'dd.MM.yyyy' }} </div>
         <div class="col-md-3"> {{ use.date | date:'HH:mm' }} </div>
         <div class="col-md-3"> {{ use.end | date:'HH:mm' }} </div>
-        <div class="col-md-3"> <button class="btn btn-xs btn-warning btn-trainings"
-              >{{ use.clubcardtrains_set.length }}</button>
+        <div class="col-md-1">
+          <button class="btn btn-xs btn-success btn-trainings">
+            {{ use.clubcardtrains_set.length }}
+          </button>
+        </div>
+        <div class="col-md-1">
+          <a class="fa fa-edit text-yellow pull-left" href="#/editvisit/{{ use.id }}/">
+          </a>
+        </div>
+        <div class="col-md-1">
+          <i class="fa fa-recycle cursor-pointer text-red pull-right" ng-click="vm.use_del(use.id)"></i>
         </div>
         <div ng-show="collapsed" class="bg-info col-md-12">
           <span ng-repeat="train in use.clubcardtrains_set">

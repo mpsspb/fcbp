@@ -22,6 +22,7 @@
     var vm = this;
 
     vm.use = use;
+    vm.use_del = use_del;
     vm.error = '';
 
     vm.uid = $routeParams.uid
@@ -204,7 +205,6 @@
       * @desc Update ClubCard array on view
       */
       function cardclientSuccessFn(data, status, headers, config) {
-          console.log(data.data)
         if ('error' in data.data) {
           vm.error = data.data['error']
         } else {
@@ -218,6 +218,28 @@
       * @desc console log error
       */
       function cardclientErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
+
+    function use_del(uid) {
+      console.log('cool')
+      ClubCard.use_del(uid).then(prolongationSuccessFn, prolongationErrorFn);
+
+      /**
+      * @name prolongationSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function prolongationSuccessFn(data, status, headers, config) {
+        activate();
+      }
+
+      /**
+      * @name prolongationErrorFn
+      * @desc console log error
+      */
+      function prolongationErrorFn(data, status, headers, config) {
         console.log(data);
       }
 

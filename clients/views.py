@@ -343,6 +343,26 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
     queryset = UseClientClubCard.objects.order_by('-date')
     serializer_class = UseClientClubCardSerializer
 
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        data = request.data.copy()
+        serializer = UseClientClubCardSerializer(instance, data=data)
+        if serializer.is_valid():
+            serializer.save()
+        trainings = data.get('clubcardtrains_set', [])
+        if len(trainings) < 1:
+            return Response({'error': _('Empty trainings')})
+        rest_trains = len(trainings) - instance.clubcardtrains_set.all().count()
+        card = instance.client_club_card
+        if rest_trains > card.rest_visits_int:
+            return Response({'error': _('Too many trainings')})
+        if instance.clubcardtrains_set.all():
+            instance.clubcardtrains_set.all().delete()
+        for tr in trainings:
+            ClubCardTrains.objects.create(
+                visit_id=instance.pk, training_id=tr['training'])
+        return Response(serializer.data)
+
     def create(self, request):
         """
         Comming client to the club and escape existing freeze.
