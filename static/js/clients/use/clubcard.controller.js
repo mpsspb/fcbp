@@ -74,7 +74,7 @@
         is_paid: false,
         client_club_card: vm.uid,
         fdate: moment().format('DD.MM.YYYY'),
-        tdate: moment().add(1, 'days').format('DD.MM.YYYY'),
+        tdate: moment().format('DD.MM.YYYY'),
         is_credit: false
       }
       //  paid activate data
@@ -419,12 +419,12 @@
 
     function freeze_chg(field) {
       if (field == 'days') {
-        var tdate = moment(vm.frdata.fdate, 'DD.MM.YYYY').add(vm.frdata.days, 'days')
+        var tdate = moment(vm.frdata.fdate, 'DD.MM.YYYY').add(vm.frdata.days - 1, 'days')
         vm.frdata.tdate = tdate.format('DD.MM.YYYY')
       } else if (field == 'fdate' || field == 'tdate') {
         var fdate = moment(vm.frdata.fdate, 'DD.MM.YYYY')
         var tdate = moment(vm.frdata.tdate, 'DD.MM.YYYY')
-        vm.frdata.days = tdate.diff(fdate, 'days')
+        vm.frdata.days = tdate.diff(fdate, 'days') + 1
       }
       if (vm.frdata.days < 1) {
         vm.frdata.err = 'Неверные значения дат'
