@@ -43,6 +43,9 @@
       function cardclientSuccessFn(data, status, headers, config) {
         vm.fdata = data.data;
         vm.fdata.born = moment(vm.fdata.born, 'YYYY-MM-DD').format('DD.MM.YYYY');
+        if (vm.fdata.passport_date){
+          vm.fdata.passport_date = moment(vm.fdata.passport_date, 'YYYY-MM-DD').format('DD.MM.YYYY');
+        }
       }
 
       /**

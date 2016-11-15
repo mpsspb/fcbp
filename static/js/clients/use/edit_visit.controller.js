@@ -94,12 +94,14 @@
     }
 
     function use_update() {
-      var hh = moment(vm.train.end, 'HH:mm').hours()
-      var mm = moment(vm.train.end, 'HH:mm').minutes()
-      vm.train.end = moment(vm.train.date, 'DD.MM.YYYY hh:mm');
-      vm.train.end = vm.train.end.minute(mm);
-      vm.train.end = vm.train.end.hour(hh)
-      vm.train.end = vm.train.end.format('DD.MM.YYYY HH:mm')
+      if (vm.train.end) {
+        var hh = moment(vm.train.end, 'HH:mm').hours()
+        var mm = moment(vm.train.end, 'HH:mm').minutes()
+        vm.train.end = moment(vm.train.date, 'DD.MM.YYYY hh:mm');
+        vm.train.end = vm.train.end.minute(mm);
+        vm.train.end = vm.train.end.hour(hh);
+        vm.train.end = vm.train.end.format('DD.MM.YYYY HH:mm');
+      }
       ClubCard.use_update(vm.uid, vm.train).then(updateTrainingSuccessFn, updateTrainingErrorFn);
 
       /**
