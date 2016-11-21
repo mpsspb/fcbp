@@ -8,6 +8,8 @@
  <div class="col-md-3">&nbsp; </div>
  <div class="col-md-6" style="height:34px">&nbsp;</div>
      <br/>
+     <br/>
+     <br/>
   <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.success">
     <button type="button" class="close" ng-click="vm.success=false"><span>&times;</span></button>
     <strong>  Данные успешно обновлены. </strong>
@@ -20,14 +22,22 @@
 
   <div class="alert alert-info col-md-12" ng-repeat="cardtext in vm.cardtexts">
     <div><strong>{{ cardtext.name }}</strong></div>
+    <div class="row text-red">Заголовок</div>
     <div class="row" ng-show="!edit">{{ cardtext.title }}</div><br/>
-    <div class="row" ng-show="!edit">{{ cardtext.item1 }}</div><br/>
-    <div ng-show="!edit">{{ cardtext.header }}</div><br/>
-    <div ng-show="!edit">{{ cardtext.additional_header }}</div>
     <input ng-show="edit" ng-model="cardtext.title" type="text" class="form-control" placeholder="Заголовок">
+
+    <div class="row text-red">Первый пункт</div>
+    <div class="row" ng-show="!edit">{{ cardtext.item1 }}</div><br/>
     <input ng-show="edit" ng-model="cardtext.item1" type="text" class="form-control" placeholder="Первый пункт">
+
+    <div class="row text-red">Шапка</div>
+    <div ng-show="!edit">{{ cardtext.header }}</div><br/>
     <input ng-show="edit" ng-model="cardtext.header" type="text" class="form-control" placeholder="Шапка">
+
+    <div class="row text-red">Шапка дополнение</div>
+    <div ng-show="!edit">{{ cardtext.additional_header }}</div>
     <input ng-show="edit" ng-model="cardtext.additional_header" type="text" class="form-control" placeholder="Шапка дополнение">
+
     <table class="table">
       <caption> Список пунктов <button class="pull-right btn btn-sm btn-default col-md-2"
            ng-click="vm.add_item(cardtext)">добавить</button>
