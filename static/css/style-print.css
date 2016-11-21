@@ -17,6 +17,10 @@
     }
 }
 
+.print-lg {
+  font-size: 1.5em;
+}
+
 .pagebreak {
     page-break-after: always;
 }
