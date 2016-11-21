@@ -20,8 +20,12 @@
 
   <div class="alert alert-info col-md-12" ng-repeat="cardtext in vm.cardtexts">
     <div><strong>{{ cardtext.name }}</strong></div>
+    <div class="row" ng-show="!edit">{{ cardtext.title }}</div><br/>
+    <div class="row" ng-show="!edit">{{ cardtext.item1 }}</div><br/>
     <div ng-show="!edit">{{ cardtext.header }}</div><br/>
     <div ng-show="!edit">{{ cardtext.additional_header }}</div>
+    <input ng-show="edit" ng-model="cardtext.title" type="text" class="form-control" placeholder="Заголовок">
+    <input ng-show="edit" ng-model="cardtext.item1" type="text" class="form-control" placeholder="Первый пункт">
     <input ng-show="edit" ng-model="cardtext.header" type="text" class="form-control" placeholder="Шапка">
     <input ng-show="edit" ng-model="cardtext.additional_header" type="text" class="form-control" placeholder="Шапка дополнение">
     <table class="table">
@@ -41,7 +45,10 @@
         </td>
       </tr>
     </table>
-
+    <div ng-show="!edit">{{ cardtext.employee }}</div>
+    <input ng-show="edit" ng-model="cardtext.employee" type="text" class="form-control" placeholder="Сотрудник">
+    <div ng-show="!edit">{{ cardtext.phone }}</div>
+    <input ng-show="edit" ng-model="cardtext.phone" type="text" class="form-control" placeholder="Телефон">
     <button ng-click="edit=!edit" class="btn btn-sm btn-warning pull-right" ng-show="!edit"> Правка </button>
     <button ng-click="edit=!edit" class="btn btn-sm btn-default pull-right" ng-show="edit"> Отмена </button>
     <button class="btn btn-sm btn-success pull-left" ng-show="edit"

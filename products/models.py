@@ -184,6 +184,10 @@ class CardText(models.Model):
     text_type = models.SmallIntegerField(choices=text_types, unique=True)
     header = models.TextField(null=True, blank=True)
     additional_header = models.TextField(null=True, blank=True)
+    item1 = models.TextField(null=True, blank=True)
+    employee = models.CharField(max_length=255, null=True, blank=True)
+    phone = models.CharField(max_length=255, null=True, blank=True)
+    title = models.TextField(null=True, blank=True)
 
     @property
     def name(self):
