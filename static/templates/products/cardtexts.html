@@ -55,8 +55,10 @@
         </td>
       </tr>
     </table>
+    <div class="row text-red">Сотрудник</div>
     <div ng-show="!edit">{{ cardtext.employee }}</div>
     <input ng-show="edit" ng-model="cardtext.employee" type="text" class="form-control" placeholder="Сотрудник">
+    <div class="row text-red">Телефон</div>
     <div ng-show="!edit">{{ cardtext.phone }}</div>
     <input ng-show="edit" ng-model="cardtext.phone" type="text" class="form-control" placeholder="Телефон">
     <button ng-click="edit=!edit" class="btn btn-sm btn-warning pull-right" ng-show="!edit"> Правка </button>

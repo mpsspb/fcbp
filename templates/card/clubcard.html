@@ -142,13 +142,13 @@
   <table width="800">
     <tr>
         <td>Исполнитель</td>
-        <td><span class="pull-right">Труфанова А.Е.</span></td>
+        <td><span class="pull-right">{{ text.employee }}</span></td>
         <td><span class="pull-right">Член клуба</span></td>
         <td width="300"><span class="pull-right">{{ card.client.initials }}</span></td>
     </tr>
     <tr>
         <td>телефон</td>
-        <td><span class="pull-right">8 911 979 328 </span></td>
+        <td><span class="pull-right">{{ text.phone }}</span></td>
         <td><span class="pull-right">телефон</span></td>
         <td><span class="pull-right">{{ card.client.mobile| default:'' | phone  }}</span></td>
     </tr>
