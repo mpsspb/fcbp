@@ -370,6 +370,7 @@
     */
     function total() {
       var total = vm.fdata.price * (100 - vm.fdata.discount) / 100 - vm.fdata.bonus_amount;
+      total = Math.ceil(total / 10 ) * 10
       return total;
     }
 
