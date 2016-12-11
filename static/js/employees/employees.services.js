@@ -47,8 +47,12 @@
     }
     /**
     **/
-    function list() {
-      return $http.get('/api/v1/employees/employees/')
+    function list(all=false) {
+      if (all) {
+        return $http.get('/api/v1/employees/employees/all/')        
+      } else {
+        return $http.get('/api/v1/employees/employees/')
+      }
     }
     function get(uid) {
       return $http.get('/api/v1/employees/employees/' + uid + '/')
@@ -66,6 +70,7 @@
     function sellers() {
       return $http.get('/api/v1/employees/employees/sellers/')
     }
+
   }
 
 })();

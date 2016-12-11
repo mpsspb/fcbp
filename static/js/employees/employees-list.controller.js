@@ -18,11 +18,12 @@
     var vm = this;
 
     vm.isAuthenticated = isAuthenticated();
-
+    vm.activate = activate;
+    vm.all = false;
     activate();
 
     function activate() {
-      Employees.list().then(listEmployeeSuccessFn, listEmployeeErrorFn);
+      Employees.list(vm.all).then(listEmployeeSuccessFn, listEmployeeErrorFn);
     
       /**
       * @name listEmployeeSuccessFn
