@@ -59,7 +59,7 @@
 
       var numberPattern = /\d+/g;
 
-      if (vm.fdata.mobile_form){
+      if (vm.fdata.mobile_form) {
         var mobile = vm.fdata.mobile_form.match( numberPattern );
         vm.fdata.mobile = mobile.join("");
       } else {

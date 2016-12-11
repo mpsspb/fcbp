@@ -64,7 +64,8 @@
 
     <label class="col-md-2 control-label">Прямой</label>
     <div class="col-md-1">
-      <input type="checkbox" class="mobile-toggle form-control">
+      <input type="checkbox" class="mobile-toggle form-control"
+      ng-checked="vm.mobile_toggle" ng-click="vm.mobile_toggle=!vm.mobile_toggle;vm.f_mobile_toggle()">
     </div>
   </div>
 

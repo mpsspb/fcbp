@@ -18,6 +18,7 @@
     var vm = this;
 
     vm.submit = submit;
+    vm.f_mobile_toggle = f_mobile_toggle;
     vm.success = false;
     vm.error = false;
     vm.list_matches = [];
@@ -46,6 +47,17 @@
         if (vm.fdata.passport_date){
           vm.fdata.passport_date = moment(vm.fdata.passport_date, 'YYYY-MM-DD').format('DD.MM.YYYY');
         }
+        if(vm.fdata.mobile) {
+          vm.fdata.mobile_form = String(vm.fdata.mobile)
+          if (vm.fdata.mobile_form.length < 10) {
+            vm.mobile_toggle = true
+          } else {
+            vm.mobile_toggle = false
+          }
+        }
+        if(vm.fdata.phone) {
+          vm.fdata.phone_str = String(vm.fdata.phone)
+        }
       }
 
       /**
@@ -73,6 +85,11 @@
       };
     };
 
+    function f_mobile_toggle() {
+      if(vm.mobile_toggle && vm.fdata.mobile_form.length > 9){
+        vm.fdata.mobile_form = vm.fdata.mobile_form.substr(3)
+      }
+    }
     /**
     * @name submit
     * @desc Create a new Client
@@ -82,7 +99,8 @@
 
       var numberPattern = /\d+/g;
 
-      if (vm.fdata.mobile_form){
+      if (vm.fdata.mobile_form) {
+        vm.fdata.mobile_form
         var mobile = vm.fdata.mobile_form.match( numberPattern );
         vm.fdata.mobile = mobile.join("");
       } else {
@@ -110,6 +128,7 @@
       function updClientSuccessFn(data, status, headers, config) {
         console.log('Success! Client created.');
         vm.success = true
+        activate()
       }
 
 
