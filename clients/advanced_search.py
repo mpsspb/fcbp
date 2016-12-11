@@ -9,10 +9,12 @@ from .serializers import ClientSerializer
 
 
 class ClientSearchViewSet(viewsets.ViewSet):
+
     """
     Advabce clients search by parameters.
     """
-    client_fields = ['last_name', 'first_name', 'patronymic', 'uid']
+    client_fields = [
+        'last_name', 'first_name', 'patronymic', 'uid', 'email', 'mobile']
 
     def list(self, request, ):
         """

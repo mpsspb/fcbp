@@ -24,9 +24,11 @@
       'fio': 'ФИО',
       'last_name': 'Фамилия',
       'first_name': 'Имя',
-      'patronymic': 'Отчетво',
+      'patronymic': 'Отчество',
       'born': 'Дата рождения',
       'uid': 'ЧС',
+      'email': 'e-mail',
+      'mobile': 'телефон'
     }
 
     vm.fsearch = [];
