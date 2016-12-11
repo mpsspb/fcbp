@@ -2,8 +2,9 @@
 <span class="col-md-3">
     <a href="#/cardclient/{{ client.id }}/">{{ client.full_name }}</a>
 </span>
-<span class="col-md-2">{{ client.uid }}</span>
-<span class="col-md-2">{{ client.born | date:'dd.MM.yyyy' }}</span>
+<span class="col-md-1">{{ client.uid }}</span>
+<span class="col-md-2">{{ client.email }}</span>
+<span class="col-md-1">{{ client.born | date:'dd.MM.yyyy' }}</span>
 <span class="col-md-2">{{ client.mobile | phone }}</span>
 <span class="col-md-3">
     <i class="fa fa-credit-card fa-2x bg-warning"
