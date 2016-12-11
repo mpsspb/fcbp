@@ -61,5 +61,19 @@
       return Authentication.isAuthenticated();
     };
 
+    vm.update = function(train) {
+      Training.update(train.id, train).then(updSuccessFn, updErrorFn);
+
+      function updSuccessFn(data, status, headers, config) {
+        activate();
+        vm.success = true;
+      }
+      function updErrorFn(data, status, headers, config) {
+        vm.error = true;
+        vm.error_data = data.data;
+        console.log(data);
+      }
+
+    }
   }
 })();

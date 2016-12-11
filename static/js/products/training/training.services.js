@@ -23,6 +23,7 @@
     var Training = {
       create: create,
       list: list,
+      update: update,
     };
 
     return Training;
@@ -41,10 +42,16 @@
                           console.log(data)
                         });
     }
-    /**
-    **/
+
     function list() {
       return $http.get('/api/v1/products/training/')
+    }
+
+    function update(id, fdata) {
+      return $http.put('/api/v1/products/training/' + id + '/', fdata
+                        ).error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
     }
   }
 
