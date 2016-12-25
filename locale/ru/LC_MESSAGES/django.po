@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 23:28+0300\n"
+"POT-Creation-Date: 2016-12-24 15:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,14 +19,76 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: clients/views.py:347
+#: clients/views.py:354 clients/views.py:373
 msgid "Empty trainings"
 msgstr "Отсутсвуют тренировки."
 
-#: clients/views.py:351
+#: clients/views.py:358 clients/views.py:379
+msgid "Too many trainings"
+msgstr "Количество тренировок больше допустимого."
+
+#: clients/views.py:377
 msgid "Card is disabled"
 msgstr "Клубная карта не активна."
 
-#: clients/views.py:353
-msgid "Too many trainings"
-msgstr "Количество тренировок больше допустимого."
+#: reports/views/home.py:11
+msgid "Reports"
+msgstr "Отчеты"
+
+msgid "time"
+msgstr "время"
+
+msgid "client"
+msgstr "клиент"
+
+msgid "co number"
+msgstr "номер ЧС"
+
+msgid "tariff"
+msgstr "вид тарифного плана"
+
+msgid "full price"
+msgstr "полная стоимость  тарифного плана без учета скидки"
+
+msgid "discount"
+msgstr "скидка"
+
+msgid "discount type"
+msgstr "вид скидки"
+
+msgid "paid"
+msgstr "оплачено, сумма"
+
+msgid "paid type"
+msgstr "Вид оплаты"
+
+msgid "schedule payments"
+msgstr "ФК график оставшихся платежей"
+
+
+msgid "seller"
+msgstr "продавец"
+
+msgid "cash"
+msgstr "нал"
+
+msgid "cashless"
+msgstr "безнал"
+
+msgid "bank"
+msgstr "банк"
+
+msgid "other"
+msgstr "иное"
+
+msgid "report administrator on the sales cards for the day. data: {date}"
+msgstr "Отчет администратора о продажах клубных карт за день. дата: {date}"
+
+msgid "annotation"
+msgstr "пояснение"
+
+msgid "all card sales"
+msgstr "всего продаж карт"
+
+msgid "Administrator"
+msgstr "Администратор"

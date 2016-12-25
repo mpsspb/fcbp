@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.translation import ugettext as _
 
 from clients.models import ClientClubCard, ClientAquaAerobics, ClientTicket
 from clients.models import Client, ClientPersonal, ClientTiming
@@ -47,17 +48,17 @@ class Credit(models.Model):
 
 class Payment(models.Model):
 
+    payment_types = {
+        1: _('cash'),
+        2: _('cashless'),
+        3: _('bank'),
+        0: _('other')
+    }
     """
     Client payments.
     """
     date = models.DateTimeField(blank=True)
     payment_type = models.SmallIntegerField(default=1, )
-    """
-    cash = 1,
-    cashless = 2,
-    bank = 3,
-    other = 0
-    """
     amount = models.FloatField(validators=[MinValueValidator(0), ])
     count = models.IntegerField(default=1,
                                 validators=[MinValueValidator(0), ])

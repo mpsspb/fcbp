@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+  {% block container %}
+<nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController as vm">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">ФК Красота и Сила</a>
+    </div> <!-- ./navbar-header -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav pull-right">
+        {% if request.user.is_authenticated %}
+          <li>{{ request.user.username }}</li>
+          <li><a href="javascript:void(0)" ng-click="vm.logout()">Выход</a></li>
+        {% else %}
+          <li><a href="#/login">Вход</a></li>
+        {% endif %}
+      </ul>
+    </div> <!-- /.collapse.navbar-collapse -->
+  </div> <!-- /.container-fluid -->
+</nav>
+
+  <div class="container-fluid">
+      <label class="col-md-1 control-label">С:</label>
+      <div class="col-md-2">
+        <input name="fdate" type="text"  class="form-control date"
+        value="{% now 'd.m.Y' %}">
+      </div>
+      <label class="col-md-1 control-label">По:</label>
+      <div class="col-md-2">
+        <input name="tdate" type="text"  class="form-control date"
+        value="{% now 'd.m.Y' %}">
+      </div>
+    </div>
+   <br>
+   <br>
+  <div class="col-lg-3">
+    <a id='r_sells' href="/api/v1/reports/sales/?fdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
+      продажи за день</a>
+  </div>
+{% endblock %}
+
+  {% block extra_js %}
+<script type="text/javascript">
+
+var updateUrlParam = function updateUrlParam(get_string, param, value) {
+  var sURLVariables = get_string.substring(1).split('&')
+  for (i = 0; i < sURLVariables.length; i++) {
+    var sParameterName = sURLVariables[i].split('=');
+    if (sParameterName[0] === param) {
+      sURLVariables[i] = sParameterName[0] + '=' + value
+      return '?' + sURLVariables.join('=')
+    }
+  }
+}
+
+  jQuery(function($){
+   $(".date").mask("99.99.9999");
+
+  $('[name=fdate]').change(function() {
+    var fdate = $(this).val()
+    // r_sells
+    var r_sells = $('#r_sells').attr('href').split('/')
+    var get_str = updateUrlParam(r_sells[5], 'fdate', fdate)
+    var r_sells_url = r_sells.slice(0, 5).join('/') + '/' + get_str
+    $('#r_sells').attr('href', r_sells_url)
+   
+  });
+  $('[name=tdate]').change(function() {
+    console.log($(this).val())
+  });
+});
+</script>
+
+  {% endblock %}

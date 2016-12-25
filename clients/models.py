@@ -230,6 +230,16 @@ class ClientClubCard(GenericProperty, models.Model):
     def product(self):
         return self.club_card
 
+    def schedule_payments(self):
+        pre_payments = []
+        schedule_start = self.date + timedelta(1)
+        payments = self.payment_set.filter(date__gt=schedule_start)
+        for p in payments.order_by('date'):
+            pre_payments.append((p.date, p.amount))
+        for cr in self.credit_set.all().order_by('schedule'):
+            pre_payments.append((cr.schedule, cr.amount))
+        return pre_payments
+
     @property
     def discount_name(self):
         if self.discount_type:

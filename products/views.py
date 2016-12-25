@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
-
-from rest_framework import status, viewsets
-from rest_framework.response import Response
-from rest_framework.decorators import detail_route, list_route
-from rest_framework import mixins
-from rest_framework import generics
+from rest_framework import viewsets
 
 from fcbp.views import ActiveModel
 from .models import (
