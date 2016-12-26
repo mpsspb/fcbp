@@ -26,6 +26,7 @@ borders.bottom = xlwt.Borders.THIN
 styleth = xlwt.XFStyle()
 styleth.font.bold = True
 styleth.borders = borders
+styleth.alignment = alignment
 # Table head date
 stylethd = xlwt.XFStyle()
 stylethd.font.bold = True

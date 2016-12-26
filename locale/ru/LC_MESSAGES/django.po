@@ -92,3 +92,24 @@ msgstr "всего продаж карт"
 
 msgid "Administrator"
 msgstr "Администратор"
+
+msgid "Visiting the club for the day. data: {date}"
+msgstr "Посещения клуба за день. дата: {date}"
+
+msgid "card number"
+msgstr "Номер карты"
+
+msgid "time in"
+msgstr "Время прихода"
+
+msgid "time out"
+msgstr "Время ухода"
+
+msgid "occupation"
+msgstr "вид занятий"
+
+msgid "total of day"
+msgstr "итого за день"
+
+msgid "including:"
+msgstr "в том числе:"

@@ -36,6 +36,12 @@
     <a id='r_sells' href="/api/v1/reports/sales/?fdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
       продажи за день</a>
   </div>
+  <div class="col-lg-3">
+    <a id='r_visits'
+    href="/api/v1/reports/visits/?fdate={% now 'd.m.Y' %}"
+    class="btn btn-warning btn-block">
+      посещения</a>
+  </div>
 {% endblock %}
 
   {% block extra_js %}
@@ -62,7 +68,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_sells[5], 'fdate', fdate)
     var r_sells_url = r_sells.slice(0, 5).join('/') + '/' + get_str
     $('#r_sells').attr('href', r_sells_url)
-   
+    // r_visits
+    var r_visits = $('#r_visits').attr('href').split('/')
+    var get_str = updateUrlParam(r_visits[5], 'fdate', fdate)
+    var r_sells_url = r_visits.slice(0, 5).join('/') + '/' + get_str
+    $('#r_visits').attr('href', r_sells_url)
   });
   $('[name=tdate]').change(function() {
     console.log($(this).val())

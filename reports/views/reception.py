@@ -6,7 +6,7 @@ from django.db.models import Sum
 
 from .base import Report
 from reports import styles
-from clients.models import ClientClubCard
+from clients.models import ClientClubCard, UseClientClubCard
 from finance.models import Payment
 
 
@@ -16,8 +16,8 @@ class Sales(Report):
     sheet_name = 'report'
 
     table_headers = [
-        (_('time'), 2000,),
-        (_('client'), 6000),
+        (_('time'), 2000),
+        (_('client'), 8000),
         (_('co number'), 4000),
         (_('tariff'), 6000),
         (_('full price'), 4000),
@@ -29,8 +29,15 @@ class Sales(Report):
         (_('seller'), 6000),
     ]
 
+    table_styles = {
+        0: styles.stylet,
+        4: styles.stylef,
+        7: styles.stylef,
+        }
+
     def get_title(self, **kwargs):
-        msg = _('report administrator on the sales cards for the day. data: {date}')
+        msg = _(
+            'report administrator on the sales cards for the day. data: {date}')
         date = self.get_fdate().strftime('%d.%m.%Y')
         return msg.format(date=date)
 
@@ -46,7 +53,7 @@ class Sales(Report):
             line.append(row.client.full_name)
             line.append(row.client.uid)
             line.append(row.club_card.name)
-            line.append("{:,}".format(row.club_card.price).replace(',', ' '))
+            line.append(row.club_card.price)
             line.append(row.discount_value)
             line.append(row.discount_short)
             payments = row.payment_set.filter(date__range=(fdate, end_date))
@@ -70,12 +77,6 @@ class Sales(Report):
             rows.append(line)
         return rows
 
-    def write_data(self):
-        for row in self.get_data():
-            for i, cell in enumerate(row):
-                self.ws.write(self.row_num, i, row[i], styles.style)
-            self.row_num += 1
-
     def write_bottom(self):
         self.ws.write(self.row_num, 5, _('annotation'))
         self.row_num += 1
@@ -88,3 +89,60 @@ class Sales(Report):
             self.row_num += 1
         self.row_num += 1
         self.ws.write(self.row_num, 2, _('Administrator'))
+
+
+class Visits(Report):
+    file_name = 'visiting_the_club_for_the_day'
+    sheet_name = 'report'
+
+    table_headers = [
+        (_('card number'), 4000,),
+        (_('client'), 8000),
+        (_('time in'), 4000),
+        (_('time out'), 4000),
+        (_('occupation'), 6000, 3),
+    ]
+
+    def get_title(self, **kwargs):
+        msg = _(
+            'Visiting the club for the day. data: {date}')
+        date = self.get_fdate().strftime('%d.%m.%Y')
+        return msg.format(date=date)
+
+    def get_data(self):
+        self.total_trains = []
+        rows = []
+        fdate = self.get_fdate()
+        end_date = fdate + timedelta(1)
+        data = UseClientClubCard.objects.filter(date__range=(fdate, end_date))
+        for row in data:
+            line = []
+            line.append(row.client_club_card.client.card)
+            line.append(row.client_club_card.client.full_name)
+            line.append(row.date.strftime('%H:%M'))
+            if row.end:
+                line.append(row.end.strftime('%H:%M'))
+            else:
+                line.append('')
+            trains = row.clubcardtrains_set.all()
+            for train in trains:
+                line.append(train.name())
+                self.total_trains.append(train.name())
+            empty_trains = [''] * (4 - len(trains))
+            line.extend(empty_trains)
+            rows.append(line)
+        return rows
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 1, _('total of day'))
+        self.ws.write(self.row_num, 2, len(self.total_trains), styles.style)
+        self.row_num += 1
+        self.ws.write(self.row_num, 1, _('including:'))
+        self.row_num += 1
+        for train in set(self.total_trains):
+            cnt = self.total_trains.count(train)
+            self.ws.write(self.row_num, 1, train)
+            self.ws.write(self.row_num, 2, cnt, styles.style)
+            self.row_num += 1
+        self.row_num += 1
+        self.ws.write(self.row_num, 1, _('Administrator'))
