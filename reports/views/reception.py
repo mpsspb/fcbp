@@ -6,7 +6,7 @@ from django.db.models import Sum
 
 from .base import Report
 from reports import styles
-from clients.models import ClientClubCard, UseClientClubCard
+from clients.models import ClientClubCard, UseClientClubCard, Client
 from finance.models import Payment
 
 
@@ -33,7 +33,7 @@ class Sales(Report):
         0: styles.stylet,
         4: styles.stylef,
         7: styles.stylef,
-        }
+    }
 
     def get_title(self, **kwargs):
         msg = _(
@@ -146,3 +146,60 @@ class Visits(Report):
             self.row_num += 1
         self.row_num += 1
         self.ws.write(self.row_num, 1, _('Administrator'))
+
+
+class Birthdays(Report):
+    file_name = 'birthdays_for_the_period'
+    sheet_name = 'report'
+
+    table_headers = [
+        (_('birthday'), 4000,),
+        (_('client'), 8000),
+        (_('mobile'), 6000),
+        (_('note'), 6000),
+    ]
+    table_styles = {
+        0: styles.styled
+    }
+
+    def get_title(self, **kwargs):
+        msg = _(
+            'birthdays for the period. from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        return msg.format(fdate=fdate, tdate=tdate)
+
+    def date_range(self):
+        fdate = self.get_fdate()
+        tdate = self.get_tdate()
+        if fdate.month <= tdate.month:
+            fdate = fdate.replace(year=2000)
+            tdate = tdate.replace(year=2000)
+        else:
+            fdate = fdate.replace(year=2000)
+            tdate = tdate.replace(year=2001)
+        numdays = (tdate - fdate).days
+        return [fdate + timedelta(x) for x in xrange(numdays + 1)]
+
+    @staticmethod
+    def format_mobile(value):
+        if not value:
+            return ''
+        value = str(value)
+        return '+7 (%s) %s - %s' %(value[0:3],value[3:6],value[6:10])
+
+    def get_data(self):
+        rows = []
+        for day in self.date_range():
+            for born in Client.objects.filter(
+                    born__day=day.day, born__month=day.month):
+                line = []
+                line.append(born.born)
+                line.append(born.full_name)
+                line.append(Birthdays.format_mobile(born.mobile))
+                line.append(born.note)
+                rows.append(line)
+        return rows
+
+    def write_bottom(self):
+        pass

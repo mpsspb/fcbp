@@ -42,6 +42,12 @@
     class="btn btn-warning btn-block">
       посещения</a>
   </div>
+  <div class="col-lg-3">
+    <a id='r_birthdays'
+    href="/api/v1/reports/birthdays/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      Дни рождения</a>
+  </div>
 {% endblock %}
 
   {% block extra_js %}
@@ -53,7 +59,7 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var sParameterName = sURLVariables[i].split('=');
     if (sParameterName[0] === param) {
       sURLVariables[i] = sParameterName[0] + '=' + value
-      return '?' + sURLVariables.join('=')
+      return '?' + sURLVariables.join('&')
     }
   }
 }
@@ -71,11 +77,21 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     // r_visits
     var r_visits = $('#r_visits').attr('href').split('/')
     var get_str = updateUrlParam(r_visits[5], 'fdate', fdate)
-    var r_sells_url = r_visits.slice(0, 5).join('/') + '/' + get_str
-    $('#r_visits').attr('href', r_sells_url)
+    var r_visits_url = r_visits.slice(0, 5).join('/') + '/' + get_str
+    $('#r_visits').attr('href', r_visits_url)
+    // r_birthdays
+    var r_birthdays = $('#r_birthdays').attr('href').split('/')
+    var get_str = updateUrlParam(r_birthdays[5], 'fdate', fdate)
+    var r_birthdays_url = r_birthdays.slice(0, 5).join('/') + '/' + get_str
+    $('#r_birthdays').attr('href', r_birthdays_url)
   });
   $('[name=tdate]').change(function() {
-    console.log($(this).val())
+    var tdate = $(this).val()
+    // r_birthdays
+    var r_birthdays = $('#r_birthdays').attr('href').split('/')
+    var get_str = updateUrlParam(r_birthdays[5], 'tdate', tdate)
+    var r_birthdays_url = r_birthdays.slice(0, 5).join('/') + '/' + get_str
+    $('#r_birthdays').attr('href', r_birthdays_url)
   });
 });
 </script>

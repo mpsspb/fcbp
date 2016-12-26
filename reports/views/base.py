@@ -44,9 +44,9 @@ class Report(ViewSet):
             return datetime.now()
 
     def get_tdate(self):
-        fdate = self.request.query_params.get('tdate')
-        if fdate:
-            return datetime.strptime(fdate, '%d.%m.%Y')
+        tdate = self.request.query_params.get('tdate')
+        if tdate:
+            return datetime.strptime(tdate, '%d.%m.%Y')
         else:
             return datetime.now()
 

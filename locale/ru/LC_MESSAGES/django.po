@@ -113,3 +113,18 @@ msgstr "итого за день"
 
 msgid "including:"
 msgstr "в том числе:"
+
+msgid "birthdays for the period"
+msgstr "Дни рождения за период"
+
+msgid "birthdays for the period. from: {fdate} to {tdate}"
+msgstr "Дни рождения за период. c: {fdate} по {tdate}"
+
+msgid "birthday"
+msgstr "дата рождения"
+
+msgid "mobile"
+msgstr "Номер моб  телефона"
+
+msgid "note"
+msgstr "примечание"
