@@ -1015,10 +1015,10 @@ def date_end(date_begin, obj):
     Return date end for the obj
     """
     # the first day used
-    date_from = date_begin - timedelta(days=1)
     if obj.period.is_month:
         months = obj.period.value
-        return date_from + relativedelta(months=months)
+        date_to = date_begin + relativedelta(months=months)
     else:
         days = obj.period.value
-        return date_from + timedelta(days=days)
+        date_to = date_begin + timedelta(days=days)
+    return date_to - timedelta(days=1)
