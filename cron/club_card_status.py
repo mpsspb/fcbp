@@ -38,7 +38,7 @@ def end_card(**kwargs):
     Disable client club card.
     """
     expire = ClientClubCard.objects.filter(
-        date_end__lte=date.today()).exclude(status=0)
+        date_end__lt=date.today()).exclude(status=0)
     for card in expire:
         card.deactivate()
 
