@@ -216,15 +216,24 @@ class ClientClubCard(GenericProperty, models.Model):
         if self.pk:
             old_date_begin = ClientClubCard.objects.get(pk=self.pk).date_begin
             if old_date_begin:
-                delta_begin = None
                 delta_begin = self.date_begin - old_date_begin
                 if delta_begin:
                     self.date_end = date_end(self.date_begin, self.club_card)
         super(ClientClubCard, self).save(*args, **kwargs)
 
+    def activate(self, date_begin=None):
+        self.date_begin = date_begin if date_begin else date.today()
+        self.date_end = date_end(date.today(), self.club_card)
+        self.status = 1
+        self.save()
+
     def deactivate(self, ):
         self.status = 0
         self.save()
+
+    @property
+    def infuture(self):
+        return self.date_begin > date.today()
 
     @property
     def product(self):
@@ -894,11 +903,8 @@ class UseClientClubCard(models.Model):
             is_first = UseClientClubCard.objects\
                 .filter(client_club_card=self.client_club_card)\
                 .count()
-            if is_first == 0:
-                cc = self.client_club_card
-                cc.date_begin = date.today()
-                cc.date_end = date_end(date.today(), cc.club_card)
-                cc.save()
+            if is_first == 0 and self.client_club_card.status == 2:
+                self.client_club_card.activate()
             if self.client_club_card.is_frozen:
                 self.client_club_card.escape_frozen()
         if self.end and self.client_club_card.rest_visits < 1:

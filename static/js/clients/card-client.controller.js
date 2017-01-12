@@ -27,7 +27,6 @@
     vm.aquause = aquause;
     vm.ticketuse = ticketuse;
     vm.personaluse = personaluse;
-    vm.payment = payment;
     vm.fdata = {minutes: 1,}
     activate();
 
@@ -196,30 +195,6 @@
       * @desc console log error
       */
       function timinErrorFn(data, status, headers, config) {
-        console.log(data);
-      }
-
-    }
-
-    // function for close credit
-    function payment(payment_type, uid) {
-      ClientPayment.close_credit(payment_type, uid)
-                   .then(closeSuccessFn, closeErrorFn);
-
-      /**
-      * @name closeSuccessFn
-      * @desc Update ClubCard array on view
-      */
-      function closeSuccessFn(data, status, headers, config) {
-        console.log('success')
-        activate()
-      }
-
-      /**
-      * @name closeErrorFn
-      * @desc console log error
-      */
-      function closeErrorFn(data, status, headers, config) {
         console.log(data);
       }
 

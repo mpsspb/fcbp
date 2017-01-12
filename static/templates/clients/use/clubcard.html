@@ -340,6 +340,8 @@
 
     </h4>    
   </div>
+<div class="active-card-options" ng-show="vm.card.status == 1"> <!-- start active card options -->
+
   <div class="panel panel-default col-md-12" ng-show="vm.card.personal_training || vm.card.personalclubcard_set.length">
     <div class="panel-heading"><strong>Персоналка бонусная</strong></div>
     <div class="panel-body">
@@ -449,9 +451,20 @@
       </table>
     </div>
   </div>
+</div> <!-- end active card options -->
+<div class="active-card-options-info" ng-show="vm.card.status!=1">
+  <div class="panel panel-danger col-md-12">
+    <div class="panel-body">
+      <i class="fa fa-exclamation-triangle text-red"></i>
+      <strong>Опции доступны только для активных карт</strong></div>
+  </div>
+</div>
 </div> <!-- end left side bar -->
 
 <div class="col-md-8"> <!-- start main info -->
+  <div class="alert alert-danger" role="alert" ng-show="vm.card.infuture">
+    <strong>Карта активирована будущим числом</strong>
+  </div>
   <div class="row col-md-12">
     <div class="col-md-2" ng-switch on="vm.card.is_online">
       <button class="btn btn-block btn-success"  
@@ -592,13 +605,27 @@
       <strong>Изменить дату активации</strong>
       <span class="bg-success" ng-show="vm.new_date.update_success">обновлено</span>
     </span>
-  </div>
-  <div ng-show="coll_d" class="col-md-12">
-    <div class="col-md-3"><input ng-model="vm.new_date.date_begin" type="text"
-     class="form-control date" ng-model>
+    <div ng-show="coll_d" class="col-md-12">
+      <div class="col-md-3">
+        <input ng-model="vm.new_date.date_begin" type="text" class="form-control date">
+      </div>
+      <div class="btn btn-primary col-md-3" ng-click="vm.update_date_begin()">Применить</div>
     </div>
-    <div class="btn btn-primary col-md-3" ng-click="vm.update_date_begin()">Применить</div>
+
+<!-- manual activation -->
+    <span class="col-md-3 cursor-pointer btn-info" ng-click="coll_a=!coll_a" ng-show="vm.card.status==2">
+      <strong>Активировать</strong>
+      <span class="bg-success" ng-show="vm.activation_data.update_success">обновлено</span>
+    </span>
+    <div ng-show="coll_a" class="col-md-12">
+      <div class="col-md-3">
+        <input ng-model="vm.activation_data.date_begin" type="text" class="form-control date">
+      </div>
+      <div class="btn btn-primary col-md-3" ng-click="vm.activation()">Применить</div>
+    </div>
+<!-- end manual activation -->
   </div>
+
 </div> <!-- end extra option -->
 
 <script type="text/javascript">

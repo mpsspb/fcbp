@@ -16,7 +16,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'fcbp.settings'
 django.setup()
 
 
-from clients.models import ClientClubCard, ClientAquaAerobics, date_end
+from clients.models import ClientClubCard, ClientAquaAerobics
 
 
 def activate_card(**kwargs):
@@ -28,9 +28,7 @@ def activate_card(**kwargs):
         # period for activate
         days = card.club_card.period_activation
         if card.date_start + timedelta(days) < date.today():
-            card.date_begin = date.today()
-            card.date_end = date_end(date.today(), card.club_card)
-            card.save()
+            card.activate()
 
 
 def end_card(**kwargs):

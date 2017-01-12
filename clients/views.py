@@ -165,6 +165,14 @@ class GenericProduct(object):
 
     """ Generic options for client's products."""
     @detail_route(methods=['post'], )
+    def activation(self, request, pk):
+        data = request.data.copy()
+        obj = self.get_object()
+        date_begin = data.get('date_begin', datetime.now())
+        obj.activate(date_begin=date_begin)
+        return Response({'status': 'ok'})
+
+    @detail_route(methods=['post'], )
     def freeze(self, request, pk):
         """
         freeze the card and update the date_end of the card.
@@ -186,8 +194,8 @@ class GenericProduct(object):
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data,
-                                         partial=True)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
@@ -352,7 +360,8 @@ class UseClientClubCardViewSet(viewsets.ModelViewSet):
         trainings = data.get('clubcardtrains_set', [])
         if len(trainings) < 1:
             return Response({'error': _('Empty trainings')})
-        rest_trains = len(trainings) - instance.clubcardtrains_set.all().count()
+        rest_trains = len(
+            trainings) - instance.clubcardtrains_set.all().count()
         card = instance.client_club_card
         if rest_trains > card.rest_visits_int:
             return Response({'error': _('Too many trainings')})

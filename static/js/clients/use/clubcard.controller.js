@@ -39,6 +39,7 @@
     vm.paid_activate = paid_activate;
     vm.to_archive = to_archive;
     vm.update_date_begin = update_date_begin;
+    vm.activation = activation;
     vm.add_train = add_train;
     vm.rm_train = rm_train;
     vm.use_trainings = [];
@@ -110,11 +111,17 @@
       function cardclientSuccessFn(data, status, headers, config) {
         vm.card = data.data;
         if (vm.card.date_begin) {
-          // freeze data
+          // update date begin data
           vm.new_date = {
             date_begin: moment(vm.card.date_begin, 'YYYY-MM-DD').format('DD.MM.YYYY'),
           }
         }
+
+        if (vm.card.status == 2) {
+          // activation data
+          vm.activation_data = { date_begin: moment().format('DD.MM.YYYY'), }
+        }
+
         if (vm.card.rest_freeze > 0 && vm.card.rest_freeze_times > 0) {
           vm.free_freeze = true
         } else {
@@ -519,6 +526,31 @@
       * @desc console log error
       */
       function update_date_beginErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
+    // manual activation 
+    function activation() {
+      vm.activation_data['update_success'] = false
+      var date_begin = moment(vm.activation_data.date_begin, 'DD.MM.YYYY').format('YYYY-MM-DD')
+      vm.activation_data.date_begin = date_begin
+      $http.post('/api/v1/clients/clubcard/' + vm.uid + '/activation/', vm.activation_data
+                ).then(activationSuccessFn, activationErrorFn);
+
+      /**
+      * @name activationSuccessFn
+      * @desc Update ClubCard on view
+      */
+      function activationSuccessFn(data, status, headers, config) {
+        $route.reload();
+      }
+
+      /**
+      * @name activationErrorFn
+      * @desc console log error
+      */
+      function activationErrorFn(data, status, headers, config) {
         console.log(data);
       }
     };
