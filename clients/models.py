@@ -233,7 +233,9 @@ class ClientClubCard(GenericProperty, models.Model):
 
     @property
     def infuture(self):
-        return self.date_begin > date.today()
+        if self.date_begin:
+            return self.date_begin > date.today()
+        return False
 
     @property
     def product(self):
