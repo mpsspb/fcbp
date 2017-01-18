@@ -179,8 +179,12 @@
       <form class="form-horizontal">
       <div class="modal-body">
         <div class="alert alert-info" role="alert"
-        ng-show="!vm.prdata.is_paid">
+          ng-show="!vm.prdata.is_paid && vm.free_prolongation">
           <strong>Бесплатное</strong>
+        </div>
+        <div class="alert alert-danger" role="alert"
+          ng-show="!vm.prdata.is_paid && !vm.free_prolongation">
+          <strong>Бесплатное продление не доступно</strong>
         </div>
         <div class="alert alert-warning" role="alert"
         ng-show="vm.prdata.is_paid">
@@ -203,11 +207,34 @@
           <label class="col-md-2"> Оплата: </label>
           <input class="col-md-4 sinput" type="number" min="0" step="0.01"
           ng-model="vm.prdata.amount">
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="control-label">Иное</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="0">
+            </div>
+            <div class="col-md-3">
+            <label class="control-label">Наличные</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="1">
+            </div>
+            <div class="col-md-3">
+              <label class="control-label">Безналичные</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="2">
+            </div>
+            <div class="col-md-2">
+              <label class="control-label">Банк</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="3">
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
-        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.prolongation()">
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.prolongation()"
+        ng-disabled="!vm.prdata.is_paid && !vm.free_prolongation">
           Сохранить
         </button>
       </div>
@@ -260,6 +287,28 @@
           <label class="col-md-2"> Оплата: </label>
           <input class="col-md-3 sinput" type="number" min="0" step="0.01"
           ng-model="vm.frdata.amount">
+                    <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="control-label">Иное</label>
+              <input ng-model="vm.frdata.payment_type" type="radio"
+              name="payment_type" value="0">
+            </div>
+            <div class="col-md-3">
+            <label class="control-label">Наличные</label>
+              <input ng-model="vm.frdata.payment_type" type="radio"
+              name="payment_type" value="1">
+            </div>
+            <div class="col-md-3">
+              <label class="control-label">Безналичные</label>
+              <input ng-model="vm.frdata.payment_type" type="radio"
+              name="payment_type" value="2">
+            </div>
+            <div class="col-md-2">
+              <label class="control-label">Банк</label>
+              <input ng-model="vm.frdata.payment_type" type="radio"
+              name="payment_type" value="3">
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -291,6 +340,28 @@
           <label class="col-md-2"> Оплата: </label>
           <input class="col-md-4 sinput" type="number" min="0" step="0.01"
           ng-model="vm.padata.paid_activate_amount">
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="control-label">Иное</label>
+              <input ng-model="vm.padata.payment_type" type="radio"
+              name="payment_type" value="0">
+            </div>
+            <div class="col-md-3">
+            <label class="control-label">Наличные</label>
+              <input ng-model="vm.padata.payment_type" type="radio"
+              name="payment_type" value="1">
+            </div>
+            <div class="col-md-3">
+              <label class="control-label">Безналичные</label>
+              <input ng-model="vm.padata.payment_type" type="radio"
+              name="payment_type" value="2">
+            </div>
+            <div class="col-md-2">
+              <label class="control-label">Банк</label>
+              <input ng-model="vm.padata.payment_type" type="radio"
+              name="payment_type" value="3">
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

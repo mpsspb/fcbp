@@ -10,6 +10,7 @@ from rest_framework.response import Response
 
 import reports.styles as styles
 
+
 class Report(ViewSet):
 
     file_name = 'base_report'

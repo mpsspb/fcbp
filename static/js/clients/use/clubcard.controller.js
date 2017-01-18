@@ -66,7 +66,8 @@
         amount: 0.0,
         is_paid: false,
         client_club_card: vm.uid,
-        date: now
+        date: now,
+        payment_type: 1
       }
       // freeze data
       vm.frdata = {
@@ -76,12 +77,14 @@
         client_club_card: vm.uid,
         fdate: moment().format('DD.MM.YYYY'),
         tdate: moment().format('DD.MM.YYYY'),
-        is_credit: false
+        is_credit: false,
+        payment_type: 1
       }
       //  paid activate data
       vm.padata = {
         is_paid_activate: true,
         paid_activate_amount: 0,
+        payment_type: 1
       }
       //  to archive data
       vm.ardata = {
@@ -127,6 +130,13 @@
         } else {
           vm.free_freeze = false
           vm.frdata.is_paid = true
+        }
+        // is free prolongation
+        if (vm.card.rest_prolongation > 0) {
+          vm.free_prolongation = true
+        } else {
+          vm.free_prolongation = false
+          vm.prdata.is_paid = true
         }
         // for edit personalclubcard
         if (vm.card.personalclubcard_set.length) {

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
@@ -35,44 +35,52 @@ class Sales(Report):
         7: styles.stylef,
     }
 
+    def get_fdate(self):
+        return datetime.now()
+
     def get_title(self, **kwargs):
         msg = _(
-            'report administrator on the sales cards for the day. data: {date}')
-        date = self.get_fdate().strftime('%d.%m.%Y')
+            'report administrator on the sales cards for the day.')
+        msg += _(' created at: {date}.')
+        date = self.get_fdate().strftime('%d.%m.%Y %H:%M')
         return msg.format(date=date)
 
     def get_data(self):
         self.total_payments = dict.fromkeys(Payment.payment_types.keys(), 0)
         rows = []
-        fdate = self.get_fdate()
+        fdate = self.get_fdate().date()
         end_date = fdate + timedelta(1)
-        data = ClientClubCard.objects.filter(date__range=(fdate, end_date))
+        data = Payment.objects.filter(
+            date__range=(fdate, end_date)
+            ).exclude(club_card__isnull=True).exclude(payment_type=3)
         for row in data:
             line = []
+            card = row.club_card
             line.append(row.date.strftime('%H:%M'))
             line.append(row.client.full_name)
             line.append(row.client.uid)
-            line.append(row.club_card.name)
-            line.append(row.club_card.price)
-            line.append(row.discount_value)
-            line.append(row.discount_short)
-            payments = row.payment_set.filter(date__range=(fdate, end_date))
-            if payments:
-                ptype = Payment.payment_types.get(payments[0].payment_type)
-                summ = payments.aggregate(summ=Sum('amount')).get('summ', 0)
-                self.total_payments[payments[0].payment_type] += summ
+            line.append(row.goods_full_name())
+            if not row.extra_uid:
+                line.append(card.club_card.price)
+                line.append(card.discount_value)
+                line.append(card.discount_short)
             else:
-                ptype = ''
-                summ = ''
-            line.append(summ)
+                line.append('')
+                line.append('')
+                line.append('')
+            line.append(row.amount)
+            ptype = Payment.payment_types.get(row.payment_type)
             line.append(ptype)
+            self.total_payments[row.payment_type] += row.amount
             schedule = []
-            for p in row.schedule_payments():
+            for p in card.schedule_payments():
+                if p[0] <= row.date:
+                    continue
                 pdate = p[0].strftime('%d.%m.%Y')
                 pamount = "{:,}".format(p[1]).replace(',', ' ')
                 schedule.append("%s %s" % (pdate, pamount))
             line.append(", ".join(schedule))
-            employee = row.employee.full_name if row.employee else ''
+            employee = card.employee.full_name if card.employee else ''
             line.append(employee)
             rows.append(line)
         return rows

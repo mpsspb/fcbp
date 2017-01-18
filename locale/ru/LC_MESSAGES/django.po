@@ -81,8 +81,11 @@ msgstr "банк"
 msgid "other"
 msgstr "иное"
 
-msgid "report administrator on the sales cards for the day. data: {date}"
-msgstr "Отчет администратора о продажах клубных карт за день. дата: {date}"
+msgid " created at: {date}."
+msgstr " Сформирован: {date}"
+
+msgid "report administrator on the sales cards for the day."
+msgstr "Отчет администратора о продажах по клубным картам  и доп опциям."
 
 msgid "annotation"
 msgstr "пояснение"
@@ -128,3 +131,15 @@ msgstr "Номер моб  телефона"
 
 msgid "note"
 msgstr "примечание"
+
+msgid "payment at {date} amount {amount} rub. for {goods}"
+msgstr "Платеж от {date} на сумму {amount} руб. за {goods}"
+
+msgid "paid prolongation"
+msgstr "платное продление"
+
+msgid "paid freeze"
+msgstr "платная заморозка"
+
+msgid "paid activate"
+msgstr "активация с любого числа"

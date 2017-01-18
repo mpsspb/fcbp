@@ -39,6 +39,6 @@ class Migration(migrations.Migration):
             ],
             options={
             },
-            bases=(clients.models.GenericProlongation, models.Model),
+            bases=(clients.models.Prolongation, models.Model),
         ),
     ]

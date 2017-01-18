@@ -198,6 +198,11 @@ class GenericProduct(object):
             instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        is_paid_activate = request.data.get('is_paid_activate')
+        if is_paid_activate:
+            payment_type = request.data.pop('payment_type',)
+            instance.amount = request.data.get('paid_activate_amount')
+            instance.add_payment(payment_type,  force=True)
         return Response(serializer.data)
 
 

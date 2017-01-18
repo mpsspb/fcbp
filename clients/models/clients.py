@@ -11,59 +11,7 @@ from django.dispatch.dispatcher import receiver
 from products.models import (
     ClubCard, AquaAerobics, Ticket, Personal, Timing, Discount, Training)
 from employees.models import Employee
-
-
-class GenericProlongation(object):
-
-    def parent_upd(self, *args, **kwargs):
-        days = self.days
-        parent = self.parent
-        is_delete = kwargs.get('is_delete')
-        if is_delete:
-            parent.date_end = parent.date_end - timedelta(days)
-        else:
-            parent.date_end = parent.date_end + timedelta(days)
-        parent.save()
-
-
-class GenericProperty(object):
-
-    """ Generic property need for all services """
-    @property
-    def client_mobile(self):
-        return self.client.mobile
-
-    @property
-    def client_uid(self):
-        return self.client.uid
-
-    @property
-    def client_name(self):
-        return self.client.full_name
-
-    @property
-    def client_card(self):
-        return self.client.card
-
-    def escape_frozen(self):
-        freeze_model = eval(self.freeze_class)
-        filtr = {freeze_model.product: self, 'fdate__lte': date.today()}
-        freezes = freeze_model.objects.filter(**filtr)
-        for f in freezes:
-            if f.tdate >= date.today():
-                days_freeze = (date.today() - f.fdate).days
-                days_back = (f.tdate - date.today()).days + 1
-                self.date_end = self.date_end - timedelta(days_back)
-                self.save()
-                f.days = days_freeze
-                f.save()
-
-    @property
-    def name(self):
-        return self.product.name
-
-    def full_name(self):
-        return self.product.full_name
+from .generic import Property, Prolongation, WritePayment
 
 
 class Client(models.Model):
@@ -170,7 +118,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
             os.remove(old_file.path)
 
 
-class ClientClubCard(GenericProperty, models.Model):
+class ClientClubCard(Property, WritePayment, models.Model):
 
     """
     The clients club card,
@@ -181,6 +129,8 @@ class ClientClubCard(GenericProperty, models.Model):
 
     """
     freeze_class = 'FreezeClubCard'
+    extra_text = 'paid activate'
+    payment_goods = 'club_card'
 
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
@@ -238,17 +188,23 @@ class ClientClubCard(GenericProperty, models.Model):
         return False
 
     @property
+    def is_paid(self):
+        return self.is_paid_activate
+
+    @property
     def product(self):
         return self.club_card
 
     def schedule_payments(self):
         pre_payments = []
         schedule_start = self.date + timedelta(1)
-        payments = self.payment_set.filter(date__gt=schedule_start)
+        payments = self.payment_set.filter(
+            date__gt=schedule_start, extra_uid__isnull=True)
         for p in payments.order_by('date'):
             pre_payments.append((p.date, p.amount))
         for cr in self.credit_set.all().order_by('schedule'):
-            pre_payments.append((cr.schedule, cr.amount))
+            pdate = datetime.combine(cr.schedule, datetime.min.time())
+            pre_payments.append((pdate, cr.amount))
         return pre_payments
 
     @property
@@ -348,6 +304,15 @@ class ClientClubCard(GenericProperty, models.Model):
         return self.club_card.period_freeze
 
     @property
+    def rest_prolongation(self):
+        prolongation = ProlongationClubCard.objects\
+                               .filter(client_club_card=self)\
+                               .aggregate(sum=Sum('days'))
+        if prolongation['sum']:
+            return self.club_card.period_prolongation - prolongation['sum']
+        return self.club_card.period_prolongation
+
+    @property
     def rest_freeze_times(self):
         times = FreezeClubCard.objects\
                               .filter(client_club_card=self).count()
@@ -381,11 +346,14 @@ class ClientClubCard(GenericProperty, models.Model):
         return False
 
 
-class ProlongationClubCard(GenericProlongation, models.Model):
+class ProlongationClubCard(Prolongation, WritePayment, models.Model):
 
     """
     Prolongation for the Client Club Card.
     """
+    extra_text = 'paid prolongation'
+    payment_goods = 'club_card'
+
     date = models.DateTimeField()
     client_club_card = models.ForeignKey(ClientClubCard)
     days = models.SmallIntegerField()
@@ -397,6 +365,8 @@ class ProlongationClubCard(GenericProlongation, models.Model):
         return self.client_club_card
 
     def save(self, *args, **kwargs):
+        payment_type = kwargs.pop('payment_type', 1)
+        self.add_payment(payment_type)
         if not self.pk:
             self.parent_upd(self,)
         super(ProlongationClubCard, self).save(*args, **kwargs)
@@ -456,12 +426,14 @@ class PersonalClubCard(models.Model):
         return self.personal.initials
 
 
-class FreezeClubCard(models.Model):
+class FreezeClubCard(WritePayment, models.Model):
 
     """
     Freeze club card.
     """
     product = 'client_club_card'
+    extra_text = 'paid freeze'
+    payment_goods = 'club_card'
 
     date = models.DateTimeField(auto_now_add=True)
     client_club_card = models.ForeignKey(ClientClubCard)
@@ -474,6 +446,15 @@ class FreezeClubCard(models.Model):
     def tdate(self):
         return self.fdate + timedelta(days=(self.days-1))
 
+    @property
+    def parent(self):
+        return self.client_club_card
+
+    def save(self, *args, **kwargs):
+        payment_type = kwargs.pop('payment_type', 1)
+        self.add_payment(payment_type)
+        super(FreezeClubCard, self).save(*args, **kwargs)
+
     def delete(self, *args, **kwargs):
         cc = self.client_club_card
         cc.date_end = cc.date_end - timedelta(days=self.days)
@@ -481,7 +462,7 @@ class FreezeClubCard(models.Model):
         super(FreezeClubCard, self).delete(*args, **kwargs)
 
 
-class ClientAquaAerobics(GenericProperty, models.Model):
+class ClientAquaAerobics(Property, models.Model):
 
     """
     The clients Aqua Aerobics card,
@@ -577,7 +558,7 @@ class FreezeAqua(models.Model):
         return self.fdate + timedelta(days=(self.days-1))
 
 
-class ProlongationAqua(GenericProlongation, models.Model):
+class ProlongationAqua(Prolongation, models.Model):
 
     """
     Prolongation for the Client Club Card.
@@ -677,7 +658,7 @@ class ClientAquaAerobicsFull(models.Model):
         return False
 
 
-class ClientTicket(GenericProperty, models.Model):
+class ClientTicket(Property, models.Model):
 
     """
     The clients tickets,
@@ -765,7 +746,7 @@ class FreezeTicket(models.Model):
         return self.fdate + timedelta(days=(self.days-1))
 
 
-class ProlongationTicket(GenericProlongation, models.Model):
+class ProlongationTicket(Prolongation, models.Model):
 
     """
     Prolongation for the Client Ticket.

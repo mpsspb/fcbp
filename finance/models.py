@@ -73,24 +73,33 @@ class Payment(models.Model):
     discount = models.IntegerField(default=0,
                                    validators=[MinValueValidator(0),
                                                MaxValueValidator(100)])
+    extra_text = models.CharField(max_length=150, blank=True, null=True)
+    extra_uid = models.CharField(max_length=36, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.date:
             self.date = datetime.now()
         super(Payment, self).save(*args, **kwargs)
 
-    def goods(self):
+    def goods_full_name(self):
+        if self.extra_text:
+            return _(self.extra_text)
+        else:
         # first of existing goods
-        all_goods = (
-            self.club_card, self.aqua_aerobics, self.ticket, self.personal,
-            self.timing)
-        return next(x for x in all_goods if x)
+            all_goods = (
+                self.club_card, self.aqua_aerobics, self.ticket,
+                self.personal, self.timing)
+        return next(x for x in all_goods if x).full_name()
 
     def description(self):
-        msg = u'Платеж от {date} на сумму {amount} руб. за {goods}'
-        data = {'date': self.date, 'amount': self.amount,
-                'goods': self.goods().name}
-        return msg.format(**data)
+        if self.extra_text:
+            return _(self.extra_text)
+        msg = "payment at {date} amount {amount} rub. for {goods}"
+        data = {
+            'date': self.date.strftime('%d.%m.%Y %H:%M'),
+            'amount': self.amount,
+            'goods': self.goods_full_name()}
+        return _(msg).format(**data)
 
     def split(self, amount):
         try:

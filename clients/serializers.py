@@ -69,9 +69,16 @@ class GuestClubCardSerializer(serializers.ModelSerializer):
 
 class FreezeClubCardSerializer(serializers.ModelSerializer):
     tdate = serializers.DateTimeField(read_only=True)
+    payment_type = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = FreezeClubCard
+
+    def create(self, validated_data):
+        payment_type = validated_data.pop('payment_type')
+        obj = FreezeClubCard(**validated_data)
+        obj.save(payment_type=payment_type)
+        return obj
 
 
 class FitnessClubCardSerializer(serializers.ModelSerializer):
@@ -89,9 +96,16 @@ class PersonalClubCardSerializer(serializers.ModelSerializer):
 
 
 class ProlongationClubCardSerializer(serializers.ModelSerializer):
+    payment_type = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = ProlongationClubCard
+
+    def create(self, validated_data):
+        payment_type = validated_data.pop('payment_type')
+        obj = ProlongationClubCard(**validated_data)
+        obj.save(payment_type=payment_type)
+        return obj
 
 
 class ActiveListSerializer(serializers.ListSerializer):
@@ -151,7 +165,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'client_mobile', 'is_paid_activate', 'paid_activate_amount',
                   'discount_amount', 'bonus_amount', 'client_uid',
                   'block_comment', 'employee', 'discount_description',
-                  'infuture')
+                  'infuture', 'rest_prolongation')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):
@@ -164,6 +178,10 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
             club_card = fclub_card.save()
             data['club_card'] = club_card.pk
             finance(data)
+            if club_card.is_paid_activate:
+                payment_type = data.pop('payment_type',)
+                club_card.amount = club_card.paid_activate_amount
+                club_card.add_payment(payment_type,  force=True)
         else:
             print fclub_card.errors
         return club_card

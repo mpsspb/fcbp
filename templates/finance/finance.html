@@ -39,9 +39,11 @@
    <div class="col-md-12 row table">
     <div class="col-md-1"> <strong>{{ p.amount }}руб.</strong></div>
     <div class="col-md-1">
+      {% if not p.extra_uid %}
       <a class="btn btn-xs btn-warning" href="{% url 'payment-update-amount' p.pk %}">
         разбить
       </a>
+      {% endif %}
     </div>
     <div class="col-md-2">{{ p.date|date:'d.m.Y H:i' }}</div>
     <div class="col-md-2">
@@ -50,7 +52,7 @@
       </a>
     </div>
     <div class="col-md-2"> {{ p.client.initials }} </div>
-    <div class="col-md-4"> {{ p.goods.full_name }} </div>
+    <div class="col-md-4"> {{ p.goods_full_name }} </div>
    </div>
    {% endfor %}
   </div>
