@@ -27,7 +27,7 @@ def activate_card(**kwargs):
             date_begin__isnull=True, is_paid_activate=False):
         # period for activate
         days = card.club_card.period_activation
-        if card.date_start + timedelta(days) < date.today():
+        if card.date_start + timedelta(days - 1) < date.today():
             card.activate()
 
 
