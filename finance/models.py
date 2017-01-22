@@ -101,6 +101,10 @@ class Payment(models.Model):
             'goods': self.goods_full_name()}
         return _(msg).format(**data)
 
+    @property
+    def extra_text_trans(self):
+        return _(self.extra_text) if self.extra_text else ''
+
     def split(self, amount):
         try:
             amount = int(amount)

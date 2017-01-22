@@ -22,7 +22,7 @@ class WritePayment(object):
                 'amount': self.amount,
                 'count': 1,
                 'extra_uid': uuid.uuid4(),
-                'extra_text': self.extra_text,
+                'extra_text': self.paid_text,
                 'client': client,
                 self.payment_goods: goods
             }

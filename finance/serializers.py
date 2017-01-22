@@ -25,6 +25,7 @@ class CreditSerializer(serializers.ModelSerializer):
 
 class PaymentSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(required=False, allow_null=True)
+    extra_text_trans = serializers.CharField(read_only=True)
 
     class Meta:
         model = Payment

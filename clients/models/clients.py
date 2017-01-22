@@ -129,7 +129,7 @@ class ClientClubCard(Property, WritePayment, models.Model):
 
     """
     freeze_class = 'FreezeClubCard'
-    extra_text = 'paid activate'
+    paid_text = 'paid activate'
     payment_goods = 'club_card'
 
     date = models.DateTimeField(auto_now_add=True)
@@ -295,15 +295,6 @@ class ClientClubCard(Property, WritePayment, models.Model):
         return self.club_card.guest_training - guests
 
     @property
-    def rest_freeze(self):
-        freeze = FreezeClubCard.objects\
-                               .filter(client_club_card=self)\
-                               .aggregate(sum=Sum('days'))
-        if freeze['sum']:
-            return self.club_card.period_freeze - freeze['sum']
-        return self.club_card.period_freeze
-
-    @property
     def rest_prolongation(self):
         prolongation = ProlongationClubCard.objects\
                                .filter(client_club_card=self)\
@@ -313,9 +304,18 @@ class ClientClubCard(Property, WritePayment, models.Model):
         return self.club_card.period_prolongation
 
     @property
+    def rest_freeze(self):
+        freeze = FreezeClubCard.objects\
+                               .filter(client_club_card=self, is_extra=False)\
+                               .aggregate(sum=Sum('days'))
+        if freeze['sum']:
+            return self.club_card.period_freeze - freeze['sum']
+        return self.club_card.period_freeze
+
+    @property
     def rest_freeze_times(self):
-        times = FreezeClubCard.objects\
-                              .filter(client_club_card=self).count()
+        times = FreezeClubCard.objects.filter(
+            client_club_card=self, is_extra=False).count()
         return self.club_card.freeze_times - times
 
     @property
@@ -342,7 +342,6 @@ class ClientClubCard(Property, WritePayment, models.Model):
         for f in freezes:
             if f.tdate >= date.today():
                 return True
-
         return False
 
 
@@ -351,7 +350,7 @@ class ProlongationClubCard(Prolongation, WritePayment, models.Model):
     """
     Prolongation for the Client Club Card.
     """
-    extra_text = 'paid prolongation'
+    paid_text = 'paid prolongation'
     payment_goods = 'club_card'
 
     date = models.DateTimeField()
@@ -359,6 +358,7 @@ class ProlongationClubCard(Prolongation, WritePayment, models.Model):
     days = models.SmallIntegerField()
     amount = models.DecimalField(max_digits=15, decimal_places=2,)
     is_paid = models.BooleanField(default=False)
+    is_extra = models.BooleanField(default=False)
 
     @property
     def parent(self):
@@ -432,7 +432,7 @@ class FreezeClubCard(WritePayment, models.Model):
     Freeze club card.
     """
     product = 'client_club_card'
-    extra_text = 'paid freeze'
+    paid_text = 'paid freeze'
     payment_goods = 'club_card'
 
     date = models.DateTimeField(auto_now_add=True)
@@ -441,6 +441,7 @@ class FreezeClubCard(WritePayment, models.Model):
     days = models.SmallIntegerField()
     is_paid = models.BooleanField(default=False)
     amount = models.IntegerField(blank=True, null=True)
+    is_extra = models.BooleanField(default=False)
 
     @property
     def tdate(self):

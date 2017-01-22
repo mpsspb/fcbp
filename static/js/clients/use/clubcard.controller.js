@@ -406,7 +406,13 @@
 
     }
 
-    function freeze() {
+    function freeze(is_extra) {
+
+      if (is_extra == 'is_extra') {
+        vm.frdata.is_paid = false
+        vm.frdata.amount = 0
+        vm.frdata.is_extra = true
+      }
 
       if ( vm.frdata.is_credit ) {
         var credit_date = moment().add(1, 'days').startOf('day').format('DD.MM.YYYY');
