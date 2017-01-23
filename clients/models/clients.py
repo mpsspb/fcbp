@@ -297,7 +297,7 @@ class ClientClubCard(Property, WritePayment, models.Model):
     @property
     def rest_prolongation(self):
         prolongation = ProlongationClubCard.objects\
-                               .filter(client_club_card=self)\
+                               .filter(client_club_card=self, is_extra=False)\
                                .aggregate(sum=Sum('days'))
         if prolongation['sum']:
             return self.club_card.period_prolongation - prolongation['sum']

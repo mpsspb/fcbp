@@ -241,22 +241,21 @@
     }
 
     function use_del(uid) {
-      console.log('cool')
-      ClubCard.use_del(uid).then(prolongationSuccessFn, prolongationErrorFn);
+      ClubCard.use_del(uid).then(useSuccessFn, useErrorFn);
 
       /**
-      * @name prolongationSuccessFn
+      * @name useSuccessFn
       * @desc Update ClubCard array on view
       */
-      function prolongationSuccessFn(data, status, headers, config) {
+      function useSuccessFn(data, status, headers, config) {
         activate();
       }
 
       /**
-      * @name prolongationErrorFn
+      * @name useErrorFn
       * @desc console log error
       */
-      function prolongationErrorFn(data, status, headers, config) {
+      function useErrorFn(data, status, headers, config) {
         console.log(data);
       }
 
@@ -347,7 +346,14 @@
       }
     };
 
-    function prolongation() {
+    function prolongation(is_extra) {
+
+      if (is_extra == 'is_extra') {
+        vm.prdata.is_paid = false
+        vm.prdata.amount = 0
+        vm.prdata.is_extra = true
+      }
+
       ClubCard.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
 
       /**
@@ -355,13 +361,6 @@
       * @desc Update ClubCard array on view
       */
       function prolongationSuccessFn(data, status, headers, config) {
-        console.log(data);
-        vm.prdata = {
-          days: 1,
-          amount: 0.0,
-          is_paid: false,
-          client_club_card: vm.uid
-        }
         activate();
       }
 

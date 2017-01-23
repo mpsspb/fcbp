@@ -687,6 +687,9 @@
     <span class="col-md-3 cursor-pointer btn-primary" ng-click="coll_f=!coll_f" ng-show="vm.card.status==1">
       <strong>Дополнительная заморозка</strong>
     </span>
+    <span class="col-md-3 cursor-pointer btn-grey" ng-click="coll_p=!coll_p" ng-show="vm.card.status==1">
+      <strong>Дополнительное продление</strong>
+    </span>
 <!--  Change activation date-->
     <div ng-show="coll_d" class="col-md-12">
       <div class="col-md-12 bg-danger">
@@ -741,6 +744,32 @@
         ng-change="vm.freeze_chg('tdate')">
       </div>
       <div class="btn btn-xs btn-success col-md-3" ng-click="vm.freeze('is_extra')">Применить</div>
+    </div>
+<!-- end manual freeze -->
+<!-- manual prolongation -->
+    <div ng-show="coll_p" class="col-md-12">
+      <div class="col-md-12 bg-danger">
+        <strong>Дополнительное продление</strong>
+      </div>
+      <div>
+        <span class="bg-success" ng-show="vm.extra_freeze.update_success">
+          обновлено
+        </span>
+        <span class="alert alert-danger" role="alert" ng-show="vm.frdata.err">
+          <strong>{{ vm.frdata.err }}</strong>
+        </span>
+      </div>
+        <div class="col-md-3 col-md-offset-3">
+          <label class="col-md-4"> Начало: </label>
+          <input class="col-md-8 sinput date-time" ng-model="vm.prdata.date">
+        </div>
+        <div class="col-md-3">
+          <label class="col-md-4"> Дней: </label>
+          <input class="col-md-8 sinput" type="number" min="1"
+          ng-model="vm.prdata.days">
+        </div>
+      <div class="btn btn-xs btn-success col-md-3"
+           ng-click="vm.prolongation('is_extra')">Применить</div>
     </div>
 <!-- end manual freeze -->
   </div>
