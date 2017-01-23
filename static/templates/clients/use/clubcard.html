@@ -723,11 +723,11 @@
       <div class="col-md-12 bg-danger">
         <strong>Дополнительная заморозка</strong>
       </div>
-      <div>
+      <div class="col-md-12">
         <span class="bg-success" ng-show="vm.extra_freeze.update_success">
           обновлено
         </span>
-        <span class="alert alert-danger" role="alert" ng-show="vm.frdata.err">
+        <span class="bg-warning text-red" ng-show="vm.frdata.err">
           <strong>{{ vm.frdata.err }}</strong>
         </span>
       </div>
@@ -743,6 +743,10 @@
         <input ng-model="vm.frdata.tdate" type="text" class="sinput date"
         ng-change="vm.freeze_chg('tdate')">
       </div>
+      <div class="col-md-3">
+        <input ng-model="vm.frdata.note" type="text" class="sinput"
+               placeholder="Примечание" minlength="3">
+      </div>
       <div class="btn btn-xs btn-success col-md-3" ng-click="vm.freeze('is_extra')">Применить</div>
     </div>
 <!-- end manual freeze -->
@@ -751,23 +755,27 @@
       <div class="col-md-12 bg-danger">
         <strong>Дополнительное продление</strong>
       </div>
-      <div>
-        <span class="bg-success" ng-show="vm.extra_freeze.update_success">
+      <div class="col-md-12">
+        <span class="bg-success" ng-show="vm.extra_prdata.update_success">
           обновлено
         </span>
-        <span class="alert alert-danger" role="alert" ng-show="vm.frdata.err">
-          <strong>{{ vm.frdata.err }}</strong>
+        <span class="bg-warning text-red" ng-show="vm.prdata.err">
+          <strong>{{ vm.prdata.err }}</strong>
         </span>
       </div>
-        <div class="col-md-3 col-md-offset-3">
-          <label class="col-md-4"> Начало: </label>
-          <input class="col-md-8 sinput date-time" ng-model="vm.prdata.date">
-        </div>
-        <div class="col-md-3">
-          <label class="col-md-4"> Дней: </label>
-          <input class="col-md-8 sinput" type="number" min="1"
-          ng-model="vm.prdata.days">
-        </div>
+      <div class="col-md-3">
+        <label class="col-md-4"> Начало: </label>
+        <input class="col-md-8 sinput date-time" ng-model="vm.prdata.date">
+      </div>
+      <div class="col-md-3">
+        <label class="col-md-4"> Дней: </label>
+        <input class="col-md-8 sinput" type="number" min="1"
+        ng-model="vm.prdata.days">
+      </div>
+      <div class="col-md-3">
+        <input ng-model="vm.prdata.note" type="text" class="sinput"
+               placeholder="Примечание" minlength="3">
+      </div>
       <div class="btn btn-xs btn-success col-md-3"
            ng-click="vm.prolongation('is_extra')">Применить</div>
     </div>

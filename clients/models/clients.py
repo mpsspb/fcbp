@@ -359,6 +359,7 @@ class ProlongationClubCard(Prolongation, WritePayment, models.Model):
     amount = models.DecimalField(max_digits=15, decimal_places=2,)
     is_paid = models.BooleanField(default=False)
     is_extra = models.BooleanField(default=False)
+    note = models.TextField(null=True, blank=True)
 
     @property
     def parent(self):
@@ -442,6 +443,7 @@ class FreezeClubCard(WritePayment, models.Model):
     is_paid = models.BooleanField(default=False)
     amount = models.IntegerField(blank=True, null=True)
     is_extra = models.BooleanField(default=False)
+    note = models.TextField(null=True, blank=True)
 
     @property
     def tdate(self):

@@ -349,6 +349,10 @@
     function prolongation(is_extra) {
 
       if (is_extra == 'is_extra') {
+        if (!vm.prdata.note) {
+          vm.prdata.err = 'Поле примечание должно содеражть не менее 3 символов'
+          return
+        }
         vm.prdata.is_paid = false
         vm.prdata.amount = 0
         vm.prdata.is_extra = true
@@ -408,6 +412,10 @@
     function freeze(is_extra) {
 
       if (is_extra == 'is_extra') {
+        if (!vm.frdata.note) {
+          vm.frdata.err = 'Поле примечание должно содеражть не менее 3 символов'
+          return
+        }
         vm.frdata.is_paid = false
         vm.frdata.amount = 0
         vm.frdata.is_extra = true
