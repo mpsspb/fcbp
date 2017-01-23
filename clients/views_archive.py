@@ -6,7 +6,21 @@ from .models import *
 from .serializers_archive import *
 
 
-class ClientClubCardViewSet(viewsets.ReadOnlyModelViewSet):
+class GenericArhiveProduct(object):
+
+    """ Generic options for client's arhive products."""
+    @detail_route(methods=['post'], )
+    def reopen(self, request, pk):
+        obj = self.get_object()
+        obj.status = 1
+        obj.save()
+        return Response({'status': 'ok'})
+
+
+class ClientClubCardViewSet(
+        GenericArhiveProduct,
+        viewsets.ReadOnlyModelViewSet):
+
     queryset = ClientClubCard.objects.order_by('-date')
     serializer_class = ClientClubCardSerializer
 

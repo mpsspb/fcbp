@@ -51,6 +51,8 @@
     vm.prolongation_del = prolongation_del;
     vm.is_paid = is_paid;
 
+    vm.reopen = reopen
+
     activate();
 
     /**
@@ -465,7 +467,6 @@
 
 
     function freeze_del(uid) {
-      console.log('cool')
       ClubCard.freeze_del(uid).then(prolongationSuccessFn, prolongationErrorFn);
 
       /**
@@ -529,7 +530,6 @@
         console.log(data);
       }
     };
-
 
     function update_date_begin() {
       vm.new_date['update_success'] = false
@@ -646,6 +646,27 @@
       function CrUpdErrorFn(data, status, headers, config) {
         console.log(data);
       }
+    };
+
+    // reopen old card
+    function reopen() {
+      ClubCard.archive_reopen(vm.uid).then(reopenSuccessFn, reopenErrorFn);
+
+      /**
+      * @name reopenSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function reopenSuccessFn(data, status, headers, config) {
+        window.location = '/#/usecardclient/' + vm.uid
+      }
+
+      /**
+      * @name reopenErrorFn
+      * @desc console log error
+      */
+      function reopenErrorFn(data, status, headers, config) {
+        console.log(data);
+      };
     };
 
   };

@@ -41,6 +41,7 @@
       active_list: active_list,
       archive_list: archive_list,
       archive_client_list: archive_client_list,
+      archive_reopen: archive_reopen,
       archive_get: archive_get,
     };
 
@@ -80,6 +81,10 @@
 
     function archive_client_list(uid) {
       return $http.get('/api/v1/clients/archive/clubcard/'+ uid + '/client/')
+    }
+
+    function archive_reopen(uid) {
+      return $http.post('/api/v1/clients/archive/clubcard/'+ uid + '/reopen/')
     }
 
     function archive_get(uid) {
