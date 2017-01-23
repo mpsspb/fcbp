@@ -85,7 +85,7 @@ class Payment(models.Model):
         if self.extra_text:
             return _(self.extra_text)
         else:
-        # first of existing goods
+            # first of existing goods
             all_goods = (
                 self.club_card, self.aqua_aerobics, self.ticket,
                 self.personal, self.timing)

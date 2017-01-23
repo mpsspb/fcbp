@@ -153,6 +153,13 @@
     <div class="panel-body">
       <table class="table">
         <tr>
+          <td colspan="3">
+            <button class="btn btn-block btn-danger" ng-click="vm.archive_purge_credits()">
+              Очистить все долги
+            </button>
+          </td>
+        </tr>
+        <tr>
           <td class="col-md-3">Дата</td><td class="col-md-3">Сумма</td><td></td><td></td>
         </tr>
         <tr ng-repeat="cr in vm.card.credit_set">

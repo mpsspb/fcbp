@@ -52,6 +52,7 @@
     vm.is_paid = is_paid;
 
     vm.reopen = reopen
+    vm.archive_purge_credits = archive_purge_credits
 
     activate();
 
@@ -635,7 +636,6 @@
       * @desc Update ClubCard array on view
       */
       function CrUpdSuccessFn(data, status, headers, config) {
-        console.log('success')
         activate()
       }
 
@@ -665,6 +665,27 @@
       * @desc console log error
       */
       function reopenErrorFn(data, status, headers, config) {
+        console.log(data);
+      };
+    };
+
+    // purge credits for old card
+    function archive_purge_credits() {
+      ClubCard.archive_purge_credits(vm.uid).then(purgeSuccessFn, purgeErrorFn);
+
+      /**
+      * @name purgeSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function purgeSuccessFn(data, status, headers, config) {
+        activate()
+      };
+
+      /**
+      * @name purgeErrorFn
+      * @desc console log error
+      */
+      function purgeErrorFn(data, status, headers, config) {
         console.log(data);
       };
     };

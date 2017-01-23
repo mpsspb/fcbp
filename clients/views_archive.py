@@ -16,6 +16,12 @@ class GenericArhiveProduct(object):
         obj.save()
         return Response({'status': 'ok'})
 
+    @detail_route(methods=['post'], )
+    def purge_credits(self, request, pk):
+        obj = self.get_object()
+        obj.credit_set.all().delete()
+        return Response({'status': 'ok'})
+
 
 class ClientClubCardViewSet(
         GenericArhiveProduct,

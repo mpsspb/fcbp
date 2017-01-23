@@ -42,6 +42,7 @@
       archive_list: archive_list,
       archive_client_list: archive_client_list,
       archive_reopen: archive_reopen,
+      archive_purge_credits: archive_purge_credits,
       archive_get: archive_get,
     };
 
@@ -85,6 +86,10 @@
 
     function archive_reopen(uid) {
       return $http.post('/api/v1/clients/archive/clubcard/'+ uid + '/reopen/')
+    }
+
+    function archive_purge_credits(uid) {
+      return $http.post('/api/v1/clients/archive/clubcard/'+ uid + '/purge_credits/')
     }
 
     function archive_get(uid) {
