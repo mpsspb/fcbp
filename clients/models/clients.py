@@ -173,7 +173,7 @@ class ClientClubCard(Property, WritePayment, models.Model):
 
     def activate(self, date_begin=None):
         self.date_begin = date_begin if date_begin else date.today()
-        self.date_end = date_end(date.today(), self.club_card)
+        self.date_end = date_end(date_begin, self.club_card)
         self.status = 1
         self.save()
 
