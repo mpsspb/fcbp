@@ -143,3 +143,6 @@ msgstr "платная заморозка"
 
 msgid "paid activate"
 msgstr "активация с любого числа"
+
+msgid "list active club cards"
+msgstr "отчет о действующих картах по тарифным планам"

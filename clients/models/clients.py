@@ -195,6 +195,18 @@ class ClientClubCard(Property, WritePayment, models.Model):
     def product(self):
         return self.club_card
 
+    @property
+    def summ_amount(self):
+        amount = 0
+        psum = self.payment_set.filter(
+            extra_uid__isnull=False).aggregate(sum=Sum('amount'))
+        if psum.get('sum', 0):
+            amount += psum.get('sum', 0)
+        csum = self.credit_set.all().aggregate(sum=Sum('amount'))
+        if csum.get('sum', 0):
+            amount += csum.get('sum', 0)
+        return amount
+
     def schedule_payments(self):
         pre_payments = []
         schedule_start = self.date + timedelta(1)
@@ -297,8 +309,8 @@ class ClientClubCard(Property, WritePayment, models.Model):
     @property
     def rest_prolongation(self):
         prolongation = ProlongationClubCard.objects\
-                               .filter(client_club_card=self, is_extra=False)\
-                               .aggregate(sum=Sum('days'))
+            .filter(client_club_card=self, is_extra=False)\
+            .aggregate(sum=Sum('days'))
         if prolongation['sum']:
             return self.club_card.period_prolongation - prolongation['sum']
         return self.club_card.period_prolongation

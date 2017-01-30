@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
 import xlwt
+from xlutils.copy import copy
+from xlrd import open_workbook
 from datetime import datetime
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.utils.dateparse import parse_date
 
@@ -9,6 +13,8 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 
 import reports.styles as styles
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 class Report(ViewSet):
@@ -29,10 +35,12 @@ class Report(ViewSet):
         self.response['Content-Disposition'] = disposition
         self.wb = xlwt.Workbook(encoding='utf-8')
         self.ws = self.wb.add_sheet(self.sheet_name)
-        self.ws.write_merge(
-            0, 0, 0, len(self.table_headers) - 1,
-            self.title, styles.styleh)
+        self.write_title()
         return super(Report, self).initial(request, *args, **kwargs)
+
+    def write_title(self):
+        self.ws.write_merge(0, 0, 0, len(self.table_headers) - 1,
+            self.title, styles.styleh)
 
     def get_title(self, **kwargs):
         return u'String need to replace by report.'
@@ -58,8 +66,26 @@ class Report(ViewSet):
         for row in self.get_data():
             for i, cell in enumerate(row):
                 style = self.table_styles.get(i, styles.style)
-                self.ws.write(self.row_num, i, row[i], style)
-            self.row_num += 1
+                row_step = 0
+                if not isinstance(cell, (list, set, tuple)):
+                    self.ws.write(self.row_num, i, cell, style)
+                else:
+                    style.borders = styles.borders_cm
+                    row_step = self.write_multi_data(i, cell, style)
+            self.row_num += (1 + row_step)
+
+    def write_multi_data(self, coll, cell, style):
+        row_step = 0
+        for j, subcell in enumerate(cell[:-1]):
+            self.ws.write(self.row_num + j, coll, subcell, style)
+        # write bottom sub cell row
+        old_bord = style.borders
+        style.borders = styles.borders_cmb
+        j += 1
+        self.ws.write(self.row_num + j, coll, cell[-1], style)
+        style.borders = old_bord
+        row_step = row_step if j < row_step else j
+        return row_step
 
     def write_bottom(self):
         raise ('Need update by child')
@@ -99,3 +125,27 @@ class Report(ViewSet):
         self.write_sheet()
         self.wb.save(self.response)
         return self.response
+
+
+class ReportTemplate(Report):
+    """create report from xls template"""
+
+    tpl_path =  ''
+    tpl_start_row = 0
+
+    def write_title(self):
+        tpl_file = os.path.join(BASE_DIR, self.tpl_path)
+        rb = open_workbook(tpl_file, formatting_info=True)
+        r_sheet = rb.sheet_by_index(0)
+        self.wb = copy(rb)
+        self.ws = self.wb.get_sheet(0)
+        super(ReportTemplate, self).write_title()
+
+    def write_heads(self):
+        self.row_num = self.tpl_start_row
+
+    def get_data(self):
+        return []
+
+    def write_bottom(self):
+        pass

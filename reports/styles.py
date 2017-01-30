@@ -22,6 +22,31 @@ borders.left = xlwt.Borders.THIN
 borders.right = xlwt.Borders.THIN
 borders.top = xlwt.Borders.THIN
 borders.bottom = xlwt.Borders.THIN
+# One side borders
+borders_l = xlwt.Borders()
+borders_l.left = xlwt.Borders.THIN
+borders_r = xlwt.Borders()
+borders_r.right = xlwt.Borders.THIN
+borders_t = xlwt.Borders()
+borders_t.top = xlwt.Borders.THIN
+borders_b = xlwt.Borders()
+borders_b.bottom = xlwt.Borders.THIN
+# One side Medium borders
+borders_lm = xlwt.Borders()
+borders_lm.left = xlwt.Borders.MEDIUM
+borders_rm = xlwt.Borders()
+borders_rm.right = xlwt.Borders.MEDIUM
+borders_tm = xlwt.Borders()
+borders_tm.top = xlwt.Borders.MEDIUM
+borders_bm = xlwt.Borders()
+borders_bm.bottom = xlwt.Borders.MEDIUM
+borders_cm = xlwt.Borders()
+borders_cm.right = xlwt.Borders.MEDIUM
+borders_cm.left = xlwt.Borders.MEDIUM
+borders_cmb = xlwt.Borders()
+borders_cmb.right = xlwt.Borders.MEDIUM
+borders_cmb.left = xlwt.Borders.MEDIUM
+borders_cmb.bottom = xlwt.Borders.MEDIUM
 # Table head
 styleth = xlwt.XFStyle()
 styleth.font.bold = True

@@ -48,6 +48,22 @@
     class="btn btn-success btn-block">
       Дни рождения</a>
   </div>
+  <hr>
+  <div class="clo-md-12"></div>
+  <div class="col-md-3">
+    <a id='r_active_card' href="/api/v1/reports/acc/?cc=0"
+    class="btn btn-success btn-block">Активные клубные карты</a>
+  </div>
+  <div class="col-md-3">
+  <select name="club_card_type" class="btn-block">
+    <option value="0">-------</option>
+    {% for option in cc_options %}
+    <option value="{{ option.club_card__pk }}">
+      {{ option.club_card__name }}
+    </option>
+    {% endfor %}
+  </select>
+  </div>
 {% endblock %}
 
   {% block extra_js %}
@@ -92,6 +108,13 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_birthdays[5], 'tdate', tdate)
     var r_birthdays_url = r_birthdays.slice(0, 5).join('/') + '/' + get_str
     $('#r_birthdays').attr('href', r_birthdays_url)
+  });
+  $('[name=club_card_type]').change(function() {
+    var club_card_type = $(this).val()
+    var r_active_card = $('#r_active_card').attr('href').split('/')
+    var get_str = updateUrlParam(r_active_card[5], 'cc', club_card_type)
+    var r_active_card_url = r_active_card.slice(0, 5).join('/') + '/' + get_str
+    $('#r_active_card').attr('href', r_active_card_url)
   });
 });
 </script>

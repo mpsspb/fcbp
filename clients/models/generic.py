@@ -62,7 +62,7 @@ class Property(object):
         return self.client.card
 
     def escape_frozen(self):
-        freeze_model = eval(self.freeze_class)
+        freeze_model = get_model('clients', self.freeze_class)
         filtr = {freeze_model.product: self, 'fdate__lte': date.today()}
         freezes = freeze_model.objects.filter(**filtr)
         for f in freezes:
