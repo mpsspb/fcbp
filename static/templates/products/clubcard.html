@@ -18,6 +18,10 @@
 
       <table class="table" ng-show="!edit">
           <tr>
+              <td width="400">Краткое наименование</td>
+              <td>{{ clubcard.short_name }}</td>
+          </tr>
+          <tr>
               <td width="400">Активна</td>
               <td>{{ clubcard.is_active | YN }}</td>
           </tr>
@@ -77,6 +81,14 @@
       <div class="col-md-7">
         <input ng-model="clubcard.name" type="text" class="form-control"
             placeholder="Наименование вида карты">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Краткое наименование:</label>
+      <div class="col-md-7">
+        <input ng-model="clubcard.short_name" type="text" class="form-control"
+            placeholder="Краткое наименование до 20 символов">
       </div>
     </div>
 

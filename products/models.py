@@ -44,6 +44,8 @@ class ClubCard(models.Model, GenericProduct):
     ptype = u'Клубная карта'
 
     name = models.CharField(max_length=255, unique=True)
+    short_name = models.CharField(
+        max_length=20, blank=True, null=True, default='')
     max_visit = models.IntegerField()
     period = models.ForeignKey(Period, )
     is_full_time = models.BooleanField(default=True)

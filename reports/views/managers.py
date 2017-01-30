@@ -62,7 +62,7 @@ class ActiveClubCard(ReportTemplate):
             uid = row.client.uid
             line.append((fname, pname, lname, uid))
             phone = row.client.mobile or row.client.phone or ''
-            tariff = self.clubcard.name
+            tariff = self.clubcard.short_name
             amount = row.summ_amount
             discount = row.discount_short
             line.append((phone, tariff, amount, discount))
@@ -92,7 +92,7 @@ class ActiveClubCard(ReportTemplate):
                 freeze.append(f.days)
             use_prol = row.prolongationclubcard_set.all()
             for p in use_prol.filter(is_extra=False, is_paid=False):
-                freeze.append(f.days)
+                freeze.append(p.days)
             freeze.extend([''] * (4 - len(freeze)))
             line.append(freeze)
             fitness = row.fitnessclubcard_set.first()

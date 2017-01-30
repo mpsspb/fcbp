@@ -87,7 +87,7 @@
       },
       controller: DirectControl,
       controllerAs: 'vm',
-      templateUrl: '/static/templates/products/clubcard.html?1'
+      templateUrl: '/static/templates/products/clubcard.html?2'
     };
 
     return directive;
