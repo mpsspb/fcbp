@@ -106,6 +106,7 @@ class ActiveClubCard(ReportTemplate):
             guests.extend([''] * (4 - len(guests)))
             line.append(guests)
             rows.append(line)
+        self.total_rows = len(rows)
         return rows
 
     def write_heads(self):
@@ -114,5 +115,5 @@ class ActiveClubCard(ReportTemplate):
 
 
     def write_bottom(self):
-        pass
-
+        self.ws.write(self.row_num, 1, _('total cards'))
+        self.ws.write(self.row_num, 2, self.total_rows, styles.styleh)

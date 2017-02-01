@@ -114,6 +114,9 @@ msgstr "вид занятий"
 msgid "total of day"
 msgstr "итого за день"
 
+msgid "total cards"
+msgstr "всего карт"
+
 msgid "including:"
 msgstr "в том числе:"
 
