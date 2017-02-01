@@ -173,7 +173,7 @@ class ClientClubCard(Property, WritePayment, models.Model):
 
     def activate(self, date_begin=None):
         self.date_begin = date_begin if date_begin else date.today()
-        self.date_end = date_end(date_begin, self.club_card)
+        self.date_end = date_end(self.date_begin, self.club_card)
         self.status = 1
         self.save()
 
@@ -1019,6 +1019,8 @@ def date_end(date_begin, obj):
     Return date end for the obj
     """
     # the first day used
+    if isinstance(date_begin, basestring):
+        date_begin = datetime.strptime(date_begin, '%Y-%m-%d')
     if obj.period.is_month:
         months = obj.period.value
         date_to = date_begin + relativedelta(months=months)
