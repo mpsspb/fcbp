@@ -4,7 +4,7 @@ from datetime import date, timedelta, datetime
 from dateutil.relativedelta import relativedelta
 
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 
@@ -198,8 +198,8 @@ class ClientClubCard(Property, WritePayment, models.Model):
     @property
     def summ_amount(self):
         amount = 0
-        psum = self.payment_set.filter(
-            extra_uid__isnull=False).aggregate(sum=Sum('amount'))
+        q_filter = Q(extra_uid__exact='') | Q(extra_uid__isnull=True)
+        psum = self.payment_set.filter(q_filter).aggregate(sum=Sum('amount'))
         if psum.get('sum', 0):
             amount += psum.get('sum', 0)
         csum = self.credit_set.all().aggregate(sum=Sum('amount'))
