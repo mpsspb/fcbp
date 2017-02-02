@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
@@ -9,14 +9,14 @@ from reports import styles
 from clients.models import (
     ClientClubCard, UseClientClubCard, Client, ClubCardTrains)
 from products.models import ClubCard
-from finance.models import Payment
+from finance.models import Payment, Credit
 
 
 class ActiveClubCard(ReportTemplate):
 
     file_name = 'list_active_club_cards'
     sheet_name = 'report'
-    tpl_path =  'xls_tpl/active_clubcard.xls'
+    tpl_path = 'xls_tpl/active_clubcard.xls'
     tpl_start_row = 7
 
     table_headers = [
@@ -47,8 +47,8 @@ class ActiveClubCard(ReportTemplate):
         msg = _(
             'list active club cards')
         msg += _(' created at: {date}.')
-        date = self.get_fdate().strftime('%d.%m.%Y %H:%M')
-        return msg.format(date=date)
+        tdate = self.get_fdate().strftime('%d.%m.%Y %H:%M')
+        return msg.format(date=tdate)
 
     def get_data(self):
         rows = []
@@ -64,7 +64,13 @@ class ActiveClubCard(ReportTemplate):
             phone = row.client.mobile or row.client.phone or ''
             tariff = self.clubcard.short_name
             amount = row.summ_amount
-            discount = row.discount_short
+            if row.discount_value:
+                dtype = '%' if row.discount_value < 100 else _('rub.')
+                discount = u'{txt}/{val} {dtype}'.format(
+                    txt=row.discount_short,
+                    val=row.discount_value, dtype=dtype)
+            else:
+                discount = ''
             line.append((phone, tariff, amount, discount))
             date_begin = row.date_begin.strftime('%d.%m.%Y')
             date_end = row.date_end.strftime('%d.%m.%Y')
@@ -113,7 +119,128 @@ class ActiveClubCard(ReportTemplate):
         super(ActiveClubCard, self).write_heads()
         self.ws.write(2, 2, self.clubcard.name, styles.styleh)
 
-
     def write_bottom(self):
         self.ws.write(self.row_num, 1, _('total cards'))
         self.ws.write(self.row_num, 2, self.total_rows, styles.styleh)
+
+
+class CreditsClubCard(ReportTemplate):
+
+    file_name = 'credits_club_cards'
+    sheet_name = 'report'
+    tpl_path = 'xls_tpl/credits.xls'
+    tpl_start_row = 6
+
+    table_headers = [
+        (_('client'), 4000),
+        (_('club card'), 10000),
+        (_('dates'), 4000),
+        (_('credits'), 6000),
+        (_('credits dates'), 4000),
+    ]
+
+    table_styles = {
+        2: styles.style_c,
+        3: styles.style_c,
+        4: styles.style_c,
+    }
+
+    def initial(self, request, *args, **kwargs):
+        super(CreditsClubCard, self).initial(request, *args, **kwargs)
+        self.red_font = styles.style_red_font
+        self.red_font.borders = styles.borders_cmb
+        self.red_font.alignment = styles.alignment_c
+
+    def get_fdate(self):
+        return datetime.now()
+
+    def get_title(self, **kwargs):
+        return _("credits report").capitalize()
+
+    def get_data(self):
+        rows = []
+        data = Credit.objects.filter(
+            club_card__isnull=False).values_list('club_card', flat=True
+            ).distinct()
+        for row in data:
+            card = ClientClubCard.objects.get(pk=row)
+            line = []
+            fname = card.client.first_name
+            pname = card.client.patronymic
+            lname = card.client.last_name
+            uid = card.client.uid
+            line.append((fname, pname, lname, uid))
+            phone = card.client.mobile or card.client.phone or ''
+            tariff = card.club_card.short_name
+            amount = card.summ_amount
+            if card.discount_value:
+                dtype = '%' if card.discount_value < 100 else _('rub.')
+                discount = u'{val} {dtype}'.format(
+                    val=card.discount_value, dtype=dtype)
+            else:
+                discount = ''
+            line.append((phone, tariff, amount, discount))
+            if card.status < 2:
+                date_begin = card.date_begin.strftime('%d.%m.%Y')
+                date_end = card.date_end.strftime('%d.%m.%Y')
+            else:
+                date_begin = _("Card is disabled")
+                date_end = ''
+            last_visit = card.useclientclubcard_set.last()
+            if last_visit:
+                last_visit = last_visit.date.strftime('%d.%m.%Y')
+            else:
+                last_visit = ''
+            line.append((date_begin, date_end, '', last_visit))
+            credits = card.credit_set.all(
+                ).order_by('date').values_list('schedule', 'amount')
+            amounts = []
+            dates = []
+            for cr_date, cr_amount  in credits:
+                amounts.append(cr_amount)
+                if cr_date < date(1900, 1, 1) :
+                    dates.append('')
+                else:
+                    dates.append(cr_date.strftime('%d.%m.%Y'))
+            amounts.extend([''] * (4 - len(amounts)))
+            line.append(amounts)
+            dates.extend([''] * (4 - len(dates)))
+            line.append(dates)
+            rows.append(line)
+        return rows
+
+    def write_heads(self):
+        super(CreditsClubCard, self).write_heads()
+        report_date = self.get_fdate().strftime('%d.%m.%Y')
+        report_time = self.get_fdate().strftime('%H:%M')
+        self.ws.write(1, 2, report_date, styles.styleh)
+        self.ws.write(1, 4, report_time, styles.styleh)
+
+    def write_multi_data(self, coll, cell, style):
+        row_step = 0
+        for j, subcell in enumerate(cell[:-1]):
+            if coll == 4:
+                self.write_crdate(self.row_num + j, subcell, style)
+            else:
+                self.ws.write(self.row_num + j, coll, subcell, style)
+        # write bottom sub cell row
+        old_bord = style.borders
+        style.borders = styles.borders_cmb
+        j += 1
+        if coll == 4:
+            self.write_crdate(self.row_num + j, cell[-1], style)
+        else:
+            self.ws.write(self.row_num + j, coll, cell[-1], style)
+        style.borders = old_bord
+        row_step = row_step if j < row_step else j
+        return row_step
+
+    def write_crdate(self, row_num, subcell, style):
+        if subcell:
+            sub_data = datetime.strptime(subcell, '%d.%m.%Y').date()
+        else:
+            sub_data = subcell
+        if sub_data and sub_data < date.today():
+            self.ws.write(row_num, 4, subcell, self.red_font)
+        else:
+            self.ws.write(row_num, 4, subcell, style)

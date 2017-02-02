@@ -2,20 +2,20 @@ import xlwt
 
 # top prefix head
 styleph = xlwt.XFStyle()
-alignment = xlwt.Alignment()
-alignment.wrap = 1
-alignment.horz = xlwt.Alignment.HORZ_RIGHT
-alignment.vert = xlwt.Alignment.VERT_JUSTIFIED
-styleph.alignment = alignment
+alignmenth = xlwt.Alignment()
+alignmenth.wrap = 1
+alignmenth.horz = xlwt.Alignment.HORZ_RIGHT
+alignmenth.vert = xlwt.Alignment.VERT_JUSTIFIED
+styleph.alignment = alignmenth
 font = xlwt.Font()
 font.height = 6*20
 styleph.font = font
 # reports HEAD
 styleh = xlwt.XFStyle()
 styleh.font.bold = True
-alignment = xlwt.Alignment()
-alignment.horz = xlwt.Alignment.HORZ_CENTER
-styleh.alignment = alignment
+alignment_c = xlwt.Alignment()
+alignment_c.horz = xlwt.Alignment.HORZ_CENTER
+styleh.alignment = alignment_c
 # simple borders for table usually use
 borders = xlwt.Borders()
 borders.left = xlwt.Borders.THIN
@@ -51,7 +51,7 @@ borders_cmb.bottom = xlwt.Borders.MEDIUM
 styleth = xlwt.XFStyle()
 styleth.font.bold = True
 styleth.borders = borders
-styleth.alignment = alignment
+styleth.alignment = alignment_c
 # Table head date
 stylethd = xlwt.XFStyle()
 stylethd.font.bold = True
@@ -66,6 +66,10 @@ stylethf.num_format_str = "# ##0.00"
 # All data
 style = xlwt.XFStyle()
 style.borders = borders
+# All data center
+style_c = xlwt.XFStyle()
+style_c.borders = borders
+style_c.alignment = alignment_c
 # Red back ground data 
 style_red = xlwt.XFStyle()
 style_red.font.bold = True
@@ -75,6 +79,12 @@ pattern = xlwt.Pattern()
 pattern.pattern = xlwt.Pattern.SOLID_PATTERN
 pattern.pattern_fore_colour = xlwt.Style.colour_map['red']
 style_red.pattern = pattern
+# Red font data 
+style_red_font = xlwt.XFStyle()
+style_red_font.font.bold = True
+style_red_font.font.colour_index = xlwt.Style.colour_map['red']
+style_red_font.borders = borders
+
 
 # All data date
 styled = xlwt.XFStyle()
