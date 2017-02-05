@@ -533,7 +533,8 @@
     };
 
     function update_date_begin() {
-      vm.new_date['update_success'] = false
+      vm.new_date.update_success = false
+      vm.new_date.update_error = false
       $http.put('/api/v1/clients/clubcard/' + vm.uid + '/', vm.new_date
                 ).then(update_date_beginSuccessFn, update_date_beginErrorFn);
 
@@ -550,7 +551,8 @@
       * @desc console log error
       */
       function update_date_beginErrorFn(data, status, headers, config) {
-        console.log(data);
+        console.log(data)
+        vm.new_date.update_error = data.data['date_begin'][0];
       }
     };
 

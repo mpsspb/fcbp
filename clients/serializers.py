@@ -1,6 +1,7 @@
 from datetime import date, timedelta, datetime
 from dateutil.relativedelta import relativedelta
 
+from django.utils.translation import ugettext as _
 from rest_framework import serializers
 
 from .models import *
@@ -132,8 +133,7 @@ class ArchiveListSerializer(serializers.ListSerializer):
 
 class ClientClubCardSerializer(serializers.ModelSerializer):
 
-    useclientclubcard_set = UseClientClubCardSerializer(many=True,
-                                                        read_only=True)
+    visits = UseClientClubCardSerializer(many=True, read_only=True)
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
     client_name = serializers.CharField(read_only=True)
     discount_description = serializers.CharField(read_only=True)
@@ -155,7 +155,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         model = ClientClubCard
         fields = ('id', 'club_card', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client', 'is_online',
-                  'rest_days', 'rest_visits', 'useclientclubcard_set',
+                  'rest_days', 'rest_visits', 'visits',
                   'rest_guest', 'guest_training', 'guestclubcard_set',
                   'fitness_testing_discount', 'personal_training',
                   'personalclubcard_set', 'fitnessclubcard_set',
@@ -185,6 +185,12 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         else:
             print fclub_card.errors
         return club_card
+
+    def validate_date_begin(self, value):
+        if self.instance and self.instance.first_visit():
+            if self.instance.first_visit().date.date() < value:
+                raise serializers.ValidationError(_('date less first visit'))
+        return value
 
 
 class FreezeAquaSerializer(serializers.ModelSerializer):

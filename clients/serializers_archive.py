@@ -50,8 +50,7 @@ class ArchiveListSerializer(serializers.ListSerializer):
 
 class ClientClubCardSerializer(serializers.ModelSerializer):
 
-    useclientclubcard_set = UseClientClubCardSerializer(many=True,
-                                                        read_only=True)
+    visits = UseClientClubCardSerializer(many=True, read_only=True)
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
     client_name = serializers.CharField(read_only=True)
     name = serializers.CharField(read_only=True)

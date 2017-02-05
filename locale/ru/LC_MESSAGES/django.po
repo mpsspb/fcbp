@@ -155,3 +155,6 @@ msgstr "отчет менеджера о фитнес-кредите"
 
 msgid "rub."
 msgstr "руб."
+
+msgid "date less first visit"
+msgstr "дата меньше, чем первое посещение клуба"

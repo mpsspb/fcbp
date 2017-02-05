@@ -128,10 +128,6 @@ class ClientClubCard(Property, WritePayment, models.Model):
     Date begin - is start of using the card.
 
     """
-    freeze_class = 'FreezeClubCard'
-    paid_text = 'paid activate'
-    payment_goods = 'club_card'
-
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
     date_begin = models.DateField(null=True, blank=True)
@@ -155,6 +151,10 @@ class ClientClubCard(Property, WritePayment, models.Model):
     1 - active
     2 - prospect
     """
+
+    freeze_class = 'FreezeClubCard'
+    paid_text = 'paid activate'
+    payment_goods = 'club_card'
 
     def save(self, *args, **kwargs):
         if self.status == 0:
@@ -889,7 +889,7 @@ class UseClientClubCard(models.Model):
     """
     date = models.DateTimeField()
     end = models.DateTimeField(blank=True, null=True)
-    client_club_card = models.ForeignKey(ClientClubCard)
+    client_club_card = models.ForeignKey(ClientClubCard, related_name='visits')
 
     class Meta:
         ordering = ['date']

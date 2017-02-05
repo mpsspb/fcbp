@@ -75,7 +75,7 @@ class ActiveClubCard(ReportTemplate):
             date_begin = row.date_begin.strftime('%d.%m.%Y')
             date_end = row.date_end.strftime('%d.%m.%Y')
             line.append((date_begin, date_end, '', ''))
-            visits = row.useclientclubcard_set.all()
+            visits = row.visits.all()
             training = ClubCardTrains.objects.filter(visit__in=visits).count()
             line.append((training, '', '', ''))
             if visits:
@@ -186,7 +186,7 @@ class CreditsClubCard(ReportTemplate):
             else:
                 date_begin = _("Card is disabled")
                 date_end = ''
-            last_visit = card.useclientclubcard_set.last()
+            last_visit = card.visits.last()
             if last_visit:
                 last_visit = last_visit.date.strftime('%d.%m.%Y')
             else:
