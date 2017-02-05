@@ -158,3 +158,18 @@ msgstr "руб."
 
 msgid "date less first visit"
 msgstr "дата меньше, чем первое посещение клуба"
+
+msgid "the report of new uids"
+msgstr "Отчет менеджера по новым Членским соглашениям"
+
+msgid "# on item"
+msgstr "№ п/п"
+
+msgid "# uid"
+msgstr "номер чс"
+
+msgid "date of conclusion"
+msgstr "дата заключения"
+
+msgid "from: {fdate} to {tdate}"
+msgstr "за период. c: {fdate} по {tdate}"

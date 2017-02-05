@@ -64,9 +64,9 @@ class Report(ViewSet):
 
     def write_data(self):
         for row in self.get_data():
+            row_step = 0
             for i, cell in enumerate(row):
                 style = self.table_styles.get(i, styles.style)
-                row_step = 0
                 if not isinstance(cell, (list, set, tuple)):
                     self.ws.write(self.row_num, i, cell, style)
                 else:

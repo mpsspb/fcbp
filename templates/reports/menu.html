@@ -48,8 +48,9 @@
     class="btn btn-success btn-block">
       Дни рождения</a>
   </div>
-  <hr>
+  <div class="col-lg-3">&nbsp;</div>
   <div class="clo-md-12">&nbsp;</div>
+  <br/>
   <div class="col-md-3">
     <a id='r_active_card' href="/api/v1/reports/acc/?cc=0"
     class="btn btn-success btn-block">Активные клубные карты</a>
@@ -67,6 +68,12 @@
     <div class="col-md-3">
     <a id='r_active_card' href="/api/v1/reports/ccc/"
     class="btn btn-danger btn-block">Кредиты по клубным картам</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_new_uid'
+    href="/api/v1/reports/new_uid/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-warning btn-block">
+      Новые ЧС</a>
   </div>
 {% endblock %}
 
@@ -104,7 +111,13 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_birthdays[5], 'fdate', fdate)
     var r_birthdays_url = r_birthdays.slice(0, 5).join('/') + '/' + get_str
     $('#r_birthdays').attr('href', r_birthdays_url)
+    // r_new_uid
+    var r_new_uid = $('#r_new_uid').attr('href').split('/')
+    var get_str = updateUrlParam(r_new_uid[5], 'fdate', fdate)
+    var r_new_uid_url = r_new_uid.slice(0, 5).join('/') + '/' + get_str
+    $('#r_new_uid').attr('href', r_new_uid_url)
   });
+
   $('[name=tdate]').change(function() {
     var tdate = $(this).val()
     // r_birthdays
@@ -112,7 +125,13 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_birthdays[5], 'tdate', tdate)
     var r_birthdays_url = r_birthdays.slice(0, 5).join('/') + '/' + get_str
     $('#r_birthdays').attr('href', r_birthdays_url)
+    // r_new_uid
+    var r_new_uid = $('#r_new_uid').attr('href').split('/')
+    var get_str = updateUrlParam(r_new_uid[5], 'tdate', tdate)
+    var r_new_uid_url = r_new_uid.slice(0, 5).join('/') + '/' + get_str
+    $('#r_new_uid').attr('href', r_new_uid_url)
   });
+
   $('[name=club_card_type]').change(function() {
     var club_card_type = $(this).val()
     var r_active_card = $('#r_active_card').attr('href').split('/')

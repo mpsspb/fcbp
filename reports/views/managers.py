@@ -4,7 +4,7 @@ from datetime import timedelta, datetime, date
 from django.utils.translation import ugettext as _
 from django.db.models import Sum
 
-from .base import ReportTemplate
+from .base import ReportTemplate, Report
 from reports import styles
 from clients.models import (
     ClientClubCard, UseClientClubCard, Client, ClubCardTrains)
@@ -244,3 +244,57 @@ class CreditsClubCard(ReportTemplate):
             self.ws.write(row_num, 4, subcell, self.red_font)
         else:
             self.ws.write(row_num, 4, subcell, style)
+
+
+class NewUid(Report):
+    file_name = 'report_new_uid'
+    sheet_name = 'the report of new uids'
+
+    table_headers = [
+        (_('# on item'), 2000),
+        (_('# uid'), 4000),
+        (_('date of conclusion'), 5000),
+        (_('client'), 8000),
+        (_('tariff'), 6000),
+        (_('email'), 6000),
+    ]
+
+    table_styles = {
+        2: styles.styled,
+    }
+
+    def get_title(self, **kwargs):
+        msg = _('the report of new uids')
+        return msg
+
+    def write_title(self):
+        super(NewUid, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        self.ws.write_merge(1, 1, 0, 5, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        data = Client.objects.filter(
+            date__range=(fdate, tdate), uid__gt=170000)
+        for num, row in enumerate(data):
+            line = []
+            line.append(num)
+            line.append(row.uid)
+            line.append(row.date.strftime('%d.%m.%Y'))
+            line.append(row.full_name)
+            card = row.clientclubcard_set.all().first()
+            if card:
+                line.append(card.club_card.short_name)
+            else:
+                line.append('')
+            line.append(row.email)
+            rows.append(line)
+        return rows
+
+    def write_bottom(self):
+        pass
