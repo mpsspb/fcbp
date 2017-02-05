@@ -104,14 +104,14 @@
         var mobile = vm.fdata.mobile_form.match( numberPattern );
         vm.fdata.mobile = mobile.join("");
       } else {
-        delete vm.fdata.mobile
+        vm.fdata.mobile = null
       }
 
       if (vm.fdata.phone_str){
         var phone = vm.fdata.phone_str.match( numberPattern );
         vm.fdata.phone = phone.join("");
       } else {
-        delete vm.fdata.phone
+        vm.fdata.phone = null
       }
 
       delete vm.fdata.avatar
