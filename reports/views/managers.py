@@ -160,9 +160,8 @@ class CreditsClubCard(ReportTemplate):
     def get_data(self):
         rows = []
         data = Credit.objects.filter(
-            club_card__isnull=False).values_list('club_card', flat=True
-            ).distinct()
-        for row in data:
+            club_card__isnull=False).values_list('club_card', flat=True)
+        for row in set(data):
             card = ClientClubCard.objects.get(pk=row)
             line = []
             fname = card.client.first_name
