@@ -173,3 +173,9 @@ msgstr "дата заключения"
 
 msgid "from: {fdate} to {tdate}"
 msgstr "за период. c: {fdate} по {tdate}"
+
+msgid "common list"
+msgstr "Общий список клиентов"
+
+msgid "period cards"
+msgstr "Купленные за период карты"

@@ -280,7 +280,7 @@ class NewUid(Report):
         tdate = self.get_tdate().date() + timedelta(1)
         data = Client.objects.filter(
             date__range=(fdate, tdate), uid__gt=170000)
-        for num, row in enumerate(data):
+        for num, row in enumerate(data, 1):
             line = []
             line.append(num)
             line.append(row.uid)
@@ -292,6 +292,70 @@ class NewUid(Report):
             else:
                 line.append('')
             line.append(row.email)
+            rows.append(line)
+        return rows
+
+    def write_bottom(self):
+        pass
+
+
+class CommonList(Report):
+    file_name = 'common_list'
+    sheet_name = 'common list'
+
+    table_headers = [
+        (_('# on item'), 2000),
+        (_('client'), 8000),
+        (_('# uid'), 4000),
+        (_('birthday'), 4000),
+        (_('mobile'), 7000),
+        (_('period cards'), 8000),
+    ]
+
+    table_styles = {
+        3: styles.styled,
+    }
+
+    def get_title(self, **kwargs):
+        msg = _('common list')
+        return msg
+
+    @staticmethod
+    def format_mobile(value):
+        if not value:
+            return ''
+        value = str(value)
+        return '+7 (%s) %s - %s' %(value[0:3],value[3:6],value[6:10])
+
+    def write_title(self):
+        super(CommonList, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        self.ws.write_merge(1, 1, 0, 5, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        data = ClientClubCard.objects.filter(
+            date__range=(fdate, tdate)).values_list('client', flat=True)
+        for num, row in enumerate(set(data), 1):
+            line = []
+            line.append(num)
+            client = Client.objects.get(pk=row)
+            line.append(client.full_name)
+            line.append(client.uid)
+            line.append(client.born.strftime('%d.%m.%Y'))
+            line.append(CommonList.format_mobile(client.mobile))
+            cards = client.clientclubcard_set.filter(
+                date__range=(fdate, tdate))
+            if cards:
+                cards = cards.values_list('club_card__short_name', flat=True)
+                line.append(", ".join(cards))
+            else:
+                line.append('')
             rows.append(line)
         return rows
 

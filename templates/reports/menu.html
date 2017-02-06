@@ -75,6 +75,14 @@
     class="btn btn-warning btn-block">
       Новые ЧС</a>
   </div>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+  <div class="col-lg-3">
+    <a id='r_cl'
+    href="/api/v1/reports/cl/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-primary btn-block">
+      Общий список клиентов</a>
+  </div>
 {% endblock %}
 
   {% block extra_js %}
@@ -116,6 +124,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_new_uid[5], 'fdate', fdate)
     var r_new_uid_url = r_new_uid.slice(0, 5).join('/') + '/' + get_str
     $('#r_new_uid').attr('href', r_new_uid_url)
+    // r_cl
+    var r_cl = $('#r_cl').attr('href').split('/')
+    var get_str = updateUrlParam(r_cl[5], 'fdate', fdate)
+    var r_cl_url = r_cl.slice(0, 5).join('/') + '/' + get_str
+    $('#r_cl').attr('href', r_cl_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -130,6 +143,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_new_uid[5], 'tdate', tdate)
     var r_new_uid_url = r_new_uid.slice(0, 5).join('/') + '/' + get_str
     $('#r_new_uid').attr('href', r_new_uid_url)
+    // r_cl
+    var r_cl = $('#r_cl').attr('href').split('/')
+    var get_str = updateUrlParam(r_cl[5], 'tdate', tdate)
+    var r_cl_url = r_cl.slice(0, 5).join('/') + '/' + get_str
+    $('#r_cl').attr('href', r_cl_url)
   });
 
   $('[name=club_card_type]').change(function() {
