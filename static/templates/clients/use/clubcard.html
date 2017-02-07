@@ -487,7 +487,7 @@
       </div>
       <div class="row" ng-repeat="freez in vm.card.freezeclubcard_set"
        ng-click="collapsed=!collapsed"
-       ng-class="freez.is_paid ? 'bg-warning cursor-pointer' : ''">
+       ng-class="freez.is_paid ? 'bg-warning cursor-pointer' : (freez.note ? 'alert-grey cursor-pointer' : '')">
         <div class="col-md-4"> {{ freez.fdate | date:'dd.MM.yyyy' }} </div>
         <div class="col-md-4"> {{ freez.tdate | date:'dd.MM.yyyy' }} </div>
         <div class="col-md-2"> {{ freez.days }}</div>
@@ -497,6 +497,9 @@
         <div ng-show="collapsed && freez.is_paid" class="bg-info col-md-12">
           <div class="col-md-8"> купил: {{ freez.date | date:'dd.MM.yyyy'}} </div>
           <div class="col-md-4"> {{ freez.amount }} руб.</div>
+        </div>
+        <div ng-show="collapsed && freez.note" class="bg-info col-md-12">
+          <div class="col-md-12"> {{ freez.note }}</div>
         </div>
       </div>
     </div>

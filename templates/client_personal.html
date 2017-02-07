@@ -43,36 +43,36 @@
            <td width="240">{{ client.uid }}</td>
         </tr>
         <tr>
-            <td width="140">Фамилия, Имя, Отчество</td>
+            <td width="140"><i>Фамилия, Имя, Отчество</i></td>
             <td><strong>{{ client.last_name }}</strong></td>
             <td colspan="2"><strong>{{ client.first_name }}</strong></td>
             <td colspan="2"><strong>{{ client.patronymic }}</strong></td>
         </tr>
         <tr>
-            <td>Дата рождения</td>
+            <td><i>Дата рождения</i></td>
             <td> {{ client.born | date:"d.m.Y" }}</td>
-            <td>Контактные телефоны</td>
+            <td><i>Контактные телефоны</i></td>
             <td colspan="3">{{ client.mobile | phone }} 
                 {% if client.mobile and client.phone %}, {% endif %}
                 {{ client.phone | phone }}</td>
         </tr>
         <tr>
-            <td>Адрес электронной почты</td>
+            <td><i>Адрес электронной почты</i></td>
             <td colspan="5">{{ client.email | default:'' }}</td>
         </tr>
         <tr>
-            <td>Адрес места жительства</td>
+            <td><i>Адрес места жительства</i></td>
             <td colspan="5">{{ client.address | default:'' }}</td>
         </tr>
         <tr>
-            <td rowspan="2">Документ удостоверяющий личность</td>
-            <td>номер</td>
+            <td rowspan="2"><i>Документ удостоверяющий личность</i></td>
+            <td><i>номер</i></td>
             <td colspan="2">{{ client.passport_number | default:'' }}</td>
-            <td>дата выдачи </td>
+            <td><i>дата выдачи </i></td>
             <td colspan="2"> {{ client.passport_date | date:"d.m.Y"  }}</td>
         </tr>
         <tr>
-            <td>выдан</td>
+            <td><i>выдан</i></td>
             <td colspan="5">{{ client.passport_issued | default:''}}</td>
         </tr>
     </table>
@@ -93,9 +93,9 @@
     </table>
   <table width="800" class="table-print">
     <tr>
-        <td width="140">Клиент</td>
+        <td width="140"><i>Клиент</i></td>
         <td width="320"></td>
-        <td width="120">Исполнитель</td>
+        <td width="120"><i>Исполнитель</i></td>
         <td></td>
     </tr>
     <tr>
