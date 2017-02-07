@@ -1,9 +1,13 @@
 <form ng-submit="vm.submit()">  
   <div class="form-group">
-    <input type="text" ng-model="vm.fdata.search" class="form-control" placeholder="Поиск"> 
+    <input type="text" ng-model="vm.fdata.search" class="form-control" placeholder="Поиск" id="search"> 
   </div>
   <button type="submit" class="btn btn-primary">Поиск</button>
 </form>
 {{ vm.fdata }}
 <clientonline client="client" ng-repeat="client in vm.clients">
 </clientonline>
+
+<script type="text/javascript">
+$("#search").focus();
+</script>
