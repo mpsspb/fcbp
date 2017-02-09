@@ -40,6 +40,7 @@
     vm.to_archive = to_archive;
     vm.update_date_begin = update_date_begin;
     vm.activation = activation;
+    vm.update_type = update_type;
     vm.add_train = add_train;
     vm.rm_train = rm_train;
     vm.use_trainings = [];
@@ -105,6 +106,10 @@
         date: now
       }
 
+      vm.new_type = {
+        amount: 0,
+        date: moment().format('DD.MM.YYYY')
+      }
       // end forms
 
 
@@ -203,6 +208,26 @@
       * @desc Propogate error event and show snackbar with error message
       */
       function listTrainingErrorFn(data, status, headers, config) {
+        console.log(data)
+      }
+
+      ClubCard.similar(vm.uid).then(listSimilarSuccessFn, listSimilarErrorFn);
+
+      /**
+      * @name listSimilarSuccessFn
+      * @desc Show snackbar with success message
+      */
+      function listSimilarSuccessFn(data, status, headers, config) {
+        vm.similar = data.data;
+        console.log(vm.similar)
+      }
+
+
+      /**
+      * @name listSimilarErrorFn
+      * @desc Propogate error event and show snackbar with error message
+      */
+      function listSimilarErrorFn(data, status, headers, config) {
         console.log(data)
       }
 
@@ -562,6 +587,36 @@
       var date_begin = moment(vm.activation_data.date_begin, 'DD.MM.YYYY').format('YYYY-MM-DD')
       vm.activation_data.date_begin = date_begin
       $http.post('/api/v1/clients/clubcard/' + vm.uid + '/activation/', vm.activation_data
+                ).then(activationSuccessFn, activationErrorFn);
+
+      /**
+      * @name activationSuccessFn
+      * @desc Update ClubCard on view
+      */
+      function activationSuccessFn(data, status, headers, config) {
+        $route.reload();
+      }
+
+      /**
+      * @name activationErrorFn
+      * @desc console log error
+      */
+      function activationErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
+    $scope.$watch('vm.new_type.club_card', function(id){
+      angular.forEach(vm.similar, function(attr){
+        if(attr.id === id){
+          vm.new_type.amount = attr.price - vm.card.price;
+        }
+      });
+    });
+
+    // manual update_type 
+    function update_type() {
+      $http.post('/api/v1/clients/clubcard/' + vm.uid + '/new_type/', vm.new_type
                 ).then(activationSuccessFn, activationErrorFn);
 
       /**

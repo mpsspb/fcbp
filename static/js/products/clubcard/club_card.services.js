@@ -36,6 +36,7 @@
       prolongation: prolongation,
       prolongation_del: prolongation_del,
       freeze: freeze,
+      similar: similar,
       freeze_del: freeze_del,
       active: active,
       active_list: active_list,
@@ -189,6 +190,9 @@
       return $http.post('/api/v1/clients/clubcard/' + uid + '/freeze/', fdata)
     }
 
+    function similar(uid) {
+      return $http.get('/api/v1/clients/clubcard/' + uid + '/similar/')
+    }
 
     function freeze_del(uid) {
       // delete freeze club card

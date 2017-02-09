@@ -16,6 +16,8 @@ from .serializers import *
 from .serializers_light import ClientClubCardSerial
 from .use_serializers import *
 from products.models import CardText
+from products.serializers import *
+from finance.forms import FormCredit
 
 
 class ClientResultsSetPagination(PageNumberPagination):
@@ -192,6 +194,36 @@ class GenericProduct(object):
             return Response(serializer.errors,
                             status=status.HTTP_406_NOT_ACCEPTABLE)
 
+    @detail_route(methods=['get'], )
+    def similar(self, request, pk):
+        obj = self.get_object()
+        data = obj.similar_products()
+        serializer = self.serializer_similar(data, many=True)
+        return Response(serializer.data)
+
+    @detail_route(methods=['post'], )
+    def new_type(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        amount = request.data.get('amount')
+        if amount:
+            data = {}
+            data['amount'] = amount
+            data['schedule'] = request.data.get('date')
+            data['discount'] = 0
+            data['count'] = 1
+            data['client'] = instance.client.pk
+            data[self.finance_obj] = instance.pk
+            form = FormCredit(data)
+            if form.is_valid():
+                form.save()
+            else:
+                print form.errors
+        return Response(serializer.data)
+
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(
@@ -216,7 +248,9 @@ class ClientClubCardViewSet(
     queryset = ClientClubCard.objects.order_by('-date')
     serializer_class = ClientClubCardSerializer
     serializer_freeze = FreezeClubCardSerializer
+    serializer_similar = ClubCardSerializer
     freeze_obj = 'client_club_card'
+    finance_obj = 'club_card'
 
     @detail_route(methods=['get'], )
     def card(self, request, pk):

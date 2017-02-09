@@ -28,6 +28,7 @@ class FormAquaAerobicsClients(ModelForm):
         model = AquaAerobicsClients
         exclude = ['date', ]
 
+
 class FormClientTicket(ModelForm):
     class Meta:
         model = ClientTicket

@@ -86,3 +86,12 @@ class Property(object):
 
     def is_full_time(self):
         return self.product.is_full_time
+
+    def similar_products(self):
+        model = self.product._meta.model
+        period = self.product.period
+        products = model.objects.filter(is_active=True, period=period)
+        return products.exclude(pk=self.product.pk)
+
+    def price(self):
+        return self.product.price
