@@ -83,3 +83,6 @@ class Property(object):
 
     def first_visit(self):
         return self.visits.all().order_by('date').first()
+
+    def is_full_time(self):
+        return self.product.is_full_time

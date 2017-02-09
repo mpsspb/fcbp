@@ -155,7 +155,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
         model = ClientClubCard
         fields = ('id', 'club_card', 'status', 'date', 'date_start',
                   'date_begin', 'date_end', 'name', 'client', 'is_online',
-                  'rest_days', 'rest_visits', 'visits',
+                  'rest_days', 'rest_visits', 'visits', 'printed',
                   'rest_guest', 'guest_training', 'guestclubcard_set',
                   'fitness_testing_discount', 'personal_training',
                   'personalclubcard_set', 'fitnessclubcard_set',
@@ -165,7 +165,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'client_mobile', 'is_paid_activate', 'paid_activate_amount',
                   'discount_amount', 'bonus_amount', 'client_uid',
                   'block_comment', 'employee', 'discount_description',
-                  'infuture', 'rest_prolongation')
+                  'infuture', 'rest_prolongation', 'is_full_time')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):

@@ -238,6 +238,8 @@ class ClientClubCardViewSet(
                 payments.append((None, None))
         text = CardText.objects.get(pk=1)
         cont = {'card': card, 'payments': payments, 'text': text}
+        card.printed = True
+        card.save()
         self.template_name = 'card/clubcard.html'
         return TemplateResponseMixin.render_to_response(self, cont)
 

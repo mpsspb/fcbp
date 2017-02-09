@@ -385,6 +385,10 @@
   <strong><a ng-href="api/v1/clients/clubcard/{{vm.card.id}}/card/">Печать</a></strong>
 </div>
 
+<div class="alert alert-danger" ng-show="!vm.card.is_full_time">
+  <center><strong>УТРЕННИЙ АБОНЕМЕНТ</strong></center>
+</div>
+
 <div class="col-md-4"> <!-- start left side bar -->
 <div class="col-md-12 row-border ">
   <h4>
@@ -787,7 +791,9 @@
     </div>
 <!-- end manual freeze -->
   </div>
-
+<div class="alert alert-info" role="alert">
+  <strong><a ng-href="api/v1/clients/clubcard/{{vm.card.id}}/card/">Печать</a></strong>
+</div>
 </div> <!-- end extra option -->
 
 <script type="text/javascript">
