@@ -15,6 +15,7 @@ styleh = xlwt.XFStyle()
 styleh.font.bold = True
 alignment_c = xlwt.Alignment()
 alignment_c.horz = xlwt.Alignment.HORZ_CENTER
+alignment_c.vert = xlwt.Alignment.VERT_JUSTIFIED
 styleh.alignment = alignment_c
 # simple borders for table usually use
 borders = xlwt.Borders()

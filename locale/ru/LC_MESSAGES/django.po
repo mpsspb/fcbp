@@ -179,3 +179,27 @@ msgstr "Общий список клиентов"
 
 msgid "period cards"
 msgstr "Купленные за период карты"
+
+msgid "list fitness club cards"
+msgstr "Отчет по тестированию (со скидкой 50%) за период"
+
+msgid "fitness test date"
+msgstr "дата проведения тестирования"
+
+msgid "club card num"
+msgstr "номер клубной карты"
+
+msgid "club card period"
+msgstr "срок действия карты"
+
+msgid "paid date"
+msgstr "дата оплаты"
+
+msgid "paid amount(50)"
+msgstr "сумма оплаты(50%)"
+
+msgid "instructor"
+msgstr "инструктор"
+
+msgid "total tests"
+msgstr "ИТОГО тестирования"

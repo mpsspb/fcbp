@@ -99,8 +99,7 @@ class Report(ViewSet):
                 merge_column = col_num + header[2]
                 self.ws.write_merge(
                     self.row_num, self.row_num,
-                    col_num, merge_column,
-                    header[0], styles.styleth)
+                    col_num, merge_column, header[0], styles.styleth)
                 for x in range(col_num, merge_column + 1):
                     self.ws.col(x).width = header[1]
                 col_num = merge_column
