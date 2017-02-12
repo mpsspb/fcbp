@@ -53,7 +53,7 @@ class ActiveClubCard(ReportTemplate):
     def get_data(self):
         rows = []
         data = ClientClubCard.objects.filter(
-            status=1, club_card=self.clubcard).order_by('pk')
+            status=1, club_card=self.clubcard).order_by('date_end')
         for row in data:
             line = []
             fname = row.client.first_name
@@ -160,9 +160,14 @@ class CreditsClubCard(ReportTemplate):
     def get_data(self):
         rows = []
         data = Credit.objects.filter(
-            club_card__isnull=False).values_list('club_card', flat=True)
-        for row in set(data):
-            card = ClientClubCard.objects.get(pk=row)
+            club_card__isnull=False).order_by('schedule')
+        cards = []
+        for row in data:
+            card = row.club_card
+            if card.pk not in cards:
+                cards.append(card.pk)
+            else:
+                continue
             line = []
             fname = card.client.first_name
             pname = card.client.patronymic
@@ -279,7 +284,7 @@ class NewUid(Report):
         fdate = self.get_fdate().date()
         tdate = self.get_tdate().date() + timedelta(1)
         data = Client.objects.filter(
-            date__range=(fdate, tdate), uid__gt=170000)
+            date__range=(fdate, tdate), uid__gt=170000).order_by('date')
         for num, row in enumerate(data, 1):
             line = []
             line.append(num)
