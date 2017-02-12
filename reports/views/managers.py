@@ -310,6 +310,7 @@ class CommonList(Report):
         (_('birthday'), 4000),
         (_('mobile'), 7000),
         (_('period cards'), 8000),
+        (_('email'), 6000),
     ]
 
     table_styles = {
@@ -340,11 +341,15 @@ class CommonList(Report):
         fdate = self.get_fdate().date()
         tdate = self.get_tdate().date() + timedelta(1)
         data = ClientClubCard.objects.filter(
-            date__range=(fdate, tdate)).values_list('client', flat=True)
-        for num, row in enumerate(set(data), 1):
+            date__range=(fdate, tdate)
+            ).extra(
+            select={'lower_name':'lower(clients_client.last_name)'}
+            ).values_list('client', 'lower_name', 'client__last_name'
+            ).distinct().order_by('lower_name')
+        for num, row in enumerate(data, 1):
             line = []
             line.append(num)
-            client = Client.objects.get(pk=row)
+            client = Client.objects.get(pk=row[0])
             line.append(client.full_name)
             line.append(client.uid)
             line.append(client.born.strftime('%d.%m.%Y'))
@@ -356,6 +361,7 @@ class CommonList(Report):
                 line.append(", ".join(cards))
             else:
                 line.append('')
+            line.append(client.email)
             rows.append(line)
         return rows
 
