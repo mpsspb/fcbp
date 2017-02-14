@@ -68,9 +68,8 @@ class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
         """
         List clients inside the club.
         """
-        clients = ClientOnline.objects.all().values('client_id')
-        queryset = Client.objects.filter(pk__in=clients)
-        serializer = ClientSerializer(queryset, many=True)
+        clients = ClientOnline.objects.all().order_by('date')
+        serializer = ClientOnlineSerializer(clients, many=True)
         return Response(serializer.data)
 
     @list_route(methods=['post'], )

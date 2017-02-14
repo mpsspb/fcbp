@@ -1,19 +1,20 @@
 <div class="alert col-md-12" 
-ng-class="client.debt_set.length ? 'alert-danger' : 'alert-success'">
+ng-class="card.client_data.debt_set.length ? 'alert-danger' : (card.is_full_time ?  'alert-success' : 'alert-warning')">
+<span class="col-md-1"><strong>{{ card.date | date:'HH:mm' }}</strong></span>
 <span class="col-md-3">
-    <a href="#/cardclient/{{ client.id }}/">{{ client.full_name }}</a>
+    <a href="#/cardclient/{{ card.client_data.id }}/">{{ card.client_data.full_name }}</a>
 </span>
-<span class="col-md-2">{{ client.uid }}</span>
-<span class="col-md-2">{{ client.born | date:'dd.MM.yyyy' }}</span>
-<span class="col-md-2">{{ client.mobile | phone }}</span>
-<span class="col-md-3">
+<span class="col-md-2">{{ card.client_data.uid }}</span>
+<span class="col-md-2">{{ card.client_data.born | date:'dd.MM.yyyy' }}</span>
+<span class="col-md-2">{{ card.client_data.mobile | phone }}</span>
+<span class="col-md-2">
     <i class="fa fa-credit-card fa-2x bg-warning"
-    ng-show="client.online_clubcard"></i>
+    ng-show="card.product == 'clubcard'"></i>
     <i class="fa fa-life-ring fa-2x bg-warning"
-    ng-show="client.online_aqua"></i>
+    ng-show="card.product == 'aqua'"></i>
     <i class="fa fa-ticket fa-2x bg-warning"
-    ng-show="client.online_ticket"></i>
+    ng-show="card.product == 'ticket'"></i>
     <i class="fa fa-graduation-cap fa-2x bg-warning"
-    ng-show="client.online_personal"></i>
+    ng-show="card.product == 'personal'"></i>
 </span>
 </div>

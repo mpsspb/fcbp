@@ -3,8 +3,8 @@
     <input ng-model="searchText" class="form-control" placeholder="Поиск по странице"> 
   </div>
 
-  <clientonline client="client"  
-    ng-repeat="client in vm.clients | filter:searchText">
+  <clientonline card="card"  
+    ng-repeat="card in vm.cards | filter:searchText">
   </clientonline>
 
 <!-- end of the lists -->

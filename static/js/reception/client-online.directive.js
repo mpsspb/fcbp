@@ -21,9 +21,9 @@
     var directive = {
       restrict: 'E',
       scope: {
-        client: '='
+        card: '='
       },
-      templateUrl: '/static/templates/reception/client-online.html?1'
+      templateUrl: '/static/templates/reception/client-online.html?2'
     };
 
     return directive;

@@ -30,7 +30,7 @@
       */
       function clientsSuccessFn(data, status, headers, config) {
         // console.log(data);
-        vm.clients = data.data
+        vm.cards = data.data
       }
 
       /**

@@ -400,12 +400,6 @@ class ClientTimingSerializer(serializers.ModelSerializer):
         return timing
 
 
-class ClientOnlineSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ClientOnline
-
-
 class ClientSerializer(serializers.ModelSerializer):
     avatar = Base64ImageField(
         max_length=None, use_url=True
@@ -431,12 +425,27 @@ class ClientSerializer(serializers.ModelSerializer):
     avatar_url = serializers.CharField(read_only=True)
     full_name = serializers.CharField(read_only=True)
     passport = serializers.CharField(read_only=True)
-    clientonline_set = ClientOnlineSerializer(many=True, read_only=True)
 
     class Meta:
         model = Client
         read_only_fields = (
-            'id', 'full_name', 'avatar_url', 'date', 'clientonline_set')
+            'id', 'full_name', 'avatar_url', 'date')
+
+
+class ClientSerializerLight(serializers.ModelSerializer):
+    debt_set = DebtSerializer(many=True, read_only=True)
+    full_name = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Client
+
+
+class ClientOnlineSerializer(serializers.ModelSerializer):
+    client_data = ClientSerializerLight(read_only=True)
+
+    class Meta:
+        model = ClientOnline
+        # fields = ('date', 'client_data')
 
 
 def finance(data):

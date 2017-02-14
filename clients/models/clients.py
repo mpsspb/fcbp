@@ -1008,10 +1008,15 @@ class ClientOnline(models.Model):
     client = models.ForeignKey(Client, )
     date = models.DateTimeField(auto_now_add=True)
     product = models.CharField(max_length=50)
+    is_full_time = models.BooleanField()
 
     class Meta:
         db_table = 'v_client_online'
         managed = False
+
+    @property
+    def client_data(self):
+        return self.client
 
 
 def date_end(date_begin, obj):
