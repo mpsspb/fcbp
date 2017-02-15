@@ -2,9 +2,11 @@
 from .reception import Sales, Visits, Birthdays
 from .home import Home
 from .managers import (
-	ActiveClubCard, CreditsClubCard, NewUid, CommonList, RepFitnessClubCard)
+	ActiveClubCard, CreditsClubCard, NewUid, CommonList, FullList,
+	RepFitnessClubCard)
 
 
 __all__ = [
     'Sales', 'Home', 'Visits', 'Birthdays', 'ActiveClubCard',
-    'CreditsClubCard', 'NewUid', 'CommonList', 'RepFitnessClubCard']
+    'CreditsClubCard', 'NewUid', 'CommonList', 'FullList',
+    'RepFitnessClubCard']

@@ -177,6 +177,9 @@ msgstr "за период. c: {fdate} по {tdate}"
 msgid "common list"
 msgstr "Общий список клиентов"
 
+msgid "full list"
+msgstr "Полный список клиентов."
+
 msgid "period cards"
 msgstr "Купленные за период карты"
 

@@ -1008,7 +1008,7 @@ class ClientOnline(models.Model):
     client = models.ForeignKey(Client, )
     date = models.DateTimeField(auto_now_add=True)
     product = models.CharField(max_length=50)
-    is_full_time = models.BooleanField()
+    is_full_time = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'v_client_online'

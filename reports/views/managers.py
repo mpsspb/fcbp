@@ -198,12 +198,12 @@ class CreditsClubCard(ReportTemplate):
                 last_visit = ''
             line.append((date_begin, date_end, '', last_visit))
             credits = card.credit_set.all(
-                ).order_by('date').values_list('schedule', 'amount')
+            ).order_by('date').values_list('schedule', 'amount')
             amounts = []
             dates = []
-            for cr_date, cr_amount  in credits:
+            for cr_date, cr_amount in credits:
                 amounts.append(cr_amount)
-                if cr_date < date(1900, 1, 1) :
+                if cr_date < date(1900, 1, 1):
                     dates.append('')
                 else:
                     dates.append(cr_date.strftime('%d.%m.%Y'))
@@ -324,15 +324,14 @@ class CommonList(Report):
     }
 
     def get_title(self, **kwargs):
-        msg = _('common list')
-        return msg
+        return _('common list')
 
     @staticmethod
     def format_mobile(value):
         if not value:
             return ''
         value = str(value)
-        return '+7 (%s) %s - %s' %(value[0:3],value[3:6],value[6:10])
+        return '+7 (%s) %s - %s' % (value[0:3], value[3:6], value[6:10])
 
     def write_title(self):
         super(CommonList, self).write_title()
@@ -348,10 +347,10 @@ class CommonList(Report):
         tdate = self.get_tdate().date() + timedelta(1)
         data = ClientClubCard.objects.filter(
             date__range=(fdate, tdate)
-            ).extra(
-            select={'lower_name':'lower(clients_client.last_name)'}
-            ).values_list('client', 'lower_name', 'client__last_name'
-            ).distinct().order_by('lower_name')
+        ).extra(
+            select={'lower_name': 'lower(clients_client.last_name)'}
+        ).values_list('client', 'lower_name', 'client__last_name'
+                      ).distinct().order_by('lower_name')
         for num, row in enumerate(data, 1):
             line = []
             line.append(num)
@@ -373,6 +372,34 @@ class CommonList(Report):
 
     def write_bottom(self):
         pass
+
+
+class FullList(CommonList):
+    table_headers = [
+        (_('# on item'), 2000),
+        (_('client'), 8000),
+        (_('# uid'), 4000),
+        (_('birthday'), 4000),
+        (_('mobile'), 7000),
+        (_('period cards'), 12000),
+        (_('email'), 6000),
+    ]
+
+    def get_title(self, **kwargs):
+        msg = _('full list')
+        msg += _(' created at: {date}.')
+        tdate = datetime.now().strftime('%d.%m.%Y %H:%M')
+        return msg.format(date=tdate)
+
+    def write_title(self):
+        self.ws.write_merge(0, 0, 0, len(self.table_headers) - 1,
+            self.title, styles.styleh)
+
+    def get_fdate(self):
+        return datetime(2000, 1, 1, 0, 0)
+
+    def get_tdate(self):
+        return datetime(2100, 1, 1, 0, 0)
 
 
 class RepFitnessClubCard(Report):
