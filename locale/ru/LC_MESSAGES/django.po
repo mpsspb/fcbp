@@ -206,3 +206,10 @@ msgstr "инструктор"
 
 msgid "total tests"
 msgstr "ИТОГО тестирования"
+
+
+msgid "list trainings club cards"
+msgstr "Отчет по персональным тренировкам за период"
+
+msgid "total trainings"
+msgstr "ИТОГО проведенных перс.тр"

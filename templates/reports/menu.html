@@ -90,9 +90,15 @@
       тестирование (со скидкой 50%)</a>
   </div>
   <div class="col-lg-3">
+    <a id='r_tcc'
+    href="/api/v1/reports/tcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      персональные тренировки</a>
+  </div>
+  <div class="col-lg-3">
     <a id='r_fl'
     href="/api/v1/reports/fl/"
-    class="btn btn-success btn-block">
+    class="btn btn-danger btn-block">
       Полный список клиентов</a>
   </div>  
 
@@ -147,6 +153,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_fcc[5], 'fdate', fdate)
     var r_cl_url = r_fcc.slice(0, 5).join('/') + '/' + get_str
     $('#r_fcc').attr('href', r_cl_url)
+    // r_tcc
+    var r_tcc = $('#r_tcc').attr('href').split('/')
+    var get_str = updateUrlParam(r_tcc[5], 'fdate', fdate)
+    var r_cl_url = r_tcc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_tcc').attr('href', r_cl_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -171,6 +182,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_fcc[5], 'tdate', tdate)
     var r_fcc_url = r_fcc.slice(0, 5).join('/') + '/' + get_str
     $('#r_fcc').attr('href', r_cl_url)
+    // r_tcc
+    var r_tcc = $('#r_tcc').attr('href').split('/')
+    var get_str = updateUrlParam(r_tcc[5], 'tdate', tdate)
+    var r_tcc_url = r_tcc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_tcc').attr('href', r_cl_url)
   });
 
   $('[name=club_card_type]').change(function() {

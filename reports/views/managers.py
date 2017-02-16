@@ -8,7 +8,7 @@ from .base import ReportTemplate, Report
 from reports import styles
 from clients.models import (
     ClientClubCard, UseClientClubCard, Client, ClubCardTrains,
-    FitnessClubCard)
+    FitnessClubCard, PersonalClubCard)
 from products.models import ClubCard
 from finance.models import Payment, Credit
 
@@ -462,4 +462,63 @@ class RepFitnessClubCard(Report):
 
     def write_bottom(self):
         self.ws.write(self.row_num, 1, _('total tests'))
+        self.ws.write(self.row_num, 2, self.total_rows, styles.styleh)
+
+
+class RepPersonalClubCard(Report):
+
+    file_name = 'list_trainings_club_cards'
+    sheet_name = 'list trainings club cards'
+
+    table_headers = [
+        (_('fitness test date'), 4000),
+        (_('client'), 8000),
+        (_('# uid'), 4000),
+        (_('club card period'), 6000),
+        (_('tariff'), 4000),
+        (_('instructor'), 6000),
+    ]
+
+    table_styles = {
+        0: styles.styled,
+        5: styles.styled,
+    }
+
+    def get_title(self, **kwargs):
+        return _('list trainings club cards')
+
+    def write_title(self):
+        super(RepPersonalClubCard, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        self.ws.write_merge(1, 1, 0, 5, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        data = PersonalClubCard.objects.filter(
+            date__range=(fdate, tdate)).order_by('date')
+        for row in data:
+            line = []
+            line.append(row.date.strftime('%d.%m.%Y'))
+            card = row.client_club_card
+            line.append(card.client.full_name)
+            line.append(card.client.uid)
+            period_data = {
+                'bdate': card.date_begin.strftime('%d.%m.%Y'),
+                'edate': card.date_end.strftime('%d.%m.%Y')
+            }
+            period = '{bdate}-{edate}'.format(**period_data)
+            line.append(period)
+            line.append(card.club_card.short_name)
+            line.append(row.personal.initials)
+            rows.append(line)
+        self.total_rows = len(rows)
+        return rows
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 1, _('total trainings'))
         self.ws.write(self.row_num, 2, self.total_rows, styles.styleh)
