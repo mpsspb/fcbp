@@ -393,7 +393,7 @@ class FullList(CommonList):
 
     def write_title(self):
         self.ws.write_merge(0, 0, 0, len(self.table_headers) - 1,
-            self.title, styles.styleh)
+                            self.title, styles.styleh)
 
     def get_fdate(self):
         return datetime(2000, 1, 1, 0, 0)
@@ -471,7 +471,7 @@ class RepPersonalClubCard(Report):
     sheet_name = 'list trainings club cards'
 
     table_headers = [
-        (_('fitness test date'), 4000),
+        (_('trainings test date'), 4000),
         (_('client'), 8000),
         (_('# uid'), 4000),
         (_('club card period'), 6000),
@@ -521,4 +521,59 @@ class RepPersonalClubCard(Report):
 
     def write_bottom(self):
         self.ws.write(self.row_num, 1, _('total trainings'))
+        self.ws.write(self.row_num, 2, self.total_rows, styles.styleh)
+
+
+class RepIntroductory(Report):
+
+    file_name = 'list_introductory'
+    sheet_name = 'list introductory'
+
+    table_headers = [
+        (_('introductory date'), 4000),
+        (_('client'), 8000),
+        (_('# uid'), 4000),
+        (_('club card period'), 6000),
+        (_('tariff'), 4000),
+        (_('instructor'), 6000),
+    ]
+
+    table_styles = {
+        0: styles.styled,
+        5: styles.styled,
+    }
+
+    def get_title(self, **kwargs):
+        return _('list introductory')
+
+    def write_title(self):
+        super(RepIntroductory, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        self.ws.write_merge(1, 1, 0, 5, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        data = Client.objects.filter(
+            introductory_date__range=(fdate, tdate)
+        ).order_by('introductory_date')
+        for row in data:
+            line = []
+            line.append(row.introductory_date.strftime('%d.%m.%Y'))
+            line.append(row.full_name)
+            line.append(row.uid)
+            period = '{????}-{????}'
+            line.append(period)
+            line.append('{???? ????}')
+            line.append(row.introductory_employee.initials)
+            rows.append(line)
+        self.total_rows = len(rows)
+        return rows
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 1, _('total introductory'))
         self.ws.write(self.row_num, 2, self.total_rows, styles.styleh)

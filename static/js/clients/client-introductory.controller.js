@@ -31,7 +31,11 @@
       */
       function cardclientSuccessFn(data, status, headers, config) {
         vm.fdata = data.data;
-        vm.fdata['introductory_date'] = moment(vm.fdata['introductory_date'], 'YYYY-MM-DD HH:mm').format('DD.MM.YYYY HH:mm')
+        if (vm.fdata['introductory_date']){
+          vm.fdata['introductory_date'] = moment(vm.fdata['introductory_date'], 'YYYY-MM-DD HH:mm').format('DD.MM.YYYY HH:mm')
+        } else {
+          vm.fdata['introductory_date'] = moment().format('DD.MM.YYYY HH:mm')
+        }
       }
 
       /**

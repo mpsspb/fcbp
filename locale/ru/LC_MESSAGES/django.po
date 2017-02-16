@@ -207,9 +207,20 @@ msgstr "инструктор"
 msgid "total tests"
 msgstr "ИТОГО тестирования"
 
+msgid "trainings test date"
+msgstr "дата проведения тренировки"
 
 msgid "list trainings club cards"
-msgstr "Отчет по персональным тренировкам за период"
+msgstr "Отчет по персональным тренировкам"
 
 msgid "total trainings"
 msgstr "ИТОГО проведенных перс.тр"
+
+msgid "introductory date"
+msgstr "дата проведения инструктажа"
+
+msgid "list introductory"
+msgstr "Отчет по вводному инструктажу"
+
+msgid "total introductory"
+msgstr "ИТОГО проведенных инструктажей"

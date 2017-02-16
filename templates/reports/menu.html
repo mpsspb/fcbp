@@ -101,7 +101,14 @@
     class="btn btn-danger btn-block">
       Полный список клиентов</a>
   </div>  
-
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+  <div class="col-lg-3">
+    <a id='r_icc'
+    href="/api/v1/reports/icc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-warning btn-block">
+      вводный инструктаж</a>
+  </div>
 {% endblock %}
 
   {% block extra_js %}
@@ -151,13 +158,18 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     // r_fcc
     var r_fcc = $('#r_fcc').attr('href').split('/')
     var get_str = updateUrlParam(r_fcc[5], 'fdate', fdate)
-    var r_cl_url = r_fcc.slice(0, 5).join('/') + '/' + get_str
-    $('#r_fcc').attr('href', r_cl_url)
+    var r_fcc_url = r_fcc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_fcc').attr('href', r_fcc_url)
     // r_tcc
     var r_tcc = $('#r_tcc').attr('href').split('/')
     var get_str = updateUrlParam(r_tcc[5], 'fdate', fdate)
-    var r_cl_url = r_tcc.slice(0, 5).join('/') + '/' + get_str
-    $('#r_tcc').attr('href', r_cl_url)
+    var r_tcc_url = r_tcc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_tcc').attr('href', r_tcc_url)
+    // r_icc
+    var r_icc = $('#r_icc').attr('href').split('/')
+    var get_str = updateUrlParam(r_icc[5], 'fdate', fdate)
+    var r_icc_url = r_icc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_icc').attr('href', r_icc_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -181,12 +193,17 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var r_fcc = $('#r_fcc').attr('href').split('/')
     var get_str = updateUrlParam(r_fcc[5], 'tdate', tdate)
     var r_fcc_url = r_fcc.slice(0, 5).join('/') + '/' + get_str
-    $('#r_fcc').attr('href', r_cl_url)
+    $('#r_fcc').attr('href', r_fcc_url)
     // r_tcc
     var r_tcc = $('#r_tcc').attr('href').split('/')
     var get_str = updateUrlParam(r_tcc[5], 'tdate', tdate)
     var r_tcc_url = r_tcc.slice(0, 5).join('/') + '/' + get_str
-    $('#r_tcc').attr('href', r_cl_url)
+    $('#r_tcc').attr('href', r_tcc_url)
+    // r_icc
+    var r_icc = $('#r_icc').attr('href').split('/')
+    var get_str = updateUrlParam(r_icc[5], 'tdate', tdate)
+    var r_icc_url = r_icc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_icc').attr('href', r_icc_url)
   });
 
   $('[name=club_card_type]').change(function() {
