@@ -109,6 +109,12 @@
     class="btn btn-warning btn-block">
       вводный инструктаж</a>
   </div>
+  <div class="col-lg-3">
+    <a id='r_totalcc'
+    href="/api/v1/reports/totalcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      Сводный по видам карт за период</a>
+  </div>
 {% endblock %}
 
   {% block extra_js %}
@@ -170,6 +176,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_icc[5], 'fdate', fdate)
     var r_icc_url = r_icc.slice(0, 5).join('/') + '/' + get_str
     $('#r_icc').attr('href', r_icc_url)
+    // r_totalcc
+    var r_totalcc = $('#r_totalcc').attr('href').split('/')
+    var get_str = updateUrlParam(r_totalcc[5], 'fdate', fdate)
+    var r_totalcc_url = r_totalcc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_totalcc').attr('href', r_totalcc_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -204,6 +215,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_icc[5], 'tdate', tdate)
     var r_icc_url = r_icc.slice(0, 5).join('/') + '/' + get_str
     $('#r_icc').attr('href', r_icc_url)
+    // r_totalcc
+    var r_totalcc = $('#r_totalcc').attr('href').split('/')
+    var get_str = updateUrlParam(r_totalcc[5], 'tdate', tdate)
+    var r_totalcc_url = r_totalcc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_totalcc').attr('href', r_totalcc_url)
   });
 
   $('[name=club_card_type]').change(function() {

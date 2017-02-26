@@ -22,8 +22,6 @@
               return input.value + ' дней'
             }            
           }
-
-          
         }
     });
 

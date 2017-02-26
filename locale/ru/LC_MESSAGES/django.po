@@ -172,7 +172,7 @@ msgid "date of conclusion"
 msgstr "дата заключения"
 
 msgid "from: {fdate} to {tdate}"
-msgstr "за период. c: {fdate} по {tdate}"
+msgstr "за период. c {fdate} по {tdate}"
 
 msgid "common list"
 msgstr "Общий список клиентов"
@@ -224,3 +224,36 @@ msgstr "Отчет по вводному инструктажу"
 
 msgid "total introductory"
 msgstr "ИТОГО проведенных инструктажей"
+
+msgid "total club cards"
+msgstr "Сводный отчет по видам проданных  карт клубных карт за период"
+
+msgid "total"
+msgstr "ИТОГО"
+
+msgid "limited"
+msgstr "Лимитированных"
+
+msgid "UBV"
+msgstr "УБВ"
+
+msgid "P"
+msgstr "П"
+
+msgid "month"
+msgstr "месяц"
+
+msgid "p_month"
+msgstr "месяца"
+
+msgid "p_months"
+msgstr "месяцев"
+
+msgid "day"
+msgstr "день"
+
+msgid "p_day"
+msgstr "дня"
+
+msgid "p_days"
+msgstr "дней"

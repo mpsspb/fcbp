@@ -4,11 +4,13 @@ from __future__ import unicode_literals
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core import serializers
+from django.utils.translation import ugettext as _
 
 from employees.models import Position
 
 
 class Discount(models.Model):
+
     """
     Available discounts.
     """
@@ -18,6 +20,7 @@ class Discount(models.Model):
 
 
 class Period(models.Model):
+
     """
     Period for club card types.
     Default values in month, other way in days.
@@ -29,6 +32,17 @@ class Period(models.Model):
     class Meta:
         unique_together = ('value', 'is_month')
 
+    @property
+    def name(self):
+        p_dsc = 'month' if self.is_month else 'day'
+        if self.value == 1:
+            pname = _(p_dsc)
+        elif self.value < 5:
+            pname = _('p_{p_dsc}'.format(p_dsc=p_dsc))
+        else:
+            pname = _('p_{p_dsc}s'.format(p_dsc=p_dsc))
+        return '{value} {pname}'.format(value=self.value, pname=pname)
+
 
 class GenericProduct(object):
 
@@ -38,6 +52,7 @@ class GenericProduct(object):
 
 
 class ClubCard(models.Model, GenericProduct):
+
     """
     Club card types.
     """
@@ -66,6 +81,7 @@ class ClubCard(models.Model, GenericProduct):
 
 
 class AquaAerobics(models.Model, GenericProduct):
+
     """
     Aqua Aerobics types.
     """
@@ -86,6 +102,7 @@ class AquaAerobics(models.Model, GenericProduct):
 
 
 class Sport(models.Model):
+
     """
     Sports types.
     """
@@ -94,6 +111,7 @@ class Sport(models.Model):
 
 
 class Training(models.Model):
+
     """
     Training types.
     """
@@ -102,6 +120,7 @@ class Training(models.Model):
 
 
 class Ticket(models.Model):
+
     """
     Ticket types
     """
@@ -128,6 +147,7 @@ class Ticket(models.Model):
 
 
 class Personal(models.Model):
+
     """
     Personal training.
     """
@@ -146,6 +166,7 @@ class Personal(models.Model):
 
 
 class PersonalPosition(models.Model):
+
     """
     Trainer position for personal.
     """
@@ -157,6 +178,7 @@ class PersonalPosition(models.Model):
 
 
 class Timing(models.Model):
+
     """
     Products with counting time.
     The time in minutes.
@@ -176,6 +198,7 @@ class Timing(models.Model):
 
 
 class CardText(models.Model):
+
     """
     Text for print cards.
     """
@@ -210,6 +233,7 @@ class CardText(models.Model):
 
 
 class CardTextItems(models.Model):
+
     """ Text lines for print card."""
     date = models.DateTimeField(auto_now_add=True)
     card_text = models.ForeignKey(CardText)

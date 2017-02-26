@@ -76,6 +76,10 @@ class Payment(models.Model):
     extra_text = models.CharField(max_length=150, blank=True, null=True)
     extra_uid = models.CharField(max_length=36, blank=True, null=True)
 
+
+    def __unicode__(self):
+        return self.description()
+
     def save(self, *args, **kwargs):
         if not self.date:
             self.date = datetime.now()
