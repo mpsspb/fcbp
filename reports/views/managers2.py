@@ -46,8 +46,7 @@ class TotalClubCard(ReportTemplate):
         tdate = self.get_tdate().date() + timedelta(1)
         payments = Payment.objects.filter(
             date__range=(fdate, tdate)
-        ).exclude(club_card__isnull=True).exclude(
-            extra_uid__isnull=False).exclude(extra_uid='')
+        ).exclude(club_card__isnull=True)
         for p in payments:
             if p.club_card.first_payment == p:
                 cards.append(p.club_card.pk)
