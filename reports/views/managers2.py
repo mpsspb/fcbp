@@ -94,9 +94,11 @@ class TotalClubCard(ReportTemplate):
         self.row_num += 1
         periods = Period.objects.filter(
             pk__in=self.periods).order_by('is_month', 'value')
-        period = periods[0]
-        self.ws.write(self.row_num, 0,period.name, styles.styleth)
-        self.ws.write(self.row_num, 1, self.periods[period.pk], styles.styleth)
+        if periods:
+            period = periods[0]
+            self.ws.write(self.row_num, 0,period.name, styles.styleth)
+            self.ws.write(
+                self.row_num, 1, self.periods[period.pk], styles.styleth)
         self.ws.write(self.row_num, 3, _('P'), styles.style)
         self.ws.write(self.row_num, 4, self.total_full, styles.style)
         for period in periods[1:]:
