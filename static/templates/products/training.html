@@ -50,10 +50,12 @@
     <strong> Ошибка обновления: {{ vm.error_data }} </strong>
   </div>
 
-  <div class="alert alert-info col-md-12" ng-repeat="train in vm.training">
+  <div class="alert col-md-12" ng-repeat="train in vm.training"
+  ng-class="train.is_active ? 'alert-info': 'alert-grey'">
   <span ng-show="!edit">{{ train.name }}</span>
   <input ng-show="edit" ng-model="train.name" type="text" class="form-control" placeholder="Наименование">
   <button ng-click="edit=!edit" class="btn btn-sm btn-warning pull-right" ng-show="!edit"> Правка </button>
+  <button ng-show="!edit" ng-click="vm.active(train)" class="btn btn-sm btn-default pull-right" > Активность </button>
   <button ng-click="edit=!edit" class="btn btn-sm btn-default pull-right" ng-show="edit"> Отмена </button>
   <button class="btn btn-sm btn-success pull-left" ng-show="edit"
           ng-click="vm.update(train)"> Сохранить </button>

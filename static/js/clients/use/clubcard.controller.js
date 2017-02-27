@@ -192,7 +192,7 @@
         console.log(data)
       }
 
-      Training.list().then(listTrainingSuccessFn, listTrainingErrorFn);
+      Training.active_list().then(listTrainingSuccessFn, listTrainingErrorFn);
     
       /**
       * @name listTrainingSuccessFn

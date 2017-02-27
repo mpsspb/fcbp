@@ -37,7 +37,7 @@ class SportViewSet(viewsets.ModelViewSet):
     serializer_class = SportSerializer
 
 
-class TrainingViewSet(viewsets.ModelViewSet):
+class TrainingViewSet(viewsets.ModelViewSet, ActiveModel):
     queryset = Training.objects.order_by('name')
     serializer_class = TrainingSerializer
 

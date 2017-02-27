@@ -23,7 +23,9 @@
     var Training = {
       create: create,
       list: list,
+      active_list: active_list,
       update: update,
+      active: active,
     };
 
     return Training;
@@ -45,6 +47,14 @@
 
     function list() {
       return $http.get('/api/v1/products/training/')
+    }
+
+    function active(uid) {
+      return $http.post('/api/v1/products/training/' + uid + '/active/')
+    }
+
+    function active_list() {
+      return $http.get('/api/v1/products/training/active_list/')
     }
 
     function update(id, fdata) {

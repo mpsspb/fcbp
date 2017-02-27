@@ -61,6 +61,17 @@
       return Authentication.isAuthenticated();
     };
 
+    vm.active = function (train) {
+      Training.active(train.id).then(trainSuccessFn, trainErrorFn);
+
+      function trainSuccessFn(data, status, headers, config) {
+        activate();
+      }
+      function trainErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
+
     vm.update = function(train) {
       Training.update(train.id, train).then(updSuccessFn, updErrorFn);
 
