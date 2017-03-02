@@ -7,7 +7,7 @@ from reports import styles
 from finance.models import Payment
 from clients.models import ClientClubCard
 from products.models import Period, ClubCard
-from .base import ReportTemplate
+from .base import ReportTemplate, Report
 
 
 class TotalClubCard(ReportTemplate):
@@ -105,3 +105,84 @@ class TotalClubCard(ReportTemplate):
             self.ws.write(self.row_num, 0,period.name, styles.styleth)
             self.ws.write(
                 self.row_num, 1, self.periods[period.pk], styles.styleth)
+
+
+class ClubCardDiscount(Report):
+
+    file_name = 'club_cards_discounts'
+    sheet_name = 'club_cards_discounts'
+
+    table_headers = [
+        (_('client'), 10000),
+        (_('# uid'), 6000),
+        (_('tariff'), 6000),
+        (_('paid date'), 6000),
+        (_('discount type'), 4000),
+        (_('discount'), 6000),
+    ]
+
+    table_styles = {
+        1: styles.style_c,
+        2: styles.style_c,
+        3: styles.styled,
+        4: styles.style_c,
+        5: styles.style_c,
+    }
+
+    def initial(self, request, *args, **kwargs):
+        super(ClubCardDiscount, self).initial(request, *args, **kwargs)
+        self.total = {}
+
+    def get_title(self, **kwargs):
+        return _('club cards discounts')
+
+    def write_title(self):
+        super(ClubCardDiscount, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        heads_ln = len(self.table_headers)
+        self.ws.write_merge(1, 1, 0, heads_ln, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        cards = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        payments = Payment.objects.filter(
+            date__range=(fdate, tdate)
+        ).exclude(club_card__isnull=True)
+        for p in payments:
+            if p.club_card.first_payment == p:
+                cards.append(p.club_card.pk)
+        discounts = ClientClubCard.objects.filter(
+            pk__in=cards, discount_amount__gt=0)
+        bonus = ClientClubCard.objects.filter(
+            pk__in=cards, bonus_amount__gt=0)
+        data = discounts | bonus
+        data = data.distinct()
+        for row in data:
+            line = []
+            line.append(row.client.full_name)
+            line.append(row.client.uid)
+            line.append(row.club_card.short_name)
+            line.append(row.first_payment.date)
+            line.append(row.discount_short)
+            if row.discount_short not in self.total:
+                self.total[row.discount_short] = 1
+            else:
+                self.total[row.discount_short] += 1
+            discount_value = row.discount_value
+            if discount_value < 100:
+                discount_value = ('{value} %').format(value=discount_value)
+            line.append(discount_value)
+            rows.append(line)
+        return sorted(rows, key=lambda row: row[3])
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 0, _('total'))
+        for row in sorted(self.total.items(), key=lambda t: t[0]):
+            self.ws.write(self.row_num, 1, row[0], styles.style_c)
+            self.ws.write(self.row_num, 2, row[1], styles.style_c)
+            self.row_num += 1

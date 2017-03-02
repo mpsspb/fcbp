@@ -4,11 +4,11 @@ from .home import Home
 from .managers import (
 	ActiveClubCard, CreditsClubCard, NewUid, CommonList, FullList,
 	RepFitnessClubCard, RepPersonalClubCard, RepIntroductory)
-from .managers2 import (TotalClubCard)
+from .managers2 import (TotalClubCard, ClubCardDiscount)
 
 
 __all__ = [
     'Sales', 'Home', 'Visits', 'Birthdays', 'ActiveClubCard',
     'CreditsClubCard', 'NewUid', 'CommonList', 'FullList',
     'RepFitnessClubCard', 'RepPersonalClubCard', 'RepIntroductory',
-    'TotalClubCard']
+    'TotalClubCard', 'ClubCardDiscount']

@@ -19,6 +19,24 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+msgid "month"
+msgstr "месяц"
+
+msgid "p_month"
+msgstr "месяца"
+
+msgid "p_months"
+msgstr "месяцев"
+
+msgid "day"
+msgstr "день"
+
+msgid "p_day"
+msgstr "дня"
+
+msgid "p_days"
+msgstr "дней"
+
 #: clients/views.py:354 clients/views.py:373
 msgid "Empty trainings"
 msgstr "Отсутсвуют тренировки."
@@ -240,20 +258,5 @@ msgstr "УБВ"
 msgid "P"
 msgstr "П"
 
-msgid "month"
-msgstr "месяц"
-
-msgid "p_month"
-msgstr "месяца"
-
-msgid "p_months"
-msgstr "месяцев"
-
-msgid "day"
-msgstr "день"
-
-msgid "p_day"
-msgstr "дня"
-
-msgid "p_days"
-msgstr "дней"
+msgid "club cards discounts"
+msgstr "Отчет менеджера по видам скидок проданных карт"
