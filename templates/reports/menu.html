@@ -16,6 +16,7 @@
       </ul>
     </div> <!-- /.collapse.navbar-collapse -->
   </div> <!-- /.container-fluid -->
+
 </nav>
 
   <div class="container-fluid">
@@ -30,27 +31,7 @@
         value="{% now 'd.m.Y' %}">
       </div>
     </div>
-   <br>
-   <br>
-  <div class="col-lg-3">
-    <a id='r_sells' href="/api/v1/reports/sales/?fdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
-      продажи за день</a>
-  </div>
-  <div class="col-lg-3">
-    <a id='r_visits'
-    href="/api/v1/reports/visits/?fdate={% now 'd.m.Y' %}"
-    class="btn btn-warning btn-block">
-      посещения</a>
-  </div>
-  <div class="col-lg-3">
-    <a id='r_birthdays'
-    href="/api/v1/reports/birthdays/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-success btn-block">
-      Дни рождения</a>
-  </div>
-  <div class="col-lg-3">&nbsp;</div>
-  <div class="clo-md-12">&nbsp;</div>
-  <br/>
+   <br/>
   <div class="col-md-3">
     <a id='r_active_card' href="/api/v1/reports/acc/?cc=0"
     class="btn btn-success btn-block">Активные клубные карты</a>
@@ -121,6 +102,32 @@
     class="btn btn-primary btn-block">
       Сводный по скидкам за период</a>
   </div>
+  <div class="col-lg-3">&nbsp;</div>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+<!-- reception -->
+<div class="col-md-5 center-block">&nbsp;</div>
+<div class="col-md-3 center-block"><strong>Ресепшен</strong></div>
+<div class="col-md-4 center-block">&nbsp;</div>
+<div class="clo-md-12">&nbsp;</div>
+  <div class="col-lg-3">
+    <a id='r_sells' href="/api/v1/reports/sales/?fdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
+      продажи за день</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_visits'
+    href="/api/v1/reports/visits/?fdate={% now 'd.m.Y' %}"
+    class="btn btn-warning btn-block">
+      посещения</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_birthdays'
+    href="/api/v1/reports/birthdays/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      Дни рождения</a>
+  </div>
+  <div class="col-lg-3">&nbsp;</div>
+
 {% endblock %}
 
   {% block extra_js %}

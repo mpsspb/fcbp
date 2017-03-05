@@ -4,6 +4,8 @@ from django.conf.urls.static import static
 
 from finance.views import home, PaymentDateUpdate, PaymentAmountUpdate
 from reports.views import Home as reports_home
+from reports.views import Reception as reports_reception
+
 
 urlpatterns = patterns(
     '',
@@ -15,6 +17,7 @@ urlpatterns = patterns(
     url(r'^api/v1/finance/', include('finance.urls')),
     url(r'^finance/$', home.as_view(), name='finance'),
     url(r'^reports/$', reports_home.as_view(), name='reports'),
+    url(r'^reports/reception/$', reports_reception.as_view(), name='rreports'),
     url(r'finance/date/(?P<pk>[0-9]+)/$', PaymentDateUpdate.as_view(),
         name='payment-update-date'),
     url(r'finance/amount/(?P<pk>[0-9]+)/$', PaymentAmountUpdate.as_view(),

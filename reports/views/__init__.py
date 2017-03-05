@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .reception import Sales, Visits, Birthdays
-from .home import Home
+from .home import Home, Reception
 from .managers import (
 	ActiveClubCard, CreditsClubCard, NewUid, CommonList, FullList,
 	RepFitnessClubCard, RepPersonalClubCard, RepIntroductory)
