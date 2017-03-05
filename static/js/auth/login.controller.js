@@ -9,12 +9,12 @@
     .module('fcbp.auth.controllers')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$location', 'Authentication'];
+  LoginController.$inject = ['$http', '$location', '$localStorage', 'Authentication'];
 
   /**
   * @namespace LoginController
   */
-  function LoginController($location, Authentication) {
+  function LoginController($http, $location, $localStorage, Authentication) {
     var vm = this;
 
     vm.login = login;
@@ -39,7 +39,26 @@
     * @memberOf fcbp.authentication.controllers.LoginController
     */
     function login() {
-      Authentication.login(vm.username, vm.password);
+      $http.post('/api/v1/users/login/', {
+        username: vm.username, password: vm.password
+      }).then(loginSuccessFn, loginErrorFn);
+
+      /**
+       * @name loginSuccessFn
+       * @desc Set the authenticated account and redirect to index
+       */
+      function loginSuccessFn(data, status, headers, config) {
+        $localStorage.user = JSON.stringify(data.data);
+        window.location = '/';
+      }
+
+      /**
+       * @name loginErrorFn
+       * @desc Log "Epic failure!" to the console
+       */
+      function loginErrorFn(data, status, headers, config) {
+        console.error('Epic failure!');
+      }
     }
   }
 })();

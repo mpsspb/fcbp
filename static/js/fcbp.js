@@ -10,6 +10,7 @@
       'fcbp.products',
       'fcbp.clients',
       'fcbp.employees',
+      'ngStorage'
       ])
     .run(run);
 

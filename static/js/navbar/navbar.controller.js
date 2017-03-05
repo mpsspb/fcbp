@@ -9,15 +9,16 @@
     .module('fcbp.navbar.controllers')
     .controller('NavbarController', NavbarController);
 
-  NavbarController.$inject = ['$scope', 'Authentication'];
+  NavbarController.$inject = ['$scope', '$localStorage', 'Authentication'];
 
   /**
   * @namespace NavbarController
   */
-  function NavbarController($scope, Authentication) {
+  function NavbarController($scope, $localStorage, Authentication) {
     var vm = this;
 
     vm.logout = logout;
+    vm.user = Authentication.getAuthenticatedAccount()
 
     /**
     * @name logout
