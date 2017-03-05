@@ -391,6 +391,29 @@ class FullList(CommonList):
         tdate = datetime.now().strftime('%d.%m.%Y %H:%M')
         return msg.format(date=tdate)
 
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        data = Client.objects.all()
+        for num, row in enumerate(data, 1):
+            line = []
+            line.append(num)
+            line.append(row.full_name)
+            line.append(row.uid)
+            line.append(row.born.strftime('%d.%m.%Y'))
+            line.append(CommonList.format_mobile(row.mobile))
+            cards = row.clientclubcard_set.filter(
+                date__range=(fdate, tdate))
+            if cards:
+                cards = cards.values_list('club_card__short_name', flat=True)
+                line.append(", ".join(cards))
+            else:
+                line.append('')
+            line.append(row.email)
+            rows.append(line)
+        return rows
+
     def write_title(self):
         self.ws.write_merge(0, 0, 0, len(self.table_headers) - 1,
                             self.title, styles.styleh)
