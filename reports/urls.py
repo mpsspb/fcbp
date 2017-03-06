@@ -4,7 +4,8 @@ from rest_framework import routers
 from .views import (
 	Sales, Visits, Birthdays, ActiveClubCard, CreditsClubCard, NewUid,
 	CommonList, FullList, RepFitnessClubCard, RepPersonalClubCard,
-	RepIntroductory, TotalClubCard, ClubCardDiscount, ClubCardDisabled)
+	RepIntroductory, TotalClubCard, ClubCardDiscount, ClubCardDisabled,
+	ClubCardProspect)
 
 
 router = routers.SimpleRouter()
@@ -22,5 +23,6 @@ router.register(r'icc', RepIntroductory,  base_name='icc')
 router.register(r'totalcc', TotalClubCard,  base_name='totalcc')
 router.register(r'ccdiscounts', ClubCardDiscount,  base_name='ccdiscounts')
 router.register(r'ccdisabled', ClubCardDisabled,  base_name='ccdisabled')
+router.register(r'ccprospect', ClubCardProspect,  base_name='ccprospect')
 
 urlpatterns = router.urls

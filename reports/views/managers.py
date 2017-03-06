@@ -45,8 +45,7 @@ class ActiveClubCard(ReportTemplate):
         return datetime.now()
 
     def get_title(self, **kwargs):
-        msg = _(
-            'list active club cards')
+        msg = _('list active club cards')
         msg += _(' created at: {date}.')
         tdate = self.get_fdate().strftime('%d.%m.%Y %H:%M')
         return msg.format(date=tdate)

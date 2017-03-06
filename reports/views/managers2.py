@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.utils.translation import ugettext as _
 
@@ -251,4 +251,58 @@ class ClubCardDisabled(Report):
     def write_bottom(self):
         self.ws.write(self.row_num, 0, _('total'), styles.styleh)
         self.ws.write(self.row_num, 1, _('all locked cards'), styles.styleh)
+        self.ws.write(self.row_num, 2, self.total, styles.styleh)
+
+
+class ClubCardProspect(Report):
+
+    file_name = 'club_cards_prospect'
+    sheet_name = 'club_cards_prospect'
+
+    table_headers = [
+        (_('paid date'), 4000),
+        (_('client'), 8000),
+        (_('# uid'), 4000),
+        (_('club card num'), 4000),
+        (_('tariff'), 4000),
+    ]
+
+    table_styles = {
+        0: styles.styled,
+        1: styles.style_c,
+        2: styles.style_c,
+        3: styles.style_c,
+    }
+
+    def initial(self, request, *args, **kwargs):
+        super(ClubCardProspect, self).initial(request, *args, **kwargs)
+        self.total = 0
+
+    def get_title(self, **kwargs):
+        msg = _('not activated the card to date')
+        msg += _(' created at: {date}.')
+        tdate = self.get_fdate().strftime('%d.%m.%Y %H:%M')
+        return msg.format(date=tdate)
+
+    def get_fdate(self):
+        return datetime.now()
+
+    def get_data(self):
+        rows = []
+        data = ClientClubCard.objects.filter(
+            date_begin__isnull=True, status__gt=0).order_by('-date')
+        for row in data:
+            line = []
+            line.append(row.first_payment.date)
+            line.append(row.client.full_name)
+            line.append(row.client.uid)
+            line.append(row.client.card)
+            line.append(row.club_card.short_name)
+            rows.append(line)
+        self.total = len(rows)
+        return rows
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 0, _('total'), styles.styleh)
+        self.ws.write(self.row_num, 1, _('all inactive cards'), styles.styleh)
         self.ws.write(self.row_num, 2, self.total, styles.styleh)
