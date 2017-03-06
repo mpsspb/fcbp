@@ -260,3 +260,15 @@ msgstr "П"
 
 msgid "club cards discounts"
 msgstr "Отчет менеджера по видам скидок проданных карт"
+
+msgid "create date"
+msgstr "дата оформления"
+
+msgid "reason for blocking"
+msgstr "причина блокировки"
+
+msgid "blocked cards during the period"
+msgstr "Отчет по заблокированным картам за период"
+
+msgid "all locked cards"
+msgstr "всего заблок карт"

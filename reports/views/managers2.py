@@ -95,14 +95,14 @@ class TotalClubCard(ReportTemplate):
             pk__in=self.periods).order_by('is_month', 'value')
         if periods:
             period = periods[0]
-            self.ws.write(self.row_num, 0,period.name, styles.styleth)
+            self.ws.write(self.row_num, 0, period.name, styles.styleth)
             self.ws.write(
                 self.row_num, 1, self.periods[period.pk], styles.styleth)
         self.ws.write(self.row_num, 3, _('P'), styles.style)
         self.ws.write(self.row_num, 4, self.total_full, styles.style)
         for period in periods[1:]:
             self.row_num += 1
-            self.ws.write(self.row_num, 0,period.name, styles.styleth)
+            self.ws.write(self.row_num, 0, period.name, styles.styleth)
             self.ws.write(
                 self.row_num, 1, self.periods[period.pk], styles.styleth)
 
@@ -186,3 +186,69 @@ class ClubCardDiscount(Report):
             self.ws.write(self.row_num, 1, row[0], styles.style_c)
             self.ws.write(self.row_num, 2, row[1], styles.style_c)
             self.row_num += 1
+
+
+class ClubCardDisabled(Report):
+
+    file_name = 'club_cards_disabled'
+    sheet_name = 'club_cards_disabled'
+
+    table_headers = [
+        (_('create date'), 4000),
+        (_('client'), 8000),
+        (_('# uid'), 4000),
+        (_('club card period'), 6000),
+        (_('tariff'), 4000),
+        (_('reason for blocking'), 6000),
+    ]
+
+    table_styles = {
+        0: styles.styled,
+        1: styles.style_c,
+        2: styles.style_c,
+        3: styles.style_c,
+    }
+
+    def initial(self, request, *args, **kwargs):
+        super(ClubCardDisabled, self).initial(request, *args, **kwargs)
+        self.total = 0
+
+    def get_title(self, **kwargs):
+        return _('blocked cards during the period')
+
+    def write_title(self):
+        super(ClubCardDisabled, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        heads_ln = len(self.table_headers)
+        self.ws.write_merge(1, 1, 0, heads_ln, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        data = ClientClubCard.objects.filter(
+            date_end__range=(fdate, tdate), status=0).order_by('-date')
+        for row in data:
+            line = []
+            line.append(row.date)
+            line.append(row.client.full_name)
+            line.append(row.client.uid)
+            period_data = {
+                'bdate': row.date_begin.strftime('%d.%m.%Y'),
+                'edate': row.date_end.strftime('%d.%m.%Y')
+            }
+            period = '{bdate}-{edate}'.format(**period_data)
+            line.append(period)
+            line.append(row.club_card.short_name)
+            line.append(row.block_comment)
+            rows.append(line)
+        self.total = len(rows)
+        return rows
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 0, _('total'), styles.styleh)
+        self.ws.write(self.row_num, 1, _('all locked cards'), styles.styleh)
+        self.ws.write(self.row_num, 2, self.total, styles.styleh)

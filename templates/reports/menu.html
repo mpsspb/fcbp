@@ -102,6 +102,12 @@
     class="btn btn-primary btn-block">
       Сводный по скидкам за период</a>
   </div>
+    <div class="col-lg-3">
+    <a id='r_ccdisabled'
+    href="/api/v1/reports/ccdisabled/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-info btn-block">
+       заблокированные карты за период</a>
+  </div>
   <div class="col-lg-3">&nbsp;</div>
   <div class="clo-md-12">&nbsp;</div>
   <br/>
@@ -199,6 +205,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_ccdiscounts[5], 'fdate', fdate)
     var r_ccdiscounts_url = r_ccdiscounts.slice(0, 5).join('/') + '/' + get_str
     $('#r_ccdiscounts').attr('href', r_ccdiscounts_url)
+    // r_ccdisabled
+    var r_ccdisabled = $('#r_ccdisabled').attr('href').split('/')
+    var get_str = updateUrlParam(r_ccdisabled[5], 'fdate', fdate)
+    var r_ccdisabled_url = r_ccdisabled.slice(0, 5).join('/') + '/' + get_str
+    $('#r_ccdisabled').attr('href', r_ccdisabled_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -243,6 +254,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_ccdiscounts[5], 'tdate', tdate)
     var r_ccdiscounts_url = r_ccdiscounts.slice(0, 5).join('/') + '/' + get_str
     $('#r_ccdiscounts').attr('href', r_ccdiscounts_url)
+    // r_ccdisabled
+    var r_ccdisabled = $('#r_ccdisabled').attr('href').split('/')
+    var get_str = updateUrlParam(r_ccdisabled[5], 'tdate', tdate)
+    var r_ccdisabled_url = r_ccdisabled.slice(0, 5).join('/') + '/' + get_str
+    $('#r_ccdisabled').attr('href', r_ccdisabled_url)
   });
 
   $('[name=club_card_type]').change(function() {
