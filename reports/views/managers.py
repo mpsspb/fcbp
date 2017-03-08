@@ -38,8 +38,11 @@ class ActiveClubCard(ReportTemplate):
 
     def initial(self, request, *args, **kwargs):
         super(ActiveClubCard, self).initial(request, *args, **kwargs)
-        clubcard_id = self.request.query_params.get('cc')
-        self.clubcard = ClubCard.objects.get(pk=clubcard_id)
+        try:
+            clubcard_id = self.request.query_params.get('cc')
+            self.clubcard = ClubCard.objects.get(pk=clubcard_id)
+        except:
+            self.clubcard = 'all'
 
     def get_fdate(self):
         return datetime.now()
@@ -52,8 +55,11 @@ class ActiveClubCard(ReportTemplate):
 
     def get_data(self):
         rows = []
-        data = ClientClubCard.objects.filter(
-            status=1, club_card=self.clubcard).order_by('date_end')
+        data = ClientClubCard.objects.filter(status=1).order_by('date_end')
+        if self.clubcard != 'all':
+            data = data.filter(club_card=self.clubcard)
+        else:
+            data = data.order_by('club_card__short_name')
         for row in data:
             line = []
             fname = row.client.first_name
@@ -62,7 +68,7 @@ class ActiveClubCard(ReportTemplate):
             uid = row.client.uid
             line.append((fname, pname, lname, uid))
             phone = row.client.mobile or row.client.phone or ''
-            tariff = self.clubcard.short_name
+            tariff = row.club_card.short_name
             amount = row.summ_amount
             if row.discount_value:
                 dtype = '%' if row.discount_value < 100 else _('rub.')
@@ -117,7 +123,8 @@ class ActiveClubCard(ReportTemplate):
 
     def write_heads(self):
         super(ActiveClubCard, self).write_heads()
-        self.ws.write(2, 2, self.clubcard.name, styles.styleh)
+        if self.clubcard != 'all':
+            self.ws.write(2, 2, self.clubcard.name, styles.styleh)
 
     def write_bottom(self):
         self.ws.write(self.row_num, 1, _('total cards'))
