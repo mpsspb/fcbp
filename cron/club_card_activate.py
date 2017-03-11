@@ -16,7 +16,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'fcbp.settings'
 django.setup()
 
 
-from clients.models import ClientClubCard, ClientAquaAerobics
+from clients.models import ClientClubCard
 
 
 def activate_card(**kwargs):
@@ -31,16 +31,5 @@ def activate_card(**kwargs):
             card.activate()
 
 
-def end_card(**kwargs):
-    """
-    Disable client club card.
-    """
-    expire = ClientClubCard.objects.filter(
-        date_end__lt=date.today()).exclude(status=0)
-    for card in expire:
-        card.deactivate()
-
-
 if __name__ == '__main__':
-    end_card()
     activate_card()
