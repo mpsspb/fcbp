@@ -274,7 +274,7 @@ msgid "all locked cards"
 msgstr "всего заблок карт"
 
 msgid "not activated the card to date"
-msgstr "Отчет по неактированным картам на дату."
+msgstr "Отчет по неактивным карты на дату."
 
 msgid "all inactive cards"
 msgstr "всего неактивных карт"
