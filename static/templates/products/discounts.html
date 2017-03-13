@@ -14,6 +14,14 @@
             <input  type="text" required class="form-control"
             ng-model="vm.fdata.description">
           </div>
+          <div class="col-md-11">
+            <label>Сокращение</label>
+            <input ng-model="vm.fdata.short" type="text" class="form-control" placeholder="Сокращение">
+          </div>
+          <div class="col-md-11">
+            <label>Выгодная лояльность</label>
+            <input ng-model="vm.fdata.is_best_loyalty" type="checkbox" class="form-control">
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -50,10 +58,18 @@
     <strong> Ошибка обновления: {{ vm.error_data }} </strong>
   </div>
 
-  <div class="alert alert-info col-md-12" ng-repeat="discount in vm.discounts">
-  <span ng-show="!edit">{{ discount.description }} ({{ discount.short}})</span>
+  <div class="alert col-md-12"
+  ng-class="discount.is_best_loyalty ? 'alert-success' : 'alert-info'"
+  ng-repeat="discount in vm.discounts">
+  <span ng-show="!edit">
+    {{ discount.description }} ({{ discount.short}})
+  </span>
   <input ng-show="edit" ng-model="discount.description" type="text" class="form-control" placeholder="Наименование">
   <input ng-show="edit" ng-model="discount.short" type="text" class="form-control" placeholder="Сокращение">
+  <div ng-show="edit" class="col-md-12">
+    <label>Выгодная лояльность</label>
+    <input ng-model="discount.is_best_loyalty" type="checkbox">
+  </div>
   <button ng-click="edit=!edit" class="btn btn-sm btn-warning pull-right" ng-show="!edit"> Правка </button>
   <button ng-click="edit=!edit" class="btn btn-sm btn-default pull-right" ng-show="edit"> Отмена </button>
   <button class="btn btn-sm btn-success pull-left" ng-show="edit"

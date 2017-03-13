@@ -17,6 +17,7 @@ class Discount(models.Model):
     is_active = models.BooleanField(default=True)
     description = models.CharField(max_length=150, unique=True)
     short = models.CharField(max_length=3, unique=True, null=True, blank=True)
+    is_best_loyalty = models.BooleanField(default=False)
 
 
 class Period(models.Model):
