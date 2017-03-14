@@ -174,7 +174,7 @@ class ClubCardDiscount(Report):
             else:
                 self.total[row.discount_short] += 1
             discount_value = row.discount_value
-            if discount_value < 100:
+            if discount_value <= 100:
                 discount_value = ('{value} %').format(value=discount_value)
             line.append(discount_value)
             rows.append(line)

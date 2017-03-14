@@ -193,7 +193,7 @@ msgid "from: {fdate} to {tdate}"
 msgstr "за период. c {fdate} по {tdate}"
 
 msgid "common list"
-msgstr "Общий список клиентов"
+msgstr "Список купленных карт"
 
 msgid "full list"
 msgstr "Полный список клиентов."

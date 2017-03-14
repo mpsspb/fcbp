@@ -71,7 +71,7 @@ class ActiveClubCard(ReportTemplate):
             tariff = row.club_card.short_name
             amount = row.summ_amount
             if row.discount_value:
-                dtype = '%' if row.discount_value < 100 else _('rub.')
+                dtype = '%' if row.discount_value <= 100 else _('rub.')
                 discount = u'{txt}/{val} {dtype}'.format(
                     txt=row.discount_short,
                     val=row.discount_value, dtype=dtype)
@@ -185,7 +185,7 @@ class CreditsClubCard(ReportTemplate):
             tariff = card.club_card.short_name
             amount = card.summ_amount
             if card.discount_value:
-                dtype = '%' if card.discount_value < 100 else _('rub.')
+                dtype = '%' if card.discount_value <= 100 else _('rub.')
                 discount = u'{val} {dtype}'.format(
                     val=card.discount_value, dtype=dtype)
             else:
