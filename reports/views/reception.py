@@ -8,6 +8,7 @@ from .base import Report
 from reports import styles
 from clients.models import ClientClubCard, UseClientClubCard, Client
 from finance.models import Payment
+from products.models import Training
 
 
 class Sales(Report):
@@ -141,13 +142,18 @@ class Visits(Report):
             rows.append(line)
         return rows
 
+    def order_trains(self):
+        set_trains = set(self.total_trains)
+        trains = Training.objects.filter(name__in=set_trains)
+        return trains.order_by('order_num', 'name')
+
     def write_bottom(self):
         self.ws.write(self.row_num, 1, _('total of day'))
         self.ws.write(self.row_num, 2, len(self.total_trains), styles.style)
         self.row_num += 1
         self.ws.write(self.row_num, 1, _('including:'))
         self.row_num += 1
-        for train in set(self.total_trains):
+        for train in self.order_trains().values_list('name', flat=True):
             cnt = self.total_trains.count(train)
             self.ws.write(self.row_num, 1, train)
             self.ws.write(self.row_num, 2, cnt, styles.style)

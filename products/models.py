@@ -118,6 +118,7 @@ class Training(models.Model):
     """
     name = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True, blank=True)
+    order_num = models.IntegerField(default=0)
 
 
 class Ticket(models.Model):
