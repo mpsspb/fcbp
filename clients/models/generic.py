@@ -81,7 +81,7 @@ class Property(object):
     @property
     def first_payment(self):
         all_payment = self.payment_set.all()
-        return all_payment.order_by('-date').first()
+        return all_payment.order_by('date').first()
 
     def full_name(self):
         return self.product.full_name
