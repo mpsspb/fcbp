@@ -86,7 +86,6 @@ style_red_font.font.bold = True
 style_red_font.font.colour_index = xlwt.Style.colour_map['red']
 style_red_font.borders = borders
 
-
 # All data date
 styled = xlwt.XFStyle()
 styled.borders = borders

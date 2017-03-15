@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from collections import defaultdict
 from datetime import timedelta, datetime
 
 from django.utils.translation import ugettext as _
@@ -6,7 +7,7 @@ from django.utils.translation import ugettext as _
 from reports import styles
 from finance.models import Payment
 from clients.models import ClientClubCard
-from products.models import Period, ClubCard
+from products.models import Period, ClubCard, Discount
 from .base import ReportTemplate, Report
 
 
@@ -306,3 +307,114 @@ class ClubCardProspect(Report):
         self.ws.write(self.row_num, 0, _('total'), styles.styleh)
         self.ws.write(self.row_num, 1, _('all inactive cards'), styles.styleh)
         self.ws.write(self.row_num, 2, self.total, styles.styleh)
+
+
+class BestLoyalty(Report):
+
+    file_name = 'club_cards_best_loyalty'
+    sheet_name = 'club_cards_best_loyalty'
+
+    table_headers = [
+        (_('client'), 8000),
+        (_('# uid'), 4000),
+        (_('previous tariff'), 4000),
+        (_('new tariff'), 4000),
+        (_('previous date end'), 4000),
+        (_('new date end'), 4000),
+        (_('previous discount'), 4000),
+        (_('new discount'), 4000),
+        (_('new paid date'), 4000),
+    ]
+
+    table_styles = {
+        0: styles.style_c,
+        1: styles.style_c,
+        2: styles.style_c,
+        3: styles.style_c,
+        6: styles.style_c,
+        7: styles.style_c,
+    }
+
+    def initial(self, request, *args, **kwargs):
+        super(BestLoyalty, self).initial(request, *args, **kwargs)
+        self.total = 0
+        self.discounts = defaultdict(int)
+        self.red_font = styles.style_red_font
+        self.red_font.borders = styles.borders
+        self.red_font.alignment = styles.alignment_c
+
+    def get_title(self, **kwargs):
+        return _('sales at best loyalty')
+
+    def write_title(self):
+        super(BestLoyalty, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        heads_ln = len(self.table_headers)
+        self.ws.write_merge(1, 1, 0, heads_ln, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        bl_discounts = Discount.objects.filter(is_best_loyalty=True)
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        data = ClientClubCard.objects.filter(
+            discount_type__in=bl_discounts, date__range=(fdate, tdate)
+            ).order_by('date')
+        for row in data:
+            line = []
+            previous_card = row.previous_card()
+            line.append(row.client.full_name)
+            line.append(row.client.uid)
+            if previous_card:
+                line.append(previous_card.club_card.short_name)
+            else:
+                line.append('')
+            line.append(row.club_card.short_name)
+            if previous_card:
+                line.append(previous_card.date_begin)
+            else:
+                line.append('')
+            line.append(row.date_begin)
+            if previous_card:
+                pval = int(previous_card.discount_value)
+                line.append('{val}%'.format(val=val))
+            else:
+                line.append('')
+            val = int(row.discount_value)
+            self.discounts[val] += 1
+            line.append('{val}%'.format(val=val))
+            line.append(row.first_payment.date)
+            rows.append(line)
+        self.total = len(rows)
+        return rows
+
+    def write_data(self):
+        for row in self.get_data():
+            row_step = 0
+            red = False
+            if row[4] and row[5]:
+                if (row[5] - row[4]).days > 1:
+                    red = True
+            for i, cell in enumerate(row):
+                if red:
+                    style = self.red_font
+                else:
+                    style = self.table_styles.get(i, styles.style)
+                if cell and i in [4, 5, 8]:
+                    cell = cell.strftime('%d.%m.%Y')
+                self.ws.write(self.row_num, i, cell, style)
+            self.row_num += (1 + row_step)
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 0, _('total'), styles.styleth)
+        self.ws.write(self.row_num + 1, 0, self.total, styles.styleth)
+        self.ws.write(self.row_num, 2, _('including:'), styles.styleth)
+        for i, discount in enumerate(self.discounts):
+            discount_h = '{val}%'.format(val=discount)
+            col = 3 + i
+            cnt = self.discounts.get(discount)
+            self.ws.write(self.row_num, col, discount_h, styles.styleth)
+            self.ws.write(self.row_num + 1, col, cnt, styles.styleth)

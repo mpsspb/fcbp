@@ -116,6 +116,11 @@
     class="btn btn-danger btn-block">
        неактивированные карты</a>
   </div>
+  <div class="col-lg-3">
+    <a id='r_bl' href="/api/v1/reports/bl/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
+       по выгодной лояльности</a>
+  </div>
+  <br/>
   <div class="clo-md-12">&nbsp;</div>
   <br/>
 <!-- reception -->
@@ -217,6 +222,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_ccdisabled[5], 'fdate', fdate)
     var r_ccdisabled_url = r_ccdisabled.slice(0, 5).join('/') + '/' + get_str
     $('#r_ccdisabled').attr('href', r_ccdisabled_url)
+    // r_bl
+    var r_bl = $('#r_bl').attr('href').split('/')
+    var get_str = updateUrlParam(r_bl[5], 'fdate', fdate)
+    var r_bl_url = r_bl.slice(0, 5).join('/') + '/' + get_str
+    $('#r_bl').attr('href', r_bl_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -266,6 +276,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_ccdisabled[5], 'tdate', tdate)
     var r_ccdisabled_url = r_ccdisabled.slice(0, 5).join('/') + '/' + get_str
     $('#r_ccdisabled').attr('href', r_ccdisabled_url)
+    // r_bl
+    var r_bl = $('#r_bl').attr('href').split('/')
+    var get_str = updateUrlParam(r_bl[5], 'tdate', tdate)
+    var r_bl_url = r_bl.slice(0, 5).join('/') + '/' + get_str
+    $('#r_bl').attr('href', r_bl_url)
   });
 
   $('[name=club_card_type]').change(function() {

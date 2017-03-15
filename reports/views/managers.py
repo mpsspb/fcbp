@@ -55,7 +55,7 @@ class ActiveClubCard(ReportTemplate):
 
     def get_data(self):
         rows = []
-        data = ClientClubCard.objects.filter(status=1).order_by('date_end')
+        data = ClientClubCard.objects.filter(status=1).order_by('-date_end')
         if self.clubcard != 'all':
             data = data.filter(club_card=self.clubcard)
         else:

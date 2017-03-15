@@ -181,6 +181,10 @@ class ClientClubCard(Property, WritePayment, models.Model):
         self.status = 0
         self.save()
 
+    def previous_card(self):
+        return ClientClubCard.objects.filter(
+            date__lt=self.date, client=self.client).order_by('date').first()
+
     @property
     def infuture(self):
         if self.date_begin:
