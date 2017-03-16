@@ -183,7 +183,7 @@ class ClientClubCard(Property, WritePayment, models.Model):
 
     def previous_card(self):
         return ClientClubCard.objects.filter(
-            date__lt=self.date, client=self.client).order_by('date').first()
+            date__lt=self.date, client=self.client).order_by('-date').first()
 
     @property
     def infuture(self):

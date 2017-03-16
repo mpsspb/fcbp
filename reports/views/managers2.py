@@ -398,8 +398,10 @@ class BestLoyalty(Report):
         for row in self.get_data():
             row_step = 0
             red = False
-            if row[4] and row[5]:
-                if (row[5] - row[4]).days > 1:
+            prev_end = row[4]
+            cur_begin = row[5]
+            if prev_end and cur_begin:
+                if (cur_begin - prev_end).days > 1:
                     red = True
             for i, cell in enumerate(row):
                 if red:
