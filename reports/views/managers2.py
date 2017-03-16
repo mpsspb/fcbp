@@ -380,7 +380,7 @@ class BestLoyalty(Report):
             line.append(row.date_begin)
             if previous_card:
                 pval = int(previous_card.discount_value) if previous_card.discount_value else 0
-                line.append('{val}%'.format(val=val))
+                line.append('{val}%'.format(val=pval))
             else:
                 line.append('')
             val = int(row.discount_value) if row.discount_value else 0
