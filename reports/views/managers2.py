@@ -374,7 +374,7 @@ class BestLoyalty(Report):
                 line.append('')
             line.append(row.club_card.short_name)
             if previous_card:
-                line.append(previous_card.date_begin)
+                line.append(previous_card.date_end)
             else:
                 line.append('')
             line.append(row.date_begin)
