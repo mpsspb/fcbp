@@ -386,7 +386,10 @@ class BestLoyalty(Report):
             val = int(row.discount_value) if row.discount_value else 0
             self.discounts[val] += 1
             line.append('{val}%'.format(val=val))
-            line.append(row.first_payment.date)
+            if row.first_payment:
+                line.append(row.first_payment.date)
+            else:
+                line.append('')
             rows.append(line)
         self.total = len(rows)
         return rows
@@ -404,7 +407,7 @@ class BestLoyalty(Report):
                 else:
                     style = self.table_styles.get(i, styles.style)
                 if cell and i in [4, 5, 8]:
-                    cell = cell.strftime('%d.%m.%Y')
+                    cell = cell.strftime('%d.%m.%Y') if cell else ''
                 self.ws.write(self.row_num, i, cell, style)
             self.row_num += (1 + row_step)
 
