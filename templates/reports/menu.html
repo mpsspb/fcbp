@@ -120,6 +120,12 @@
     <a id='r_bl' href="/api/v1/reports/bl/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
        по выгодной лояльности</a>
   </div>
+  <div class="col-lg-3">
+    <a id='r_totalacc'
+    href="/api/v1/reports/totalacc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      Сводный по видам карт на дату</a>
+  </div>
   <br/>
   <div class="clo-md-12">&nbsp;</div>
   <br/>
@@ -212,6 +218,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_totalcc[5], 'fdate', fdate)
     var r_totalcc_url = r_totalcc.slice(0, 5).join('/') + '/' + get_str
     $('#r_totalcc').attr('href', r_totalcc_url)
+    // r_totalacc
+    var r_totalacc = $('#r_totalacc').attr('href').split('/')
+    var get_str = updateUrlParam(r_totalacc[5], 'fdate', fdate)
+    var r_totalacc_url = r_totalacc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_totalacc').attr('href', r_totalacc_url)
     // r_ccdiscounts
     var r_ccdiscounts = $('#r_ccdiscounts').attr('href').split('/')
     var get_str = updateUrlParam(r_ccdiscounts[5], 'fdate', fdate)
@@ -266,6 +277,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_totalcc[5], 'tdate', tdate)
     var r_totalcc_url = r_totalcc.slice(0, 5).join('/') + '/' + get_str
     $('#r_totalcc').attr('href', r_totalcc_url)
+    // r_totalacc
+    var r_totalacc = $('#r_totalacc').attr('href').split('/')
+    var get_str = updateUrlParam(r_totalacc[5], 'tdate', tdate)
+    var r_totalacc_url = r_totalacc.slice(0, 5).join('/') + '/' + get_str
+    $('#r_totalacc').attr('href', r_totalacc_url)
     // r_ccdiscounts
     var r_ccdiscounts = $('#r_ccdiscounts').attr('href').split('/')
     var get_str = updateUrlParam(r_ccdiscounts[5], 'tdate', tdate)

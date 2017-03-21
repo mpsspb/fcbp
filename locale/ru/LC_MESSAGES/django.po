@@ -246,6 +246,9 @@ msgstr "Отчет по вводному инструктажу"
 msgid "total introductory"
 msgstr "ИТОГО проведенных инструктажей"
 
+msgid "total active club cards"
+msgstr "Сводный отчет по видам действующих клубных карт на дату"
+
 msgid "total club cards"
 msgstr "Сводный отчет по видам проданных  карт клубных карт за период"
 

@@ -4,8 +4,8 @@ from rest_framework import routers
 from .views import (
 	Sales, Visits, Birthdays, ActiveClubCard, CreditsClubCard, NewUid,
 	CommonList, FullList, RepFitnessClubCard, RepPersonalClubCard,
-	RepIntroductory, TotalClubCard, ClubCardDiscount, ClubCardDisabled,
-	ClubCardProspect, BestLoyalty)
+	RepIntroductory, TotalClubCard, TotalActiveClubCard, ClubCardDiscount,
+	ClubCardDisabled, ClubCardProspect, BestLoyalty)
 
 
 router = routers.SimpleRouter()
@@ -21,6 +21,7 @@ router.register(r'fcc', RepFitnessClubCard,  base_name='fcc')
 router.register(r'tcc', RepPersonalClubCard,  base_name='tcc')
 router.register(r'icc', RepIntroductory,  base_name='icc')
 router.register(r'totalcc', TotalClubCard,  base_name='totalcc')
+router.register(r'totalacc', TotalActiveClubCard,  base_name='totalacc')
 router.register(r'ccdiscounts', ClubCardDiscount,  base_name='ccdiscounts')
 router.register(r'ccdisabled', ClubCardDisabled,  base_name='ccdisabled')
 router.register(r'ccprospect', ClubCardProspect,  base_name='ccprospect')

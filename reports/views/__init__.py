@@ -5,13 +5,13 @@ from .managers import (
 	ActiveClubCard, CreditsClubCard, NewUid, CommonList, FullList,
 	RepFitnessClubCard, RepPersonalClubCard, RepIntroductory)
 from .managers2 import (
-	TotalClubCard, ClubCardDiscount, ClubCardDisabled, ClubCardProspect,
-	BestLoyalty)
+	TotalClubCard, TotalActiveClubCard, ClubCardDiscount, ClubCardDisabled,
+	ClubCardProspect, BestLoyalty)
 
 
 __all__ = [
     'Sales', 'Home', 'Visits', 'Birthdays', 'ActiveClubCard',
     'CreditsClubCard', 'NewUid', 'CommonList', 'FullList',
     'RepFitnessClubCard', 'RepPersonalClubCard', 'RepIntroductory',
-    'TotalClubCard', 'ClubCardDiscount', 'ClubCardDisabled',
-    'ClubCardProspect', 'BestLoyalty']
+    'TotalClubCard', 'TotalActiveClubCard', 'ClubCardDiscount',
+    'ClubCardDisabled', 'ClubCardProspect', 'BestLoyalty']

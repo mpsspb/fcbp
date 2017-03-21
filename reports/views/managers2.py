@@ -46,8 +46,7 @@ class TotalClubCard(ReportTemplate):
         msg = msg.format(fdate=fdate, tdate=tdate)
         self.ws.write_merge(1, 1, 0, 5, msg, styles.styleh)
 
-    def get_data(self):
-        rows = []
+    def club_card_list(self):
         cards = []
         fdate = self.get_fdate().date()
         tdate = self.get_tdate().date() + timedelta(1)
@@ -57,6 +56,11 @@ class TotalClubCard(ReportTemplate):
         for p in payments:
             if p.club_card.first_payment == p:
                 cards.append(p.club_card.pk)
+        return cards
+
+    def get_data(self):
+        rows = []
+        cards = self.club_card_list()
         data = ClientClubCard.objects.filter(pk__in=cards)
         data = data.order_by('club_card__short_name')
         data = data.values_list('club_card__pk', flat=True).distinct()
@@ -109,6 +113,25 @@ class TotalClubCard(ReportTemplate):
             self.ws.write(self.row_num, 0, period.name, styles.styleth)
             self.ws.write(
                 self.row_num, 1, self.periods[period.pk], styles.styleth)
+
+
+class TotalActiveClubCard(TotalClubCard):
+
+    file_name = 'total_active_club_cards'
+    sheet_name = 'total_active_club_cards'
+    tpl_path = 'xls_tpl/total_active_cards.xls'
+
+    def get_title(self, **kwargs):
+        return _('total active club cards')
+
+    def write_title(self):
+        super(TotalClubCard, self).write_title()
+        date = datetime.now().strftime('%d.%m.%Y')
+        self.ws.write(1, 1, date, styles.styleh)
+
+    def club_card_list(self):
+        cards = ClientClubCard.objects.filter(status=1)
+        return cards.values_list('pk', flat=True)
 
 
 class ClubCardDiscount(Report):
@@ -235,8 +258,7 @@ class ClubCardDisabled(Report):
         data = ClientClubCard.objects.filter(
             date_end__range=(fdate, tdate), status=0,
             block_comment__isnull=False
-            ).exclude(block_comment=''
-            ).order_by('date')
+        ).exclude(block_comment='').order_by('date')
         for row in data:
             line = []
             line.append(row.date)
