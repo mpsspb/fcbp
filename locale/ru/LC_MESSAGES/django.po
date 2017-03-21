@@ -37,6 +37,9 @@ msgstr "дня"
 msgid "p_days"
 msgstr "дней"
 
+msgid "invalide date"
+msgstr "Не корректная дата"
+
 #: clients/views.py:354 clients/views.py:373
 msgid "Empty trainings"
 msgstr "Отсутсвуют тренировки."

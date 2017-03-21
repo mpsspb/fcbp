@@ -55,11 +55,9 @@ class ActiveClubCard(ReportTemplate):
 
     def get_data(self):
         rows = []
-        data = ClientClubCard.objects.filter(status=1).order_by('-date_end')
+        data = ClientClubCard.objects.filter(status=1).order_by('date_end')
         if self.clubcard != 'all':
             data = data.filter(club_card=self.clubcard)
-        else:
-            data = data.order_by('club_card__short_name')
         for row in data:
             line = []
             fname = row.client.first_name
@@ -271,7 +269,9 @@ class NewUid(Report):
     ]
 
     table_styles = {
-        2: styles.styled,
+        1: styles.style_c,
+        2: styles.style_c,
+        4: styles.style_c,
     }
 
     def get_title(self, **kwargs):
@@ -391,6 +391,12 @@ class FullList(CommonList):
         (_('email'), 6000),
     ]
 
+
+    table_styles = {
+        2: styles.style_c,
+        3: styles.style_c,
+    }
+
     def get_title(self, **kwargs):
         msg = _('full list')
         msg += _(' created at: {date}.')
@@ -401,13 +407,17 @@ class FullList(CommonList):
         rows = []
         fdate = self.get_fdate().date()
         tdate = self.get_tdate().date() + timedelta(1)
-        data = Client.objects.all()
+        data = Client.objects.all(
+            ).order_by('last_name', 'first_name', 'patronymic')
         for num, row in enumerate(data, 1):
             line = []
             line.append(num)
             line.append(row.full_name)
             line.append(row.uid)
-            line.append(row.born.strftime('%d.%m.%Y'))
+            try:
+                line.append(row.born.strftime('%d.%m.%Y'))
+            except Exception as e:
+                line.append(_('invalide date'))
             line.append(CommonList.format_mobile(row.mobile))
             cards = row.clientclubcard_set.filter(
                 date__range=(fdate, tdate))
@@ -562,8 +572,6 @@ class RepIntroductory(Report):
         (_('introductory date'), 4000),
         (_('client'), 8000),
         (_('# uid'), 4000),
-        (_('club card period'), 6000),
-        (_('tariff'), 4000),
         (_('instructor'), 6000),
     ]
 
@@ -595,9 +603,6 @@ class RepIntroductory(Report):
             line.append(row.introductory_date.strftime('%d.%m.%Y'))
             line.append(row.full_name)
             line.append(row.uid)
-            period = '{????}-{????}'
-            line.append(period)
-            line.append('{???? ????}')
             line.append(row.introductory_employee.initials)
             rows.append(line)
         self.total_rows = len(rows)

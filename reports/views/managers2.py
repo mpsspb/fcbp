@@ -22,6 +22,12 @@ class TotalClubCard(ReportTemplate):
         (_('total'), 4000),
         (_('club card'), 10000), ]
 
+    table_styles = {
+        1: styles.style_c,
+        3: styles.style_c,
+        5: styles.style_c,
+    }
+
     def initial(self, request, *args, **kwargs):
         super(TotalClubCard, self).initial(request, *args, **kwargs)
         self.total = 0
@@ -52,10 +58,7 @@ class TotalClubCard(ReportTemplate):
             if p.club_card.first_payment == p:
                 cards.append(p.club_card.pk)
         data = ClientClubCard.objects.filter(pk__in=cards)
-        data = data.order_by(
-            'club_card__period__is_month',
-            'club_card__period__value',
-            'club_card__name')
+        data = data.order_by('club_card__short_name')
         data = data.values_list('club_card__pk', flat=True).distinct()
         for row in range(0, len(data)/3 + 1):
             line = []
@@ -90,7 +93,7 @@ class TotalClubCard(ReportTemplate):
         self.ws.write(self.row_num, 1, self.total_limit, styles.styleth)
         self.ws.write(self.row_num, 3, _('UBV'), styles.style)
         ubv_cnt = self.total - self.total_full
-        self.ws.write(self.row_num, 4, ubv_cnt, styles.style)
+        self.ws.write(self.row_num, 4, ubv_cnt, styles.style_c)
         self.row_num += 1
         periods = Period.objects.filter(
             pk__in=self.periods).order_by('is_month', 'value')
@@ -100,7 +103,7 @@ class TotalClubCard(ReportTemplate):
             self.ws.write(
                 self.row_num, 1, self.periods[period.pk], styles.styleth)
         self.ws.write(self.row_num, 3, _('P'), styles.style)
-        self.ws.write(self.row_num, 4, self.total_full, styles.style)
+        self.ws.write(self.row_num, 4, self.total_full, styles.style_c)
         for period in periods[1:]:
             self.row_num += 1
             self.ws.write(self.row_num, 0, period.name, styles.styleth)
@@ -179,7 +182,7 @@ class ClubCardDiscount(Report):
                 discount_value = ('{value} %').format(value=discount_value)
             line.append(discount_value)
             rows.append(line)
-        return sorted(rows, key=lambda row: row[3])
+        return sorted(rows, key=lambda row: row[4])
 
     def write_bottom(self):
         self.ws.write(self.row_num, 0, _('total'))
@@ -205,7 +208,6 @@ class ClubCardDisabled(Report):
 
     table_styles = {
         0: styles.styled,
-        1: styles.style_c,
         2: styles.style_c,
         3: styles.style_c,
     }
@@ -231,7 +233,10 @@ class ClubCardDisabled(Report):
         fdate = self.get_fdate().date()
         tdate = self.get_tdate().date() + timedelta(1)
         data = ClientClubCard.objects.filter(
-            date_end__range=(fdate, tdate), status=0).order_by('-date')
+            date_end__range=(fdate, tdate), status=0,
+            block_comment__isnull=False
+            ).exclude(block_comment=''
+            ).order_by('date')
         for row in data:
             line = []
             line.append(row.date)
@@ -327,7 +332,6 @@ class BestLoyalty(Report):
     ]
 
     table_styles = {
-        0: styles.style_c,
         1: styles.style_c,
         2: styles.style_c,
         3: styles.style_c,
@@ -362,10 +366,10 @@ class BestLoyalty(Report):
         tdate = self.get_tdate().date() + timedelta(1)
         data = ClientClubCard.objects.filter(
             discount_type__in=bl_discounts, date__range=(fdate, tdate)
-            ).order_by('date')
+        ).order_by('date')
         for row in data:
             line = []
-            previous_card = row.previous_card()
+            previous_card = row.previous_card(exclude_single=True)
             line.append(row.client.full_name)
             line.append(row.client.uid)
             if previous_card:
@@ -379,7 +383,9 @@ class BestLoyalty(Report):
                 line.append('')
             line.append(row.date_begin)
             if previous_card:
-                pval = int(previous_card.discount_value) if previous_card.discount_value else 0
+                pval = 0
+                if previous_card.discount_value:
+                    pval = int(previous_card.discount_value)
                 line.append('{val}%'.format(val=pval))
             else:
                 line.append('')

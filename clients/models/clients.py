@@ -181,9 +181,13 @@ class ClientClubCard(Property, WritePayment, models.Model):
         self.status = 0
         self.save()
 
-    def previous_card(self):
-        return ClientClubCard.objects.filter(
-            date__lt=self.date, client=self.client).order_by('-date').first()
+    def previous_card(self, **kwargs):
+        exclude_single = kwargs.get('exclude_single')
+        ccc = ClientClubCard.objects.filter(
+            date__lt=self.date, client=self.client)
+        if exclude_single:
+            ccc = ccc.exclude(club_card__max_visit=1)
+        return ccc.order_by('-date').first()
 
     @property
     def infuture(self):
