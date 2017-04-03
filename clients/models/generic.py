@@ -86,6 +86,10 @@ class Property(object):
     def full_name(self):
         return self.product.full_name
 
+    @property
+    def short_name(self):
+        return self.product.short_name
+
     def first_visit(self):
         return self.visits.all().order_by('date').first()
 

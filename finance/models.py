@@ -95,6 +95,16 @@ class Payment(models.Model):
                 self.personal, self.timing)
         return next(x for x in all_goods if x).full_name()
 
+    def goods_short_name(self):
+        if self.extra_text:
+            return _(self.extra_text)
+        else:
+            # first of existing goods
+            all_goods = (
+                self.club_card, self.aqua_aerobics, self.ticket,
+                self.personal, self.timing)
+        return next(x for x in all_goods if x).short_name
+
     def description(self):
         if self.extra_text:
             return _(self.extra_text)

@@ -108,6 +108,9 @@ msgstr " Сформирован: {date}"
 msgid "report administrator on the sales cards for the day."
 msgstr "Отчет администратора о продажах по клубным картам  и доп опциям."
 
+msgid "report on the sales cards for the period."
+msgstr "Отчет о продажах по клубным картам  и доп опциям за период."
+
 msgid "annotation"
 msgstr "пояснение"
 

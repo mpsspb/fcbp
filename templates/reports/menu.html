@@ -126,6 +126,10 @@
     class="btn btn-success btn-block">
       Сводный по видам карт на дату</a>
   </div>
+  <div class="col-lg-3">
+    <a id='r_ps' href="/api/v1/reports/ps/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-warning btn-block">
+       продажи за период</a>
+  </div>
   <br/>
   <div class="clo-md-12">&nbsp;</div>
   <br/>
@@ -238,6 +242,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_bl[5], 'fdate', fdate)
     var r_bl_url = r_bl.slice(0, 5).join('/') + '/' + get_str
     $('#r_bl').attr('href', r_bl_url)
+    // r_ps
+    var r_ps = $('#r_ps').attr('href').split('/')
+    var get_str = updateUrlParam(r_ps[5], 'fdate', fdate)
+    var r_ps_url = r_ps.slice(0, 5).join('/') + '/' + get_str
+    $('#r_ps').attr('href', r_ps_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -297,6 +306,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_bl[5], 'tdate', tdate)
     var r_bl_url = r_bl.slice(0, 5).join('/') + '/' + get_str
     $('#r_bl').attr('href', r_bl_url)
+    // r_ps
+    var r_ps = $('#r_ps').attr('href').split('/')
+    var get_str = updateUrlParam(r_ps[5], 'tdate', tdate)
+    var r_ps_url = r_ps.slice(0, 5).join('/') + '/' + get_str
+    $('#r_ps').attr('href', r_ps_url)
   });
 
   $('[name=club_card_type]').change(function() {

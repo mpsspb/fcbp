@@ -6,7 +6,7 @@ from .managers import (
 	RepFitnessClubCard, RepPersonalClubCard, RepIntroductory)
 from .managers2 import (
 	TotalClubCard, TotalActiveClubCard, ClubCardDiscount, ClubCardDisabled,
-	ClubCardProspect, BestLoyalty)
+	ClubCardProspect, BestLoyalty, PeriodSales)
 
 
 __all__ = [
@@ -14,4 +14,4 @@ __all__ = [
     'CreditsClubCard', 'NewUid', 'CommonList', 'FullList',
     'RepFitnessClubCard', 'RepPersonalClubCard', 'RepIntroductory',
     'TotalClubCard', 'TotalActiveClubCard', 'ClubCardDiscount',
-    'ClubCardDisabled', 'ClubCardProspect', 'BestLoyalty']
+    'ClubCardDisabled', 'ClubCardProspect', 'BestLoyalty', 'PeriodSales']

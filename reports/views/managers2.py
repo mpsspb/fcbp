@@ -451,3 +451,97 @@ class BestLoyalty(Report):
             cnt = self.discounts.get(discount)
             self.ws.write(self.row_num, col, discount_h, styles.styleth)
             self.ws.write(self.row_num + 1, col, cnt, styles.styleth)
+
+
+class PeriodSales(Report):
+
+    file_name = 'report_administrator_on_the_sales_cards_for_the_day'
+    sheet_name = 'report'
+
+    table_headers = [
+        (_('time'), 2000),
+        (_('client'), 8000),
+        (_('co number'), 4000),
+        (_('tariff'), 6000),
+        (_('full price'), 4000),
+        (_('discount'), 4000),
+        (_('discount type'), 4000),
+        (_('paid'), 4000),
+        (_('paid type'), 4000),
+        (_('schedule payments'), 8000),
+        (_('seller'), 6000),
+    ]
+
+    table_styles = {
+        0: styles.stylet,
+        4: styles.stylef,
+        7: styles.stylef,
+    }
+
+    def initial(self, request, *args, **kwargs):
+        super(PeriodSales, self).initial(request, *args, **kwargs)
+        self.total_payments = dict.fromkeys(Payment.payment_types.keys(), 0)
+
+    def get_title(self, **kwargs):
+        msg = _(
+            'report on the sales cards for the period.')
+        msg += _(' created at: {date}.')
+        date = datetime.now().strftime('%d.%m.%Y %H:%M')
+        return msg.format(date=date)
+
+    def write_title(self):
+        super(PeriodSales, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        heads_ln = len(self.table_headers)
+        self.ws.write_merge(1, 1, 0, heads_ln, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        end_date = self.get_tdate() + timedelta(1)
+        data = Payment.objects.filter(
+            date__range=(fdate, end_date)
+        ).exclude(club_card__isnull=True).exclude(payment_type=3)
+        for row in data:
+            line = []
+            card = row.club_card
+            line.append(row.date.strftime('%H:%M'))
+            line.append(row.client.full_name)
+            line.append(row.client.uid)
+            line.append(row.goods_short_name())
+            if not row.extra_uid:
+                line.append(card.club_card.price)
+                line.append(card.discount_value)
+                line.append(card.discount_short)
+            else:
+                line.append('')
+                line.append('')
+                line.append('')
+            line.append(row.amount)
+            ptype = Payment.payment_types.get(row.payment_type)
+            line.append(ptype)
+            self.total_payments[row.payment_type] += row.amount
+            schedule = []
+            for p in card.schedule_payments():
+                if p[0] <= row.date:
+                    continue
+                pdate = p[0].strftime('%d.%m.%Y')
+                pamount = "{:,}".format(p[1]).replace(',', ' ')
+                schedule.append("%s %s" % (pdate, pamount))
+            line.append(", ".join(schedule))
+            employee = card.employee.full_name if card.employee else ''
+            line.append(employee)
+            rows.append(line)
+        return rows
+
+    def write_bottom(self):
+        self.ws.write(self.row_num, 2, _('all card sales'))
+        self.ws.write(self.row_num, 4, sum(self.total_payments.values()))
+        self.row_num += 1
+        for x in (1, 2, 0):
+            self.ws.write(self.row_num, 2, Payment.payment_types[x])
+            self.ws.write(self.row_num, 4, self.total_payments[x])
+            self.row_num += 1
