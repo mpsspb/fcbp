@@ -23,7 +23,7 @@
       scope: {
         card: '='
       },
-      templateUrl: '/static/templates/reception/client-online.html?2'
+      templateUrl: '/static/templates/reception/client-online.html?4'
     };
 
     return directive;

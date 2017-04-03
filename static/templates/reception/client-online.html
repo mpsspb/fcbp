@@ -4,7 +4,9 @@ ng-class="card.client_data.debt_set.length ? 'alert-danger' : (card.is_full_time
 <span class="col-md-3">
     <a href="#/cardclient/{{ card.client_data.id }}/">{{ card.client_data.full_name }}</a>
 </span>
-<span class="col-md-2">{{ card.client_data.uid }}</span>
+<span class="col-md-2">
+	{{ card.client_data.uid }}&nbsp;&nbsp;&nbsp;{{ card.client_data.card }}
+</span>
 <span class="col-md-2">{{ card.client_data.born | date:'dd.MM.yyyy' }}</span>
 <span class="col-md-2">{{ card.client_data.mobile | phone }}</span>
 <span class="col-md-2">
