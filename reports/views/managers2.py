@@ -459,6 +459,7 @@ class PeriodSales(Report):
     sheet_name = 'report'
 
     table_headers = [
+        (_('paid date'), 3000),
         (_('time'), 2000),
         (_('client'), 8000),
         (_('co number'), 4000),
@@ -473,7 +474,8 @@ class PeriodSales(Report):
     ]
 
     table_styles = {
-        0: styles.stylet,
+        0: styles.styled,
+        1: styles.stylet,
         4: styles.stylef,
         7: styles.stylef,
     }
@@ -508,6 +510,7 @@ class PeriodSales(Report):
         for row in data:
             line = []
             card = row.club_card
+            line.append(row.date)
             line.append(row.date.strftime('%H:%M'))
             line.append(row.client.full_name)
             line.append(row.client.uid)
