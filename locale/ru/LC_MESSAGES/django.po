@@ -311,3 +311,6 @@ msgstr "скидка ВЛ новой карты"
 
 msgid "new paid date"
 msgstr "дата оплаты новой карты"
+
+msgid "prolongation card for period."
+msgstr "Отчет по продлениям клубных карт за период"

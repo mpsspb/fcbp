@@ -5,7 +5,8 @@ from .views import (
 	Sales, Visits, Birthdays, ActiveClubCard, CreditsClubCard, NewUid,
 	CommonList, FullList, RepFitnessClubCard, RepPersonalClubCard,
 	RepIntroductory, TotalClubCard, TotalActiveClubCard, ClubCardDiscount,
-	ClubCardDisabled, ClubCardProspect, BestLoyalty, PeriodSales)
+	ClubCardDisabled, ClubCardProspect, BestLoyalty, PeriodSales,
+	ExtrProlongation)
 
 
 router = routers.SimpleRouter()
@@ -27,5 +28,6 @@ router.register(r'ccdisabled', ClubCardDisabled,  base_name='ccdisabled')
 router.register(r'ccprospect', ClubCardProspect,  base_name='ccprospect')
 router.register(r'bl', BestLoyalty,  base_name='bl')
 router.register(r'ps', PeriodSales,  base_name='ps')
+router.register(r'ep', ExtrProlongation,  base_name='ep')
 
 urlpatterns = router.urls

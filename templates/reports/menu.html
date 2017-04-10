@@ -6,16 +6,18 @@
       <a class="navbar-brand" href="/">ФК Красота и Сила</a>
     </div> <!-- ./navbar-header -->
     <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav pull-right">
-        {% if request.user.is_authenticated %}
-          <li>{{ request.user.username }}</li>
+      <ul ng-show="vm.user" class="nav navbar-nav pull-right">
+      {% verbatim %}
+        <li>{{ vm.user.username }}</li>
+      {% endverbatim %}
           <li><a href="javascript:void(0)" ng-click="vm.logout()">Выход</a></li>
-        {% else %}
+      </ul>
+      <ul ng-show="!vm.user" class="nav navbar-nav pull-right">
           <li><a href="#/login">Вход</a></li>
-        {% endif %}
       </ul>
     </div> <!-- /.collapse.navbar-collapse -->
   </div> <!-- /.container-fluid -->
+</nav>
 
 </nav>
 
@@ -129,6 +131,13 @@
   <div class="col-lg-3">
     <a id='r_ps' href="/api/v1/reports/ps/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-warning btn-block">
        продажи за период</a>
+  </div>
+  <br/>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+  <div class="col-lg-3">
+    <a id='r_ep' href="/api/v1/reports/ep/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-success btn-block">
+       проддления за период</a>
   </div>
   <br/>
   <div class="clo-md-12">&nbsp;</div>
@@ -247,6 +256,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_ps[5], 'fdate', fdate)
     var r_ps_url = r_ps.slice(0, 5).join('/') + '/' + get_str
     $('#r_ps').attr('href', r_ps_url)
+    // r_ep
+    var r_ep = $('#r_ep').attr('href').split('/')
+    var get_str = updateUrlParam(r_ep[5], 'fdate', fdate)
+    var r_ep_url = r_ep.slice(0, 5).join('/') + '/' + get_str
+    $('#r_ep').attr('href', r_ep_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -311,6 +325,11 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     var get_str = updateUrlParam(r_ps[5], 'tdate', tdate)
     var r_ps_url = r_ps.slice(0, 5).join('/') + '/' + get_str
     $('#r_ps').attr('href', r_ps_url)
+    // r_ep
+    var r_ep = $('#r_ep').attr('href').split('/')
+    var get_str = updateUrlParam(r_ep[5], 'tdate', tdate)
+    var r_ep_url = r_ep.slice(0, 5).join('/') + '/' + get_str
+    $('#r_ep').attr('href', r_ep_url)
   });
 
   $('[name=club_card_type]').change(function() {

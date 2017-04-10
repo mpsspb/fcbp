@@ -142,6 +142,8 @@ class ReportTemplate(Report):
 
     def write_heads(self):
         self.row_num = self.tpl_start_row
+        for col_num, header in enumerate(self.table_headers):
+            self.ws.col(col_num).width = header[1]
 
     def get_data(self):
         return []
