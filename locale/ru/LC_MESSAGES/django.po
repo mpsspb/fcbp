@@ -314,3 +314,21 @@ msgstr "дата оплаты новой карты"
 
 msgid "prolongation card for period."
 msgstr "Отчет по продлениям клубных карт за период"
+
+msgid "date"
+msgstr "дата"
+
+msgid "gym"
+msgstr "тренажерный зал"
+
+msgid "shaping"
+msgstr "шейпинг"
+
+msgid "other group workouts"
+msgstr "остальные групповые тренировки"
+
+msgid "Attendance on club cards for the period"
+msgstr "Посещаемость  по клубным картам за период"
+
+msgid "total for period"
+msgstr "всего за период"

@@ -4,8 +4,9 @@ from datetime import timedelta, datetime
 from django.utils.translation import ugettext as _
 
 from reports import styles
-from clients.models import ProlongationClubCard
-from .base import ReportTemplate
+from clients.models import (
+    ProlongationClubCard, UseClientClubCard, ClubCardTrains)
+from .base import ReportTemplate, Report
 
 
 class ExtrProlongation(ReportTemplate):
@@ -65,7 +66,7 @@ class ExtrProlongation(ReportTemplate):
         tdate = self.get_tdate().date() + timedelta(1)
         data = ProlongationClubCard.objects.filter(date__range=(fdate, tdate))
         for row in data.order_by(
-            'client_club_card__date_end', 'is_paid', '-date'):
+                'client_club_card__date_end', 'is_paid', '-date'):
             if not row.is_paid and not row.is_extra:
                 next
             line = []
@@ -107,3 +108,62 @@ class ExtrProlongation(ReportTemplate):
 
     def write_bottom(self):
         pass
+
+
+class VisitsPeriod(Report):
+    file_name = 'club_card_visits'
+    sheet_name = 'report'
+
+    table_headers = [
+        (_('date'), 4000),
+        (_('gym'), 6000),
+        (_('shaping'), 6000),
+        (_('other group workouts'), 6000),
+    ]
+
+    def initial(self, request, *args, **kwargs):
+        super(VisitsPeriod, self).initial(request, *args, **kwargs)
+        self.total_gym = 0
+        self.total_shaping = 0
+        self.total_other = 0
+
+    def get_title(self, **kwargs):
+        return _("Attendance on club cards for the period").capitalize()
+
+    def write_title(self):
+        super(VisitsPeriod, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        self.ws.write_merge(1, 1, 0, 3, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        days = (self.get_tdate() - self.get_fdate()).days + 1
+        for d in (self.get_fdate() + timedelta(n) for n in range(days)):
+            line = []
+            df = d.replace(hour=0, minute=0, second=0)
+            dt = d.replace(hour=23, minute=59, second=59)
+            line.append(d.strftime('%d.%m.%Y'))
+            d_visits = UseClientClubCard.objects.filter(date__range=(df, dt))
+            workout = ClubCardTrains.objects.filter(visit__in=d_visits)
+            gym = workout.filter(training__order_num=0).count()
+            shaping = workout.filter(training__order_num=1).count()
+            other = workout.filter(training__order_num__gt=1).count()
+            self.total_gym += gym
+            self.total_shaping += shaping
+            self.total_other += other
+            line.append(gym)
+            line.append(shaping)
+            line.append(other)
+            rows.append(line)
+        line = [
+            _("total"), self.total_gym, self.total_shaping, self.total_other]
+        rows.append(line)
+        return rows
+
+    def write_bottom(self):
+        total = self.total_gym + self.total_shaping + self.total_other
+        self.ws.write(self.row_num, 0, _('total for period'))
+        self.ws.write(self.row_num, 1, total, styles.styleh)
