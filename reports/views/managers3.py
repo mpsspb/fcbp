@@ -6,6 +6,7 @@ from django.utils.translation import ugettext as _
 from reports import styles
 from clients.models import (
     ProlongationClubCard, UseClientClubCard, ClubCardTrains)
+from finance.models import Payment
 from .base import ReportTemplate, Report
 
 
@@ -167,3 +168,66 @@ class VisitsPeriod(Report):
         total = self.total_gym + self.total_shaping + self.total_other
         self.ws.write(self.row_num, 0, _('total for period'))
         self.ws.write(self.row_num, 1, total, styles.styleh)
+
+
+class OtherPayments(Report):
+    """docstring for OtherPayments"""
+    file_name = 'club_card_otherpayments'
+    sheet_name = 'report'
+
+    table_headers = [
+        (_('client'), 8000),
+        (_('paid date'), 3000),
+        (_('co number'), 4000),
+        (_('club card num'), 4000),
+        (_('tariff'), 6000),
+        (_('total paid'), 4000),
+        (_('other paid'), 4000),
+        (_('seller'), 6000),
+        (_('document for other paid'), 6000),
+    ]
+
+    table_styles = {
+        1: styles.styled,
+    }
+
+    def get_title(self, **kwargs):
+        return _("other paid report").capitalize()
+
+    def write_title(self):
+        super(OtherPayments, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        ln_head = len(self.table_headers) - 1
+        self.ws.write_merge(1, 1, 0, ln_head, msg, styles.styleh)
+
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        end_date = self.get_tdate() + timedelta(1)
+        data = Payment.objects.filter(
+            date__range=(fdate, end_date)
+        ).exclude(club_card__isnull=True).filter(payment_type=3)
+        for row in data:
+            if row.extra_uid:
+                continue
+            line = []
+            card = row.club_card
+            line.append(row.client.full_name)
+            line.append(row.date)
+            line.append(row.client.uid)
+            line.append(row.client.card)
+            line.append(row.goods_short_name())
+            line.append(card.summ_amount)
+            line.append(row.amount)
+            employee = card.employee.full_name if card.employee else ''
+            line.append(employee)
+            line.append('')
+            rows.append(line)
+        return rows
+
+    def write_bottom(self):
+        pass

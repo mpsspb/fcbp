@@ -80,12 +80,14 @@ msgstr "вид скидки"
 msgid "paid"
 msgstr "оплачено, сумма"
 
+msgid "total paid"
+msgstr "полная стоимость услуги"
+
 msgid "paid type"
 msgstr "Вид оплаты"
 
 msgid "schedule payments"
 msgstr "ФК график оставшихся платежей"
-
 
 msgid "seller"
 msgstr "продавец"
@@ -332,3 +334,12 @@ msgstr "Посещаемость  по клубным картам за пери
 
 msgid "total for period"
 msgstr "всего за период"
+
+msgid "document for other paid"
+msgstr "документ подтверждающий оплату"
+
+msgid "other paid"
+msgstr "в том числе сумма оплаты 'ИНОЕ'"
+
+msgid "other paid report"
+msgstr "Отчет по оплате 'Иное'"
