@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 
 from reports import styles
 from clients.models import (
-    ProlongationClubCard, UseClientClubCard, ClubCardTrains)
+    ProlongationClubCard, UseClientClubCard, ClubCardTrains, ClientClubCard)
 from finance.models import Payment
 from .base import ReportTemplate, Report
 
@@ -42,70 +42,45 @@ class ExtrProlongation(ReportTemplate):
         self.ws.write_merge(1, 1, 0, 5, msg, styles.styleh)
 
     def get_data(self):
-
-        def join_list(l1, l2):
-            result = []
-            l1_len = len(l1)
-            l2_len = len(l2)
-            for i in range(max(l1_len, l2_len)):
-                list_len = i + 1
-                if l1_len >= list_len and l2_len >= list_len:
-                    map_u = lambda x, y: unicode(x) + unicode(y)
-                    join_l = map(map_u, l1[i], l2[i])
-                elif l2_len >= list_len:
-                    join_l = map(unicode, l2[i])
-                else:
-                    join_l = map(unicode, l1[i])
-                result.append(join_l)
-            return result
-
         rows = []
-        cards = []
-        line_paid = []
-        line_extra = []
         fdate = self.get_fdate().date()
         tdate = self.get_tdate().date() + timedelta(1)
-        data = ProlongationClubCard.objects.filter(date__range=(fdate, tdate))
-        for row in data.order_by(
-                'client_club_card__date_end', 'is_paid', '-date'):
-            if not row.is_paid and not row.is_extra:
-                next
+        club_cards = ProlongationClubCard.objects.filter(
+            date__range=(fdate, tdate)).values('client_club_card')
+        data = ClientClubCard.objects.filter(pk__in=club_cards)
+        for row in data.order_by('date_end'):
             line = []
-            card = row.parent
-            if not card.pk in cards:
-                if line_extra or line_paid:
-                    for pr in join_list(line_extra, line_paid):
-                        rows.append(pr)
-                    line_paid = []
-                    line_extra = []
-                cards.append(card.pk)
-                line.append(card.client.full_name)
-                period_data = {
-                    'bdate': card.date_begin.strftime('%d.%m.%Y'),
-                    'edate': card.date_end.strftime('%d.%m.%Y')
-                }
-                period = '{bdate}-{edate}'.format(**period_data)
-                line.append(period)
-                line.append(card.short_name)
-                rows.append(line)
-            if row.is_paid:
-                line_p = []
-                line_p.extend(['', '', ''])
-                line_p.append(row.date.strftime('%d.%m.%Y'))
-                line_p.append(row.amount)
-                line_p.append(row.days)
-                line_p.extend(['', ''])
-                line_paid.append(line_p)
-            else:
-                line_e = []
-                line_e.extend(['', '', '', '', '', ''])
-                line_e.append(row.days)
-                line_e.append(row.note or '')
-                line_extra.append(line_e)
-        if line_extra or line_paid:
-            for pr in join_list(line_extra, line_paid):
-                rows.append(pr)
+            card = row
+            ext_prolongation = card.ext_prolongation()
+            if not ext_prolongation:
+                continue
+            line.append(card.client.full_name)
+            period_data = {
+                'bdate': card.date_begin.strftime('%d.%m.%Y'),
+                'edate': card.date_end.strftime('%d.%m.%Y')
+            }
+            period = '{bdate}-{edate}'.format(**period_data)
+            line.append(period)
+            line.append(card.short_name)
+            line.append(ext_prolongation)
+            rows.append(line)
         return rows
+
+    def write_data(self):
+        for row in self.get_data():
+            row_step = len(row[3]) - 1
+            for i, cell in enumerate(row[:3]):
+                style = self.table_styles.get(i, styles.style_c)
+                bottom_row = self.row_num + row_step
+                self.ws.write_merge(
+                    self.row_num, bottom_row, i, i,
+                    cell, style)
+                for si, sub_row in enumerate(row[3]):
+                    for y, sub_cell in enumerate(sub_row):
+                        rnum = self.row_num + si
+                        cnum = y + 3
+                        self.ws.write(rnum, cnum, sub_cell, style)
+            self.row_num += (1 + row_step)
 
     def write_bottom(self):
         pass
@@ -202,7 +177,6 @@ class OtherPayments(Report):
         msg = msg.format(fdate=fdate, tdate=tdate)
         ln_head = len(self.table_headers) - 1
         self.ws.write_merge(1, 1, 0, ln_head, msg, styles.styleh)
-
 
     def get_data(self):
         rows = []

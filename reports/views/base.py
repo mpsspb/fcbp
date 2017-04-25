@@ -40,7 +40,7 @@ class Report(ViewSet):
 
     def write_title(self):
         self.ws.write_merge(0, 0, 0, len(self.table_headers) - 1,
-            self.title, styles.styleh)
+                            self.title, styles.styleh)
 
     def get_title(self, **kwargs):
         return u'String need to replace by report.'
@@ -129,7 +129,7 @@ class Report(ViewSet):
 class ReportTemplate(Report):
     """create report from xls template"""
 
-    tpl_path =  ''
+    tpl_path = ''
     tpl_start_row = 0
 
     def write_title(self):

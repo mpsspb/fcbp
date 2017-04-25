@@ -100,7 +100,7 @@ class ActiveClubCard(ReportTemplate):
             use_freeze = row.freezeclubcard_set.all()
             for f in use_freeze.filter(is_extra=False, is_paid=False):
                 freeze.append(f.days)
-            use_prol = row.prolongationclubcard_set.all()
+            use_prol = row.prolongation.all()
             for p in use_prol.filter(is_extra=False, is_paid=False):
                 freeze.append(p.days)
             freeze.extend([''] * (4 - len(freeze)))

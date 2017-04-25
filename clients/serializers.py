@@ -145,8 +145,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     fitnessclubcard_set = FitnessClubCardSerializer(many=True,
                                                     read_only=True)
     freezeclubcard_set = FreezeClubCardSerializer(many=True, read_only=True)
-    prolongationclubcard_set = ProlongationClubCardSerializer(many=True,
-                                                              read_only=True)
+    prolongation = ProlongationClubCardSerializer(many=True, read_only=True)
     credit_set = CreditSerializer(many=True, read_only=True)
     payment_set = PaymentSerializer(many=True, read_only=True)
 
@@ -160,7 +159,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'fitness_testing_discount', 'personal_training',
                   'personalclubcard_set', 'fitnessclubcard_set',
                   'rest_freeze', 'rest_freeze_times', 'is_frozen',
-                  'freezeclubcard_set', 'prolongationclubcard_set',
+                  'freezeclubcard_set', 'prolongation',
                   'client_name', 'credit_set', 'payment_set', 'client_card',
                   'client_mobile', 'is_paid_activate', 'paid_activate_amount',
                   'discount_amount', 'bonus_amount', 'client_uid',

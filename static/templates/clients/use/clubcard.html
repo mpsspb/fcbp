@@ -515,11 +515,11 @@
       <button class="btn btn-primary btn-block"
        data-toggle="modal" data-target="#Prolongation"> Записать
       </button>
-      <table class="table" ng-show="vm.card.prolongationclubcard_set.length">
+      <table class="table" ng-show="vm.card.prolongation.length">
         <tr>
           <td>С</td><td>Дней</td>
         </tr>
-        <tr ng-repeat="p in vm.card.prolongationclubcard_set">
+        <tr ng-repeat="p in vm.card.prolongation">
           <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
           <td> {{ p.days }}</td>
           <td>

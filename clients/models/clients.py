@@ -364,6 +364,37 @@ class ClientClubCard(Property, WritePayment, models.Model):
                 return True
         return False
 
+    def ext_prolongation(self):
+        result = []
+        paid = self.prolongation.filter(is_paid=True).order_by('date')
+        paid = paid.values('date', 'amount', 'days')
+        extra = self.prolongation.filter(is_extra=True).order_by('date')
+        extra = extra.values('days', 'note')
+        l1_len = len(paid)
+        l2_len = len(extra)
+        for i in range(max(l1_len, l2_len)):
+            list_len = i + 1
+            if l1_len >= list_len and l2_len >= list_len:
+                p = paid[i]
+                e = extra[i]
+                join_l = (
+                    p.get('date').strftime('%d.%m.%Y'),
+                    p.get('amount'), p.get('days'),
+                    e.get('days'), e.get('note'))
+            elif l2_len >= list_len:
+                e = extra[i]
+                join_l = (
+                    '', '', '',
+                    e.get('days'), e.get('note'))
+            else:
+                p = paid[i]
+                join_l = (
+                    p.get('date').strftime('%d.%m.%Y'),
+                    p.get('amount'), p.get('days'),
+                    '', '')
+            result.append(join_l)
+        return result
+
 
 class ProlongationClubCard(Prolongation, WritePayment, models.Model):
 
@@ -374,7 +405,8 @@ class ProlongationClubCard(Prolongation, WritePayment, models.Model):
     payment_goods = 'club_card'
 
     date = models.DateTimeField()
-    client_club_card = models.ForeignKey(ClientClubCard)
+    client_club_card = models.ForeignKey(ClientClubCard,
+                                         related_name='prolongation')
     days = models.SmallIntegerField()
     amount = models.DecimalField(max_digits=15, decimal_places=2,)
     is_paid = models.BooleanField(default=False)

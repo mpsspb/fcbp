@@ -63,8 +63,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     fitnessclubcard_set = FitnessClubCardSerializer(many=True,
                                                     read_only=True)
     freezeclubcard_set = FreezeClubCardSerializer(many=True, read_only=True)
-    prolongationclubcard_set = ProlongationClubCardSerializer(many=True,
-                                                              read_only=True)
+    prolongation = ProlongationClubCardSerializer(many=True, read_only=True)
     credit_set = CreditSerializer(many=True, read_only=True)
     payment_set = PaymentSerializer(many=True, read_only=True)
 
