@@ -5,7 +5,8 @@ from django.utils.translation import ugettext as _
 
 from reports import styles
 from clients.models import (
-    ProlongationClubCard, UseClientClubCard, ClubCardTrains, ClientClubCard)
+    ProlongationClubCard, UseClientClubCard, ClubCardTrains, ClientClubCard,
+    FreezeClubCard)
 from finance.models import Payment
 from .base import ReportTemplate, Report
 
@@ -39,7 +40,8 @@ class ExtrProlongation(ReportTemplate):
         fdate = self.get_fdate().strftime('%d.%m.%Y')
         tdate = self.get_tdate().strftime('%d.%m.%Y')
         msg = msg.format(fdate=fdate, tdate=tdate)
-        self.ws.write_merge(1, 1, 0, 5, msg, styles.styleh)
+        ln_head = len(self.table_headers) - 1
+        self.ws.write_merge(1, 1, 0, ln_head, msg, styles.styleh)
 
     def get_data(self):
         rows = []
@@ -202,6 +204,95 @@ class OtherPayments(Report):
             line.append('')
             rows.append(line)
         return rows
+
+    def write_bottom(self):
+        pass
+
+
+class Freeze(ReportTemplate):
+    file_name = 'freeze_cards_for_the_period'
+    sheet_name = 'report'
+    tpl_path = 'xls_tpl/freeze.xls'
+    tpl_start_row = 4
+
+    table_headers = [
+        (_('client'), 8000),
+        (_('club card period'), 6000),
+        (_('tariff'), 3000),
+        (_('freeze days'), 2000),
+        (_('freeze times'), 2000),
+        (_('from date'), 3000),
+        (_('to date'), 3000),
+        (_('use free'), 2000),
+        (_('rest free'), 2000),
+        (_('paid'), 3000),
+        (_('amount'), 3000),
+        (_('use day'), 2000),
+        (_('from date'), 3000),
+        (_('to date'), 3000),
+        (_('use day'), 2000),
+        (_('from date'), 3000),
+        (_('to date'), 3000),
+        (_('note'), 8000),
+    ]
+
+    def get_title(self, **kwargs):
+        msg = _('freeze card for period.')
+        msg += _(' created at: {date}.')
+        date = datetime.now().strftime('%d.%m.%Y %H:%M')
+        return msg.format(date=date)
+
+    def write_title(self):
+        super(Freeze, self).write_title()
+        msg = _('from: {fdate} to {tdate}')
+        fdate = self.get_fdate().strftime('%d.%m.%Y')
+        tdate = self.get_tdate().strftime('%d.%m.%Y')
+        msg = msg.format(fdate=fdate, tdate=tdate)
+        ln_head = len(self.table_headers) - 1
+        self.ws.write_merge(1, 1, 0, ln_head, msg, styles.styleh)
+
+    def get_data(self):
+        rows = []
+        fdate = self.get_fdate().date()
+        tdate = self.get_tdate().date() + timedelta(1)
+        club_cards = FreezeClubCard.objects.filter(
+            date__range=(fdate, tdate)).values('client_club_card')
+        data = ClientClubCard.objects.filter(pk__in=club_cards)
+        for row in data.order_by('date_end'):
+            line = []
+            card = row
+            freeze_stat = card.freeze_stat()
+            if not freeze_stat:
+                continue
+            line.append(card.client.full_name)
+            period_data = {
+                'bdate': card.date_begin.strftime('%d.%m.%Y'),
+                'edate': card.date_end.strftime('%d.%m.%Y')
+            }
+            period = '{bdate}-{edate}'.format(**period_data)
+            line.append(period)
+            line.append(card.short_name)
+            line.append(card.club_card.period_freeze)
+            line.append(card.club_card.freeze_times)
+            line.append(freeze_stat)
+            rows.append(line)
+        return rows
+
+    def write_data(self):
+        for row in self.get_data():
+            row_step = len(row[5]) - 1
+            for i, cell in enumerate(row[:5]):
+                style = self.table_styles.get(i, styles.style_c)
+                bottom_row = self.row_num + row_step
+                self.ws.write_merge(
+                    self.row_num, bottom_row, i, i,
+                    cell, style)
+                for si, sub_row in enumerate(row[5]):
+                    for y, sub_cell in enumerate(sub_row):
+                        rnum = self.row_num + si
+                        cnum = y + 5
+                        self.ws.write(rnum, cnum, sub_cell, style)
+            self.row_num += (1 + row_step)
 
     def write_bottom(self):
         pass

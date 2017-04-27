@@ -343,3 +343,6 @@ msgstr "в том числе сумма оплаты 'ИНОЕ'"
 
 msgid "other paid report"
 msgstr "Отчет по оплате 'Иное'"
+
+msgid "freeze card for period."
+msgstr "Отчет по заморозкам клубных карт за период"

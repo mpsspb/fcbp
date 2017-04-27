@@ -395,6 +395,103 @@ class ClientClubCard(Property, WritePayment, models.Model):
             result.append(join_l)
         return result
 
+    def freeze_stat(self):
+        result = []
+        free_total = self.club_card.period_freeze
+        free = self.freeze.filter(
+            is_paid=False, is_extra=False).order_by('date')
+        paid = self.freeze.filter(is_paid=True).order_by('date')
+        extra = self.freeze.filter(is_extra=True).order_by('date')
+        l0_len = len(free)
+        l1_len = len(paid)
+        l2_len = len(extra)
+        for i in range(max(l0_len, l1_len, l2_len)):
+            list_len = i + 1
+            free_in = l0_len >= list_len
+            paid_in = l1_len >= list_len
+            extra_in = l2_len >= list_len
+            if free_in and paid_in and extra_in:
+                f = free[i]
+                free_total -= f.days
+                p = paid[i]
+                e = extra[i]
+                join_l = (
+                    f.fdate.strftime('%d.%m.%Y'),
+                    f.tdate.strftime('%d.%m.%Y'),
+                    f.days, free_total,
+                    p.date.strftime('%d.%m.%Y'), p.amount, p.days,
+                    p.fdate.strftime('%d.%m.%Y'),
+                    p.tdate.strftime('%d.%m.%Y'),
+                    e.days,
+                    e.fdate.strftime('%d.%m.%Y'),
+                    e.tdate.strftime('%d.%m.%Y'),
+                    e.note)
+            elif free_in and paid_in:
+                f = free[i]
+                free_total -= f.days
+                p = paid[i]
+                join_l = (
+                    f.fdate.strftime('%d.%m.%Y'),
+                    f.tdate.strftime('%d.%m.%Y'),
+                    f.days, free_total,
+                    p.date.strftime('%d.%m.%Y'), p.amount, p.days,
+                    p.fdate.strftime('%d.%m.%Y'),
+                    p.tdate.strftime('%d.%m.%Y'),
+                    '', '', '', '')
+            elif free_in and extra_in:
+                f = free[i]
+                free_total -= f.days
+                e = extra[i]
+                join_l = (
+                    f.fdate.strftime('%d.%m.%Y'),
+                    f.tdate.strftime('%d.%m.%Y'),
+                    f.days, free_total,
+                    '', '', '', '', '',
+                    e.days,
+                    e.fdate.strftime('%d.%m.%Y'),
+                    e.tdate.strftime('%d.%m.%Y'),
+                    e.note)
+            elif paid_in and extra_in:
+                p = paid[i]
+                e = extra[i]
+                join_l = (
+                    '', '', '', '',
+                    p.date.strftime('%d.%m.%Y'), p.amount, p.days,
+                    p.fdate.strftime('%d.%m.%Y'),
+                    p.tdate.strftime('%d.%m.%Y'),
+                    e.days,
+                    e.fdate.strftime('%d.%m.%Y'),
+                    e.tdate.strftime('%d.%m.%Y'),
+                    e.note)
+            elif free_in:
+                f = free[i]
+                free_total -= f.days
+                join_l = (
+                    f.fdate.strftime('%d.%m.%Y'),
+                    f.tdate.strftime('%d.%m.%Y'),
+                    f.days, free_total,
+                    '', '', '', '', '',
+                    '', '', '', '')
+            elif paid_in:
+                p = paid[i]
+                join_l = (
+                    '', '', '', '',
+                    p.date.strftime('%d.%m.%Y'), p.amount, p.days,
+                    p.fdate.strftime('%d.%m.%Y'),
+                    p.tdate.strftime('%d.%m.%Y'),
+                    '', '', '', '')
+            else:
+                e = extra[i]
+                join_l = (
+                    '', '', '', '',
+                    '', '', '', '', '',
+                    e.days,
+                    e.fdate.strftime('%d.%m.%Y'),
+                    e.tdate.strftime('%d.%m.%Y'),
+                    e.note)
+            result.append(join_l)
+        return result
+
 
 class ProlongationClubCard(Prolongation, WritePayment, models.Model):
 
@@ -489,7 +586,8 @@ class FreezeClubCard(WritePayment, models.Model):
     payment_goods = 'club_card'
 
     date = models.DateTimeField(auto_now_add=True)
-    client_club_card = models.ForeignKey(ClientClubCard)
+    client_club_card = models.ForeignKey(ClientClubCard,
+                                         related_name='freeze')
     fdate = models.DateField()
     days = models.SmallIntegerField()
     is_paid = models.BooleanField(default=False)

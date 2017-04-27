@@ -484,12 +484,12 @@
     <div class="panel-body">
       <button class="btn btn-success btn-block"
       data-toggle="modal" data-target="#Frost"> Записать </button>
-      <div class="row" ng-show="vm.card.freezeclubcard_set.length">
+      <div class="row" ng-show="vm.card.freeze.length">
         <div class="col-md-4">С</div>
         <div class="col-md-4">ПО</div>
         <div class="col-md-4">Дней</div>
       </div>
-      <div class="row" ng-repeat="freez in vm.card.freezeclubcard_set"
+      <div class="row" ng-repeat="freez in vm.card.freeze"
        ng-click="collapsed=!collapsed"
        ng-class="freez.is_paid ? 'bg-warning cursor-pointer' : (freez.note ? 'alert-grey cursor-pointer' : '')">
         <div class="col-md-4"> {{ freez.fdate | date:'dd.MM.yyyy' }} </div>

@@ -144,7 +144,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                                                       read_only=True)
     fitnessclubcard_set = FitnessClubCardSerializer(many=True,
                                                     read_only=True)
-    freezeclubcard_set = FreezeClubCardSerializer(many=True, read_only=True)
+    freeze = FreezeClubCardSerializer(many=True, read_only=True)
     prolongation = ProlongationClubCardSerializer(many=True, read_only=True)
     credit_set = CreditSerializer(many=True, read_only=True)
     payment_set = PaymentSerializer(many=True, read_only=True)
@@ -158,13 +158,13 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'rest_guest', 'guest_training', 'guestclubcard_set',
                   'fitness_testing_discount', 'personal_training',
                   'personalclubcard_set', 'fitnessclubcard_set',
-                  'rest_freeze', 'rest_freeze_times', 'is_frozen',
-                  'freezeclubcard_set', 'prolongation',
-                  'client_name', 'credit_set', 'payment_set', 'client_card',
-                  'client_mobile', 'is_paid_activate', 'paid_activate_amount',
-                  'discount_amount', 'bonus_amount', 'client_uid',
-                  'block_comment', 'employee', 'discount_description',
-                  'infuture', 'rest_prolongation', 'is_full_time', 'price')
+                  'rest_freeze', 'rest_freeze_times', 'is_frozen', 'freeze',
+                  'prolongation', 'client_name', 'credit_set', 'payment_set',
+                  'client_card', 'client_mobile', 'is_paid_activate',
+                  'paid_activate_amount', 'discount_amount', 'bonus_amount',
+                  'client_uid', 'block_comment', 'employee',
+                  'discount_description', 'infuture', 'rest_prolongation',
+                  'is_full_time', 'price')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):

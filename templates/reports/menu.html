@@ -147,6 +147,10 @@
     <a id='r_op' href="/api/v1/reports/op/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-danger btn-block">
        отчет по оплате иное</a>
   </div>
+  <div class="col-lg-3">
+    <a id='r_freeze' href="/api/v1/reports/freeze/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
+       заморозки за период</a>
+  </div>
   <br/>
   <div class="clo-md-12">&nbsp;</div>
   <br/>
@@ -277,8 +281,13 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     // r_op
     var r_op = $('#r_op').attr('href').split('/')
     var get_str = updateUrlParam(r_op[5], 'fdate', fdate)
-    var r_po_url = r_op.slice(0, 5).join('/') + '/' + get_str
-    $('#r_op').attr('href', r_po_url)
+    var r_op_url = r_op.slice(0, 5).join('/') + '/' + get_str
+    $('#r_op').attr('href', r_op_url)
+    // r_freeze
+    var r_freeze = $('#r_freeze').attr('href').split('/')
+    var get_str = updateUrlParam(r_freeze[5], 'fdate', fdate)
+    var r_freeze_url = r_freeze.slice(0, 5).join('/') + '/' + get_str
+    $('#r_freeze').attr('href', r_freeze_url)
   });
 
   $('[name=tdate]').change(function() {
@@ -356,8 +365,13 @@ var updateUrlParam = function updateUrlParam(get_string, param, value) {
     // r_op
     var r_op = $('#r_op').attr('href').split('/')
     var get_str = updateUrlParam(r_op[5], 'tdate', tdate)
-    var r_po_url = r_op.slice(0, 5).join('/') + '/' + get_str
-    $('#r_op').attr('href', r_po_url)
+    var r_op_url = r_op.slice(0, 5).join('/') + '/' + get_str
+    $('#r_op').attr('href', r_op_url)
+    // r_freeze
+    var r_freeze = $('#r_freeze').attr('href').split('/')
+    var get_str = updateUrlParam(r_freeze[5], 'tdate', tdate)
+    var r_freeze_url = r_freeze.slice(0, 5).join('/') + '/' + get_str
+    $('#r_freeze').attr('href', r_freeze_url)
   });
 
   $('[name=club_card_type]').change(function() {
