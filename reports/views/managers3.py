@@ -184,7 +184,7 @@ class OtherPayments(Report):
         end_date = self.get_tdate() + timedelta(1)
         data = Payment.objects.filter(
             date__range=(fdate, end_date)
-        ).exclude(club_card__isnull=True).filter(payment_type=3)
+        ).exclude(club_card__isnull=True).filter(payment_type=0)
         for row in data:
             if row.extra_uid:
                 continue
