@@ -70,7 +70,7 @@ class Report(ViewSet):
                 if not isinstance(cell, (list, set, tuple)):
                     self.ws.write(self.row_num, i, cell, style)
                 else:
-                    style.borders = styles.borders_cm
+                    style.borders = styles.borders_cmb
                     row_step = self.write_multi_data(i, cell, style)
             self.row_num += (1 + row_step)
 
