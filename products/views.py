@@ -12,7 +12,7 @@ from .serializers import (
     CardTextSerializer, CardTextItemsSerializer)
 
 
-class DiscountViewSet(viewsets.ModelViewSet):
+class DiscountViewSet(viewsets.ModelViewSet, ActiveModel):
     queryset = Discount.objects.order_by('description')
     serializer_class = DiscountSerializer
 

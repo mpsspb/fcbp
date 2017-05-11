@@ -69,6 +69,18 @@
         console.log(data);
       }
 
+    };
+
+    vm.active = function (discount) {
+
+      Discounts.active(discount.id).then(discountSuccessFn, discountErrorFn);
+
+      function discountSuccessFn(data, status, headers, config) {
+        activate();
+      }
+      function discountErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
     }
 
   }

@@ -59,7 +59,7 @@
   </div>
 
   <div class="alert col-md-12"
-  ng-class="discount.is_best_loyalty ? 'alert-success' : 'alert-info'"
+  ng-class="discount.is_active ? discount.is_best_loyalty ? 'alert-success' : 'alert-info' : 'alert-grey'"
   ng-repeat="discount in vm.discounts">
   <span ng-show="!edit">
     {{ discount.description }} ({{ discount.short}})
@@ -72,6 +72,7 @@
   </div>
   <button ng-click="edit=!edit" class="btn btn-sm btn-warning pull-right" ng-show="!edit"> Правка </button>
   <button ng-click="edit=!edit" class="btn btn-sm btn-default pull-right" ng-show="edit"> Отмена </button>
+  <button ng-show="edit" ng-click="vm.active(discount)" class="btn btn-sm btn-default pull-right" > Активность </button>
   <button class="btn btn-sm btn-success pull-left" ng-show="edit"
           ng-click="vm.update(discount)"> Сохранить </button>
   </div>

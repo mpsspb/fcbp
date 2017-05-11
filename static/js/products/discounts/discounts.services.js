@@ -24,6 +24,8 @@
       create: create,
       list: list,
       update: update,
+      active: active,
+      active_list: active_list,
     };
 
     return Discounts;
@@ -53,7 +55,16 @@
                         ).error(function(data, status, headers, config) {
                           console.log(data)
                         });
-    }
+    };
+
+    function active(uid) {
+      return $http.post('/api/v1/products/discount/' + uid + '/active/')
+    };
+
+    function active_list() {
+      return $http.get('/api/v1/products/discount/active_list/')
+    };
+
   }
 
 })();

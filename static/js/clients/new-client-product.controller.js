@@ -89,7 +89,7 @@
         console.log(data);
       }
 
-      Discounts.list().then(discountSuccessFn, discountErrorFn);
+      Discounts.active_list().then(discountSuccessFn, discountErrorFn);
       function discountSuccessFn(data, status, headers, config) {
         vm.discounts = data.data
       }
