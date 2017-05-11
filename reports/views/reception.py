@@ -109,6 +109,7 @@ class Visits(Report):
         (_('client'), 8000),
         (_('time in'), 4000),
         (_('time out'), 4000),
+        (_('tariff'), 5000),
         (_('occupation'), 6000, 3),
     ]
 
@@ -133,6 +134,7 @@ class Visits(Report):
                 line.append(row.end.strftime('%H:%M'))
             else:
                 line.append('')
+            line.append(row.client_club_card.short_name)
             trains = row.clubcardtrains_set.all()
             for train in trains:
                 line.append(train.name())
