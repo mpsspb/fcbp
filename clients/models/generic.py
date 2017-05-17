@@ -61,19 +61,6 @@ class Property(object):
     def client_card(self):
         return self.client.card
 
-    def escape_frozen(self):
-        freeze_model = get_model('clients', self.freeze_class)
-        filtr = {freeze_model.product: self, 'fdate__lte': date.today()}
-        freezes = freeze_model.objects.filter(**filtr)
-        for f in freezes:
-            if f.tdate >= date.today():
-                days_freeze = (date.today() - f.fdate).days
-                days_back = (f.tdate - date.today()).days + 1
-                self.date_end = self.date_end - timedelta(days_back)
-                self.save()
-                f.days = days_freeze
-                f.save()
-
     @property
     def name(self):
         return self.product.name
@@ -83,12 +70,17 @@ class Property(object):
         all_payment = self.payment_set.all()
         return all_payment.order_by('date').first()
 
-    def full_name(self):
-        return self.product.full_name
-
     @property
     def short_name(self):
         return self.product.short_name
+
+    @property
+    def has_overdue_debt(self):
+        now = datetime.now()
+        return self.credit_set.filter(schedule__lte=now).exists()
+
+    def full_name(self):
+        return self.product.full_name
 
     def first_visit(self):
         return self.visits.all().order_by('date').first()
@@ -101,6 +93,19 @@ class Property(object):
         period = self.product.period
         products = model.objects.filter(is_active=True, period=period)
         return products.exclude(pk=self.product.pk)
+
+    def escape_frozen(self):
+        freeze_model = get_model('clients', self.freeze_class)
+        filtr = {freeze_model.product: self, 'fdate__lte': date.today()}
+        freezes = freeze_model.objects.filter(**filtr)
+        for f in freezes:
+            if f.tdate >= date.today():
+                days_freeze = (date.today() - f.fdate).days
+                days_back = (f.tdate - date.today()).days + 1
+                self.date_end = self.date_end - timedelta(days_back)
+                self.save()
+                f.days = days_freeze
+                f.save()
 
     def price(self):
         return self.product.price

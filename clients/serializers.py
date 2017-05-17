@@ -149,6 +149,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     credit_set = CreditSerializer(many=True, read_only=True)
     payment_set = PaymentSerializer(many=True, read_only=True)
 
+
     class Meta:
         list_serializer_class = ActiveListSerializer
         model = ClientClubCard
@@ -164,7 +165,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'paid_activate_amount', 'discount_amount', 'bonus_amount',
                   'client_uid', 'block_comment', 'employee',
                   'discount_description', 'infuture', 'rest_prolongation',
-                  'is_full_time', 'price')
+                  'is_full_time', 'price', 'has_overdue_debt')
         read_only_fields = ('id', )
 
     def create(self, validated_data,):

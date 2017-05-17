@@ -21,7 +21,8 @@
             <td >
               {{ card.date | date:'dd.MM.yyyy' }}</td>
             <td>
-              <span data-href="#/usecardclient/{{ card.id }}">
+              <span data-href="#/usecardclient/{{ card.id }}"
+              ng-class="card.has_overdue_debt ? 'text-red' : ''">
                 {{ card.name }}
               </span>
             </td>
