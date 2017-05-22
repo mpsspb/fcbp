@@ -202,6 +202,10 @@ ng-show="vm.error_amount">
         <label class="control-label text-primary">Долг</label>
         <input ng-model="vm.fdata.is_credit" type="checkbox" value="1">
     </div>
+    <div ng-show="vm.fdata.payment_type==0" class="col-md-12">
+      <label class="col-md-3 control-label text-right">Пояснение</label>
+      <input ng-model="vm.fdata.extra_text" type="text" class="sinput col-md-9">
+    </div>
 </div>
 
 <br/><br/>
