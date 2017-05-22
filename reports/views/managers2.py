@@ -431,6 +431,17 @@ class BestLoyalty(Report):
             if prev_end and cur_begin:
                 if (cur_begin - prev_end).days > 1:
                     red = True
+            prev_discount = row[6]
+            cur_discount = row[7]
+            if not prev_discount and int(cur_discount[:-1]) > 5:
+                red = True
+            elif prev_discount and cur_discount:
+                prev_discount = int(prev_discount[:-1])
+                cur_discount = int(cur_discount[:-1])
+                if prev_discount > 9 and cur_discount - prev_discount > 0:
+                    red = True
+                elif cur_discount - prev_discount > 1:
+                    red = True
             for i, cell in enumerate(row):
                 if red:
                     style = self.red_font
