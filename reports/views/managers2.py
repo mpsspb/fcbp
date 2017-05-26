@@ -433,7 +433,7 @@ class BestLoyalty(Report):
                     red = True
             prev_discount = row[6]
             cur_discount = row[7]
-            not_prev = not prev_discount or int(prev_discount[:-1]) > 0
+            not_prev = not prev_discount or int(prev_discount[:-1]) == 0
             if not_prev and int(cur_discount[:-1]) > 5:
                 red = True
             elif prev_discount and cur_discount:
@@ -441,7 +441,7 @@ class BestLoyalty(Report):
                 cur_discount = int(cur_discount[:-1])
                 if prev_discount > 9 and cur_discount - prev_discount > 0:
                     red = True
-                elif cur_discount - prev_discount > 1:
+                elif cur_discount - prev_discount > 1 and prev_discount != 0:
                     red = True
             for i, cell in enumerate(row):
                 if red:
