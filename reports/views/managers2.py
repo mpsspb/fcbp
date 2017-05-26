@@ -433,7 +433,8 @@ class BestLoyalty(Report):
                     red = True
             prev_discount = row[6]
             cur_discount = row[7]
-            if not prev_discount and int(cur_discount[:-1]) > 5:
+            not_prev = not prev_discount or int(prev_discount[:-1]) == 0
+            if not_prev and int(cur_discount[:-1]) > 5:
                 red = True
             elif prev_discount and cur_discount:
                 prev_discount = int(prev_discount[:-1])
