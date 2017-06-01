@@ -196,12 +196,12 @@ class OtherPayments(Report):
             line.append(row.date)
             line.append(row.client.uid)
             line.append(row.client.card)
-            line.append(row.goods_short_name())
+            line.append(row.first_goods.short_name)
             line.append(card.summ_amount)
             line.append(row.amount)
             employee = card.employee.full_name if card.employee else ''
             line.append(employee)
-            line.append('')
+            line.append(row.extra_text)
             rows.append(line)
         return rows
 

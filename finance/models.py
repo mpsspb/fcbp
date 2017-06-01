@@ -76,34 +76,32 @@ class Payment(models.Model):
     extra_text = models.CharField(max_length=150, blank=True, null=True)
     extra_uid = models.CharField(max_length=36, blank=True, null=True)
 
-
     def __unicode__(self):
         return self.description()
 
-    def save(self, *args, **kwargs):
-        if not self.date:
-            self.date = datetime.now()
-        super(Payment, self).save(*args, **kwargs)
+    @property
+    def first_goods(self):
+        # first of existing goods
+        all_goods = (
+            self.club_card, self.aqua_aerobics, self.ticket,
+            self.personal, self.timing)
+        return next(x for x in all_goods if x)
+
+    @property
+    def extra_text_trans(self):
+        return _(self.extra_text) if self.extra_text else ''
 
     def goods_full_name(self):
         if self.extra_text:
             return _(self.extra_text)
         else:
-            # first of existing goods
-            all_goods = (
-                self.club_card, self.aqua_aerobics, self.ticket,
-                self.personal, self.timing)
-        return next(x for x in all_goods if x).full_name()
+            return self.first_goods.full_name()
 
     def goods_short_name(self):
         if self.extra_text:
             return _(self.extra_text)
         else:
-            # first of existing goods
-            all_goods = (
-                self.club_card, self.aqua_aerobics, self.ticket,
-                self.personal, self.timing)
-        return next(x for x in all_goods if x).short_name
+            return self.first_goods.short_name
 
     def description(self):
         if self.extra_text:
@@ -115,10 +113,6 @@ class Payment(models.Model):
             'goods': self.goods_full_name()}
         return _(msg).format(**data)
 
-    @property
-    def extra_text_trans(self):
-        return _(self.extra_text) if self.extra_text else ''
-
     def split(self, amount):
         try:
             amount = int(amount)
@@ -128,3 +122,8 @@ class Payment(models.Model):
         new_payment.amount = self.amount - amount
         new_payment.pk = None
         new_payment.save()
+
+    def save(self, *args, **kwargs):
+        if not self.date:
+            self.date = datetime.now()
+        super(Payment, self).save(*args, **kwargs)
