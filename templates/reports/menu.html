@@ -92,17 +92,11 @@
     class="btn btn-warning btn-block">
       вводный инструктаж</a>
   </div>
-  <div class="col-lg-3">
+  <div class="col-lg-6">
     <a id='r_totalcc'
     href="/api/v1/reports/totalcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
     class="btn btn-success btn-block">
-      Сводный по видам карт за период</a>
-  </div>
-  <div class="col-lg-3">
-    <a id='r_ccdiscounts'
-    href="/api/v1/reports/ccdiscounts/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-primary btn-block">
-      Сводный по скидкам за период</a>
+      Сводный по видам проданных карт за период</a>
   </div>
     <div class="col-lg-3">
     <a id='r_ccdisabled'
@@ -112,6 +106,12 @@
   </div>
   <div class="clo-md-12">&nbsp;</div>
   <br/>
+    <div class="col-lg-3">
+    <a id='r_ccdiscounts'
+    href="/api/v1/reports/ccdiscounts/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-primary btn-block">
+      Сводный по скидкам за период</a>
+  </div>
     <div class="col-lg-3">
     <a id='r_ccdisabled'
     href="/api/v1/reports/ccprospect/"
@@ -123,18 +123,18 @@
        по выгодной лояльности</a>
   </div>
   <div class="col-lg-3">
-    <a id='r_totalacc'
-    href="/api/v1/reports/totalacc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-success btn-block">
-      Сводный по видам карт на дату</a>
-  </div>
-  <div class="col-lg-3">
     <a id='r_ps' href="/api/v1/reports/ps/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-warning btn-block">
        продажи за период</a>
   </div>
   <br/>
   <div class="clo-md-12">&nbsp;</div>
   <br/>
+    <div class="col-lg-6">
+    <a id='r_totalacc'
+    href="/api/v1/reports/totalacc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      Сводный по видам действующих карт на дату</a>
+  </div>
   <div class="col-lg-3">
     <a id='r_ep' href="/api/v1/reports/ep/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-success btn-block">
        продления за период</a>
@@ -143,6 +143,9 @@
     <a id='r_visits_p' href="/api/v1/reports/visits_p/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-primary btn-block">
        посещения за период</a>
   </div>
+  <br/>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
   <div class="col-lg-3">
     <a id='r_op' href="/api/v1/reports/op/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-danger btn-block">
        отчет по оплате иное</a>
