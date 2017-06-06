@@ -188,16 +188,16 @@ class OtherPayments(Report):
             date__range=(fdate, end_date)
         ).exclude(club_card__isnull=True).filter(payment_type=0)
         for row in data:
+            card = row.club_card
             if row.extra_uid:
                 continue
             line = []
-            card = row.club_card
             line.append(row.client.full_name)
             line.append(row.date)
             line.append(row.client.uid)
             line.append(row.client.card)
-            line.append(row.first_goods.short_name)
-            line.append(card.summ_amount)
+            line.append(card.short_name)
+            line.append(card.price())
             line.append(row.amount)
             employee = card.employee.full_name if card.employee else ''
             line.append(employee)

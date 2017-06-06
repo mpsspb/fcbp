@@ -431,6 +431,7 @@
       if (!vm.prdata.is_paid) {
         vm.prdata.amount = 0;
       }
+
       if (!vm.frdata.is_paid) {
         vm.frdata.amount = 0;
         if (vm.frdata.days > vm.card.rest_freeze) {
