@@ -433,6 +433,13 @@
       }
       if (!vm.frdata.is_paid) {
         vm.frdata.amount = 0;
+        if (vm.frdata.days > vm.card.rest_freeze) {
+          vm.frdata.err = 'Недопустимое количество дней заморозки'
+        } else {
+          vm.frdata.err = ''
+        }
+      } else if (vm.frdata.days > 0) {
+        vm.frdata.err = ''
       }
 
     }
@@ -484,7 +491,9 @@
         var tdate = moment(vm.frdata.tdate, 'DD.MM.YYYY')
         vm.frdata.days = tdate.diff(fdate, 'days') + 1
       }
-      if (vm.frdata.days < 1) {
+      if (!vm.frdata.is_paid && vm.frdata.days > vm.card.rest_freeze) {
+          vm.frdata.err = 'Недопустимое количество дней заморозки'
+        } else if (vm.frdata.days < 1) {
         vm.frdata.err = 'Неверные значения дат'
       } else {
         vm.frdata.err = ''

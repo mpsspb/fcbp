@@ -254,10 +254,10 @@
          Заморозка </h4>
       </div>
       <form class="form-horizontal">
-      <div class="modal-body">
+      <div class="modal-body"> 
         <div class="alert alert-info" role="alert"
           ng-show="!vm.frdata.is_paid && vm.free_freeze">
-          <strong>Бесплатная</strong>
+          <strong>Бесплатная, остаток дней: {{ vm.card.rest_freeze }}</strong>
         </div>
         <div class="alert alert-danger" role="alert"
           ng-show="!vm.frdata.is_paid && !vm.free_freeze">
