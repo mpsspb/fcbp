@@ -19,125 +19,38 @@
   </div> <!-- /.container-fluid -->
 </nav>
 
-<div class="container-fluid">
-  <label class="col-md-1 control-label">С:</label>
-  <div class="col-md-2">
-    <input name="fdate" type="text"  class="form-control date"
-    value="{% now 'd.m.Y' %}">
-  </div>
-  <label class="col-md-1 control-label">По:</label>
-  <div class="col-md-2">
-    <input name="tdate" type="text"  class="form-control date"
-    value="{% now 'd.m.Y' %}">
-  </div>
-</div>
-<br>
-<div class="row">
+</nav>
+
+  <div class="container-fluid">
+      <label class="col-md-1 control-label">С:</label>
+      <div class="col-md-2">
+        <input name="fdate" type="text"  class="form-control date"
+        value="{% now 'd.m.Y' %}">
+      </div>
+      <label class="col-md-1 control-label">По:</label>
+      <div class="col-md-2">
+        <input name="tdate" type="text"  class="form-control date"
+        value="{% now 'd.m.Y' %}">
+      </div>
+    </div>
+   <br/>
   <div class="col-md-3">
     <a id='r_active_card' href="/api/v1/reports/acc/?cc=0"
     class="btn btn-success btn-block">Активные клубные карты</a>
   </div>
   <div class="col-md-3">
-    <select name="club_card_type" class="btn-block">
-      <option value="0">все</option>
-      {% for option in cc_options %}
-      <option value="{{ option.club_card__pk }}">
-        {{ option.club_card__name }}
-      </option>
-      {% endfor %}
-    </select>
+  <select name="club_card_type" class="btn-block">
+    <option value="0">все</option>
+    {% for option in cc_options %}
+    <option value="{{ option.club_card__pk }}">
+      {{ option.club_card__name }}
+    </option>
+    {% endfor %}
+  </select>
   </div>
-  <div class="col-md-3">
-    <a id='r_freeze' href="/api/v1/reports/freeze/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
-       заморозки за период</a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_tcc'
-    href="/api/v1/reports/tcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-danger btn-block">
-      персональные тренировки</a>
-  </div>
-</div>
-<br>
-
-<div class="row">
-  <div class="col-md-3">
-    <a id='r_ps' href="/api/v1/reports/ps/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-success btn-block">
-       продажи за период</a>
-  </div>
-  <div class="col-md-3">
+    <div class="col-md-3">
     <a id='r_active_card' href="/api/v1/reports/ccc/"
-    class="btn btn-warning btn-block">Кредиты по клубным картам</a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_ep' href="/api/v1/reports/ep/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
-       продления за период</a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_icc'
-    href="/api/v1/reports/icc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-danger btn-block">
-      вводный инструктаж</a>
-  </div>
-</div>
-<br>
-
-<div class="row">
-  <div class="col-md-3">
-    <a id='r_cl'
-    href="/api/v1/reports/cl/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-success btn-block">
-      Список купленных карт</a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_op' href="/api/v1/reports/op/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-warning btn-block">
-       отчет по оплате иное</a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_totalacc'
-    href="/api/v1/reports/totalacc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-info btn-block" style="white-space: normal;">
-      <small>Сводный по видам действующих карт на дату</small></a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_fcc'
-    href="/api/v1/reports/fcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-danger btn-block">тестирование (со скидкой 50%)</a>
-  </div>
-</div>
-<br>
-
-<div class="row">
-  <div class="col-md-3">
-    <a id='r_ccdiscounts'
-    href="/api/v1/reports/ccdiscounts/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-success btn-block">
-      Сводный по скидкам за период</a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_visits_p' href="/api/v1/reports/visits_p/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-warning btn-block">
-       посещения за период</a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_totalcc'
-    href="/api/v1/reports/totalcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-info btn-block"  style="white-space: normal;font-size: 78%;">
-      Сводный по видам проданных карт за период
-    </a>
-  </div>
-  <div class="col-md-3">
-    <a id='r_ccdisabled'
-    href="/api/v1/reports/ccdisabled/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-danger btn-block">
-       заблокированные карты за период</a>
-  </div>
-</div>
-<br>
-
-<div class="row">
-  <div class="col-lg-3">
-    <a id='r_bl' href="/api/v1/reports/bl/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-success btn-block">
-       по выгодной лояльности</a>
+    class="btn btn-danger btn-block">Кредиты по клубным картам</a>
   </div>
   <div class="col-lg-3">
     <a id='r_new_uid'
@@ -145,24 +58,112 @@
     class="btn btn-warning btn-block">
       Новые ЧС</a>
   </div>
-  <div class="col-md-3">
-    <a id='r_fl' href="/api/v1/reports/fl/" class="btn btn-info btn-block">
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+  <div class="col-lg-3">
+    <a id='r_cl'
+    href="/api/v1/reports/cl/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-primary btn-block">
+      Список купленных карт</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_fcc'
+    href="/api/v1/reports/fcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-info btn-block">
+      тестирование (со скидкой 50%)</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_tcc'
+    href="/api/v1/reports/tcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      персональные тренировки</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_fl'
+    href="/api/v1/reports/fl/"
+    class="btn btn-danger btn-block">
       Полный список клиентов</a>
+  </div>  
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+  <div class="col-lg-3">
+    <a id='r_icc'
+    href="/api/v1/reports/icc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-warning btn-block">
+      вводный инструктаж</a>
   </div>
-  <div class="col-md-3">
-    <a id='r_ccdisabled' href="/api/v1/reports/ccprospect/" class="btn btn-danger btn-block">неактивированные карты</a>
+  <div class="col-lg-6">
+    <a id='r_totalcc'
+    href="/api/v1/reports/totalcc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      Сводный по видам проданных карт за период</a>
   </div>
-</div>
-<br>
-
+    <div class="col-lg-3">
+    <a id='r_ccdisabled'
+    href="/api/v1/reports/ccdisabled/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-info btn-block">
+       заблокированные карты за период</a>
+  </div>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+    <div class="col-lg-3">
+    <a id='r_ccdiscounts'
+    href="/api/v1/reports/ccdiscounts/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-primary btn-block">
+      Сводный по скидкам за период</a>
+  </div>
+    <div class="col-lg-3">
+    <a id='r_ccdisabled'
+    href="/api/v1/reports/ccprospect/"
+    class="btn btn-danger btn-block">
+       неактивированные карты</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_bl' href="/api/v1/reports/bl/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
+       по выгодной лояльности</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_ps' href="/api/v1/reports/ps/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-warning btn-block">
+       продажи за период</a>
+  </div>
+  <br/>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+    <div class="col-lg-6">
+    <a id='r_totalacc'
+    href="/api/v1/reports/totalacc/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
+    class="btn btn-success btn-block">
+      Сводный по видам действующих карт на дату</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_ep' href="/api/v1/reports/ep/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-success btn-block">
+       продления за период</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_visits_p' href="/api/v1/reports/visits_p/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-primary btn-block">
+       посещения за период</a>
+  </div>
+  <br/>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
+  <div class="col-lg-3">
+    <a id='r_op' href="/api/v1/reports/op/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-danger btn-block">
+       отчет по оплате иное</a>
+  </div>
+  <div class="col-lg-3">
+    <a id='r_freeze' href="/api/v1/reports/freeze/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
+       заморозки за период</a>
+  </div>
+  <br/>
+  <div class="clo-md-12">&nbsp;</div>
+  <br/>
 <!-- reception -->
 <div class="col-md-5 center-block">&nbsp;</div>
 <div class="col-md-3 center-block"><strong>Ресепшен</strong></div>
 <div class="col-md-4 center-block">&nbsp;</div>
 <div class="clo-md-12">&nbsp;</div>
-<div class="row">
   <div class="col-lg-3">
-    <a id='r_sells' href="/api/v1/reports/sales/?fdate={% now 'd.m.Y' %}" class="btn btn-success btn-block">
+    <a id='r_sells' href="/api/v1/reports/sales/?fdate={% now 'd.m.Y' %}" class="btn btn-info btn-block">
       продажи за день</a>
   </div>
   <div class="col-lg-3">
@@ -174,10 +175,10 @@
   <div class="col-lg-3">
     <a id='r_birthdays'
     href="/api/v1/reports/birthdays/?fdate={% now 'd.m.Y' %}&tdate={% now 'd.m.Y' %}"
-    class="btn btn-info btn-block">
+    class="btn btn-success btn-block">
       Дни рождения</a>
   </div>
-</div>
+  <div class="col-lg-3">&nbsp;</div>
 
 {% endblock %}
 
