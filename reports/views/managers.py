@@ -389,6 +389,7 @@ class FullList(CommonList):
         (_('mobile'), 7000),
         (_('period cards'), 12000),
         (_('email'), 6000),
+        (_('club card'), 10000),
     ]
 
 
@@ -422,8 +423,10 @@ class FullList(CommonList):
             cards = row.clientclubcard_set.filter(
                 date__range=(fdate, tdate))
             if cards:
-                cards = cards.values_list('club_card__short_name', flat=True)
-                line.append(", ".join(cards))
+                list_cards = cards.order_by('date').values_list(
+                    'club_card__short_name', flat=True)
+                line.append(", ".join(list_cards))
+                last_card = cards.order_by('-date')[0]
             else:
                 line.append('')
             line.append(row.email)
