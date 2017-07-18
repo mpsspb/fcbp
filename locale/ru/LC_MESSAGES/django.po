@@ -346,3 +346,6 @@ msgstr "Отчет по оплате 'Иное'"
 
 msgid "freeze card for period."
 msgstr "Отчет по заморозкам клубных карт за период"
+
+msgid "active club card"
+msgstr "Действующий тарифный план на конечную дату"

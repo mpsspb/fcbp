@@ -86,6 +86,10 @@ class Client(models.Model):
         else:
             return ""
 
+    def active_cc(self):
+        """Client's active club cards"""
+        return self.clientclubcard_set.filter(status__gt=0)
+
     def save(self, *args, **kwargs):
         if not self.uid:
             mon = date.today() + timedelta(days=-date.today().weekday())

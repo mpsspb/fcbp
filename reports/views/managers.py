@@ -389,9 +389,8 @@ class FullList(CommonList):
         (_('mobile'), 7000),
         (_('period cards'), 12000),
         (_('email'), 6000),
-        (_('club card'), 10000),
+        (_('active club card'), 10000),
     ]
-
 
     table_styles = {
         2: styles.style_c,
@@ -409,7 +408,7 @@ class FullList(CommonList):
         fdate = self.get_fdate().date()
         tdate = self.get_tdate().date() + timedelta(1)
         data = Client.objects.all(
-            ).order_by('last_name', 'first_name', 'patronymic')
+        ).order_by('last_name', 'first_name', 'patronymic')
         for num, row in enumerate(data, 1):
             line = []
             line.append(num)
@@ -430,6 +429,9 @@ class FullList(CommonList):
             else:
                 line.append('')
             line.append(row.email)
+            active_cc = row.active_cc().values_list(
+                'club_card__name', flat=True)
+            line.append(", ".join(active_cc))
             rows.append(line)
         return rows
 
