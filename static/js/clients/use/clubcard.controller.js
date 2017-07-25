@@ -10,14 +10,14 @@
     .controller('UseClientCardController', UseClientCardController);
 
   UseClientCardController.$inject = ['$location', '$rootScope', '$routeParams',
-                                     '$route', '$scope', '$http', 'ClientPayment',
+                                     '$route', '$scope', '$http', 'Clients', 'ClientPayment',
                                      'ClientCredit', 'ClubCard', 'Employees', 'Training'];
 
   /**
   * @namespace UseClientCardController
   */
   function UseClientCardController($location, $rootScope, $routeParams,
-                                   $route, $scope, $http, ClientPayment,
+                                   $route, $scope, $http, Clients, ClientPayment,
                                    ClientCredit, ClubCard, Employees, Training) {
     var vm = this;
 
@@ -51,9 +51,12 @@
     vm.prolongation = prolongation;
     vm.prolongation_del = prolongation_del;
     vm.is_paid = is_paid;
+    vm.search_client = search_client;
+    vm.choose_owner = choose_owner;
+    vm.set_owner = set_owner;
 
-    vm.reopen = reopen
-    vm.archive_purge_credits = archive_purge_credits
+    vm.reopen = reopen;
+    vm.archive_purge_credits = archive_purge_credits;
 
     activate();
 
@@ -756,6 +759,51 @@
         console.log(data);
       };
     };
+
+    /* Search new owners clients
+    */
+    function search_client() {
+      vm.new_owner = ""
+      Clients.full_search(vm.ext).then(clntSearchSuccessFn, clntSearchErrorFn);
+
+      function clntSearchSuccessFn(data, status, headers, config) {
+          vm.findClients = data.data;
+          console.log(data)
+      }
+
+      function clntSearchErrorFn(data, status, headers, config) {
+          console.log(data);
+      }
+    };
+
+    /*
+    * Choose new owner
+    */
+    function choose_owner(key) {
+      vm.new_owner = vm.findClients[key];
+      vm.findClients = [];
+    }
+
+    /*
+    * Set new owner
+    */
+    function set_owner() {
+      ClubCard.ownercc({
+        "client": vm.new_owner.id,
+        "club_card": vm.uid,
+        "amount": vm.owner.amount,
+        "payment_type": vm.owner.payment_type
+      }).then(clntSetOwnerSuccessFn, clntSetOwnerErrorFn);
+
+      function clntSetOwnerSuccessFn(data, status, headers, config) {
+         $location.url('/cardclient/' + vm.new_owner.id);
+      }
+
+      function clntSetOwnerErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
+    }
 
   };
 

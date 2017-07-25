@@ -45,6 +45,7 @@
       archive_reopen: archive_reopen,
       archive_purge_credits: archive_purge_credits,
       archive_get: archive_get,
+      ownercc: ownercc
     };
 
     return ClubCard;
@@ -188,6 +189,10 @@
 
     function freeze(uid, fdata) {
       return $http.post('/api/v1/clients/clubcard/' + uid + '/freeze/', fdata)
+    }
+
+    function ownercc(fdata) {
+      return $http.post('/api/v1/clients/ownercc/', fdata)
     }
 
     function similar(uid) {

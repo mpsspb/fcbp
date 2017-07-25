@@ -379,6 +379,89 @@
 </div>
 <!-- end modal PaidActivate -->
 
+<!-- Modal ChangeOwner -->
+<div class="modal fade" id="ChangeOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Переоформление </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.owner.amount">
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="control-label">Иное</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="0">
+            </div>
+            <div class="col-md-3">
+            <label class="control-label">Наличные</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="1">
+            </div>
+            <div class="col-md-3">
+              <label class="control-label">Безнал</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="2">
+            </div>
+            <div class="col-md-2">
+              <label class="control-label">Банк</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="3">
+            </div>
+          </div>
+        </div>
+
+      <div class="row">
+        <label class="col-md-3 control-label">
+        Новый клиент
+        </label>
+        <label class="col-md-3 control-label">
+        Фамилия
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-md-3"> 
+          <button type="button" class="btn-add-credit btn btn-xs btn-info btn-block" 
+          ng-click="vm.search_client()">Поиск</button>
+        </div>
+        <div class="col-md-3">
+          <input class="sinput" type="text" ng-model="vm.ext.last_name">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12" ng-repeat="clnt in vm.findClients">
+          {{ clnt.full_name }} {{ clnt.born | date:'dd.MM.yyyy' }}
+          <button type="button" class="btn-add-credit btn btn-xs btn-primary pull-right" 
+            ng-click="vm.choose_owner($index)">Выбрать</button>
+          <hr>
+        </div>
+        <div class="col-md-12 alert alert-warning" ng-show="vm.new_owner">
+        {{ vm.new_owner.full_name }} {{ vm.new_owner.born | date:'dd.MM.yyyy' }}
+        </div>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right"
+        data-dismiss="modal" ng-click="vm.set_owner()">
+          Применить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal ChangeOwner -->
+
 <div class="alert alert-info" role="alert" ng-show="vm.card.is_frozen">
   <strong> Заморожена</strong>
 </div>
@@ -531,6 +614,25 @@
       </table>
     </div>
   </div>
+
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Переоформление</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-danger btn-block"
+       data-toggle="modal" data-target="#ChangeOwner"> Записать
+      </button>
+      <table class="table" ng-show="vm.card.owners.length">
+        <tr>
+          <td>До даты</td><td>Клиент</td>
+        </tr>
+        <tr ng-repeat="o in vm.card.owners">
+          <td> {{ o.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ o.client_name }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
 </div> <!-- end active card options -->
 <div class="active-card-options-info" ng-show="vm.card.status!=1">
   <div class="panel panel-danger col-md-12">

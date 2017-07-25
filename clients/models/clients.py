@@ -497,6 +497,19 @@ class ClientClubCard(Property, WritePayment, models.Model):
         return result
 
 
+class OwnersClubCard(WritePayment, models.Model):
+
+    """
+    Owners list for the Client Club Card.
+    """
+    paid_text = 'paid owner'
+    payment_goods = 'club_card'
+
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    club_card = models.ForeignKey(ClientClubCard, related_name='owners')
+    client  = models.ForeignKey(Client, related_name='+')
+
+
 class ProlongationClubCard(Prolongation, WritePayment, models.Model):
 
     """

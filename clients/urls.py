@@ -11,6 +11,7 @@ router.register(r'client', ClientViewSet, 'Client')
 
 router.register(r'clubcard', ClientClubCardViewSet, 'ClubCard')
 router.register(r'freezecc', FreezeClubCardViewSet, 'FreezeClubCard')
+router.register(r'ownercc', OwnersClubCardViewSet, 'OwnersClubCard')
 
 router.register(r'aquaaerobics', ClientAquaAerobicsViewSet,
                 'AquaAerobics')

@@ -1,7 +1,9 @@
+import uuid
 from datetime import date, timedelta, datetime
 from dateutil.relativedelta import relativedelta
 
 from django.utils.translation import ugettext as _
+from django.db.models.loading import get_model
 from rest_framework import serializers
 
 from .models import *
@@ -66,6 +68,42 @@ class GuestClubCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GuestClubCard
+
+
+class OwnersClubCardSerializer(serializers.ModelSerializer):
+    client_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = OwnersClubCard
+
+    def get_client_name(self,obj):
+        return obj.client.initials
+
+    def create(self, validated_data,):
+        data = self.context['request'].data.copy()
+        # Update club card
+        club_card_model = get_model('clients', 'ClientClubCard')
+        club_card = club_card_model.objects.get(pk=data.get('club_card'))
+        old_client = club_card.client
+        club_card.client_id = data.get('client')
+        club_card.save()
+        # Added payment
+        payment_model = get_model('finance', 'Payment')
+        p_data = {
+            'date': datetime.now(),
+            'payment_type': data.get('payment_type'),
+            'amount': data.get('amount'),
+            'count': 1,
+            'extra_uid': uuid.uuid4(),
+            'extra_text': 'paid owner',
+            'client': old_client,
+            'club_card': club_card
+        }
+        payment_model.objects.create(**p_data)
+        validated_data.update({"client": old_client})
+        obj = OwnersClubCard(**validated_data)
+        obj.save()
+        return obj
 
 
 class FreezeClubCardSerializer(serializers.ModelSerializer):
@@ -134,6 +172,7 @@ class ArchiveListSerializer(serializers.ListSerializer):
 class ClientClubCardSerializer(serializers.ModelSerializer):
 
     visits = UseClientClubCardSerializer(many=True, read_only=True)
+    owners = OwnersClubCardSerializer(many=True, read_only=True)
     guestclubcard_set = GuestClubCardSerializer(many=True, read_only=True)
     client_name = serializers.CharField(read_only=True)
     discount_description = serializers.CharField(read_only=True)
@@ -163,7 +202,7 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
                   'prolongation', 'client_name', 'credit_set', 'payment_set',
                   'client_card', 'client_mobile', 'is_paid_activate',
                   'paid_activate_amount', 'discount_amount', 'bonus_amount',
-                  'client_uid', 'block_comment', 'employee',
+                  'client_uid', 'block_comment', 'employee', 'owners',
                   'discount_description', 'infuture', 'rest_prolongation',
                   'is_full_time', 'price', 'has_overdue_debt')
         read_only_fields = ('id', )

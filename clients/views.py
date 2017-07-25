@@ -1,7 +1,7 @@
 import json
 from datetime import datetime, timedelta
 
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, mixins
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
 from rest_framework.pagination import PageNumberPagination
@@ -240,6 +240,11 @@ class GenericProduct(object):
 class FreezeClubCardViewSet(viewsets.ModelViewSet):
     queryset = FreezeClubCard.objects.all()
     serializer_class = FreezeClubCardSerializer
+
+
+class OwnersClubCardViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    queryset = OwnersClubCard.objects.all()
+    serializer_class = OwnersClubCardSerializer
 
 
 class ClientClubCardViewSet(
