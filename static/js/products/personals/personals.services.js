@@ -24,10 +24,12 @@
       create: create,
       list: list,
       get: get,
+      update: update,
       use: use,
       use_exit: use_exit,
       active: active,
       active_list: active_list,
+
     };
 
     return Personals;
@@ -58,6 +60,10 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/personal/' + uid + '/')
+    }
+
+    function update(uid, fdata) {
+      return $http.put('/api/v1/products/personal/' + uid + '/', fdata)
     }
 
     function active(uid) {

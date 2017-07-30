@@ -26,13 +26,6 @@ class ClubCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClubCard
-
-        # fields = ('id', 'name', 'max_visit', 'period', 'period_data',
-        #           'is_full_time', 'is_active', 'freeze_times',
-        #           'period_freeze', 'period_activation',
-        #           'period_prolongation', 'clients_count',
-        #           'guest_training', 'fitness_testing_discount',
-        #           'personal_training', 'price')
         read_only_fields = ('id', 'period_data',)
 
 
@@ -41,11 +34,6 @@ class AquaAerobicsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AquaAerobics
-
-        # fields = ('id', 'name', 'max_visit', 'period', 'period_data',
-        #           'is_full_time', 'is_active',
-        #           'period_prolongation', 'clients_count',
-        #           'price')
         read_only_fields = ('id', 'period_data',)
 
 
@@ -91,15 +79,13 @@ class PersonalPositionSerializer(serializers.ModelSerializer):
 
 class PersonalSerializer(serializers.ModelSerializer):
     period_data = PeriodSerializer(read_only=True)
-    personalposition_set = PersonalPositionSerializer(many=True,
-                                                      read_only=True)
+    positions = PersonalPositionSerializer(many=True, read_only=True)
+    positions_pks = serializers.ListField(
+        read_only=True, allow_null=True)
 
     class Meta:
         model = Personal
-        fields = ('id', 'name', 'max_visit', 'period', 'period_data',
-                  'clients_count', 'is_full_time', 'is_active', 'price',
-                  'period_prolongation', 'personalposition_set')
-        read_only = ('id', 'period_data', 'positions', )
+        read_only = ('id', 'period_data', 'positions', 'positions_pks')
 
     def create(self, validated_data, ):
         positions = self.context['request'].data['positions']

@@ -154,6 +154,8 @@ class Personal(models.Model):
     Personal training.
     """
     name = models.CharField(max_length=255, unique=True)
+    short_name = models.CharField(
+        max_length=20, blank=True, null=True, default='')
     period = models.ForeignKey(Period, )
     max_visit = models.IntegerField()
     clients_count = models.IntegerField(default=1, blank=True)
@@ -161,10 +163,15 @@ class Personal(models.Model):
     is_active = models.BooleanField(default=True, blank=True)
     price = models.DecimalField(max_digits=15, decimal_places=2,)
     period_prolongation = models.IntegerField(default=0, blank=True)
+    club_card_only = models.BooleanField(default=False)
 
     @property
     def period_data(self):
         return self.period
+
+    @property
+    def positions_pks(self):
+        return self.positions.all().values_list('position__pk', flat=True)
 
 
 class PersonalPosition(models.Model):
@@ -172,7 +179,8 @@ class PersonalPosition(models.Model):
     """
     Trainer position for personal.
     """
-    personal = models.ForeignKey(Personal, blank=True, null=True)
+    personal = models.ForeignKey(
+        Personal, blank=True, null=True, related_name='positions')
     position = models.ForeignKey(Position, blank=True)
 
     class Meta:

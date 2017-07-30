@@ -1,7 +1,121 @@
 <div>
   <span ng-click="collapsed=!collapsed" class="cursor-pointer alert alert-info col-md-12" > {{ personal.name }} </span>
   <div ng-show="collapsed" class="alert col-md-12" ng-class="{'alert-warning': personal.is_active}">
-      <table class="table">
+
+  <button ng-click="edit=!edit" class="btn btn-sm btn-warning" ng-show="!edit"> Правка </button>
+  <button ng-click="edit=!edit" class="btn btn-sm btn-default" ng-show="edit"> Отмена </button>
+  <button class="btn btn-sm btn-success pull-right" ng-show="edit"
+          ng-click="vm.update()"> Сохранить </button>
+
+  <div class="alert alert-success alert-dismissible" role="alert" ng-show="vm.success">
+    <button type="button" class="close" ng-click="vm.success=false"><span>&times;</span></button>
+    <strong>  Данные успешно обновлены. </strong>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible" role="alert" ng-show="vm.error">
+    <button type="button" class="close" ng-click="vm.error=false"><span>&times;</span></button>
+    <strong> Ошибка обновления: {{ vm.error_data }} </strong>
+  </div>
+
+<!-- Edit Form -->
+  <ng-form ng-show="edit" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-md-5 control-label">Наименование:</label>
+      <div class="col-md-7">
+        <input ng-model="personal.name" type="text" class="form-control"
+            placeholder="Наименование вида карты">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Краткое наименование:</label>
+      <div class="col-md-7">
+        <input ng-model="personal.short_name" type="text" class="form-control"
+            placeholder="Краткое наименование до 20 символов">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Кол-во занятий:</label>
+      <div class="col-md-7">
+        <input ng-model="personal.max_visit" type="number" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Срок действия:</label>
+      <div class="col-md-7">
+        <select ng-model="personal.period"
+        ng-options="period.id as period | period_str 
+                    for period in vm.periods"></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Время посещения:</label>
+      <label class="col-md-offset-1 col-md-1 control-label">Полное</label>
+      <div class="col-md-1">
+        <input ng-model="personal.is_full_time" type="radio"
+        name="is_full_time{{personal.id}}" ng-value="true">
+      </div>
+      <label class="col-md-offset-1 col-md-1 control-label">Утро</label>
+      <div class="col-md-1">
+        <input ng-model="personal.is_full_time" type="radio"
+        name="is_full_time{{personal.id}}" ng-value="false">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Цена:</label>
+      <div class="col-md-3">
+        <input ng-model="personal.price" step="0.01" type="number" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Продление дней:</label>
+      <div class="col-md-3">
+        <input ng-model="personal.period_prolongation" type="number" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Количество клиентов:</label>
+      <div class="col-md-3">
+        <input ng-model="personal.clients_count" type="number" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Только для владельцев карт:</label>
+      <div class="col-md-4">
+        <input ng-model="personal.club_card_only"
+        type="checkbox">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-5 control-label">Для должностей
+      </label>
+      <hr/>
+      <label class="col-md-4" ng-repeat="position in vm.positions">
+        <input
+          type="checkbox"
+          name="selectedPosition[]"
+          value="{{ position.id }}"
+          ng-checked="personal.positions_pks.indexOf(position.id) > -1"
+        > {{ position.name }}
+      </label> 
+    </div>
+
+  </ng-form>
+<!-- End Edit Form -->
+
+      <table class="table" ng-show="!edit">
+          <tr>
+              <td width="400">Краткое наименование</td>
+              <td>{{ personal.short_name }}</td>
+          </tr>
           <tr>
               <td width="400">Активна</td>
               <td>{{ personal.is_active | YN }}</td>
@@ -37,17 +151,18 @@
           <tr>
             <td colspan="2">Должности:</td>
           </tr>
-          <tr ng-repeat="position in personal.personalposition_set">
+          <tr ng-repeat="position in personal.positions">
             <td></td>
             <td>
               {{ position.position.name }}
             </td>
           </tr>
+          <tr>
+              <td>Только для владельцев карт</td>
+              <td>{{ personal.club_card_only | YN }}</td>
+          </tr>
       </table>
       <button ng-click="collapsed=!collapsed" class="btn btn-sm btn-danger" > скрыть </button>
-      <div ng-repeat="position in personal.positions">
-      {{ position }}
-      </div>
       <button ng-click="vm.active()" class="btn btn-sm btn-default pull-right" > Активность </button>
   </div>
 </div>
