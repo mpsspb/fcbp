@@ -96,6 +96,20 @@ class PersonalSerializer(serializers.ModelSerializer):
                                             position=position)
         return personal
 
+    def update(self, instance, validated_data, ):
+        positions = self.context['request'].data['positions_pks']
+        new_p = [p for p in positions if p not in instance.positions_pks]
+        del_p = [p for p in instance.positions_pks if p not in positions]
+        instance = super(PersonalSerializer, self).update(
+            instance, validated_data)
+        for position in new_p:
+            PersonalPosition.objects.create(
+                personal=instance, position_id=position)
+        for position in del_p:
+            PersonalPosition.objects.get(
+                personal=instance, position_id=position).delete()
+        return instance
+
 
 class TimingSerializer(serializers.ModelSerializer):
     period_data = PeriodSerializer(read_only=True)

@@ -95,6 +95,7 @@
           is_full_time: true,
           positions: [],
         };
+
         angular.forEach(vm.positions, function (position) {
             position.selected = false;
         });
@@ -111,8 +112,9 @@
       }
     }
 
-    // toggle selection for a given fruit by name
+    // toggle selection for a given position by name
     function toggleSelection(position) {
+      console.log()
       var idx = vm.fdata.positions.indexOf(position);
 
       // is currently selected

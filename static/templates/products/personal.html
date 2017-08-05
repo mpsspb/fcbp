@@ -101,9 +101,9 @@
       <label class="col-md-4" ng-repeat="position in vm.positions">
         <input
           type="checkbox"
-          name="selectedPosition[]"
           value="{{ position.id }}"
           ng-checked="personal.positions_pks.indexOf(position.id) > -1"
+          ng-click="vm.togglePosition(position.id)"
         > {{ position.name }}
       </label> 
     </div>

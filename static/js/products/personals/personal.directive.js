@@ -15,6 +15,7 @@
     vm.success = false;
     vm.error = false;
     vm.error_data = '';
+    vm.togglePosition = togglePosition;
 
     vm.active = function () {
       Personals.active($scope.personal.id).then(personalSuccessFn, personalErrorFn);
@@ -30,7 +31,6 @@
     vm.update = function() {
       var fdata = {};
       angular.copy($scope.personal, fdata);
-      delete fdata['positions']
       Personals.update($scope.personal.id, fdata).then(updSuccessFn, updErrorFn);
 
       function updSuccessFn(data, status, headers, config) {
@@ -41,8 +41,21 @@
         vm.error = true;
         vm.error_data = data.data;
         console.log(data);
-      }
+      };
+    };
 
+    // toggle selection for a given position by name
+    function togglePosition(position) {
+      var idx = $scope.personal.positions_pks.indexOf(position);
+
+      // is currently selected
+      if (idx > -1) {
+        $scope.personal.positions_pks.splice(idx, 1);
+      }
+      // is newly selected
+      else {
+        $scope.personal.positions_pks.push(position);
+      }
     };
 
     /**
@@ -109,7 +122,7 @@
       },
       controller: DirectControl,
       controllerAs: 'vm',
-      templateUrl: '/static/templates/products/personal.html?8066'
+      templateUrl: '/static/templates/products/personal.html?1266'
     };
 
     return directive;
