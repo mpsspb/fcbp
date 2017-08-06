@@ -58,7 +58,6 @@
 
     vm.product_choose = product_choose;
     vm.total = total;
-
     activate();
 
 
@@ -79,6 +78,7 @@
       function cardclientSuccessFn(data, status, headers, config) {
         vm.client = data.data;
         vm.fdata.client = vm.client.id;
+        Personals.active_list().then(personalsSuccessFn, personalsErrorFn);
       }
 
       /**
@@ -151,15 +151,21 @@
         console.log(data);
       }
 
-      Personals.active_list().then(personalsSuccessFn, personalsErrorFn);
-
       /**
       * @name personalsSuccessFn
       * @desc Update Personal array on view
       */
       function personalsSuccessFn(data, status, headers, config) {
-        vm.personals = data.data;
-      }
+        if (vm.client.clientclubcard_set.length > 0){
+          vm.personals = data.data;
+        } else {
+          angular.forEach(data.data, function(data){
+            if (!data.club_card_only) {
+              vm.personals.push(data)
+            }
+          });
+        }
+      };
 
       /**
       * @name personalsErrorFn
