@@ -377,6 +377,7 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
     prolongation = ProlongationPersonalSerializer(many=True, read_only=True)
     rest_prolongation = serializers.IntegerField(read_only=True)
     is_online = serializers.IntegerField(read_only=True)
+    positions = serializers.ListField(read_only=True)
 
     class Meta:
         model = ClientPersonal

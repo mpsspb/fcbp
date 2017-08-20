@@ -990,6 +990,10 @@ class ClientPersonal(Property, models.Model):
             return self.personal.period_prolongation - prolongation['sum']
         return self.personal.period_prolongation
 
+    @property
+    def positions(self):
+        return self.personal.positions_pks
+
 
 class ProlongationPersonal(Prolongation, WritePayment, models.Model):
 

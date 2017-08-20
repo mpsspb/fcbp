@@ -27,6 +27,7 @@
       edit: edit,
       sellers: sellers,
       active: active,
+      personal_trainers: personal_trainers,
     };
 
     return Employees;
@@ -54,22 +55,32 @@
         return $http.get('/api/v1/employees/employees/')
       }
     }
+
     function get(uid) {
       return $http.get('/api/v1/employees/employees/' + uid + '/')
     }
+
     function edit(uid, fdata) {
       return $http.put('/api/v1/employees/employees/' + uid + '/',
         fdata).error(function(data, status, headers, config) {
                           console.log(data)
                         });
     }
+
     function active(uid) {
       return $http.post('/api/v1/employees/employees/' + uid + '/active/')
     }
+
     // only employees who is seller
     function sellers() {
       return $http.get('/api/v1/employees/employees/sellers/')
     }
+
+    // only employees who can do personals for current type
+    function personal_trainers(fdata) {
+      return $http.get('/api/v1/employees/employees/personal_trainers/', { params: fdata })
+    }
+    
 
   }
 

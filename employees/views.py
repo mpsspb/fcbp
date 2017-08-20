@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import list_route, detail_route
@@ -24,6 +26,20 @@ class EmployeeViewSet(ActiveModel, viewsets.ModelViewSet):
         Only employees who is seller.
         """
         queryset = self.queryset.filter(is_seller=True)
+        serializer = EmployeeSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @list_route(methods=['get'], )
+    def personal_trainers(self, request):
+        """
+        Only employees who can do personals for current type.
+        """
+        positions = request.GET.get('positions', [])
+        now = datetime.now()
+        filter_position = dict(date_begin__gte=now, date_end__isnull=True)
+        employees = EmployeePosition.objects.filter(**filter_position)
+        # :TODO
+        queryset = self.queryset.all()
         serializer = EmployeeSerializer(queryset, many=True)
         return Response(serializer.data)
 

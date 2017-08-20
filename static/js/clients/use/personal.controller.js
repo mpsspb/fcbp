@@ -65,6 +65,7 @@
       */
       function personalclientSuccessFn(data, status, headers, config) {
         vm.personal = data.data;
+        vm.emp_filter = {positions: vm.personal.positions }
         // is free prolongation
         if (vm.personal.rest_prolongation > 0) {
           vm.free_prolongation = true
@@ -77,7 +78,24 @@
           instructor: vm.personal.instructor,
           client_personal: vm.uid
         }
-      }
+
+        Employees.personal_trainers(vm.emp_filter).then(listEmployeeSuccessFn, listEmployeeErrorFn);
+        /**
+        * @name listEmployeeSuccessFn
+        * @desc Show snackbar with success message
+        */
+        function listEmployeeSuccessFn(data, status, headers, config) {
+          vm.employees = data.data;
+        }
+        /**
+        * @name listEmployeeErrorFn
+        * @desc Propogate error event and show snackbar with error message
+        */
+        function listEmployeeErrorFn(data, status, headers, config) {
+          console.log(data)
+        };
+
+      };
 
       /**
       * @name personalclientErrorFn
@@ -87,24 +105,6 @@
         console.log(data);
       }
 
-      Employees.list().then(listEmployeeSuccessFn, listEmployeeErrorFn);
-    
-      /**
-      * @name listEmployeeSuccessFn
-      * @desc Show snackbar with success message
-      */
-      function listEmployeeSuccessFn(data, status, headers, config) {
-        vm.employees = data.data;
-      }
-
-
-      /**
-      * @name listEmployeeErrorFn
-      * @desc Propogate error event and show snackbar with error message
-      */
-      function listEmployeeErrorFn(data, status, headers, config) {
-        console.log(data)
-      }
 
     }; // end activate
 
