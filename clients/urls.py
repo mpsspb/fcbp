@@ -32,6 +32,10 @@ router.register(
     r'aquaprolongation', ProlongationAquaViewSet, 'aquaprolongation')
 router.register(
     r'prolongationticket', ProlongationTicketViewSet, 'prolongationticket')
+router.register(
+    r'prolongationticket_personal',
+    ProlongationPersonalViewSet,
+    'prolongationticket_personal')
 
 router.register(r'advanced_search', ClientSearchViewSet, 'advanced_search')
 

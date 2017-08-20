@@ -497,19 +497,6 @@ class ClientClubCard(Property, WritePayment, models.Model):
         return result
 
 
-class OwnersClubCard(WritePayment, models.Model):
-
-    """
-    Owners list for the Client Club Card.
-    """
-    paid_text = 'paid owner'
-    payment_goods = 'club_card'
-
-    date = models.DateTimeField(auto_now_add=True, blank=True)
-    club_card = models.ForeignKey(ClientClubCard, related_name='owners')
-    client  = models.ForeignKey(Client, related_name='+')
-
-
 class ProlongationClubCard(Prolongation, WritePayment, models.Model):
 
     """
@@ -937,7 +924,7 @@ class ProlongationTicket(Prolongation, models.Model):
         super(ProlongationTicket, self).save(*args, **kwargs)
 
 
-class ClientPersonal(models.Model):
+class ClientPersonal(Property, models.Model):
 
     """
     The clients personals,
@@ -947,12 +934,14 @@ class ClientPersonal(models.Model):
     Date begin - is start of using the card.
 
     """
+
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
     date_begin = models.DateField(blank=True)
     date_end = models.DateField(blank=True)
     client = models.ForeignKey(Client, )
     personal = models.ForeignKey(Personal, )
+    instructor = models.ForeignKey(Employee, blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     """
     status valid data:
@@ -960,6 +949,10 @@ class ClientPersonal(models.Model):
     1 - active
     2 - prospect
     """
+
+    @property
+    def product(self):
+        return self.personal
 
     @property
     def client_name(self):
@@ -987,6 +980,47 @@ class ClientPersonal(models.Model):
     def is_online(self):
         return UseClientPersonal.objects.filter(client_personal=self,
                                                 end__isnull=True).count()
+
+    @property
+    def rest_prolongation(self):
+        prolongation = ProlongationPersonal.objects\
+            .filter(personal=self, is_extra=False, is_paid=False)\
+            .aggregate(sum=Sum('days'))
+        if prolongation['sum']:
+            return self.personal.period_prolongation - prolongation['sum']
+        return self.personal.period_prolongation
+
+
+class ProlongationPersonal(Prolongation, WritePayment, models.Model):
+
+    """
+    Prolongation for the Client Personal.
+    """
+    paid_text = 'paid prolongation'
+    payment_goods = 'personal'
+
+    date = models.DateTimeField()
+    personal = models.ForeignKey(ClientPersonal, related_name='prolongation')
+    days = models.SmallIntegerField()
+    amount = models.DecimalField(max_digits=15, decimal_places=2,)
+    is_paid = models.BooleanField(default=False)
+    is_extra = models.BooleanField(default=False)
+    note = models.TextField(null=True, blank=True)
+
+    @property
+    def parent(self):
+        return self.personal
+
+    def save(self, *args, **kwargs):
+        payment_type = kwargs.pop('payment_type', 1)
+        self.add_payment(payment_type)
+        if not self.pk:
+            self.parent_upd(self,)
+        super(ProlongationPersonal, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.parent_upd(self, is_delete=True)
+        super(ProlongationPersonal, self).delete(*args, **kwargs)
 
 
 class ClientTiming(models.Model):
@@ -1131,7 +1165,8 @@ class UseClientPersonal(models.Model):
     """
     date = models.DateTimeField(auto_now_add=True)
     end = models.DateTimeField(blank=True, null=True)
-    client_personal = models.ForeignKey(ClientPersonal)
+    client_personal = models.ForeignKey(
+        ClientPersonal, related_name='visits')
 
 
 class UseClientTiming(models.Model):
@@ -1172,6 +1207,32 @@ class ClientOnline(models.Model):
     @property
     def client_data(self):
         return self.client
+
+
+class OwnersClubCard(WritePayment, models.Model):
+
+    """
+    Owners list for the Client Club Card.
+    """
+    paid_text = 'paid owner'
+    payment_goods = 'club_card'
+
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    club_card = models.ForeignKey(ClientClubCard, related_name='owners')
+    client = models.ForeignKey(Client, related_name='+')
+
+
+class OwnersClientPersonal(WritePayment, models.Model):
+
+    """
+    Owners list for the Client Personal.
+    """
+    paid_text = 'paid owner'
+    payment_goods = 'personal'
+
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+    personal = models.ForeignKey(ClientPersonal, related_name='owners')
+    client = models.ForeignKey(Client, related_name='+')
 
 
 def date_end(date_begin, obj):

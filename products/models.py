@@ -148,11 +148,13 @@ class Ticket(models.Model):
         return self.sport.name
 
 
-class Personal(models.Model):
+class Personal(models.Model, GenericProduct):
 
     """
     Personal training.
     """
+    ptype = u'Персональная тренировока'
+
     name = models.CharField(max_length=255, unique=True)
     short_name = models.CharField(
         max_length=20, blank=True, null=True, default='')

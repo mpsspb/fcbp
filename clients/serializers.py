@@ -9,6 +9,8 @@ from rest_framework import serializers
 from .models import *
 from .forms import *
 from .use_serializers import *
+from .owners_serializers import (
+    OwnersClubCardSerializer, OwnersPersonalSerializer)
 from products.models import *
 from finance.serializers import *
 from finance.forms import *
@@ -68,42 +70,6 @@ class GuestClubCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GuestClubCard
-
-
-class OwnersClubCardSerializer(serializers.ModelSerializer):
-    client_name = serializers.SerializerMethodField()
-
-    class Meta:
-        model = OwnersClubCard
-
-    def get_client_name(self,obj):
-        return obj.client.initials
-
-    def create(self, validated_data,):
-        data = self.context['request'].data.copy()
-        # Update club card
-        club_card_model = get_model('clients', 'ClientClubCard')
-        club_card = club_card_model.objects.get(pk=data.get('club_card'))
-        old_client = club_card.client
-        club_card.client_id = data.get('client')
-        club_card.save()
-        # Added payment
-        payment_model = get_model('finance', 'Payment')
-        p_data = {
-            'date': datetime.now(),
-            'payment_type': data.get('payment_type'),
-            'amount': data.get('amount'),
-            'count': 1,
-            'extra_uid': uuid.uuid4(),
-            'extra_text': 'paid owner',
-            'client': old_client,
-            'club_card': club_card
-        }
-        payment_model.objects.create(**p_data)
-        validated_data.update({"client": old_client})
-        obj = OwnersClubCard(**validated_data)
-        obj.save()
-        return obj
 
 
 class FreezeClubCardSerializer(serializers.ModelSerializer):
@@ -187,7 +153,6 @@ class ClientClubCardSerializer(serializers.ModelSerializer):
     prolongation = ProlongationClubCardSerializer(many=True, read_only=True)
     credit_set = CreditSerializer(many=True, read_only=True)
     payment_set = PaymentSerializer(many=True, read_only=True)
-
 
     class Meta:
         list_serializer_class = ActiveListSerializer
@@ -381,17 +346,39 @@ class ClientTicketSerializer(serializers.ModelSerializer):
         return ticket
 
 
+class ProlongationPersonalSerializer(serializers.ModelSerializer):
+    payment_type = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = ProlongationPersonal
+
+    def create(self, validated_data):
+        payment_type = validated_data.pop('payment_type')
+        obj = ProlongationPersonal(**validated_data)
+        obj.save(payment_type=payment_type)
+        return obj
+
+
 class ClientPersonalSerializer(serializers.ModelSerializer):
-    useclientpersonal_set = UseClientPersonalSerializer(many=True,
-                                                        read_only=True)
+    visits = UseClientPersonalSerializer(many=True, read_only=True)
+    owners = OwnersPersonalSerializer(many=True, read_only=True)
+    instructor_name = serializers.CharField(
+        source='instructor.initials')
+    name = serializers.CharField(read_only=True)
     client_name = serializers.CharField(read_only=True)
+    client_mobile = serializers.IntegerField(
+        source='client.mobile', read_only=True)
+    client_uid = serializers.IntegerField(
+        source='client.uid', read_only=True)
+    client_card = serializers.IntegerField(
+        source='client.card', read_only=True)
+    credit_set = CreditSerializer(many=True, read_only=True)
+    payment_set = PaymentSerializer(many=True, read_only=True)
+    prolongation = ProlongationPersonalSerializer(many=True, read_only=True)
+    rest_prolongation = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = ClientPersonal
-        fields = ('id', 'personal', 'status', 'date', 'date_start',
-                  'date_begin', 'date_end', 'name', 'client', 'is_online',
-                  'rest_days', 'rest_visits', 'useclientpersonal_set',
-                  'client_name')
 
     def create(self, validated_data,):
         data = self.context['request'].data.copy()

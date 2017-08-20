@@ -1,35 +1,342 @@
-<i class="fa fa-graduation-cap"> Абонемент <strong>{{ vm.personal.client_name }}</strong></i>
-<table class="table">
-  <tr>
-    <td>дата</td><td>наименование</td>
-    <td>остаток дней</td><td>визитов</td>
-  </tr>
-  <tr>
-    <td> {{ vm.personal.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ vm.personal.name }} </td>
-    <td> {{ vm.personal.rest_days }} </td>
-    <td> {{ vm.personal.rest_visits }} </td>
-  </tr>
-</table>
-<div class="col-md-3">
-  <a href="#/cardclient/{{ vm.personal.client }}/" class="btn btn-default pull-left">отмена</a>
-</div> 
+<!-- Modal ChangeOwner -->
+<div class="modal fade" id="ChangeOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Переоформление </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.owner.amount">
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="control-label">Иное</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="0">
+            </div>
+            <div class="col-md-3">
+            <label class="control-label">Наличные</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="1">
+            </div>
+            <div class="col-md-3">
+              <label class="control-label">Безнал</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="2">
+            </div>
+            <div class="col-md-2">
+              <label class="control-label">Банк</label>
+              <input ng-model="vm.owner.payment_type" type="radio"
+              name="payment_type" value="3">
+            </div>
+          </div>
+        </div>
 
-<div class="col-md-3">
-  <button ng-click="vm.use()" class="btn btn-block btn-danger">Использовать</button>
+      <div class="row">
+        <label class="col-md-3 control-label">
+        Новый клиент
+        </label>
+        <label class="col-md-3 control-label">
+        Фамилия
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-md-3"> 
+          <button type="button" class="btn-add-credit btn btn-xs btn-info btn-block" 
+          ng-click="vm.search_client()">Поиск</button>
+        </div>
+        <div class="col-md-3">
+          <input class="sinput" type="text" ng-model="vm.ext.last_name">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12" ng-repeat="clnt in vm.findClients">
+          {{ clnt.full_name }} {{ clnt.born | date:'dd.MM.yyyy' }}
+          <button type="button" class="btn-add-credit btn btn-xs btn-primary pull-right" 
+            ng-click="vm.choose_owner($index)">Выбрать</button>
+          <hr>
+        </div>
+        <div class="col-md-12 alert alert-warning" ng-show="vm.new_owner">
+        {{ vm.new_owner.full_name }} {{ vm.new_owner.born | date:'dd.MM.yyyy' }}
+        </div>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right"
+        data-dismiss="modal" ng-click="vm.set_owner()">
+          Применить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
 </div>
+<!-- end modal ChangeOwner -->
 
-<div class="col-md-3">
-  <button  ng-click="showHistory=!showHistory" class="btn btn-block btn-info">История</button>
+<!-- Modal PersonalEmployee -->
+<div class="modal fade" id="PersonalEmployee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Инструктор</h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-4 control-label">Сотрудник:</label>
+          <div class="col-md-6">
+            <select ng-model="vm.empdata.instructor"
+            ng-options="employee.id as employee.initials
+                        for employee in vm.employees"></select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.set_emp()">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
 </div>
+<!-- end modal PersonalEmployee -->
 
-<table class="table" ng-show="showHistory">
-  <tr>
-    <td>дата</td><td>время</td><td>окончание</td>
-  </tr>
-  <tr ng-repeat="use in vm.personal.useclientpersonal_set">
-    <td> {{ use.date | date:'dd.MM.yyyy' }} </td>
-    <td> {{ use.date | date:'HH:mm' }} </td>
-    <td> {{ use.end }} </td>
-  </tr>
-</table>
+
+<!-- Modal Prolongation -->
+<div class="modal fade" id="Prolongation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Продление</h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+        <div class="alert alert-info" role="alert"
+          ng-show="!vm.prdata.is_paid && vm.free_prolongation">
+          <strong>Бесплатное</strong>
+        </div>
+        <div class="alert alert-danger" role="alert"
+          ng-show="!vm.prdata.is_paid && !vm.free_prolongation">
+          <strong>Бесплатное продление не доступно</strong>
+        </div>
+        <div class="alert alert-warning" role="alert"
+        ng-show="vm.prdata.is_paid">
+          <strong>Платное</strong>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Начало: </label>
+          <input class="col-md-4 sinput date-time" ng-model="vm.prdata.date">
+        </div>
+        <div class="form-group">
+          <label class="col-md-2"> Дней: </label>
+          <input class="col-md-4 sinput" type="number" min="1"
+          ng-model="vm.prdata.days">
+          <label class="col-md-2 control-label">Платное</label>
+          <input type="checkbox" class="col-md-1" 
+          ng-click="vm.is_paid()"
+          ng-model="vm.prdata.is_paid">
+        </div>
+        <div class="form-group" ng-show="vm.prdata.is_paid">
+          <label class="col-md-2"> Оплата: </label>
+          <input class="col-md-4 sinput" type="number" min="0" step="0.01"
+          ng-model="vm.prdata.amount">
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="control-label">Иное</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="0">
+            </div>
+            <div class="col-md-3">
+            <label class="control-label">Наличные</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="1">
+            </div>
+            <div class="col-md-3">
+              <label class="control-label">Безналичные</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="2">
+            </div>
+            <div class="col-md-2">
+              <label class="control-label">Банк</label>
+              <input ng-model="vm.prdata.payment_type" type="radio"
+              name="payment_type" value="3">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" ng-click="vm.prolongation()"
+        ng-disabled="!vm.prdata.is_paid && !vm.free_prolongation">
+          Сохранить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal Prolongation -->
+
+<div class="col-md-4 left-menu-block">
+
+  <div class="col-md-12 row-border">
+    <h4>
+    <i class="fa fa-graduation-cap">
+    </i> Персональная Тренировока: {{ vm.personal.name }} </h4>
+    <h4><u>{{ vm.personal.client_name }}</u></h4>
+    <h4>ЧС: {{ vm.personal.client_uid }}</h4>
+    <h4>Карта: {{ vm.personal.client_card }}</h4>
+    <h4>Тел.: {{ vm.personal.client_mobile | phone }}</h4>
+  </div>
+  <div class="row-border col-md-12">
+    <h4>
+      <div ng-if="vm.personal.date_begin">
+      c {{ vm.personal.date_begin | date:'dd.MM.yyyy' }}
+      по {{ vm.personal.date_end | date:'dd.MM.yyyy' }}
+      </div>
+      <div ng-if="!vm.personal.date_begin">
+       неактивна
+      </div>
+    </h4>    
+  </div>
+<!-- instructor -->
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Инструктор</strong></div>
+    <div class="panel-body">
+      <h4 ng-show="vm.personal.instructor">
+        {{ vm.personal.instructor_name }}
+      </h4>
+      <button class="btn btn-warning btn-block"
+       data-toggle="modal" data-target="#PersonalEmployee"
+       > Правка </button>
+    </div>
+  </div>
+<!-- end instructor -->
+
+<!-- prolongation -->
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Продление</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-primary btn-block"
+       data-toggle="modal" data-target="#Prolongation"> Записать
+      </button>
+      <table class="table" ng-show="vm.personal.prolongation.length">
+        <tr>
+          <td>С</td><td>Дней</td>
+        </tr>
+        <tr ng-repeat="p in vm.personal.prolongation">
+          <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ p.days }}</td>
+          <td>
+            <i class="fa fa-recycle cursor-pointer text-red" ng-click="vm.prolongation_del(p.id)"></i>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+<!-- end prolongation -->
+
+<!-- ChangeOwner -->
+  <div class="panel panel-default col-md-12">
+    <div class="panel-heading"><strong>Переоформление</strong></div>
+    <div class="panel-body">
+      <button class="btn btn-danger btn-block"
+       data-toggle="modal" data-target="#ChangeOwner"> Записать
+      </button>
+      <table class="table" ng-show="vm.personal.owners.length">
+        <tr>
+          <td>До даты</td><td>Клиент</td>
+        </tr>
+        <tr ng-repeat="o in vm.personal.owners">
+          <td> {{ o.date | date:'dd.MM.yyyy' }} </td>
+          <td> {{ o.client_name }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+<!-- End ChangeOwner -->
+
+
+</div>
+<!-- .left menu block -->
+
+<div class="col-md-8 main-block">
+  
+</div>
+<!-- .main block -->
+
+<!-- payment info -->
+<div class="panel panel-info col-md-12">
+  <div class="panel-heading"><strong>Платежи</strong></div>
+  <div class="panel-body">
+    <table class="table">
+      <tr>
+        <td class="col-md-3">Дата(срок) оплаты</td>
+        <td class="col-md-3">Сумма</td>
+        <td>Примечание</td>
+        <td>Вид платежа</td>
+        <td></td>
+      </tr>
+      <tr ng-repeat="p in vm.personal.payment_set">
+        <td> {{ p.date | date:'dd.MM.yyyy' }} </td>
+        <td> {{ p.amount }} руб.</td>
+        <td> {{ p.extra_text_trans }} </td>
+        <td> {{ p.payment_type | payment_type }}</td>
+        <td></td>
+      </tr>
+      <tr ng-repeat="cr in vm.card.credit_set">
+        <td><button class="btn btn-xs btn-info" ng-click="day_change=!day_change">изменить</button>
+            {{ cr.schedule | date:'dd.MM.yyyy' }}
+            <div class="block" ng-show="day_change">
+            <input class="col-md-6 sinput date-time" ng-model="cr.schedule">
+            <button class="col-md-4 col-md-offset-1 btn btn-xs btn-primary" ng-click="vm.day_change(cr)">применить</button>
+            </div>
+        </td>
+        <td> <button class="btn btn-xs btn-success" ng-click="cr_split=!cr_split">разбить</button>
+            {{ cr.amount }} руб.
+            <div class="block" ng-show="cr_split">
+            <input class="col-md-6 sinput" ng-model="cr.amount">
+            <button class="col-md-4 col-md-offset-1 btn btn-xs btn-primary" ng-click="vm.cr_split(cr)">применить</button>
+            </div>
+        </td>
+        </td>
+        <td></td>
+        <td>
+          <button class="btn btn-warning btn-sm"
+          ng-click="show_pay_type=!show_pay_type">
+            Оплатить
+          </button>
+        </td>
+        <td>
+          <div ng-show="show_pay_type">
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(1, cr.id)">
+            нал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(2, cr.id)">
+             безнал.
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(3, cr.id)">
+             банк
+            </button>
+            <button class="btn btn-danger btn-xs" ng-click="vm.payment(0, cr.id)">
+             иное
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div> <!-- end payment info -->

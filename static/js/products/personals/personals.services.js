@@ -29,7 +29,8 @@
       use_exit: use_exit,
       active: active,
       active_list: active_list,
-
+      prolongation: prolongation,
+      prolongation_del: prolongation_del,
     };
 
     return Personals;
@@ -79,6 +80,20 @@
 
     function use_exit(fdata) {
       return $http.post('/api/v1/clients/usepersonal/exit/', fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function prolongation(fdata) {
+      return $http.post('/api/v1/clients/prolongationticket_personal/',  fdata)
+                  .error(function(data, status, headers, config) {
+                          console.log(data)
+                        });
+    }
+
+    function prolongation_del(uid) {
+      return $http.delete('/api/v1/clients/prolongationticket_personal/' + uid + '/')
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });

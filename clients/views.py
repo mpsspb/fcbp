@@ -322,6 +322,11 @@ class ProlongationClubCardViewSet(viewsets.ModelViewSet):
     serializer_class = ProlongationClubCardSerializer
 
 
+class ProlongationPersonalViewSet(viewsets.ModelViewSet):
+    queryset = ProlongationPersonal.objects.order_by('-date')
+    serializer_class = ProlongationPersonalSerializer
+
+
 class ClientAquaAerobicsViewSet(
         GenericProduct, viewsets.ModelViewSet, TemplateResponseMixin):
     queryset = ClientAquaAerobics.objects.order_by('-date')

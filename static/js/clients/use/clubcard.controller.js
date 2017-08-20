@@ -175,7 +175,6 @@
         console.log(data);
       }
 
-
       Employees.list().then(listEmployeeSuccessFn, listEmployeeErrorFn);
     
       /**
