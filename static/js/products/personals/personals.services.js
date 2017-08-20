@@ -31,6 +31,7 @@
       active_list: active_list,
       prolongation: prolongation,
       prolongation_del: prolongation_del,
+      ownerp: ownerp,
     };
 
     return Personals;
@@ -97,6 +98,10 @@
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });
+    }
+
+    function ownerp(fdata) {
+      return $http.post('/api/v1/clients/ownerp/', fdata)
     }
 
   }

@@ -247,6 +247,11 @@ class OwnersClubCardViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = OwnersClubCardSerializer
 
 
+class OwnersPersonalViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
+    queryset = OwnersClientPersonal.objects.all()
+    serializer_class = OwnersPersonalSerializer
+
+
 class ClientClubCardViewSet(
         GenericProduct, viewsets.ModelViewSet, TemplateResponseMixin):
     queryset = ClientClubCard.objects.order_by('-date')

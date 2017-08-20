@@ -11,14 +11,14 @@
 
   UseClientPersonalController.$inject = [
     '$location', '$rootScope', '$routeParams', '$scope', '$http',
-    'Personals', 'Employees'];
+    'Personals', 'Employees', 'Clients'];
 
   /**
   * @namespace UseClientPersonalController
   */
   function UseClientPersonalController(
     $location, $rootScope, $routeParams, $scope, $http,
-    Personals, Employees) {
+    Personals, Employees, Clients) {
 
     var vm = this;
 
@@ -26,6 +26,10 @@
     vm.set_emp = set_emp;
     vm.prolongation = prolongation;
     vm.prolongation_del = prolongation_del;
+
+    vm.search_client = search_client;
+    vm.choose_owner = choose_owner;
+    vm.set_owner = set_owner;
 
     activate();
 
@@ -48,6 +52,10 @@
         payment_type: 1
       }
 
+      vm.owner = {
+        amount: 0,
+        payment_type: 0
+      }
 
       Personals.get(vm.uid).then(personalclientSuccessFn, personalclientErrorFn);
 
@@ -144,9 +152,9 @@
     * Set new owner
     */
     function set_owner() {
-      ClubCard.ownercc({
+      Personals.ownerp({
         "client": vm.new_owner.id,
-        "club_card": vm.uid,
+        "personal": vm.uid,
         "amount": vm.owner.amount,
         "payment_type": vm.owner.payment_type
       }).then(clntSetOwnerSuccessFn, clntSetOwnerErrorFn);
@@ -162,7 +170,6 @@
     };
 
     function prolongation() {
-      console.log(vm.prdata)
       Personals.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
 
       /**

@@ -113,6 +113,11 @@
         amount: 0,
         date: moment().format('DD.MM.YYYY')
       }
+
+      vm.owner = {
+        amount: 0,
+        payment_type: 0
+      }
       // end forms
 
 

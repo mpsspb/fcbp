@@ -4,7 +4,7 @@ from datetime import datetime
 from rest_framework import serializers
 from django.db.models.loading import get_model
 
-from .models import OwnersClubCard
+from .models import OwnersClubCard, OwnersClientPersonal
 
 
 class OwnersSerializer(object):
@@ -55,6 +55,6 @@ class OwnersPersonalSerializer(OwnersSerializer, serializers.ModelSerializer):
         return obj.client.initials
 
     class Meta:
-        model = OwnersClubCard
+        model = OwnersClientPersonal
         product_model = get_model('clients', 'ClientPersonal')
         product_name = 'personal'
