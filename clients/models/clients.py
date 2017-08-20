@@ -1167,6 +1167,7 @@ class UseClientPersonal(models.Model):
     end = models.DateTimeField(blank=True, null=True)
     client_personal = models.ForeignKey(
         ClientPersonal, related_name='visits')
+    instructor = models.ForeignKey(Employee, blank=True, null=True)
 
 
 class UseClientTiming(models.Model):

@@ -35,6 +35,7 @@ class UseClientTicketSerializer(serializers.ModelSerializer):
 
 
 class UseClientPersonalSerializer(serializers.ModelSerializer):
+    instructor = serializers.ReadOnlyField(source='instructor.initials')
 
     class Meta:
         model = UseClientPersonal

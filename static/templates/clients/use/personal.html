@@ -1,3 +1,30 @@
+<!-- Modal use ClubCard -->
+<div class="modal fade" id="UsePersonal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+        <i class="fa fa-users"></i>Инструктор</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="col-md-4 control-label">Инструктор:</label>
+          <div class="col-md-6">
+            <select ng-model="vm.udata.instructor"
+            ng-options="employee.id as employee.initials
+                        for employee in vm.employees"></select>
+          </div>
+        </div>
+      </div>
+       <div class="modal-footer">
+        <button class="btn btn-success pull-right" ng-click="vm.use(0)" data-dismiss="modal">Вход</button>
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">отмена</button>          
+      </div>
+    </div>
+  </div>
+</div> <!-- end modal ClubCard -->
+
 <!-- Modal ChangeOwner -->
 <div class="modal fade" id="ChangeOwner" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 600px;">
@@ -274,9 +301,48 @@
 <!-- .left menu block -->
 
 <div class="col-md-8 main-block">
-  
-</div>
-<!-- .main block -->
+ 
+  <div class="row col-md-12">
+    <div class="col-md-2" ng-switch on="vm.personal.is_online">
+      <button class="btn btn-block btn-success"  
+      ng-switch-when="0" data-toggle="modal" data-target="#UsePersonal">Вход</button>
+      <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
+    </div>
+    <div class="col-md-3">
+      <a href="#/cardclient/{{ vm.personal.client}}/" class="btn btn-default btn-block"> Вернуться в карту</a>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-block btn-warning" ng-click="vm.show_block=!vm.show_block">Блокировка </button>
+    </div>
+  </div>  <!-- row -->
+
+    <div class="row">
+      <div class="col-md-3"><center>дата</center></div>
+      <div class="col-md-2">время</div>
+      <div class="col-md-2">окончание</div>
+      <div class="col-md-3">Инструктор</div>
+    </div>
+    <div ng-repeat="use in vm.personal.visits"
+         ng-click="collapsed=!collapsed">
+        <div class="col-md-3"> {{ use.date | date:'dd.MM.yyyy' }} </div>
+        <div class="col-md-2"> {{ use.date | date:'HH:mm' }} </div>
+        <div class="col-md-2"> {{ use.end | date:'HH:mm' }} </div>
+        <div class="col-md-3"> {{ use.instructor }} </div>
+        <div class="col-md-1 hide">
+          <a class="fa fa-edit text-yellow pull-left" href="#/editvisit/{{ use.id }}/">
+          </a>
+        </div>
+        <div class="col-md-1 hide">
+          <i class="fa fa-recycle cursor-pointer text-red pull-right" ng-click="vm.use_del(use.id)"></i>
+        </div>
+        <div ng-show="collapsed" class="bg-info col-md-12">
+          <span ng-repeat="train in use.clubcardtrains_set">
+            {{ train.name }}, &nbsp;
+          </span>
+        </div>
+    </div>  <!-- row -->
+
+</div><!-- .main block -->
 
 <!-- payment info -->
 <div class="panel panel-info col-md-12">

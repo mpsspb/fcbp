@@ -72,6 +72,11 @@
           vm.free_prolongation = false
           vm.prdata.is_paid = true
         }
+
+        vm.udata = {
+          instructor: vm.personal.instructor,
+          client_personal: vm.uid
+        }
       }
 
       /**
@@ -211,11 +216,14 @@
 
     };
 
-    function use() {
+    function use(out) {
 
-      var uid = $routeParams.uid
-      var fdata = {client_personal: uid}
-      Personals.use(fdata).then(personalclientSuccessFn, personalclientErrorFn);
+      if (out) {
+        Personals.use_exit(vm.udata).then(personalclientSuccessFn, personalclientErrorFn);
+        return 1
+      }
+
+      Personals.use(vm.udata).then(personalclientSuccessFn, personalclientErrorFn);
 
       /**
       * @name personalclientSuccessFn
