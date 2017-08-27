@@ -9,15 +9,15 @@
     .module('fcbp.employees.controllers')
     .controller('NewEmployeeController', NewEmployeeController);
 
-  NewEmployeeController.$inject = ['$scope', '$http', '$routeParams', 'Authentication' , 'Employees'];
+  NewEmployeeController.$inject = ['$scope', '$http', '$routeParams',
+  'Positions' , 'Employees'];
 
   /**
   * @namespace NewEmployeeController
   */
-  function NewEmployeeController($scope, $http, $routeParams, Authentication, Employees ) {
+  function NewEmployeeController($scope, $http, $routeParams, Positions, Employees ) {
     var vm = this;
 
-    vm.isAuthenticated = isAuthenticated();
     vm.submit = submit
     vm.uid = $routeParams.uid
 
@@ -45,15 +45,25 @@
       function cardempErrorFn(data, status, headers, config) {
         console.log(data);
       }
-    }
 
-    /**
-    * @name isAuthenticated
-    * @desc Log the user out
-    * @memberOf fcbp.employees.controllers.NewEmployeeController
-    */
-    function isAuthenticated() {
-      return Authentication.isAuthenticated();
+      Positions.list().then(positionsSuccessFn, positionsErrorFn);
+
+      /**
+      * @name positionsSuccessFn
+      * @desc Update Positions array on view
+      */
+      function positionsSuccessFn(data, status, headers, config) {
+        vm.positions = data.data;
+      }
+
+      /**
+      * @name positionsErrorFn
+      * @desc console log error
+      */
+      function positionsErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+
     };
 
     function submit() {

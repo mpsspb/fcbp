@@ -28,12 +28,18 @@ class Employee(models.Model):
         return "%s %s. %s." % (self.last_name, self.first_name[0],
                                self.patronymic[0])
 
+    @property
+    def position(self):
+        if self.positions.exists():
+            return self.positions.last().position.name
+        return ''
+
 
 class EmployeePosition(models.Model):
 
     """Career."""
     date = models.DateTimeField(auto_now_add=True)
-    employee = models.ForeignKey(Employee)
+    employee = models.ForeignKey(Employee, related_name='positions')
     position = models.ForeignKey(Position)
     date_begin = models.DateField()
     date_end = models.DateField(blank=True, null=True)

@@ -40,7 +40,7 @@
       scope: {
         employee: '='
       },
-      templateUrl: '/static/templates/employees/employee.html?09'
+      templateUrl: '/static/templates/employees/employee.html?02'
     };
 
     return directive;

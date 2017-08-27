@@ -34,8 +34,18 @@
     <div class="col-md-3">
       <input ng-model="vm.fdata.is_seller" type="checkbox" class="form-control">
     </div>
+
+    <label class="col-md-2 control-label">Должность:</label>
+    <div class="col-md-3">
+      <select ng-model="vm.fdata.position"
+       class="container-full" 
+       ng-options="p.id as p.name for p in vm.positions">
+      </select>
+    </div>
   </div>
+
 </div>
+
 <div class="modal-footer">
   <a href="#/employees-list" class="btn btn-default pull-left">отмена</a>
 
