@@ -327,7 +327,7 @@
         <div class="col-md-3"> {{ use.date | date:'dd.MM.yyyy' }} </div>
         <div class="col-md-2"> {{ use.date | date:'HH:mm' }} </div>
         <div class="col-md-2"> {{ use.end | date:'HH:mm' }} </div>
-        <div class="col-md-3"> {{ use.instructor }} </div>
+        <div class="col-md-3"> {{ use.instructor|| "-" }} </div>
         <div class="col-md-1 hide">
           <a class="fa fa-edit text-yellow pull-left" href="#/editvisit/{{ use.id }}/">
           </a>

@@ -40,6 +40,13 @@ class UseClientPersonalSerializer(serializers.ModelSerializer):
     class Meta:
         model = UseClientPersonal
 
+    def create(self, validated_data):
+        instance = super(UseClientPersonalSerializer, self).create(validated_data)
+        # save read only field instructor
+        instructor = self.context['request'].data.get('instructor')
+        instance.instructor_id = instructor
+        instance.save()
+        return instance
 
 class UseClientTimingSerializer(serializers.ModelSerializer):
 
