@@ -363,7 +363,7 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
     visits = UseClientPersonalSerializer(many=True, read_only=True)
     owners = OwnersPersonalSerializer(many=True, read_only=True)
     instructor_name = serializers.CharField(
-        source='instructor.initials')
+        source='instructor.initials', read_only=True)
     name = serializers.CharField(read_only=True)
     client_name = serializers.CharField(read_only=True)
     client_mobile = serializers.IntegerField(
@@ -378,6 +378,7 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
     rest_prolongation = serializers.IntegerField(read_only=True)
     is_online = serializers.IntegerField(read_only=True)
     positions = serializers.ListField(read_only=True)
+    has_overdue_debt = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = ClientPersonal
@@ -387,9 +388,6 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
         data['count'] = 1
         data['status'] = 2
         data['date_start'] = date.today()
-        data['date_begin'] = date.today()
-        obj = Personal.objects.get(pk=data['personal'])
-        data['date_end'] = date_end(data['date_begin'], obj)
         fpersonal = FormClientPersonal(data)
         if fpersonal.is_valid():
             personal = fpersonal.save()

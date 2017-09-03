@@ -44,8 +44,8 @@ class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
         Optionally restricts the returned clients,
         by filtering against a `letter` query parameter in the URL.
         """
-        queryset = Client.objects\
-                         .order_by('last_name', 'first_name', 'patronymic')
+        queryset = Client.objects.order_by(
+            'last_name', 'first_name', 'patronymic')
 
         letter = self.request.query_params.get('letter', None)
         if letter is not None:

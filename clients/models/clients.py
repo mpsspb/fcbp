@@ -937,8 +937,8 @@ class ClientPersonal(Property, models.Model):
 
     date = models.DateTimeField(auto_now_add=True)
     date_start = models.DateField(blank=True)
-    date_begin = models.DateField(blank=True)
-    date_end = models.DateField(blank=True)
+    date_begin = models.DateField(blank=True, null=True)
+    date_end = models.DateField(blank=True, null=True)
     client = models.ForeignKey(Client, )
     personal = models.ForeignKey(Personal, )
     instructor = models.ForeignKey(Employee, blank=True, null=True)
@@ -993,6 +993,16 @@ class ClientPersonal(Property, models.Model):
     @property
     def positions(self):
         return self.personal.positions_pks
+
+    def activate(self, date_begin=None):
+        self.date_begin = date_begin if date_begin else date.today()
+        self.date_end = date_end(self.date_begin, self.personal)
+        self.status = 1
+        self.save()
+
+    def deactivate(self, ):
+        self.status = 0
+        self.save()
 
 
 class ProlongationPersonal(Prolongation, WritePayment, models.Model):
@@ -1172,6 +1182,23 @@ class UseClientPersonal(models.Model):
     client_personal = models.ForeignKey(
         ClientPersonal, related_name='visits')
     instructor = models.ForeignKey(Employee, blank=True, null=True)
+
+    class Meta:
+        ordering = ['date']
+
+    def save(self, *args, **kwargs):
+        if not self.date:
+            self.date = datetime.now()
+        if not self.pk:
+            is_first = UseClientPersonal.objects\
+                .filter(client_personal=self.client_personal)\
+                .count()
+            if is_first == 0 and self.client_personal.status == 2:
+                self.client_personal.activate()
+        if self.end and self.client_personal.rest_visits < 1:
+            # set status not activate
+            self.client_personal.deactivate()
+        super(UseClientPersonal, self).save(*args, **kwargs)
 
 
 class UseClientTiming(models.Model):

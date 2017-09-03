@@ -73,6 +73,13 @@
     </div>
 
     <div class="form-group">
+      <label class="col-md-5 control-label">Активация карты:</label>
+      <div class="col-md-3">
+        <input ng-model="personal.period_activation" type="number" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
       <label class="col-md-5 control-label">Продление дней:</label>
       <div class="col-md-3">
         <input ng-model="personal.period_prolongation" type="number" class="form-control">
@@ -139,6 +146,10 @@
           <tr>
               <td>Цена</td>
               <td>{{ personal.price }}</td>
+          </tr>
+          <tr>
+              <td>Активация карты</td>
+              <td>{{ personal.period_activation }} дней</td>
           </tr>
           <tr>
               <td>Продление</td>

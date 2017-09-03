@@ -16,7 +16,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'fcbp.settings'
 django.setup()
 
 
-from clients.models import ClientClubCard
+from clients.models import ClientClubCard, ClientPersonal
 
 
 def end_card(**kwargs):
@@ -29,5 +29,16 @@ def end_card(**kwargs):
         card.deactivate()
 
 
+def end_personal(**kwargs):
+    """
+    Disable Client Personal
+    """
+    expire = ClientPersonal.objects.filter(
+        date_end__lte=date.today()).exclude(status=0)
+    for card in expire:
+        card.deactivate()
+
+
 if __name__ == '__main__':
     end_card()
+    end_personal()

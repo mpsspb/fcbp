@@ -122,7 +122,7 @@
       },
       controller: DirectControl,
       controllerAs: 'vm',
-      templateUrl: '/static/templates/products/personal.html?1266'
+      templateUrl: '/static/templates/products/personal.html?766'
     };
 
     return directive;

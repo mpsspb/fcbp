@@ -126,25 +126,22 @@
       <div class="modal-body">
         <table class="table">
           <tr>
-            <td>дата</td><td>наименование</td>
-              <td>срок действия</td><td>визитов</td>
-              <td>вход</td>
+            <td>дата продажи</td><td>наименование</td>
+            <td>активирована</td>
+            <td>срок действия</td><td>тренировки</td>
           </tr>
           <tr ng-repeat="personal in vm.cardclient.clientpersonal_set">
-            <td> {{ personal.date | date:'dd.MM.yyyy' }} </td>
-            <td> <span data-href="#/usepersonal/{{ personal.id }}">{{ personal.name }} </span></td>
-            <td> {{ personal.date_end | date:'dd.MM.yyyy' }} </td>
-            <td> {{ personal.rest_visits }} </td>
-            <td ng-switch on="personal.is_online">
-              <button class="btn btn-block btn-success"
-              ng-click="vm.personaluse(personal.id, 0)" ng-switch-when="0">
-                Вход
-              </button>
-              <button class="btn btn-block btn-danger"
-              ng-click="vm.personaluse(personal.id, 1)" ng-switch-default>
-                Выход
-              </button>
+            <td >
+              {{ personal.date | date:'dd.MM.yyyy' }}</td>
+            <td>
+              <span data-href="#/usepersonal/{{ personal.id }}"
+              ng-class="personal.has_overdue_debt ? 'text-red' : ''">
+                {{ personal.name }}
+              </span>
             </td>
+            <td> {{ (personal.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
+            <td> {{ personal.date_end | date:'dd.MM.yyyy' }}</td>
+            <td> {{ personal.rest_visits }} </td>
           </tr>
         </table>
       </div>

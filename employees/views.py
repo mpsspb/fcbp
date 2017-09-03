@@ -25,7 +25,7 @@ class EmployeeViewSet(ActiveModel, viewsets.ModelViewSet):
         """
         Only employees who is seller.
         """
-        queryset = self.queryset.filter(is_seller=True)
+        queryset = self.queryset.filter(is_seller=True, is_active=True)
         serializer = EmployeeSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -35,11 +35,12 @@ class EmployeeViewSet(ActiveModel, viewsets.ModelViewSet):
         Only employees who can do personals for current type.
         """
         positions = request.GET.get('positions', [])
+        print (positions)
         now = datetime.now()
-        filter_position = dict(date_begin__gte=now, date_end__isnull=True)
-        employees = EmployeePosition.objects.filter(**filter_position)
-        # :TODO
-        queryset = self.queryset.all()
+        filter_position = dict(date_begin__lte=now, date_end__isnull=True)
+        epositions = EmployeePosition.objects.filter(**filter_position)
+        emp_pks = epositions.values_list('employee__pk', flat=True)
+        queryset = self.queryset.filter(pk__in=emp_pks, is_active=True)
         serializer = EmployeeSerializer(queryset, many=True)
         return Response(serializer.data)
 

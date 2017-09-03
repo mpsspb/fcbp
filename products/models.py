@@ -166,6 +166,7 @@ class Personal(models.Model, GenericProduct):
     price = models.DecimalField(max_digits=15, decimal_places=2,)
     period_prolongation = models.IntegerField(default=0, blank=True)
     club_card_only = models.BooleanField(default=False)
+    period_activation = models.IntegerField(default=0, blank=True)
 
     @property
     def period_data(self):
