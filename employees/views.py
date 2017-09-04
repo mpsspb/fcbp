@@ -35,9 +35,8 @@ class EmployeeViewSet(ActiveModel, viewsets.ModelViewSet):
         Only employees who can do personals for current type.
         """
         positions = request.GET.get('positions', [])
-        print (positions)
         now = datetime.now()
-        filter_position = dict(date_begin__lte=now, date_end__isnull=True)
+        filter_position = dict(date_begin__lte=now, date_end__isnull=True, position__pk__in=positions)
         epositions = EmployeePosition.objects.filter(**filter_position)
         emp_pks = epositions.values_list('employee__pk', flat=True)
         queryset = self.queryset.filter(pk__in=emp_pks, is_active=True)
