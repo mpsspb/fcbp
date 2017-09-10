@@ -182,7 +182,18 @@
 
     };
 
-    function prolongation() {
+    function prolongation(is_extra) {
+
+      if (is_extra == 'is_extra') {
+        if (!vm.prdata.note) {
+          vm.prdata.err = 'Поле примечание должно содеражть не менее 3 символов'
+          return
+        }
+        vm.prdata.is_paid = false
+        vm.prdata.amount = 0
+        vm.prdata.is_extra = true
+      }
+
       Personals.prolongation(vm.prdata).then(prolongationSuccessFn, prolongationErrorFn);
 
       /**
