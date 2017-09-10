@@ -30,6 +30,7 @@
     vm.search_client = search_client;
     vm.choose_owner = choose_owner;
     vm.set_owner = set_owner;
+    vm.update_date_begin = update_date_begin;
 
     activate();
 
@@ -72,6 +73,13 @@
         } else {
           vm.free_prolongation = false
           vm.prdata.is_paid = true
+        }
+
+        if (vm.personal.date_begin) {
+          // update date begin data
+          vm.new_date = {
+            date_begin: moment(vm.personal.date_begin, 'YYYY-MM-DD').format('DD.MM.YYYY'),
+          }
         }
 
         vm.udata = {
@@ -217,14 +225,11 @@
     };
 
     function use(out) {
-
       if (out) {
         Personals.use_exit(vm.udata).then(personalclientSuccessFn, personalclientErrorFn);
         return 1
       }
-
       Personals.use(vm.udata).then(personalclientSuccessFn, personalclientErrorFn);
-
       /**
       * @name personalclientSuccessFn
       * @desc Update Personals array on view
@@ -233,7 +238,6 @@
         activate();
         console.log('success')
       }
-
       /**
       * @name personalclientErrorFn
       * @desc console log error
@@ -241,8 +245,30 @@
       function personalclientErrorFn(data, status, headers, config) {
         console.log(data);
       }
+    }; // End function out
 
-    }
+    function update_date_begin() {
+      vm.new_date.update_success = false
+      vm.new_date.update_error = false
+      $http.patch('/api/v1/clients/personal/' + vm.uid + '/', vm.new_date
+                ).then(update_date_beginSuccessFn, update_date_beginErrorFn);
+
+      /**
+      * @name update_date_beginSuccessFn
+      * @desc Update ClubCard on view
+      */
+      function update_date_beginSuccessFn(data, status, headers, config) {
+        activate();
+      }
+      /**
+      * @name update_date_beginErrorFn
+      * @desc console log error
+      */
+      function update_date_beginErrorFn(data, status, headers, config) {
+        console.log(data)
+        vm.new_date.update_error = data.data['date_begin'][0];
+      }
+    }; // END function update_date_begin
 
   };
 

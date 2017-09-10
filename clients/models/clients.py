@@ -1004,6 +1004,15 @@ class ClientPersonal(Property, models.Model):
         self.status = 0
         self.save()
 
+    def save(self, *args, **kwargs):
+        if self.pk:
+            old_date_begin = ClientPersonal.objects.get(pk=self.pk).date_begin
+            if old_date_begin:
+                delta_begin = self.date_begin - old_date_begin
+                if delta_begin:
+                    self.date_end = date_end(self.date_begin, self.personal)
+        super(ClientPersonal, self).save(*args, **kwargs)
+
 
 class ProlongationPersonal(Prolongation, WritePayment, models.Model):
 
