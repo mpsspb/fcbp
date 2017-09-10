@@ -26,7 +26,6 @@
     vm.error = '';
 
     vm.uid = $routeParams.uid
-    // vm.uid = parseInt(vm.uid, 10);
 
     vm.valid_freeze_date = true;
 
@@ -434,7 +433,7 @@
 
     }
 
-    function is_paid(){
+    function is_paid() {
       if (!vm.prdata.is_paid) {
         vm.prdata.amount = 0;
       }
