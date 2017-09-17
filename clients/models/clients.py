@@ -86,6 +86,27 @@ class Client(models.Model):
         else:
             return ""
 
+    @property
+    def has_clientclubcard(self):
+        return self.clientclubcard_set.filter(status__gt=0).exists()
+
+    @property
+    def has_clientaquaaerobics(self):
+        return self.clientaquaaerobics_set.filter(status__gt=0).exists()
+
+    @property
+    def has_clientticket(self):
+        return self.clientticket_set.filter(status__gt=0).exists()
+
+    @property
+    def has_clientpersonal(self):
+        return self.clientpersonal_set.filter(status__gt=0).exists()
+
+    @property
+    def has_clienttiming(self):
+        return self.clienttiming_set.filter(status__gt=0).exists()
+
+
     def active_cc(self):
         """Client's active club cards"""
         return self.clientclubcard_set.filter(status__gt=0)
@@ -993,6 +1014,11 @@ class ClientPersonal(Property, models.Model):
     @property
     def positions(self):
         return self.personal.positions_pks
+
+    @property
+    def first_client_cc(self):
+        # first active client club card
+        return self.client.active_cc().first()
 
     def activate(self, date_begin=None):
         self.date_begin = date_begin if date_begin else date.today()

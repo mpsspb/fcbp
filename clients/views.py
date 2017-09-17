@@ -39,6 +39,12 @@ class ClientViewSet(TemplateResponseMixin, viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
+    def get_serializer_class(self):
+        serializer_class = super(ClientViewSet, self).get_serializer_class()
+        if self.action == 'list':
+            return ClientListSerializer
+        return serializer_class
+
     def get_queryset(self):
         """
         Optionally restricts the returned clients,

@@ -379,6 +379,9 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
     is_online = serializers.IntegerField(read_only=True)
     positions = serializers.ListField(read_only=True)
     has_overdue_debt = serializers.BooleanField(read_only=True)
+    is_club_card_only = serializers.BooleanField(
+        source='personal.club_card_only', read_only=True)
+    first_client_cc = ClientClubCardSerializer(read_only=True)
 
     class Meta:
         model = ClientPersonal
@@ -427,9 +430,7 @@ class ClientTimingSerializer(serializers.ModelSerializer):
 
 
 class ClientSerializer(serializers.ModelSerializer):
-    avatar = Base64ImageField(
-        max_length=None, use_url=True
-    )
+    avatar = Base64ImageField(max_length=None, use_url=True)
     clientclubcard_set = ClientClubCardSerializer(
         many=True, read_only=True)
     clientaquaaerobicsfull_set = ClientAquaAerobicsFullSerializer(
@@ -461,6 +462,18 @@ class ClientSerializer(serializers.ModelSerializer):
 class ClientSerializerLight(serializers.ModelSerializer):
     debt_set = DebtSerializer(many=True, read_only=True)
     full_name = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Client
+
+
+class ClientListSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(read_only=True)
+    has_clientclubcard = serializers.BooleanField(read_only=True)
+    has_clientaquaaerobics = serializers.BooleanField(read_only=True)
+    has_clientticket = serializers.BooleanField(read_only=True)
+    has_clientpersonal = serializers.BooleanField(read_only=True)
+    has_clienttiming = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Client

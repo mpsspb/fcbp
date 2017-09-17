@@ -243,7 +243,29 @@
       </div>
     </h4>    
   </div>
-<!-- instructor -->
+
+  <!-- club card data -->
+  <div class="panel panel-warning col-md-12" ng-show="vm.personal.is_club_card_only">
+    <div class="panel-heading"><strong>Вид клубной карты</strong>
+      <div ng-show="vm.personal.first_client_cc"><h4>
+        <i class="fa fa-credit-card">
+        </i> Клубная карта: {{ vm.personal.first_client_cc.name }}
+          <div ng-if="vm.personal.first_client_cc.date_begin">
+          c {{ vm.personal.first_client_cc.date_begin | date:'dd.MM.yyyy' }}
+          по {{ vm.personal.first_client_cc.date_end | date:'dd.MM.yyyy' }}
+          </div>
+          <div ng-if="!vm.personal.first_client_cc.date_begin">
+           не начато использование
+          </div>
+      </h4></div>
+      <div ng-show="!vm.personal.first_client_cc">
+        <span class="alert-danger"> Нет действующей карты </span>
+      </div>
+    </div>
+  </div>
+  <!-- end club card data -->
+
+  <!-- instructor -->
   <div class="panel panel-default col-md-12">
     <div class="panel-heading"><strong>Инструктор</strong></div>
     <div class="panel-body">
@@ -308,7 +330,8 @@
  
   <div class="row col-md-12">
     <div class="col-md-2" ng-switch on="vm.personal.is_online">
-      <button class="btn btn-block btn-success"  
+      <button class="btn btn-block btn-success"
+      ng-disabled="vm.personal.is_club_card_only && !vm.personal.first_client_cc"
       ng-switch-when="0" data-toggle="modal" data-target="#UsePersonal">Вход</button>
       <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
     </div>
@@ -423,53 +446,53 @@
         </span>
       </div><!-- .row -->
 
-<!--  Change activation date-->
-    <div ng-show="coll_d" class="col-md-12">
-      <div class="col-md-12 bg-danger">
-        <strong>Изменить дату активации</strong>
-      </div>
-      <div class="col-md-12">
-        <span class="bg-success" ng-show="vm.new_date.update_success">обновлено</span>
-        <div class="alert alert-danger" role="alert"  ng-show="vm.new_date.update_error">
-          <strong>{{ vm.new_date.update_error }}</strong>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <input ng-model="vm.new_date.date_begin" type="text" class="form-control date">
-      </div>
-      <div class="btn btn-primary col-md-3" ng-click="vm.update_date_begin()">Применить</div>
+  <!--  Change activation date-->
+  <div ng-show="coll_d" class="col-md-12">
+    <div class="col-md-12 bg-danger">
+      <strong>Изменить дату активации</strong>
     </div>
-<!-- end Change activation date -->
-<!-- manual prolongation -->
-    <div ng-show="coll_p" class="col-md-12">
-      <div class="col-md-12 bg-danger">
-        <strong>Дополнительное продление</strong>
+    <div class="col-md-12">
+      <span class="bg-success" ng-show="vm.new_date.update_success">обновлено</span>
+      <div class="alert alert-danger" role="alert"  ng-show="vm.new_date.update_error">
+        <strong>{{ vm.new_date.update_error }}</strong>
       </div>
-      <div class="col-md-12">
-        <span class="bg-success" ng-show="vm.extra_prdata.update_success">
-          обновлено
-        </span>
-        <span class="bg-warning text-red" ng-show="vm.prdata.err">
-          <strong>{{ vm.prdata.err }}</strong>
-        </span>
-      </div>
-      <div class="col-md-3">
-        <label class="col-md-4"> Начало: </label>
-        <input class="col-md-8 sinput date-time" ng-model="vm.prdata.date">
-      </div>
-      <div class="col-md-3">
-        <label class="col-md-4"> Дней: </label>
-        <input class="col-md-8 sinput" type="number" min="1"
-        ng-model="vm.prdata.days">
-      </div>
-      <div class="col-md-3">
-        <input ng-model="vm.prdata.note" type="text" class="sinput"
-               placeholder="Примечание" minlength="3">
-      </div>
-      <div class="btn btn-xs btn-success col-md-3"
-           ng-click="vm.prolongation('is_extra')">Применить</div>
     </div>
-<!-- end prolongation -->
+    <div class="col-md-3">
+      <input ng-model="vm.new_date.date_begin" type="text" class="form-control date">
+    </div>
+    <div class="btn btn-primary col-md-3" ng-click="vm.update_date_begin()">Применить</div>
+  </div>
+  <!-- end Change activation date -->
+  <!-- manual prolongation -->
+  <div ng-show="coll_p" class="col-md-12">
+    <div class="col-md-12 bg-danger">
+      <strong>Дополнительное продление</strong>
+    </div>
+    <div class="col-md-12">
+      <span class="bg-success" ng-show="vm.extra_prdata.update_success">
+        обновлено
+      </span>
+      <span class="bg-warning text-red" ng-show="vm.prdata.err">
+        <strong>{{ vm.prdata.err }}</strong>
+      </span>
+    </div>
+    <div class="col-md-3">
+      <label class="col-md-4"> Начало: </label>
+      <input class="col-md-8 sinput date-time" ng-model="vm.prdata.date">
+    </div>
+    <div class="col-md-3">
+      <label class="col-md-4"> Дней: </label>
+      <input class="col-md-8 sinput" type="number" min="1"
+      ng-model="vm.prdata.days">
+    </div>
+    <div class="col-md-3">
+      <input ng-model="vm.prdata.note" type="text" class="sinput"
+             placeholder="Примечание" minlength="3">
+    </div>
+    <div class="btn btn-xs btn-success col-md-3"
+         ng-click="vm.prolongation('is_extra')">Применить</div>
+  </div>
+  <!-- end prolongation -->
 
     </div><!-- .panel-body -->
 </div><!-- .panel-danger
