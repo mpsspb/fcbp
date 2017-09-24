@@ -31,6 +31,7 @@
     vm.choose_owner = choose_owner;
     vm.set_owner = set_owner;
     vm.update_date_begin = update_date_begin;
+    vm.add_extra = add_extra;
 
     activate();
 
@@ -156,8 +157,12 @@
     /*
     * Choose new owner
     */
-    function choose_owner(key) {
-      vm.new_owner = vm.findClients[key];
+    function choose_owner(key, extra) {
+      if (extra) {
+        vm.new_extra = vm.findClients[key];
+      } else {
+        vm.new_owner = vm.findClients[key];
+      }
       vm.findClients = [];
     }
 
@@ -179,7 +184,20 @@
       function clntSetOwnerErrorFn(data, status, headers, config) {
         console.log(data);
       }
+    };
 
+    function add_extra() {
+      Personals.add_extra(vm.uid, {
+        "extra_client": vm.new_extra.id,
+      }).then(clntAddExtraSuccessFn, clntAddExtraErrorFn);
+
+      function clntAddExtraSuccessFn(data, status, headers, config) {
+        activate();
+      }
+
+      function clntAddExtraErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
     };
 
     function prolongation(is_extra) {

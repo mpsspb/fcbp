@@ -984,6 +984,11 @@ class ClientPersonal(Property, models.Model):
         return self.personal.name
 
     @property
+    def get_extra_clients(self):
+        clients = self.extra_clients.values('client')
+        return Client.objects.filter(pk__in=clients)
+
+    @property
     def rest_days(self):
         rest_days = (self.date_end - date.today()).days
         if rest_days < 1:
@@ -1038,6 +1043,19 @@ class ClientPersonal(Property, models.Model):
                 if delta_begin:
                     self.date_end = date_end(self.date_begin, self.personal)
         super(ClientPersonal, self).save(*args, **kwargs)
+
+
+class PersonalClients(models.Model):
+
+    """
+    External clients for the ClientPersonal.
+    """
+    date = models.DateTimeField(auto_now_add=True)
+    client = models.ForeignKey(Client, )
+    personal = models.ForeignKey(ClientPersonal, related_name='extra_clients')
+
+    class Meta:
+        unique_together = ('client', 'personal')
 
 
 class ProlongationPersonal(Prolongation, WritePayment, models.Model):

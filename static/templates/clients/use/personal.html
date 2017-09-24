@@ -108,6 +108,61 @@
 </div>
 <!-- end modal ChangeOwner -->
 
+<!-- Modal ExtraClient -->
+<div class="modal fade" id="ExtraClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 600px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+         Дополнительный клиент </h4>
+      </div>
+      <form class="form-horizontal">
+      <div class="modal-body">
+      <div class="row">
+        <label class="col-md-3 control-label">
+        Новый клиент
+        </label>
+        <label class="col-md-3 control-label">
+        Фамилия
+        </label>
+      </div>
+      <div class="row">
+        <div class="col-md-3"> 
+          <button type="button" class="btn-add-credit btn btn-xs btn-info btn-block" 
+          ng-click="vm.search_client()">Поиск</button>
+        </div>
+        <div class="col-md-3">
+          <input class="sinput" type="text" ng-model="vm.ext.last_name">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12" ng-repeat="clnt in vm.findClients">
+          {{ clnt.full_name }} {{ clnt.born | date:'dd.MM.yyyy' }}
+          <button type="button" class="btn-add-credit btn btn-xs btn-primary pull-right" 
+            ng-click="vm.choose_owner($index, true)">Выбрать</button>
+          <hr>
+        </div>
+        <div class="col-md-12 alert alert-warning" ng-show="vm.new_extra">
+        {{ vm.new_extra.full_name }} {{ vm.new_extra.born | date:'dd.MM.yyyy' }}
+        </div>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-success pull-right"
+        data-dismiss="modal" ng-click="vm.add_extra()">
+          Добавить
+        </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- end modal ExtraClient -->
+
 <!-- Modal PersonalEmployee -->
 <div class="modal fade" id="PersonalEmployee" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: 600px;">
@@ -243,6 +298,29 @@
       </div>
     </h4>    
   </div>
+
+  <!-- extra clients -->
+   <div class="col-md-12" ng-show="vm.personal.total_cients > 1">
+    <br/>
+    <span class="btn btn-info btn-block"> Дополнительные клиенты ({{ vm.personal.extra_clients.length }}) </span>
+   </div>
+
+  <div class="col-md-12 row-border"
+   ng-show="vm.personal.total_cients > 1">
+    <button class="btn btn-primary btn-block"
+            ng-show="vm.personal.extra_clients.length < vm.personal.total_cients - 1"
+       data-toggle="modal" data-target="#ExtraClient"
+       > Добавить клиента </button>
+    <div class="col-md-12 row-border" ng-repeat="client in vm.personal.extra_clients">
+      <h4>
+      <h4><u>{{ client.full_name }}</u></h4>
+      <h4>ЧС: {{ client.uid }}</h4>
+      <h4>Карта: {{ client.card }}</h4>
+      <h4>Тел.: {{ client.mobile | phone }}</h4>
+    </div>
+  </div>
+
+  <!-- End extra clients -->
 
   <!-- club card data -->
   <div class="panel panel-warning col-md-12" ng-show="vm.personal.is_club_card_only">

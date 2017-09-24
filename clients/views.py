@@ -402,6 +402,14 @@ class ClientPersonalViewSet(viewsets.ModelViewSet):
     queryset = ClientPersonal.objects.order_by('-date')
     serializer_class = ClientPersonalSerializer
 
+    @detail_route(methods=['post'], )
+    def add_extra(self, request, pk):
+        obj = self.get_object()
+        extra_client = self.request.data.get('extra_client')
+        PersonalClients.objects.get_or_create(
+            client_id=extra_client, personal=obj)
+        return Response({})
+
 
 class ClientTimingViewSet(viewsets.ModelViewSet):
     queryset = ClientTiming.objects.order_by('-date')

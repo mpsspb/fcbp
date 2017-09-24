@@ -32,6 +32,7 @@
       prolongation: prolongation,
       prolongation_del: prolongation_del,
       ownerp: ownerp,
+      add_extra: add_extra,
     };
 
     return Personals;
@@ -72,6 +73,10 @@
       return $http.post('/api/v1/products/personal/' + uid + '/active/')
     }
 
+    function add_extra(uid, fdata) {
+      return $http.post('/api/v1/clients/personal/' + uid + '/add_extra/', fdata)
+    }
+
     function use(fdata) {
       return $http.post('/api/v1/clients/usepersonal/', fdata)
                   .error(function(data, status, headers, config) {
@@ -87,7 +92,7 @@
     }
 
     function prolongation(fdata) {
-      return $http.post('/api/v1/clients/prolongationticket_personal/',  fdata)
+      return $http.post('/api/v1/clients/prolongationticket_personal/', fdata)
                   .error(function(data, status, headers, config) {
                           console.log(data)
                         });

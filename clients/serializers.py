@@ -219,7 +219,7 @@ class ClientExtraSerializer(serializers.ModelSerializer):
         model = Client
         fields = (
             'id', 'first_name', 'last_name', 'patronymic', 'born', 'uid',
-            'mobile', 'card', 'initials')
+            'mobile', 'card', 'initials', 'full_name')
         read_only_fields = ('id', 'uid', 'mobile', 'card', 'initials')
 
 
@@ -240,7 +240,6 @@ class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
     freezeaqua_set = FreezeAquaSerializer(many=True, read_only=True)
     prolongationaqua_set = ProlongationAquaSerializer(
         many=True, read_only=True)
-
     extra_client = ClientExtraSerializer(many=True, read_only=True)
 
     class Meta:
@@ -381,6 +380,9 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
     has_overdue_debt = serializers.BooleanField(read_only=True)
     is_club_card_only = serializers.BooleanField(
         source='personal.club_card_only', read_only=True)
+    total_cients = serializers.IntegerField(
+        source='personal.clients_count', read_only=True)
+    extra_clients = ClientExtraSerializer(source='get_extra_clients', many=True, read_only=True)
     first_client_cc = ClientClubCardSerializer(read_only=True)
 
     class Meta:
