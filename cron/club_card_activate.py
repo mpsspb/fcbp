@@ -37,7 +37,7 @@ def activate_personal(**kwargs):
     """
     for card in ClientPersonal.objects.filter(date_begin__isnull=True):
         # period for activate
-        days = card.club_card.period_activation
+        days = card.personal.period_activation
         if card.date_start + timedelta(days - 1) < date.today():
             card.activate()
 
