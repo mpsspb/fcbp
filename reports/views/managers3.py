@@ -8,6 +8,7 @@ from clients.models import (
     ProlongationClubCard, UseClientClubCard, ClubCardTrains, ClientClubCard,
     FreezeClubCard)
 from finance.models import Payment
+from products.models import Training
 from .base import ReportTemplate, Report
 
 
@@ -92,18 +93,26 @@ class VisitsPeriod(Report):
     file_name = 'club_card_visits'
     sheet_name = 'report'
 
-    table_headers = [
+    default_headers = [
         (_('date'), 4000),
-        (_('gym'), 6000),
-        (_('shaping'), 6000),
-        (_('other group workouts'), 6000),
     ]
+    table_headers = [(_('date'), 4000), ]
 
     def initial(self, request, *args, **kwargs):
         super(VisitsPeriod, self).initial(request, *args, **kwargs)
-        self.total_gym = 0
-        self.total_shaping = 0
-        self.total_other = 0
+        qs = Training.objects.filter(is_active=True)
+        headers = []
+        for t in qs.values('order_num').distinct().order_by('order_num'):
+            order_num = t.get('order_num')
+            tr = qs.filter(order_num=order_num)
+            if tr.count() == 1:
+                name = tr[0].name
+            else:
+                name = _('group #: %s') % order_num
+            headers.append((name, 6000))
+        self.table_headers = self.default_headers + headers
+        self.groups = qs.values_list(
+            'order_num', flat=True).distinct().order_by('order_num')
 
     def get_title(self, **kwargs):
         return _("Attendance on club cards for the period").capitalize()
@@ -118,6 +127,7 @@ class VisitsPeriod(Report):
 
     def get_data(self):
         rows = []
+        self.groups_cnt = [0] * len(self.groups)
         days = (self.get_tdate() - self.get_fdate()).days + 1
         for d in (self.get_fdate() + timedelta(n) for n in range(days)):
             line = []
@@ -126,23 +136,17 @@ class VisitsPeriod(Report):
             line.append(d.strftime('%d.%m.%Y'))
             d_visits = UseClientClubCard.objects.filter(date__range=(df, dt))
             workout = ClubCardTrains.objects.filter(visit__in=d_visits)
-            gym = workout.filter(training__order_num=0).count()
-            shaping = workout.filter(training__order_num=1).count()
-            other = workout.filter(training__order_num__gt=1).count()
-            self.total_gym += gym
-            self.total_shaping += shaping
-            self.total_other += other
-            line.append(gym)
-            line.append(shaping)
-            line.append(other)
+            for ind, g in enumerate(self.groups):
+                cnt = workout.filter(training__order_num=g).count()
+                self.groups_cnt[ind] += cnt
+                line.append(cnt)
             rows.append(line)
-        line = [
-            _("total"), self.total_gym, self.total_shaping, self.total_other]
+        line = [_("total")] + self.groups_cnt
         rows.append(line)
         return rows
 
     def write_bottom(self):
-        total = self.total_gym + self.total_shaping + self.total_other
+        total = sum(self.groups_cnt)
         self.ws.write(self.row_num, 0, _('total for period'))
         self.ws.write(self.row_num, 1, total, styles.styleh)
 

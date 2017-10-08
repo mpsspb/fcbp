@@ -329,6 +329,9 @@ msgstr "шейпинг"
 msgid "other group workouts"
 msgstr "остальные групповые тренировки"
 
+msgid "group #: %s"
+msgstr "группа номер: %s"
+
 msgid "Attendance on club cards for the period"
 msgstr "Посещаемость  по клубным картам за период"
 
