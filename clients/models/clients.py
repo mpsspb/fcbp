@@ -100,16 +100,24 @@ class Client(models.Model):
 
     @property
     def has_clientpersonal(self):
-        return self.clientpersonal_set.filter(status__gt=0).exists()
+        if self.clientpersonal_set.filter(status__gt=0).exists():
+            return True
+        else:
+            return self.extra_personals.filter(personal__status__gt=0).exists()
 
     @property
     def has_clienttiming(self):
         return self.clienttiming_set.filter(status__gt=0).exists()
 
-
+    @property
     def active_cc(self):
         """Client's active club cards"""
         return self.clientclubcard_set.filter(status__gt=0)
+
+    @property
+    def active_cc_first(self):
+        """Client's active club cards"""
+        return self.active_cc.first()
 
     def save(self, *args, **kwargs):
         if not self.uid:
@@ -1021,9 +1029,13 @@ class ClientPersonal(Property, models.Model):
         return self.personal.positions_pks
 
     @property
-    def first_client_cc(self):
-        # first active client club card
-        return self.client.active_cc().first()
+    def all_first_client_cc(self):
+        if not self.client.active_cc_first:
+            return False
+        for e_client in self.extra_clients.all():
+            if not e_client.client.active_cc_first:
+                return False
+        return True
 
     def activate(self, date_begin=None):
         self.date_begin = date_begin if date_begin else date.today()
@@ -1051,7 +1063,7 @@ class PersonalClients(models.Model):
     External clients for the ClientPersonal.
     """
     date = models.DateTimeField(auto_now_add=True)
-    client = models.ForeignKey(Client, )
+    client = models.ForeignKey(Client, related_name='extra_personals')
     personal = models.ForeignKey(ClientPersonal, related_name='extra_clients')
 
     class Meta:

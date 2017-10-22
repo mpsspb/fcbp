@@ -429,7 +429,7 @@ class FullList(CommonList):
             else:
                 line.append('')
             line.append(row.email)
-            active_cc = row.active_cc().values_list(
+            active_cc = row.active_cc.values_list(
                 'club_card__name', flat=True)
             line.append(", ".join(active_cc))
             rows.append(line)

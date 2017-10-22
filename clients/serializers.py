@@ -215,12 +215,15 @@ class ClientExtraSerializer(serializers.ModelSerializer):
     """
     Serializer for saving or update data for multi-client's products.
     """
+    active_cc_first = ClientClubCardSerializer(read_only=True)
+
     class Meta:
         model = Client
         fields = (
             'id', 'first_name', 'last_name', 'patronymic', 'born', 'uid',
-            'mobile', 'card', 'initials', 'full_name')
-        read_only_fields = ('id', 'uid', 'mobile', 'card', 'initials')
+            'mobile', 'card', 'initials', 'full_name', 'active_cc_first')
+        read_only_fields = (
+            'id', 'uid', 'mobile', 'card', 'initials', 'active_cc_first')
 
 
 class ClientAquaAerobicsSerializer(serializers.ModelSerializer):
@@ -382,8 +385,11 @@ class ClientPersonalSerializer(serializers.ModelSerializer):
         source='personal.club_card_only', read_only=True)
     total_cients = serializers.IntegerField(
         source='personal.clients_count', read_only=True)
-    extra_clients = ClientExtraSerializer(source='get_extra_clients', many=True, read_only=True)
-    first_client_cc = ClientClubCardSerializer(read_only=True)
+    extra_clients = ClientExtraSerializer(
+        source='get_extra_clients', many=True, read_only=True)
+    first_client_cc = ClientClubCardSerializer(
+        source='client.active_cc_first', read_only=True)
+    all_first_client_cc = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = ClientPersonal
@@ -439,13 +445,10 @@ class ClientSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True)
     clientticket_set = ClientTicketSerializer(many=True, read_only=True)
-    clientpersonal_set = ClientPersonalSerializer(many=True, read_only=True)
     clienttiming_set = ClientTimingSerializer(many=True, read_only=True)
-
     credit_set = CreditSerializer(many=True, read_only=True)
     debt_set = DebtSerializer(many=True, read_only=True)
     debtupcoming_set = DebtUpcomingSerializer(many=True, read_only=True)
-
     online_clubcard = serializers.BooleanField(read_only=True)
     online_aqua = serializers.BooleanField(read_only=True)
     online_ticket = serializers.BooleanField(read_only=True)
@@ -454,11 +457,19 @@ class ClientSerializer(serializers.ModelSerializer):
     avatar_url = serializers.CharField(read_only=True)
     full_name = serializers.CharField(read_only=True)
     passport = serializers.CharField(read_only=True)
+    clientpersonal_set = serializers.SerializerMethodField()
 
     class Meta:
         model = Client
         read_only_fields = (
             'id', 'full_name', 'avatar_url', 'date')
+
+    def get_clientpersonal_set(self, obj):
+        qs = obj.clientpersonal_set.filter(status__gt=0)
+        extra_qs = obj.extra_personals.filter(personal__status__gt=0)
+        qs |= ClientPersonal.objects.filter(pk__in=extra_qs.values('personal'))
+        serializer = ClientPersonalSerializer(qs, many=True)
+        return serializer.data
 
 
 class ClientSerializerLight(serializers.ModelSerializer):

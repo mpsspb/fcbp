@@ -298,30 +298,6 @@
       </div>
     </h4>    
   </div>
-
-  <!-- extra clients -->
-   <div class="col-md-12" ng-show="vm.personal.total_cients > 1">
-    <br/>
-    <span class="btn btn-info btn-block"> Дополнительные клиенты ({{ vm.personal.extra_clients.length }}) </span>
-   </div>
-
-  <div class="col-md-12 row-border"
-   ng-show="vm.personal.total_cients > 1">
-    <button class="btn btn-primary btn-block"
-            ng-show="vm.personal.extra_clients.length < vm.personal.total_cients - 1"
-       data-toggle="modal" data-target="#ExtraClient"
-       > Добавить клиента </button>
-    <div class="col-md-12 row-border" ng-repeat="client in vm.personal.extra_clients">
-      <h4>
-      <h4><u>{{ client.full_name }}</u></h4>
-      <h4>ЧС: {{ client.uid }}</h4>
-      <h4>Карта: {{ client.card }}</h4>
-      <h4>Тел.: {{ client.mobile | phone }}</h4>
-    </div>
-  </div>
-
-  <!-- End extra clients -->
-
   <!-- club card data -->
   <div class="panel panel-warning col-md-12" ng-show="vm.personal.is_club_card_only">
     <div class="panel-heading"><strong>Вид клубной карты</strong>
@@ -342,6 +318,48 @@
     </div>
   </div>
   <!-- end club card data -->
+
+
+  <!-- extra clients -->
+   <div class="col-md-12" ng-show="vm.personal.total_cients > 1">
+    <br/>
+    <span class="btn btn-info btn-block"> Дополнительные клиенты ({{ vm.personal.extra_clients.length }}) </span>
+   </div>
+    <div class="col-md-12 row-border personal-cients"
+     ng-show="vm.personal.total_cients > 1">
+      <button class="btn btn-primary btn-block"
+              ng-show="vm.personal.extra_clients.length < vm.personal.total_cients - 1"
+         data-toggle="modal" data-target="#ExtraClient"
+         > Добавить клиента </button>
+      <div class="col-md-12 row-border" ng-repeat="client in vm.personal.extra_clients">
+        <h4>
+        <h4><u>{{ client.full_name }}</u></h4>
+        <h4>ЧС: {{ client.uid }}</h4>
+        <h4>Карта: {{ client.card }}</h4>
+        <h4>Тел.: {{ client.mobile | phone }}</h4>
+        <div class="panel panel-warning col-md-12 panel-club-card"
+             ng-show="vm.personal.is_club_card_only">
+          <div class="panel-heading"><strong>Вид клубной карты</strong>
+            <div ng-show="client.active_cc_first">
+              <h4>
+              <i class="fa fa-credit-card">
+              </i> Клубная карта: {{ client.active_cc_first.name }}
+                <div ng-if="client.active_cc_first.date_begin">
+                c {{ client.active_cc_first.date_begin | date:'dd.MM.yyyy' }}
+                по {{ client.active_cc_first.date_end | date:'dd.MM.yyyy' }}
+                </div>
+                <div ng-if="!client.active_cc_first.date_begin">
+                 не начато использование
+                </div>
+              </h4>
+            </div>
+            <div ng-show="!client.active_cc_first">
+              <span class="alert-danger"> Нет действующей карты </span>
+            </div>
+          </div>
+        </div> <!-- /.panel-club-card -->
+      </div>
+    </div><!-- /.personal-cients -->
 
   <!-- instructor -->
   <div class="panel panel-default col-md-12">
@@ -409,7 +427,7 @@
   <div class="row col-md-12">
     <div class="col-md-2" ng-switch on="vm.personal.is_online">
       <button class="btn btn-block btn-success"
-      ng-disabled="vm.personal.is_club_card_only && !vm.personal.first_client_cc"
+      ng-disabled="vm.personal.is_club_card_only && !vm.personal.all_first_client_cc"
       ng-switch-when="0" data-toggle="modal" data-target="#UsePersonal">Вход</button>
       <button class="btn btn-block btn-danger" ng-click="vm.use(1)" ng-switch-default>Выход</button>
     </div>
