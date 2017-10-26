@@ -33,6 +33,7 @@
       prolongation_del: prolongation_del,
       ownerp: ownerp,
       add_extra: add_extra,
+      archive_client_list: archive_client_list,
     };
 
     return Personals;
@@ -63,6 +64,11 @@
 
     function get(uid) {
       return $http.get('/api/v1/clients/personal/' + uid + '/')
+    }
+
+
+    function archive_client_list(uid) {
+      return $http.get('/api/v1/clients/archive/personal/'+ uid + '/client/')
     }
 
     function update(uid, fdata) {

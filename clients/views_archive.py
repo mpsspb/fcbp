@@ -43,6 +43,26 @@ class ClientClubCardViewSet(
                         status=status.HTTP_202_ACCEPTED)
 
 
+class ClientPersonalViewSet(
+        GenericArhiveProduct,
+        viewsets.ReadOnlyModelViewSet):
+
+    queryset = ClientPersonal.objects.order_by('-date')
+    serializer_class = ClientPersonalSerializer
+
+    @detail_route(methods=['get'], )
+    def client(self, request, pk):
+        """
+        Get list archive Client Personal for the client.
+        """
+        client = Client.objects.get(pk=pk)
+        queryset = ClientPersonal.objects.filter(client=client)\
+                                         .order_by('-date')
+        serializer = ClientPersonalSerializer(queryset, many=True)
+        return Response(serializer.data,
+                        status=status.HTTP_202_ACCEPTED)
+
+
 class ClientAquaAerobicsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = ClientAquaAerobics.objects.order_by('-date')
     serializer_class = ClientAquaAerobicsSerializer

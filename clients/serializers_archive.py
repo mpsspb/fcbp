@@ -9,6 +9,7 @@ from finance.serializers import *
 
 
 class GuestClubCardSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = GuestClubCard
 
@@ -35,6 +36,7 @@ class PersonalClubCardSerializer(serializers.ModelSerializer):
 
 
 class ProlongationClubCardSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ProlongationClubCard
 
@@ -43,6 +45,7 @@ class ArchiveListSerializer(serializers.ListSerializer):
     """
     Archive/disabled objects.
     """
+
     def to_representation(self, data):
         data = data.filter(status=0)
         return super(ArchiveListSerializer, self).to_representation(data)
@@ -139,3 +142,60 @@ class ClientTicketSerializer(serializers.ModelSerializer):
     class Meta:
         list_serializer_class = ArchiveListSerializer
         model = ClientTicket
+
+
+class ClientExtraSerializer(serializers.ModelSerializer):
+
+    """
+    Serializer for saving or update data for multi-client's products.
+    """
+    active_cc_first = ClientClubCardSerializer(read_only=True)
+
+    class Meta:
+        model = Client
+        fields = (
+            'id', 'first_name', 'last_name', 'patronymic', 'born', 'uid',
+            'mobile', 'card', 'initials', 'full_name', 'active_cc_first')
+        read_only_fields = (
+            'id', 'uid', 'mobile', 'card', 'initials', 'active_cc_first')
+
+
+class ProlongationPersonalSerializer(serializers.ModelSerializer):
+    payment_type = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = ProlongationPersonal
+
+
+class ClientPersonalSerializer(serializers.ModelSerializer):
+    visits = UseClientPersonalSerializer(many=True, read_only=True)
+    instructor_name = serializers.CharField(
+        source='instructor.initials', read_only=True)
+    name = serializers.CharField(read_only=True)
+    client_name = serializers.CharField(read_only=True)
+    client_mobile = serializers.IntegerField(
+        source='client.mobile', read_only=True)
+    client_uid = serializers.IntegerField(
+        source='client.uid', read_only=True)
+    client_card = serializers.IntegerField(
+        source='client.card', read_only=True)
+    credit_set = CreditSerializer(many=True, read_only=True)
+    payment_set = PaymentSerializer(many=True, read_only=True)
+    prolongation = ProlongationPersonalSerializer(many=True, read_only=True)
+    rest_prolongation = serializers.IntegerField(read_only=True)
+    is_online = serializers.IntegerField(read_only=True)
+    positions = serializers.ListField(read_only=True)
+    has_overdue_debt = serializers.BooleanField(read_only=True)
+    is_club_card_only = serializers.BooleanField(
+        source='personal.club_card_only', read_only=True)
+    total_cients = serializers.IntegerField(
+        source='personal.clients_count', read_only=True)
+    extra_clients = ClientExtraSerializer(
+        source='get_extra_clients', many=True, read_only=True)
+    first_client_cc = ClientClubCardSerializer(
+        source='client.active_cc_first', read_only=True)
+    all_first_client_cc = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        list_serializer_class = ArchiveListSerializer
+        model = ClientPersonal

@@ -32,6 +32,7 @@
     vm.set_owner = set_owner;
     vm.update_date_begin = update_date_begin;
     vm.add_extra = add_extra;
+    vm.to_archive = to_archive;
 
     activate();
 
@@ -86,6 +87,12 @@
         vm.udata = {
           instructor: vm.personal.instructor,
           client_personal: vm.uid
+        }
+
+        // to archive data
+        vm.ardata = {
+          status: 0,
+          block_comment: ''
         }
 
         Employees.personal_trainers(vm.emp_filter).then(listEmployeeSuccessFn, listEmployeeErrorFn);
@@ -275,6 +282,27 @@
         console.log(data);
       }
     }; // End function out
+
+    function to_archive() {
+      $http.patch('/api/v1/clients/personal/' + vm.uid + '/', vm.ardata
+                ).then(to_archiveSuccessFn, to_archiveErrorFn);
+
+      /**
+      * @name to_archiveSuccessFn
+      * @desc Update ClubCard array on view
+      */
+      function to_archiveSuccessFn(data, status, headers, config) {
+        window.location = '/#/archive/personal/' + vm.uid
+      }
+
+      /**
+      * @name to_archiveErrorFn
+      * @desc console log error
+      */
+      function to_archiveErrorFn(data, status, headers, config) {
+        console.log(data);
+      }
+    };
 
     function update_date_begin() {
       vm.new_date.update_success = false

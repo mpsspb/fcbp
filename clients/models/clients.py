@@ -971,6 +971,7 @@ class ClientPersonal(Property, models.Model):
     client = models.ForeignKey(Client, )
     personal = models.ForeignKey(Personal, )
     instructor = models.ForeignKey(Employee, blank=True, null=True)
+    block_comment = models.CharField(max_length=150, blank=True, null=True)
     status = models.SmallIntegerField(default=2, blank=True, )
     """
     status valid data:

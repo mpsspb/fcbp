@@ -4,7 +4,6 @@
    {{ vm.client.born | date:'dd.MM.yyyy' }} </strong>
 </div>
 
-
 <div class="row col-md-12">
   <div class="col-md-3">
     <a href="#/cardclient/{{ vm.client.id }}/" class="btn btn-default btn-block"> Вернуться в карту</a>
@@ -38,6 +37,34 @@
 </table>
 </div>
 <!-- end ClubCard -->
+
+<!-- Personals -->
+<div class="panel panel-danger col-md-12">
+  <div class="panel-heading"><strong>Персональные тренировки</strong></div>
+<table class="table">
+  <tr>
+    <td>дата продажи</td><td>наименование</td>
+    <td>активирована</td><td>срок действия</td>
+    <td>тренировки</td><td>комментарий</td>
+  </tr>
+  <tr ng-repeat="personal in vm.personals_set">
+    <td >
+      {{ personal.date | date:'dd.MM.yyyy' }}</td>
+    <td>
+      <strong><a href="#/archive/personal/{{ personal.id }}">
+        {{ personal.name }}
+      </a></strong>
+    </td>
+    <td> {{ (personal.date_begin | date:'dd.MM.yyyy') || 'неактивна' }}</td>
+    <td> {{ personal.date_end | date:'dd.MM.yyyy' }}</td>
+    <td> {{ personal.rest_visits }} </td>
+    <td> <i class="fa fa-2x fa-info-circle text-yellow cursor-pointer" aria-hidden="true" 
+    ng-show="personal.block_comment" title="{{ personal.block_comment }}"></i>
+    </td>
+  </tr>
+</table>
+</div>
+<!-- end Personals -->
 
 <!-- AquaAerobics -->
 <div class="panel panel-info col-md-12">

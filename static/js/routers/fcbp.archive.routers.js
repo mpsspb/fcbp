@@ -23,6 +23,10 @@
       controller: 'UseClientCardController',
       controllerAs: 'vm',
       templateUrl: '/static/templates/clients/archive/clubcard.html'
+    }).when('/archive/personal/:uid', {
+      controller: 'UseClientPersonalController',
+      controllerAs: 'vm',
+      templateUrl: '/static/templates/clients/archive/personal.html'
     }).when('/archive/aquaaerobics/:uid', {
       controller: 'UseClientAquaController',
       controllerAs: 'vm',
