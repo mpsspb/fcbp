@@ -19,6 +19,10 @@
             <input  type="number" required class="form-control"
             ng-model="vm.fdata.order_num">
           </div>
+          <div class="col-md-11">
+            <label>для клип карт</label>
+            <input ng-model="vm.fdata.for_personals" type="checkbox" class="form-control">
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -57,14 +61,25 @@
 
   <div class="alert col-md-12" ng-repeat="train in vm.training"
   ng-class="train.is_active ? 'alert-info': 'alert-grey'">
-  <span ng-show="!edit">{{ train.name }} ({{ train.order_num}})</span>
+  <span ng-show="!edit">
+    {{ train.name }} ({{ train.order_num}})
+    (для клип карт: {{ train.for_personals | YN }})
+  </span>
   <input ng-show="edit" ng-model="train.name" type="text" class="form-control" placeholder="Наименование">
-  <input ng-show="edit" ng-model="train.order_num" type="text" class="form-control" placeholder="Наименование">
+  <input ng-show="edit" ng-model="train.order_num" type="text" class="form-control">
+  <div ng-show="edit">
+    <label >для клип карт</label>
+    <input ng-model="train.for_personals" type="checkbox">
+  </div>
+  
+<div class="col-md-12">
   <button ng-click="edit=!edit" class="btn btn-sm btn-warning pull-right" ng-show="!edit"> Правка </button>
   <button ng-show="!edit" ng-click="vm.active(train)" class="btn btn-sm btn-default pull-right" > Активность </button>
   <button ng-click="edit=!edit" class="btn btn-sm btn-default pull-right" ng-show="edit"> Отмена </button>
   <button class="btn btn-sm btn-success pull-left" ng-show="edit"
-          ng-click="vm.update(train)"> Сохранить </button>
+          ng-click="vm.update(train)"> Сохранить </button>  
+</div>
+
   </div>
  </div>
 </div>

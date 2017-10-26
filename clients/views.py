@@ -513,10 +513,11 @@ class UseClientPersonalViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'], )
     def exit(self, request):
         personal_id = request.data['client_personal']
-        exit = UseClientPersonal.objects\
-                                .filter(client_personal=personal_id,
-                                        end=None)\
-                                .update(end=datetime.now())
+        exits = UseClientPersonal.objects.filter(
+            client_personal=personal_id, end=None)
+        for e in exits:
+            e.end = datetime.now()
+            e.save()
         return Response({'status': 'ok'}, status=status.HTTP_202_ACCEPTED)
 
 

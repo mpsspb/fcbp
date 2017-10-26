@@ -1247,6 +1247,8 @@ class UseClientPersonal(models.Model):
     client_personal = models.ForeignKey(
         ClientPersonal, related_name='visits')
     instructor = models.ForeignKey(Employee, blank=True, null=True)
+    club_card_visit = models.ForeignKey(UseClientClubCard,
+                                        blank=True, null=True)
 
     class Meta:
         ordering = ['date']
@@ -1260,6 +1262,22 @@ class UseClientPersonal(models.Model):
                 .count()
             if is_first == 0 and self.client_personal.status == 2:
                 self.client_personal.activate()
+            # Auto create visit for personal with club card
+            if self.client_personal.personal.club_card_only:
+                client = self.client_personal.client
+                cc = client.active_cc_first
+                ucc = UseClientClubCard.objects.create(
+                    client_club_card=cc
+                )
+                self.club_card_visit = ucc
+                train = Training.objects.filter(for_personals=True).first()
+                ClubCardTrains.objects.create(visit=ucc, training=train)
+        if self.end and self.client_personal.personal.club_card_only:
+            ucc = self.club_card_visit
+            ucc.end = self.end
+            ucc.save()
+            print(ucc)
+
         if self.end and self.client_personal.rest_visits < 1:
             # set status not activate
             self.client_personal.deactivate()
